@@ -36,7 +36,7 @@ The small landscape board was reworked into a tactical layout. Measured document
 - Portraits are shared court archetypes, not 84 unique historical likenesses. Audio is synthesized rather than a recorded orchestral score or voiced cast.
 - Balance and tutorial comprehension need human evidence. Difficulty labels and session estimates are design targets.
 - Saves are local to one browser. Export is available; cloud synchronization and import are not implemented.
-- The private GitHub repository was created, but remains empty: existing CLI credentials failed, renewed authentication required a human sign-in step, and browser file uploads lacked extension access. Local source and the Git history remain available for a later push.
+- GitHub publishing was initially blocked by invalid CLI credentials. On 15 September 2026 the owner completed GitHub CLI authentication; repository/workflow access was verified and the committed source was successfully pushed to the private `mcbradd/overlords-and-outlaws` repository.
 - Native computer control ended because it could not confidently verify the current browser URL for policy enforcement. No further browser or native UI automation was attempted after that stop.
 
 ## Handoff
