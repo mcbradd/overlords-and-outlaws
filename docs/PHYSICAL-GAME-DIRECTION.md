@@ -77,3 +77,14 @@ The 63:88 card ratio and fixed face layout are a manufacturing-oriented prototyp
 ### Guided-play revision
 
 The subsequent critique rejected duplicate lesson treatments, clipped instructions, inaccurate visible health, and scenario resets. The latest implementation uses one guide, live values and legal state transitions. Full details and verification are recorded in [GUIDED-PLAY.md](GUIDED-PLAY.md).
+
+### Cards and counting — September 15, 2026
+
+The user's latest component direction is cards plus counting: Estates are cards, and other components played onto the board must also be represented as cards. Counts use exact-number tokens in the prototype; players can use dice on their physical cards. This supersedes the miniature estate buildings and sculpted crowns.
+
+- Estate cards retain printed +2 gold income per turn. Multiple estates form a visible stack, one card per estate, with an exact stack-count token. Raids still remove one estate under the existing rules.
+- Each House has a Crown card. Current stability and shields have separate labeled number tokens directly on its face. An active claim and the remaining named challengers belong to that card.
+- Royals retain damage tokens, current health, orientation and marriage links. Gold and remaining orders use exact-number tokens; deck, hand and discard remain cards. No rules or save-state migration is introduced.
+- Support cards retain the 63:88 prototype ratio, cardstock depth, keyboard/tap inspection and existing legal target handling. On narrow screens the board remains pannable.
+
+Executed presentation passes: replaced buildings/crowns and attached their counters; then moved the player's support cards alongside the changing court after close-view screenshots exposed clipping. A further inspection moved support cards clear of the guide and increased rival spacing around resting Royals. Captured opening, deployment and dense courts at 1440×900, 3840×2160 and 390×844 using `scripts/component-preview.ts`. Images are in ignored `artifacts/components/`. Build, 42 rules tests and 3 UI tests passed during this revision.

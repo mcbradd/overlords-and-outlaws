@@ -129,6 +129,11 @@ export function createLesson(): Duel {
       ready: false,
     });
   }
+  // Deal rival hands during setup so their first turns need no catch-up draws.
+  for (const rival of g.players.slice(1)) {
+    while (rival.hand.length < 5 && rival.deck.length)
+      rival.hand.push(rival.deck.pop()!);
+  }
   return g;
 }
 

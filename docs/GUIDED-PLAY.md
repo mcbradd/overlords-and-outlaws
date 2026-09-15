@@ -45,3 +45,22 @@ The original regression harness failed with engine health 3 versus visible healt
 - Drag harness: illegal release leaves the court unchanged; legal placement, attack review, and actual Queen marriage target work.
 
 Commands: npm test; npm run test:ui; npm run test:cards; npx tsx scripts/tutorial-regression.ts; npx tsx scripts/session02-browser.ts; npx tsx scripts/tutorial-drag.ts. Screenshots and detailed outputs are in the ignored artifacts/tutorial directory. These checks establish observed behavior, not player approval or superiority to competitors.
+
+### Damage token consistency — September 15, 2026
+
+Reproduced the tutorial's missing David I damage token: the CSS3D card face covered the separate WebGL token, while the resting Founder's orientation exposed its token. Damage counters now render on the card surface with a raised rim/contact shadow, following the card during movement. Counter numerals stay upright on resting cards; current/maximum health stays visible separately.
+
+Verified the actual tutorial exchange at 1440×900 and 390×844 with `npx tsx scripts/damage-token-regression.ts`, including two visible counters and containment within both card orientations. Also checked fifteen damaged Royals across dense courts. Inspected opening, combat and dense-court screenshots in `artifacts/damage`. Production build passes.
+
+## Opponent action previews — September 15, 2026
+
+Opponent actions now pause before rules execution to show public source and destination anchors, the shared attack arrow, costs, and the same outcome description used for player review. Incoming attacks remain marked during the player's defensive choice. Brace and Ambush also identify their origin and recipient. Concealed hands remain concealed; deployment names only the committed Royal.
+
+The preview uses the existing tutorial guide or normal action dock, offers Pause/Resume and Continue, and preserves its 2.4-second reading period with reduced motion. The full-board camera reveals both sides. No rules or decision clock advance during the preview.
+
+Executed passes:
+1. Added previews before mutation and persistent response targeting; verified paused previews leave saved game state unchanged.
+2. Inspected opening, action, dense four-House court and compact screenshots. Moved the normal desktop preview to the side after observing it cover the player's court; strengthened source/target markers.
+3. Re-ran browser checks at 1440×900, 390×900 and 3840×2160, plus a dense normal-game opponent action. Build, the existing 40 rules tests and three UI tests passed; two additional preview tests passed.
+
+Reproduce: `npx tsx scripts/opponent-preview.ts` (local Vite server on port 5174). Captures are in ignored `artifacts/opponent-preview/`.

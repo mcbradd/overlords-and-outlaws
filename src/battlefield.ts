@@ -4,7 +4,7 @@ import {
   CSS3DObject,
 } from "three/addons/renderers/CSS3DRenderer.js";
 import { cardFace, esc } from "./cards";
-import { spec, type Duel, type Moment } from "./duel";
+import { type Duel, type Moment } from "./duel";
 import { house, card } from "./content";
 
 /** One camera and one world coordinate system for board, components and crisp printed faces. */
@@ -190,6 +190,7 @@ export class Battlefield {
     text: string,
     color = "#c3a566",
     size = 0.42,
+    anchor = "",
   ) {
     const mat = new THREE.MeshStandardMaterial({
       color,
@@ -204,45 +205,48 @@ export class Battlefield {
     m.position.set(x, 0.18, z);
     m.castShadow = true;
     this.pieces.add(m);
-    this.label(`<span class="token-inscription">${text}</span>`, x, z, 130);
+    this.label(
+      `<span class="token-inscription" data-preview-anchor="${anchor}">${text}</span>`,
+      x,
+      z,
+      130,
+    );
   }
-  private crown(
+  private componentCard(
     x: number,
     z: number,
-    id: number,
-    stability: number,
-    target: boolean,
+    width: number,
+    html: string,
+    count = 1,
   ) {
-    const base = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.53, 0.61, 0.19, 40),
-      this.gold,
-    );
-    base.position.set(x, 0.24, z);
-    base.castShadow = true;
-    this.pieces.add(base);
-    const ring = new THREE.Mesh(
-      new THREE.TorusGeometry(0.46, 0.07, 10, 40),
-      this.gold,
-    );
-    ring.rotation.x = Math.PI / 2;
-    ring.position.set(x, 0.58, z);
-    this.pieces.add(ring);
-    for (let i = 0; i < 8; i++) {
-      const a = (i * Math.PI) / 4;
-      const tip = new THREE.Mesh(
-        new THREE.ConeGeometry(0.105, 0.5, 5),
-        this.gold,
+    for (let i = 0; i < count; i++)
+      this.box(
+        width,
+        0.055,
+        (width * 88) / 63,
+        x + i * 0.09,
+        0.085 + i * 0.045,
+        z - i * 0.09,
+        this.ivory,
+        this.pieces,
       );
-      tip.position.set(x + Math.cos(a) * 0.45, 0.61, z + Math.sin(a) * 0.45);
-      tip.castShadow = true;
-      this.pieces.add(tip);
-    }
-    this.label(
-      `<button class="board-crown ${target ? "targetable" : ""}" data-target="crown-${id}" aria-label="Crown, ${stability} stability">${stability}<small>CROWN</small></button>`,
-      x,
-      z + 0.9,
-      220,
+    const el = document.createElement("div");
+    el.className = "physical-component";
+    el.innerHTML = html;
+    const face = new CSS3DObject(el);
+    face.scale.setScalar(width / 630);
+    face.rotation.x = -Math.PI / 2;
+    face.position.set(
+      x + (count - 1) * 0.09,
+      0.121 + (count - 1) * 0.045,
+      z - (count - 1) * 0.09,
     );
+    this.print.add(face);
+  }
+  revealAction() {
+    this.viewSeat = null;
+    this.fit();
+    this.css.render(this.print, this.camera);
   }
   setMotion(on: boolean) {
     this.reduced = !on;
@@ -359,7 +363,7 @@ export class Battlefield {
         p.court.length <= 2 ? 9 : p.court.length <= 3 ? 12 : 15,
       );
       this.label(
-        `<b>${esc(house(p.house).name.toUpperCase())}</b><span>${own ? "YOUR COURT" : "RIVAL HOUSE"} · ${p.court.length}/5 ROYALS</span>`,
+        `<b data-preview-anchor="court-${p.id}">${esc(house(p.house).name.toUpperCase())}</b><span>${own ? "YOUR COURT" : "RIVAL HOUSE"} · ${p.court.length}/5 ROYALS</span>`,
         cx,
         cz - 2.3,
       );
@@ -405,14 +409,6 @@ export class Battlefield {
         face.position.y += 0.036;
         this.print.add(face);
         this.figures.set(r.uid, { body, face, y: 0.085, angle });
-        if (r.hp < spec(r).resolve)
-          this.token(
-            x + width * 0.36,
-            cardZ + width * 0.54,
-            `−${spec(r).resolve - r.hp}`,
-            "#973c32",
-            0.27,
-          );
         if (r.marriedTo)
           this.label(
             `<span class="marriage-inscription" title="Married to ${esc(card(p.court.find((q) => q.uid === r.marriedTo)?.card ?? r.card).name)}">∞</span>`,
@@ -421,43 +417,67 @@ export class Battlefield {
             150,
           );
       });
-      const side = own ? -11.2 : cx - 4;
-      this.crown(
-        side,
-        own ? cz : cz + 4,
-        p.id,
-        p.stability,
-        targets.includes("crown-" + p.id),
+      const supportOffset = Math.max(
+        3.1,
+        ((p.court.length - 1) * step) / 2 + 2.8,
       );
-      this.token(own ? 11.2 : cx + 4, own ? cz + 0.7 : cz + 4, String(p.gold));
-      if (p.shield)
-        this.token(side, cz + 1.7, "⛨ " + p.shield, "#7293a5", 0.34);
-      if (p.claim)
-        this.label(
-          `<span class="claim-inscription">CLAIM · ${p.challengers.map((id) => house(g.players[id].house).name).join(" · ")}</span>`,
-          cx,
-          cz + 2.05,
+      const side = own ? -supportOffset : cx - 4.35;
+      const supportZ = own ? cz - 1.7 : cz + 4;
+      const supportWidth = own ? 2.05 : 1.45;
+      const crownRules = `${house(p.house).name} crown. ${p.stability} current stability. ${p.shield} shields. Shields absorb crown damage first. At zero stability, succession collapses.`;
+      this.componentCard(
+        side,
+        supportZ,
+        supportWidth,
+        `<button class="component-card crown-card ${targets.includes("crown-" + p.id) ? "targetable" : ""}" data-target="crown-${p.id}" data-preview-anchor="crown-${p.id}" aria-label="${esc(crownRules)}" title="${esc(crownRules)}">
+          <span class="component-house">${esc(house(p.house).name)}</span><strong>CROWN</strong>
+          <span class="component-art" aria-hidden="true">&#9819;</span>
+          <span class="component-counts"><span><b class="number-token stability-token">${p.stability}</b><small>STABILITY</small></span><span><b class="number-token shield-token">${p.shield}</b><small>SHIELDS</small></span></span>
+          <span class="component-rule">Shields absorb crown damage first.</span>
+          ${p.claim ? `<span class="component-claim">CLAIM ACTIVE · ${p.challengers.length} TO ACT<small>${p.challengers.map((id) => esc(house(g.players[id].house).name)).join(" · ") || "Resolving"}</small></span>` : ""}
+        </button>`,
+      );
+      this.token(
+        own ? 11.2 : cx + 4,
+        own ? cz + 1.8 : cz + 5.6,
+        String(p.gold),
+        "#c3a566",
+        0.42,
+        `gold-${p.id}`,
+      );
+      const estateX = own ? supportOffset : cx + 4.35;
+      const estateZ = supportZ;
+      if (p.estates) {
+        const estateRules = `${house(p.house).name}: ${p.estates} estate cards. Each estate provides 2 gold income per turn; ${p.estates * 2} total. A successful raid destroys one estate.`;
+        this.componentCard(
+          estateX,
+          estateZ,
+          supportWidth,
+          `<button class="component-card estate-card ${targets.includes("estate-" + p.id) ? "targetable" : ""}" data-target="estate-${p.id}" data-preview-anchor="estate-${p.id}" aria-label="${esc(estateRules)}" title="${esc(estateRules)}">
+            <span class="component-house">${esc(house(p.house).name)}</span><strong>ESTATE</strong>
+            <span class="component-art estate-engraving" aria-hidden="true">&#8962;</span>
+            <span class="component-counts"><span><b class="number-token">${p.estates}</b><small>${p.estates === 1 ? "CARD" : "CARDS"}</small></span></span>
+            <span class="component-rule">+2 GOLD / TURN<small>per estate card</small></span>
+          </button>`,
+          p.estates,
         );
-      for (let e = 0; e < p.estates; e++) {
-        const ex = (own ? 10 : cx + 3.7) + e * 0.48;
-        this.box(0.36, 0.36, 0.4, ex, 0.25, cz - 0.25, this.ivory, this.pieces);
-        const roof = new THREE.Mesh(
-          new THREE.ConeGeometry(0.36, 0.32, 4),
-          this.gold,
-        );
-        roof.rotation.y = Math.PI / 4;
-        roof.position.set(ex, 0.57, cz - 0.25);
-        this.pieces.add(roof);
+      } else {
         this.label(
-          `<button class="board-estate ${targets.includes("estate-" + p.id) ? "targetable" : ""}" data-target="estate-${p.id}" aria-label="${house(p.house).name} estate">+2</button>`,
-          ex,
-          cz + 0.3,
-          110,
+          `<span data-preview-anchor="estate-${p.id}">ESTATES · 0</span>`,
+          estateX,
+          estateZ,
+          250,
         );
       }
-      if (!own && p.hand.length)
+      this.label(
+        `<span data-preview-anchor="discard-${p.id}">DISCARD ${p.discard.length}</span>`,
+        own ? 14.1 : cx + 3.7,
+        cz - 1.6,
+        180,
+      );
+      if (!own)
         this.label(
-          `<span class="concealed-cards">${Array.from({ length: Math.min(p.hand.length, 7) }, () => "<i>♛</i>").join("")}</span><span>${p.hand.length} CONCEALED</span>`,
+          `<span class="concealed-cards" data-preview-anchor="hand-${p.id}">${Array.from({ length: Math.min(p.hand.length, 7) }, () => "<i>♛</i>").join("") || "HAND"}</span><span>${p.hand.length} CONCEALED</span>`,
           cx,
           cz - 3.05,
         );
@@ -503,14 +523,14 @@ export class Battlefield {
         205,
       );
     }
-    for (let i = 0; i < 2; i++)
-      this.token(
-        -12 + i * 1.05,
-        7,
-        String(i + 1),
-        g.turn === viewer && i < g.orders ? "#c3a566" : "#45443d",
-        0.35,
-      );
+    this.token(
+      -11.2,
+      7.2,
+      String(g.turn === viewer ? g.orders : 0),
+      "#c3a566",
+      0.35,
+    );
+    this.label("<span>ORDERS LEFT</span>", -11.2, 7.85, 230);
     this.fit();
     this.css.render(this.print, this.camera);
   }

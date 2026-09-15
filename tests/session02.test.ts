@@ -15,6 +15,7 @@ import { describeAction } from "../src/action-view";
 
 test("one guided match reaches every milestone through legal actions, preserving state between steps", () => {
   const g = createLesson();
+  assert.deepEqual(g.players.slice(1).map((p) => p.hand.length), [5, 5]);
   const cards = () =>
     g.players
       .flatMap((p) => p.court.concat(p.hand, p.deck, p.discard))
@@ -44,6 +45,7 @@ test("one guided match reaches every milestone through legal actions, preserving
     assert.deepEqual(g, state, "Continue changes only the guide cursor");
   }
   assert.equal(g.winner, 0);
+  assert.ok(!g.events.some((e) => e.kind === "draw" && e.actor !== 0));
   assert.ok(g.events.filter((e) => e.kind === "brace").length >= 3);
 });
 

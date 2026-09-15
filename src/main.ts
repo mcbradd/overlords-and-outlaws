@@ -3,6 +3,7 @@ import "./v3.css";
 import "./table.css";
 import "./guided-play.css";
 import { describeAction, COIN } from "./action-view";
+import { actionPreview } from "./action-preview";
 import {
   LESSONS,
   createLesson,
@@ -117,6 +118,8 @@ function header() {
 }
 function leave() {
   epoch++;
+  opponentPreview = null;
+  cancelAnimationFrame(arrowFrame);
   busy = false;
   locked = false;
   field?.dispose();
@@ -352,7 +355,7 @@ function renderHand() {
   const canPlay =
     g.turn === viewer && !busy && !g.pending && !locked && !g.over;
   document.querySelector("#hand-dock")!.innerHTML =
-    `<div class="hand-topline"><div><span class="eyebrow">${house(p.house).name.toUpperCase()} · YOUR HAND · ${p.hand.length}</span><small>Select a card to act · hover or hold to inspect</small></div><div class="turn-tools"><span class="gold-count">${COIN} ${p.gold}<small>GOLD</small></span><span class="order-count">${[0, 1].map((i) => `<i class="order-token ${i < (g!.turn === viewer ? g!.orders : 0) ? "" : "spent"}">${i + 1}</i>`).join("")}<small>ORDERS</small></span><button class="hint" data-hint ${!canPlay ? "disabled" : ""}>Suggest a plan</button><button class="end-turn" data-end ${!canPlay ? "disabled" : ""}>End turn →</button></div></div><div class="hand-cards" data-card-area="hand">${
+    `<div class="hand-topline"><div><span class="eyebrow">${house(p.house).name.toUpperCase()} · YOUR HAND · ${p.hand.length}</span><small>Select a card to act · hover or hold to inspect</small></div><div class="turn-tools"><span class="gold-count">${COIN} ${p.gold}<small>GOLD</small></span><span class="order-count" aria-label="${g!.turn === viewer ? g!.orders : 0} orders left"><i class="order-token">${g!.turn === viewer ? g!.orders : 0}</i><small>ORDERS LEFT</small></span><button class="hint" data-hint ${!canPlay ? "disabled" : ""}>Suggest a plan</button><button class="end-turn" data-end ${!canPlay ? "disabled" : ""}>End turn →</button></div></div><div class="hand-cards" data-card-area="hand">${
       locked
         ? '<div class="empty-hand">The hand is concealed.</div>'
         : p.hand
@@ -383,6 +386,7 @@ function order(move: Move, _label = "", _detail = "", cls = "") {
   return `<button class="order-button ${cls} ${v.allowed && !lessonLocked ? "" : "unavailable"}" data-move='${JSON.stringify(move)}' aria-disabled="${!v.allowed || lessonLocked}" ${busy || locked || lessonLocked ? "disabled" : ""}><strong>${v.name}</strong><small>${v.orders ? `${v.orders} order` : ""}${v.gold ? ` · pay ${v.gold} ${COIN}` : ""}</small>${v.allowed && shortEffect[move.type] ? `<span class="action-effect">${shortEffect[move.type]}</span>` : ""}${!v.allowed ? `<span class="blocked-reason">${v.reason}</span>` : ""}</button>`;
 }
 function renderDecision() {
+  if (opponentPreview) return;
   if (!g) return;
   if (g.mode === "lesson") {
     document.querySelector("#decision-panel")!.innerHTML = "";
@@ -424,6 +428,7 @@ function renderDecision() {
   document.querySelector("#decision-panel")!.innerHTML = html;
 }
 function renderLesson() {
+  if (opponentPreview) return;
   const el = document.querySelector<HTMLElement>("#lesson-coach");
   if (!el || !g) return;
   document
@@ -478,20 +483,104 @@ function renderLesson() {
     target?.setAttribute("aria-describedby", "guide-instruction");
   }
 }
+let opponentPreview: ReturnType<typeof actionPreview> = null;
+let arrowFrame = 0;
+function previewAnchor(id: string) {
+  return (
+    document.querySelector<HTMLElement>(
+      `.arena [data-royal="${id}"],.arena [data-target="${id}"]`,
+    ) ??
+    document.querySelector<HTMLElement>(
+      `.arena [data-preview-anchor="${id}"]`,
+    ) ??
+    document.querySelector<HTMLElement>(`[data-target="${id}"]`)
+  );
+}
 function drawTargetArrow() {
+  cancelAnimationFrame(arrowFrame);
+  document
+    .querySelectorAll("[data-action-endpoint]")
+    .forEach((el) => el.removeAttribute("data-action-endpoint"));
   const svg = document.querySelector<SVGSVGElement>("#target-arrow");
   if (!svg) return;
   svg.innerHTML = "";
-  if (attackReview?.type !== "attack") return;
-  const from = document.querySelector(`[data-royal="${attackReview.uid}"]`),
-    to = document.querySelector(
-      `[data-royal="${attackReview.target}"],[data-target="${attackReview.target}"]`,
-    );
+  const link =
+    opponentPreview ??
+    (attackReview?.type === "attack"
+      ? { source: attackReview.uid, target: attackReview.target! }
+      : g?.pending
+        ? { source: g.pending.attacker, target: g.pending.target }
+        : null);
+  if (!link || screen !== "board") return;
+  const from = previewAnchor(link.source),
+    to = previewAnchor(link.target);
+  arrowFrame = requestAnimationFrame(drawTargetArrow);
   if (!from || !to) return;
+  from.dataset.actionEndpoint = "source";
+  to.dataset.actionEndpoint = "target";
   const a = from.getBoundingClientRect(),
     b = to.getBoundingClientRect();
   svg.setAttribute("viewBox", `0 0 ${innerWidth} ${innerHeight}`);
-  svg.innerHTML = `<defs><marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#f7d38a"/></marker></defs><path d="M${a.x + a.width / 2},${a.y + a.height / 2} Q${(a.x + b.x) / 2},${Math.min(a.y, b.y) - 35} ${b.x + b.width / 2},${b.y + b.height / 2}" fill="none" stroke="#f7d38a" stroke-width="4" marker-end="url(#arrowhead)"/>`;
+  svg.innerHTML = `<defs><marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#f7d38a"/></marker></defs><path d="M${a.x + a.width / 2},${a.y + a.height / 2} Q${(a.x + b.x) / 2},${Math.min(a.y, b.y) - 35} ${b.x + b.width / 2},${b.y + b.height / 2}" fill="none" stroke="#f7d38a" stroke-width="4" marker-end="url(#arrowhead)"/><circle cx="${a.x + a.width / 2}" cy="${a.y + a.height / 2}" r="10" fill="none" stroke="#f7d38a" stroke-width="3"/><circle cx="${b.x + b.width / 2}" cy="${b.y + b.height / 2}" r="17" fill="none" stroke="#f7d38a" stroke-width="3" stroke-dasharray="5 4"/>`;
+}
+async function previewOpponent(move: Move | Response) {
+  if (!g) return;
+  const preview = actionPreview(g, move);
+  if (!preview || g.players[preview.actor].human) return;
+  opponentPreview = preview;
+  document.querySelectorAll("[data-tutorial-focus]").forEach((el) => {
+    el.removeAttribute("data-tutorial-focus");
+    el.removeAttribute("aria-describedby");
+  });
+  field?.revealAction();
+  drawTargetArrow();
+  const panel = document.querySelector<HTMLElement>(
+    g.mode === "lesson" ? "#lesson-coach" : "#decision-panel",
+  );
+  if (!panel) {
+    opponentPreview = null;
+    return;
+  }
+  document
+    .querySelector(".battle-shell")
+    ?.setAttribute("data-decision", "active");
+  panel.innerHTML = `<div class="opponent-action-preview"><div class="guide-heading">OPPONENT ACTION · SOURCE → TARGET</div><div class="guide-body"><h2>${esc(preview.title)}</h2><p>${esc(preview.detail)}</p></div><progress max="2400" value="2400" aria-label="Time before action resolves"></progress><div class="preview-controls"><button type="button" data-preview-pause>Pause preview</button><button type="button" data-preview-continue>Continue →</button></div></div>`;
+  document.querySelector("#announcer")!.textContent =
+    `${preview.title}. ${preview.detail}`;
+  const token = epoch;
+  await new Promise<void>((resolve) => {
+    let remaining = 2400,
+      last = performance.now(),
+      paused = false;
+    const finish = () => {
+      clearInterval(timer);
+      resolve();
+    };
+    const timer = setInterval(() => {
+      const now = performance.now();
+      if (!paused) remaining -= now - last;
+      last = now;
+      const progress = panel.querySelector("progress");
+      if (progress) progress.value = Math.max(0, remaining);
+      if (remaining <= 0 || token !== epoch || !panel.isConnected) finish();
+    }, 50);
+    panel.querySelector<HTMLButtonElement>("[data-preview-continue]")!.onclick =
+      finish;
+    panel.querySelector<HTMLButtonElement>("[data-preview-pause]")!.onclick = (
+      e,
+    ) => {
+      paused = !paused;
+      (e.currentTarget as HTMLButtonElement).textContent = paused
+        ? "Resume preview"
+        : "Pause preview";
+    };
+  });
+  opponentPreview = null;
+  drawTargetArrow();
+  if (token === epoch) {
+    renderDecision();
+    renderLesson();
+  }
 }
 function renderEvent() {
   if (g?.mode === "lesson") {
@@ -652,6 +741,8 @@ async function execute(move: Move | Response) {
   attackReview = null;
   const serial = g.serial;
   try {
+    await previewOpponent(move);
+    if (token !== epoch) return;
     if (typeof move === "string") respond(g, move);
     else act(g, move);
     persist();
