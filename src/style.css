@@ -1,5 +1,6 @@
+@import "./fonts.css";
+
 @layer legacy {
-  @import "./fonts.css";
   :root {
     font-family: Manrope, Arial, sans-serif;
     color: #ece5d4;
