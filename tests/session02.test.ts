@@ -3,46 +3,48 @@ import assert from "node:assert/strict";
 import { createDuel, aiResponse, chooseMove, type Royal } from "../src/duel";
 import { CARDS } from "../src/content";
 import { act, respond, moves, validateDuel, guards } from "../src/duel";
-import { createLesson, lessonComplete, lessonOpponent } from "../src/lessons";
+import {
+  createLesson,
+  lessonComplete,
+  lessonOpponent,
+  lessonMove,
+  nextLesson,
+  LESSONS,
+} from "../src/lessons";
 import { describeAction } from "../src/action-view";
 
-test("all ten scripted lessons complete through legal game actions", () => {
-  for (let i = 0; i < 10; i++) {
-    const g = createLesson(i);
-    assert.ok(validateDuel(g), `valid lesson ${i + 1}`);
-    for (let step = 0; step < 40 && !lessonComplete(g); step++) {
-      if (g.pending) {
-        respond(g, g.pending.defender === 0 ? "brace" : "accept");
-        continue;
+test("one guided match reaches every milestone through legal actions, preserving state between steps", () => {
+  const g = createLesson();
+  const cards = () =>
+    g.players
+      .flatMap((p) => p.court.concat(p.hand, p.deck, p.discard))
+      .map((r) => r.uid)
+      .sort();
+  const original = cards();
+  for (let i = 1; i <= LESSONS.length; i++) {
+    assert.equal(g.lesson, i);
+    for (let step = 0; step < 60 && !lessonComplete(g); step++) {
+      assert.ok(validateDuel(g), `valid stage ${i}`);
+      if (g.pending) respond(g, g.pending.defender === 0 ? "brace" : "accept");
+      else {
+        const a = g.turn === 0 ? lessonMove(g) : lessonOpponent(g);
+        assert.ok(a, `stage ${i} has a next action`);
+        assert.ok(
+          moves(g).some((m) => JSON.stringify(m) === JSON.stringify(a)),
+          `stage ${i} action is legal`,
+        );
+        act(g, a!);
       }
-      if (g.turn !== 0) {
-        act(g, lessonOpponent(g));
-        continue;
-      }
-      const type =
-        i === 9
-          ? "end"
-          : i === 8
-            ? "recruit"
-            : i === 0
-              ? "deploy"
-              : i === 1 || i === 3
-                ? "attack"
-                : i === 4
-                  ? "marry"
-                  : i === 5
-                    ? g.players[0].estates
-                      ? "end"
-                      : "estate"
-                    : g.players[0].claim
-                      ? "end"
-                      : "claim";
-      const a = moves(g).find((a) => a.type === type);
-      assert.ok(a, `lesson ${i + 1}: ${type}`);
-      act(g, a!);
     }
-    assert.ok(lessonComplete(g), `complete lesson ${i + 1}`);
+    assert.ok(lessonComplete(g), `completed stage ${i}`);
+    assert.deepEqual(cards(), original, "No cards created, replaced or lost");
+    const state = structuredClone(g);
+    nextLesson(g);
+    state.lesson = g.lesson;
+    assert.deepEqual(g, state, "Continue changes only the guide cursor");
   }
+  assert.equal(g.winner, 0);
+  assert.ok(g.events.filter((e) => e.kind === "brace").length >= 3);
 });
 
 test("action explanations distinguish gold, orders and court capacity", () => {

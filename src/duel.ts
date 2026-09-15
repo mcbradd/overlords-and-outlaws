@@ -71,6 +71,7 @@ export interface Duel {
   serial: number;
   turns: number;
   lesson: number;
+  tutorialVersion?: number;
   witness: number;
   relics: string[];
 }
@@ -278,7 +279,7 @@ export const guards = (p: Court) =>
     (r) => card(r.card).role === "Lawgiver" && active(p, r) && r.ready,
   );
 export const forecast = (g: Duel) =>
-  g.mode === "lesson" && g.lesson < 10
+  g.mode === "lesson"
     ? {
         in: 0,
         name: "Teaching match",
@@ -871,7 +872,7 @@ function endTurn(g: Duel) {
   const next = g.players[(g.turn + 1) % g.players.length];
   if (next.id === 0) {
     g.round++;
-    if (g.mode !== "lesson" || g.lesson >= 10) {
+    if (g.mode !== "lesson") {
       g.witness++;
       if ((g.round - 1) % 4 === 0) history(g);
     }

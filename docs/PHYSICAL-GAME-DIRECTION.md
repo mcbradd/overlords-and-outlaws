@@ -9,7 +9,7 @@ Overlords & Outlaws is a **digital prototype of a physically manufactured card-a
 1. Original ambitious chamber: rich atmosphere and collectible art, but tiny floating pieces, oversized panels, overdecorated frames, imprecise alignment.
 2. Competitor study: readability, state visibility, feedback, low friction and consistent interaction were useful findings.
 3. Flat lane revision: simplified information but removed the intended physical identity. Explicitly rejected. Readability alone is insufficient; a web dashboard is the wrong medium metaphor.
-4. Current synthesis: a tangible, coherent board with fixed printed cards, generous portraits, ivory typography fields, restrained engraved borders, warm metal and deep green marble. Interaction should feel like moving a component; inspection should feel like picking it up.
+4. First 3D synthesis: a tangible, coherent board with fixed printed cards, generous portraits, ivory typography fields, restrained engraved borders, warm metal and deep green marble. Interaction should feel like moving a component; inspection should feel like picking it up.
 
 ```mermaid
 flowchart LR
@@ -24,11 +24,13 @@ flowchart LR
 
 The logical endpoint is disciplined craft, not ever-increasing ornament or effects. Thousands of hypothetical iterations are a direction of aspiration; only executed revision passes are reported as evidence.
 
+5. Latest correction: keep the tangible board, simplify battlefield faces, show current health, use one navy/gold guide with precise highlights, and teach through a continuous match. [Guided-play contract](GUIDED-PLAY.md) supersedes the fixed-full-face and duplicate-lesson decisions recorded below.
+
 ## Design contract
 
 - The board owns the scene; controls occupy its edges. Keep the centre usable instead of filling it with opaque explanatory panels.
-- Cards use a provisional 63:88 aspect ratio with fixed title, portrait, role, rules, and printed attack/resolve. This is a prototype dimension, not a certified production dieline.
-- Changing health uses damage counters. Resting uses rotation. Marriage uses a linked pair/token. Coins, action tokens, deck/discard, crown and estates have physical counterparts.
+- Cards use a provisional 63:88 aspect ratio. Manufacturing/reference faces retain full rules. The user explicitly permits simplified battlefield faces (name, art, role, current stats) with full inspection. This is a prototype dimension, not a certified production dieline.
+- Current health is the prominent live number; when damaged, show current/maximum and physical damage counters. Resting uses rotation. Marriage uses a linked pair/token. Coins, action tokens, deck/discard, crown and estates have physical counterparts.
 - Inspect before committing; show costs and targets; animate source to destination and contact rather than arbitrary floating effects. Preserve click, keyboard and touch alternatives.
 - Gold is meaningful: gilded trim, resources, active choice. Red means damage or threat; House colors identify ownership. Avoid relying on color alone.
 - Portraits are artistic interpretations, with some reused House archetypes. Historical identity, dates and invented mechanics must remain distinguishable. Manufacturing art requires subsequent provenance/licensing and print-proof review.
@@ -36,7 +38,7 @@ The logical endpoint is disciplined craft, not ever-increasing ornament or effec
 
 ## Research model correction
 
-The 16-game study remains a qualitative, version-sensitive comparison. Add **medium fidelity and physical reproducibility** as a hard product constraint before optimizing its six usability dimensions. Competitors praised for streamlined digital-only cards do not justify erasing this game's physical card information or its 3D board. Neither fan loyalty nor production spectacle alone establishes usability. No claim of competitor superiority is possible without comparative player testing.
+The 16-game study remains a qualitative, version-sensitive comparison. Add **medium fidelity and physical reproducibility** as a hard product constraint before optimizing its six usability dimensions. Competitors praised for streamlined digital-only cards do not justify erasing the physical rules or 3D board. The user separately authorized simplified battlefield faces for legibility. Neither fan loyalty nor production spectacle alone establishes usability. No claim of competitor superiority is possible without comparative player testing.
 
 ## Revision log
 
@@ -56,7 +58,7 @@ Implementation and visual inspection results are recorded here as they are compl
 
 The resulting direction is coherent with the physical-game constraint. This is a proposed playable revision, not a claim of user approval or statistically demonstrated superiority to commercial games.
 
-### Verification
+### Historical verification of the first 3D revision (superseded tutorial)
 
 - 40 deterministic rules tests and 3 UI tests passed.
 - All ten lessons completed through browser controls after the final layout changes.
@@ -71,3 +73,7 @@ The resulting direction is coherent with the physical-game constraint. This is a
 The WebGL board, cardstock bodies and pieces use Three.js. Crisp printed faces use [CSS3DRenderer](https://threejs.org/docs/pages/CSS3DRenderer.html) with the same camera and world coordinates; they are separate from the light-reactive board materials. The compositor needs a WebGL-capable browser; this pass was verified in Chrome, not every GPU/browser combination. A dense full-board view is an overview, with court cameras and inspection providing reading detail. Narrow displays pan the physical board instead of distorting card geometry.
 
 The 63:88 card ratio and fixed face layout are a manufacturing-oriented prototype, not production print files. Physical component size, stock, bleed, ink, finish, color proofs and licensed final art still require a manufacturing pass. The existing portraits include reused House archetypes; they are not all individual historical likenesses. These are explicit remaining limits, not reasons to abandon the physical-game premise.
+
+### Guided-play revision
+
+The subsequent critique rejected duplicate lesson treatments, clipped instructions, inaccurate visible health, and scenario resets. The latest implementation uses one guide, live values and legal state transitions. Full details and verification are recorded in [GUIDED-PLAY.md](GUIDED-PLAY.md).

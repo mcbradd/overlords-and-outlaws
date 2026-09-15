@@ -1,12 +1,17 @@
 import "./style.css";
 import "./v3.css";
 import "./table.css";
+import "./guided-play.css";
 import { describeAction, COIN } from "./action-view";
 import {
   LESSONS,
   createLesson,
   lessonComplete,
   lessonOpponent,
+  nextLesson,
+  lessonMove,
+  lessonText,
+  lessonOutcome,
 } from "./lessons";
 import { CARDS, HOUSES, PAINTINGS, card, house, type HouseId } from "./content";
 import {
@@ -213,6 +218,13 @@ function launch(h = chosen, count = seats) {
 function resume() {
   if (!g) return;
   leave();
+  if (g.mode === "lesson" && g.tutorialVersion !== 2) {
+    g = createLesson();
+    toast(
+      "The guide has been rebuilt as one continuous match. Starting at its new opening.",
+    );
+    persist();
+  }
   screen = "board";
   viewer = g.mode === "family" ? (g.pending?.defender ?? g.turn) : 0;
   lastEvent = g.events.at(-1) ?? null;
@@ -257,7 +269,13 @@ const royalById = (id: string) =>
 function targets() {
   return g && selected
     ? moves(g)
-        .filter((a) => a.type === "attack" && a.uid === selected)
+        .filter(
+          (a) =>
+            a.type === "attack" &&
+            a.uid === selected &&
+            (g!.mode !== "lesson" ||
+              JSON.stringify(a) === JSON.stringify(lessonMove(g!))),
+        )
         .map((a) => ("target" in a ? a.target! : ""))
     : [];
 }
@@ -294,8 +312,8 @@ function renderBoard() {
     : `ROUND ${g.round} · ${house(g.players[g.turn].house).name.toUpperCase()} · ${g.orders} ORDERS LEFT`;
   document.querySelector("#history-label")!.innerHTML = g.over
     ? "<button data-log>Read the final chronicle ↗</button>"
-    : g.mode === "lesson" && g.lesson < 10
-      ? "<button data-lesson>Learning guide ↗ · History paused</button>"
+    : g.mode === "lesson"
+      ? ""
       : `<span class="${g.witness >= WITNESS_LIMIT - 4 ? "danger" : ""}">EUDOXIA ${paintingCounts(
           g,
         )
@@ -366,6 +384,10 @@ function order(move: Move, _label = "", _detail = "", cls = "") {
 }
 function renderDecision() {
   if (!g) return;
+  if (g.mode === "lesson") {
+    document.querySelector("#decision-panel")!.innerHTML = "";
+    return;
+  }
   const p = g.players[viewer],
     r = selected ? royalById(selected) : undefined;
   const inHand = r && p.hand.includes(r),
@@ -402,22 +424,59 @@ function renderDecision() {
   document.querySelector("#decision-panel")!.innerHTML = html;
 }
 function renderLesson() {
-  const el = document.querySelector("#lesson-coach");
+  const el = document.querySelector<HTMLElement>("#lesson-coach");
   if (!el || !g) return;
   document
     .querySelector(".battle-shell")
     ?.classList.toggle("teaching", g.mode === "lesson");
+  document.querySelectorAll("[data-tutorial-focus]").forEach((e) => {
+    e.removeAttribute("data-tutorial-focus");
+    e.removeAttribute("aria-describedby");
+  });
   if (g.mode !== "lesson") {
     el.innerHTML = "";
     return;
   }
-  const i = g.lesson - 1,
-    l = LESSONS[i],
-    done = lessonComplete(g);
+  const l = LESSONS[g.lesson - 1],
+    done = lessonComplete(g),
+    move = lessonMove(g);
   document
     .querySelector(".battle-shell")
     ?.setAttribute("data-lesson-index", String(g.lesson));
-  el.innerHTML = `<div class="lesson-number">${i + 1}<small>OF ${LESSONS.length}</small></div><div><small>${done ? "LESSON COMPLETE" : "YOUR LESSON · " + l.task.toUpperCase()}</small><h2>${l.title}</h2><p>${done ? (i === 6 ? "Your family fell below three, so the claim broke. Next, defend a stronger court." : i === 7 ? "Both rivals contested your claim. Your family survived, so you won the crown." : i === 9 ? "Eudoxia completed a painting before any House secured its crown. Every House lost. You now know both ways a full game can end." : "You saw the action, its cost, and its result. Continue when you are ready.") : l.text}</p></div><div class="lesson-controls"><button class="lesson-read" data-lesson>Read lesson</button>${done ? `<button class="primary" data-next-lesson>${i === LESSONS.length - 1 ? "Play a full game" : "Next lesson →"}</button>` : ""}<button data-restart-lesson>Restart lesson</button></div>`;
+  let action = "",
+    focus = "",
+    prompt = "",
+    explanation = done ? lessonOutcome(g) : lessonText(g);
+  if (done) {
+    action = `<button class="primary" data-next-lesson>${g.lesson === LESSONS.length ? "Play a full game" : "Continue →"}</button>`;
+    focus = "#lesson-coach [data-next-lesson]";
+  } else if (g.pending?.defender === 0) {
+    action = `<button class="primary" data-response="brace" ${busy ? "disabled" : ""}>Brace · 2 gold</button>`;
+    focus = '#lesson-coach [data-response="brace"]';
+  } else if (move) {
+    if ("uid" in move && selected !== move.uid) {
+      const r = royalById(move.uid)!;
+      prompt = `Select ${card(r.card).name}.`;
+      focus = `${g.players[0].hand.includes(r) ? ".hand-cards" : ".arena"} [data-royal="${move.uid}"]`;
+    } else if (move.type === "attack" && !attackReview) {
+      prompt = `Select ${card(royalById(move.target!)!.card).name} in the rival court.`;
+      focus = `.arena [data-royal="${move.target}"]`;
+    } else {
+      if (move.type === "attack") {
+        const v = describeAction(g, move, viewer);
+        explanation = `${v.effect} ${v.response}`;
+      }
+      action = order(move, "", "", "primary-order");
+      focus = "#lesson-coach [data-move]";
+    }
+  } else prompt = "Watch the rival Houses finish their turns.";
+  el.setAttribute("aria-label", "Guided match");
+  el.innerHTML = `<header class="guide-heading"><span class="guide-progress">${g.lesson} / ${LESSONS.length}</span>${done ? "<span>Complete</span>" : ""}</header><div class="guide-body" id="guide-instruction"><h2>${l.title}</h2><p>${esc(explanation)}</p>${prompt ? `<strong class="guide-prompt">${esc(prompt)}</strong>` : ""}</div><footer class="guide-actions">${action}<button class="guide-restart" data-restart-lesson>Restart match</button></footer>`;
+  if (focus && !busy) {
+    const target = document.querySelector<HTMLElement>(focus);
+    target?.setAttribute("data-tutorial-focus", "true");
+    target?.setAttribute("aria-describedby", "guide-instruction");
+  }
 }
 function drawTargetArrow() {
   const svg = document.querySelector<SVGSVGElement>("#target-arrow");
@@ -435,6 +494,10 @@ function drawTargetArrow() {
   svg.innerHTML = `<defs><marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#f7d38a"/></marker></defs><path d="M${a.x + a.width / 2},${a.y + a.height / 2} Q${(a.x + b.x) / 2},${Math.min(a.y, b.y) - 35} ${b.x + b.width / 2},${b.y + b.height / 2}" fill="none" stroke="#f7d38a" stroke-width="4" marker-end="url(#arrowhead)"/>`;
 }
 function renderEvent() {
+  if (g?.mode === "lesson") {
+    document.querySelector("#event-focus")?.replaceChildren();
+    return;
+  }
   const el = document.querySelector("#event-focus"),
     e = lastEvent ?? g?.events.at(-1);
   if (el)
@@ -446,7 +509,7 @@ function banner(e: Moment) {
   if (e.kind !== "turn" || !lastEvent) lastEvent = e;
   renderEvent();
   document.querySelector("#announcer")!.textContent = `${e.title}. ${e.why}`;
-  if (announcementKinds.includes(e.kind)) {
+  if (g?.mode !== "lesson" && announcementKinds.includes(e.kind)) {
     const el = document.querySelector("#battle-banner")!;
     el.className = "show " + e.kind;
     el.innerHTML = `<small>${e.actor >= 0 ? house(g!.players[e.actor].house).name.toUpperCase() : "HISTORY BELONGS TO NO HOUSE"}</small><strong>${esc(e.title)}</strong><p>${esc(e.why)}</p><span class="announcement-timer"></span><small>Click to continue</small>`;
@@ -484,7 +547,7 @@ async function present(events: Moment[]) {
       field?.sync(g!, selected, [], viewer);
       banner(e);
     }
-    if (announcementKinds.includes(e.kind)) {
+    if (g?.mode !== "lesson" && announcementKinds.includes(e.kind)) {
       await new Promise<void>((resolve) => {
         const el = document.querySelector<HTMLElement>("#battle-banner");
         const finish = () => {
@@ -572,16 +635,16 @@ async function execute(move: Move | Response) {
     g.mode === "lesson" &&
     g.turn === viewer &&
     typeof move !== "string" &&
-    !LESSONS[g.lesson - 1].types.includes(move.type)
+    JSON.stringify(move) !== JSON.stringify(lessonMove(g))
   ) {
-    toast("Follow the highlighted lesson action, or restart this lesson.");
+    toast("Follow the highlighted action in the guide.");
     return;
   }
   const token = epoch;
   busy = true;
   document
     .querySelectorAll<HTMLButtonElement>(
-      "#decision-panel button,#hand-dock button",
+      "#decision-panel button,#hand-dock button,#lesson-coach button",
     )
     .forEach((b) => (b.disabled = true));
   hideHover();
@@ -663,14 +726,6 @@ function modal(title: string, body: string, cls = "") {
 function closeModal() {
   overlay.innerHTML = "";
   lastFocus?.focus();
-}
-function lessonIntro() {
-  if (!g) return;
-  const l = LESSONS[g.lesson - 1];
-  modal(
-    l.title,
-    `<div class="eyebrow">LESSON ${g.lesson} OF ${LESSONS.length}</div><h2>${l.title}</h2><p>${l.text}</p><button class="primary" data-close>${l.task}</button>`,
-  );
 }
 function inspect(id: string) {
   const c = card(id),
@@ -872,10 +927,6 @@ document.addEventListener("click", (e) => {
     encounter(d.encounter as HouseId);
     return;
   }
-  if (d.lesson !== undefined) {
-    lessonIntro();
-    return;
-  }
   if (d.rules !== undefined) {
     rules();
     return;
@@ -924,21 +975,31 @@ document.addEventListener("click", (e) => {
     return;
   }
   if (d.nextLesson !== undefined || d.restartLesson !== undefined) {
-    const next = g!.lesson - 1 + (d.nextLesson !== undefined ? 1 : 0);
-    if (next >= LESSONS.length) {
-      g = null;
-      closeModal();
-      start("skirmish");
-      return;
+    if (busy || !g) return;
+    if (d.nextLesson !== undefined) {
+      if (!lessonComplete(g)) return;
+      if (g.lesson === LESSONS.length) {
+        g = null;
+        closeModal();
+        start("skirmish");
+        return;
+      }
+      nextLesson(g);
+      selected = null;
+      attackReview = null;
+      renderBoard();
+      persist();
+      void advance();
+    } else {
+      leave();
+      g = createLesson();
+      viewer = 0;
+      selected = null;
+      lastEvent = null;
+      screen = "board";
+      void mountBoard();
+      persist();
     }
-    leave();
-    g = createLesson(next);
-    viewer = 0;
-    selected = null;
-    lastEvent = null;
-    screen = "board";
-    void mountBoard();
-    persist();
     return;
   }
   if (d.royal) {
@@ -953,6 +1014,7 @@ document.addEventListener("click", (e) => {
     if (targets().includes(r.uid) && selected) {
       attackReview = { type: "attack", uid: selected, target: r.uid };
       renderDecision();
+      renderLesson();
       drawTargetArrow();
       return;
     }
@@ -974,6 +1036,7 @@ document.addEventListener("click", (e) => {
     if (selected && targets().includes(d.target)) {
       attackReview = { type: "attack", uid: selected, target: d.target };
       renderDecision();
+      renderLesson();
       drawTargetArrow();
     } else componentSheet(d.target);
     return;
@@ -1085,6 +1148,10 @@ function hideHover() {
 function renderCardDetail(uid = selected) {
   const el = document.querySelector<HTMLElement>("#card-detail");
   if (!el || !g) return;
+  if (gesture?.dragging) {
+    el.innerHTML = "";
+    return;
+  }
   const r = uid && !locked ? royalById(uid) : undefined;
   const owner =
     r &&
@@ -1102,7 +1169,11 @@ function renderCardDetail(uid = selected) {
     .replace("</button>", "</div>")
     .replace(/data-royal="[^"]*"/, "")
     .replace(/aria-pressed="[^"]*"/, "");
-  el.innerHTML = `<div class="detail-card-preview">${preview}</div><div class="detail-description"><div class="detail-heading"><img src="${portrait(r.card)}" alt=""><div><span class="eyebrow">${house(c.house).name} · ${spec(r).title}</span><h3>${esc(c.name)}</h3></div></div><div class="detail-stats"><span><b>${cost(owner, r, !!r.marriedTo)}</b> Gold</span><span><b>${spec(r).force}</b> Attack</span><span><b>${r.hp}</b> Health</span></div><p>${esc(abilityFor(r, owner))}</p><p class="detail-status">${inCourt ? `${active(owner, r) ? "Counts toward this family." : "Foreign Royal: needs a marriage."} ${r.ready ? "Ready to attack." : "Resting: can defend; readies next turn."}` : "In your hand · costs one order to play."}</p><button class="detail-inspect" data-inspect="${r.card}">Full card & rules ↗</button></div>`;
+  const discount =
+    cost(owner, r, !!r.marriedTo) !== spec(r).cost
+      ? ` ${house(owner.house).name}: ${cost(owner, r, !!r.marriedTo)} gold (printed cost ${spec(r).cost}).`
+      : "";
+  el.innerHTML = `<div class="detail-card-preview">${preview}</div><div class="detail-description"><p class="detail-status">${inCourt ? `${active(owner, r) ? "Counts toward this family." : "Foreign Royal: needs a marriage."} ${r.ready ? "Ready to attack." : "Resting: can defend; readies next turn."}` : "In your hand · costs one order to play."}${discount}</p><button class="detail-inspect" data-inspect="${r.card}">Full card & rules ↗</button></div>`;
 }
 function showHover(button: HTMLElement) {
   if (locked || busy || overlay.innerHTML || !g) return;
@@ -1202,22 +1273,113 @@ app.addEventListener("pointerdown", (e) => {
     }, 450);
   }
 });
+let dropCandidate: Move | null = null;
+function clearDropPreview() {
+  dropCandidate = null;
+  field?.clearPlacement();
+  document
+    .querySelectorAll("[data-drop-legal],[data-drop-current]")
+    .forEach((el) => {
+      el.removeAttribute("data-drop-legal");
+      el.removeAttribute("data-drop-current");
+    });
+}
+function previewDrop(uid: string, x: number, y: number) {
+  if (!g || !field) return;
+  dropCandidate = null;
+  document
+    .querySelectorAll("[data-drop-legal],[data-drop-current]")
+    .forEach((el) => {
+      el.removeAttribute("data-drop-legal");
+      el.removeAttribute("data-drop-current");
+    });
+  const legal = moves(g).filter(
+    (a) =>
+      "uid" in a &&
+      a.uid === uid &&
+      (g!.mode !== "lesson" ||
+        JSON.stringify(a) === JSON.stringify(lessonMove(g!))),
+  );
+  const deploy = legal.find((a) => a.type === "deploy");
+  if (deploy && field.previewPlacement(g, viewer, x, y)) dropCandidate = deploy;
+  const choices: { el: HTMLElement; move: Move }[] = [];
+  for (const move of legal) {
+    if (move.type === "attack") {
+      document
+        .querySelectorAll<HTMLElement>(
+          `.arena [data-royal="${move.target}"],.arena [data-target="${move.target}"],.scoreboard [data-target="${move.target}"]`,
+        )
+        .forEach((el) => choices.push({ el, move }));
+    }
+    if (move.type === "marry") {
+      const p = g.players[viewer];
+      const queen = p.court.find(
+        (r) =>
+          card(r.card).role === "Queen" &&
+          active(p, r) &&
+          !p.court.some((s) => s.marriedTo === r.uid),
+      );
+      const el = document.querySelector<HTMLElement>(
+        `.arena [data-royal="${queen?.uid}"]`,
+      );
+      if (el) choices.push({ el, move });
+    }
+  }
+  let nearest: (typeof choices)[number] | undefined,
+    distance = Infinity;
+  const surface = document
+    .elementFromPoint(x, y)
+    ?.closest(".arena,.scoreboard");
+  for (const choice of choices) {
+    choice.el.setAttribute("data-drop-legal", "true");
+    const rect = choice.el.getBoundingClientRect();
+    const d = Math.hypot(
+      x - (rect.x + rect.width / 2),
+      y - (rect.y + rect.height / 2),
+    );
+    if (
+      surface &&
+      x >= rect.left - 14 &&
+      x <= rect.right + 14 &&
+      y >= rect.top - 14 &&
+      y <= rect.bottom + 14 &&
+      d < distance
+    ) {
+      nearest = choice;
+      distance = d;
+    }
+  }
+  if (nearest) {
+    nearest.el.setAttribute("data-drop-current", "true");
+    dropCandidate = nearest.move;
+    document.querySelector(".drop-slot")?.classList.remove("active");
+  }
+}
 document.addEventListener("pointermove", (e) => {
   if (!gesture || !g) return;
   if (Math.hypot(e.clientX - gesture.x, e.clientY - gesture.y) > 12) {
     if (gesture.touch) {
       gesture = null;
       hideHover();
+      clearDropPreview();
       return;
     }
     gesture.dragging = true;
     hideHover();
-    const r = royalById(gesture.uid);
-    if (!r || g.turn !== viewer) return;
+    if (!royalById(gesture.uid) || g.turn !== viewer || busy) return;
+    previewDrop(gesture.uid, e.clientX, e.clientY);
     const svg = document.querySelector<SVGSVGElement>("#target-arrow");
     if (svg) {
       svg.setAttribute("viewBox", `0 0 ${innerWidth} ${innerHeight}`);
-      svg.innerHTML = `<path d="M${gesture.x},${gesture.y} Q${e.clientX},${gesture.y - 50} ${e.clientX},${e.clientY}" fill="none" stroke="#f5ce80" stroke-width="4"/><circle cx="${e.clientX}" cy="${e.clientY}" r="9" fill="#f5ce80"/>`;
+      const label =
+        dropCandidate?.type === "attack"
+          ? "Release to review attack"
+          : dropCandidate?.type === "marry"
+            ? "Release to marry"
+            : dropCandidate
+              ? "Release to play"
+              : "Choose a highlighted destination";
+      svg.innerHTML = `<path d="M${gesture.x},${gesture.y} Q${e.clientX},${gesture.y - 50} ${e.clientX},${e.clientY}" fill="none" stroke="${dropCandidate ? "#ffdc83" : "#a8b0ac"}" stroke-width="3"/><circle cx="${e.clientX}" cy="${e.clientY}" r="8" fill="${dropCandidate ? "#ffdc83" : "#a8b0ac"}"/><text x="${Math.max(150, Math.min(innerWidth - 150, e.clientX))}" y="${e.clientY - 24}" text-anchor="middle" fill="#ffedbf" stroke="#102129" stroke-width="4" paint-order="stroke" font-size="14" font-family="Arial">${label}</text>`;
     }
   }
 });
@@ -1227,44 +1389,33 @@ document.addEventListener("pointerup", (e) => {
   gesture = null;
   hideHover();
   if (!drag.dragging || !g) return;
+  previewDrop(drag.uid, e.clientX, e.clientY);
+  const move = dropCandidate;
+  clearDropPreview();
   suppressClickUntil = performance.now() + 250;
-  const at = document.elementFromPoint(
-    e.clientX,
-    e.clientY,
-  ) as HTMLElement | null;
-  const p = g.players[viewer],
-    r = royalById(drag.uid);
-  if (!at || !r) return;
-  selected = r.uid;
-  if (p.hand.includes(r) && at.closest("#arena")) {
-    const a: Move = { type: "deploy", uid: r.uid };
-    const v = describeAction(g, a, viewer);
-    if (v.allowed) void execute(a);
-    else {
-      toast(v.reason);
-      renderBoard();
-    }
-  } else if (p.court.includes(r)) {
-    const target = at.closest<HTMLElement>("[data-royal],[data-target]");
-    const id = target?.dataset.royal ?? target?.dataset.target;
-    if (id && targets().includes(id)) {
-      attackReview = { type: "attack", uid: r.uid, target: id };
-      renderDecision();
-      drawTargetArrow();
-    } else {
-      toast(
-        r.ready
-          ? "Drop on a highlighted rival piece."
-          : "This Royal can attack on your next turn.",
-      );
-      renderBoard();
-    }
-  } else renderBoard();
+  selected = drag.uid;
+  if (move?.type === "attack") {
+    attackReview = move;
+    renderBoard();
+  } else if (move) void execute(move);
+  else {
+    renderBoard();
+    toast("Card returned. Release over a highlighted destination to play.");
+  }
 });
 document.addEventListener("pointercancel", () => {
   gesture = null;
   hideHover();
+  clearDropPreview();
   drawTargetArrow();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && gesture) {
+    gesture = null;
+    clearDropPreview();
+    drawTargetArrow();
+    renderBoard();
+  }
 });
 document.addEventListener("change", (e) => {
   const el = e.target as HTMLSelectElement;

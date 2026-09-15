@@ -39,3 +39,7 @@ Exposure creates authority and vulnerability. Concealment preserves possibility.
 ## Embedded card details
 
 See [Illustrated exhibits](illustrated-exhibits.md) for the native-image transcription of the Alba cards, Blood Edict, and three Founder cards, including rank, wording, serial, and artwork conflicts.
+
+## Latest UI authority
+
+The [guided-play contract](../GUIDED-PLAY.md) records the user's explicit permission to simplify battlefield faces, the requirement for one tutorial information surface, and continuous board state. This updates presentation only; Overlords & Outlaws remains a digital prototype of a physical manufactured game.

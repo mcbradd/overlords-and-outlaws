@@ -23,6 +23,8 @@ export class Battlefield {
     string,
     { body: THREE.Group; face: CSS3DObject; y: number; angle: number }
   >();
+  private placement: CSS3DObject | null = null;
+  private placementOrigins = new Map<string, number>();
   private hovered: string | null = null;
   private viewSeat: number | null = null;
   private seats = new Map<number, THREE.Vector3>();
@@ -245,7 +247,80 @@ export class Battlefield {
   setMotion(on: boolean) {
     this.reduced = !on;
   }
+  clearPlacement() {
+    if (this.placement) {
+      this.print.remove(this.placement);
+      this.placement.element.remove();
+      this.placement = null;
+    }
+    for (const [uid, x] of this.placementOrigins) {
+      const figure = this.figures.get(uid);
+      if (figure) figure.body.position.x = x;
+    }
+    this.placementOrigins.clear();
+  }
+  previewPlacement(
+    g: Duel,
+    viewer: number,
+    clientX: number,
+    clientY: number,
+  ): boolean {
+    const p = g.players[viewer];
+    if (p.court.length >= 5) return false;
+    if (!this.placement) {
+      // Show the complete prospective arrangement, including the new card's exact center.
+      p.court.forEach((r, i) => {
+        const figure = this.figures.get(r.uid);
+        if (figure) {
+          this.placementOrigins.set(r.uid, figure.body.position.x);
+          figure.body.position.x = (i - p.court.length / 2) * 3.75;
+        }
+      });
+      const el = document.createElement("div");
+      el.className = "drop-slot";
+      el.textContent = "Play here";
+      this.placement = new CSS3DObject(el);
+      this.placement.scale.setScalar(2.45 / 630);
+      this.placement.rotation.x = -Math.PI / 2;
+      this.placement.position.set((p.court.length / 2) * 3.75, 0.15, 5.1);
+      this.print.add(this.placement);
+      this.closeDistance.set(
+        viewer,
+        p.court.length < 2 ? 9 : p.court.length < 3 ? 12 : 15,
+      );
+      this.fit();
+    }
+    const bounds = this.gl.domElement.getBoundingClientRect();
+    const ray = new THREE.Raycaster();
+    ray.setFromCamera(
+      new THREE.Vector2(
+        ((clientX - bounds.left) / bounds.width) * 2 - 1,
+        (-(clientY - bounds.top) / bounds.height) * 2 + 1,
+      ),
+      this.camera,
+    );
+    const hit = ray.ray.intersectPlane(
+      new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.15),
+      new THREE.Vector3(),
+    );
+    const at = this.placement.position;
+    const active =
+      !!hit &&
+      Math.abs(hit.x - at.x) < 1.8 &&
+      Math.abs(hit.z - at.z) < 2.15 &&
+      clientX >=
+        Math.max(bounds.left, this.container.getBoundingClientRect().left) &&
+      clientX <=
+        Math.min(bounds.right, this.container.getBoundingClientRect().right) &&
+      clientY >= bounds.top &&
+      clientY <= bounds.bottom;
+    this.placement.element.classList.toggle("active", active);
+    this.placement.element.textContent = active ? "" : "Play here";
+    this.css.render(this.print, this.camera);
+    return active;
+  }
   sync(g: Duel, selected: string | null, targets: string[] = [], viewer = 0) {
+    this.clearPlacement();
     this.pieces.traverse((o) => {
       if (o instanceof THREE.Mesh) o.geometry.dispose();
     });
@@ -437,6 +512,7 @@ export class Battlefield {
         0.35,
       );
     this.fit();
+    this.css.render(this.print, this.camera);
   }
   async animate(e: Moment) {
     if (this.reduced || this.disposed) return;

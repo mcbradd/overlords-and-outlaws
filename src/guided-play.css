@@ -1,0 +1,284 @@
+/* Guided play owns its complete surface: instruction, preview, action, outcome. */
+.battle-shell.teaching #decision-panel,
+.battle-shell.teaching #event-focus,
+.battle-shell.teaching .turn-tools .end-turn,
+.battle-shell.teaching .turn-tools .hint {
+  display: none !important;
+}
+.battle-shell.teaching #lesson-coach {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: clamp(280px, 23vw, 370px);
+  max-width: calc(100vw - 24px);
+  max-height: min(470px, calc(100svh - 360px));
+  height: auto;
+  padding: 22px;
+  color: #eee2c4;
+  background: linear-gradient(130deg, #1a2b35fa, #0b1720fa);
+  border: 1px solid #b39656;
+  border-radius: 12px;
+  box-shadow: 0 16px 48px #0008;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ad9259 #14232c;
+}
+#lesson-coach .guide-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #cdb477;
+  font:
+    600 11px/1.3 Arial,
+    sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+}
+#lesson-coach .guide-progress {
+  flex: none;
+  padding: 5px 8px;
+  border: 1px solid #b3965666;
+  border-radius: 5px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+#lesson-coach .guide-body {
+  display: block;
+  min-height: 0;
+  flex: 1 0 auto;
+}
+#lesson-coach .guide-body h2 {
+  margin: 0 0 12px;
+  color: #f1e4be;
+  font:
+    500 clamp(22px, 1.5vw, 29px) / 1.12 Georgia,
+    serif;
+}
+.battle-shell.teaching #lesson-coach .guide-body p {
+  display: block !important;
+  margin: 0;
+  color: #c4cdd0;
+  font:
+    14px/1.6 Arial,
+    sans-serif;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+  max-height: none;
+  white-space: normal;
+}
+#lesson-coach .guide-prompt {
+  display: block;
+  margin-top: 14px;
+  color: #f5d895;
+  font:
+    600 14px/1.5 Arial,
+    sans-serif;
+}
+#lesson-coach .guide-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+}
+#lesson-coach .guide-actions > button {
+  margin: 0;
+  min-height: 44px;
+  padding: 12px 14px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+#lesson-coach .guide-actions .primary-order {
+  background: linear-gradient(110deg, #edd392, #b99a54);
+  color: #172127;
+  border: 1px solid #e3c786;
+}
+#lesson-coach .guide-actions .primary-order strong {
+  color: #172127;
+  font-size: 15px;
+}
+#lesson-coach .guide-actions .primary-order small {
+  color: #3b3b2c;
+  font-size: 12px;
+}
+#lesson-coach .guide-actions .guide-restart {
+  min-height: 32px;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: #aebbc1;
+  font-size: 12px;
+}
+[data-tutorial-focus] {
+  outline: 3px solid #ffdc83 !important;
+  outline-offset: 5px !important;
+  box-shadow:
+    0 0 0 8px #ebbd4b22,
+    0 0 24px #f9c95599 !important;
+  animation: guide-breathe 2s ease-in-out infinite;
+}
+.physical-card [data-tutorial-focus] {
+  outline-width: 9px !important;
+  outline-offset: 12px !important;
+  box-shadow: 0 0 25px 10px #ffd76caa !important;
+}
+@keyframes guide-breathe {
+  50% {
+    outline-color: #fff0bc;
+    filter: brightness(1.1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-tutorial-focus] {
+    animation: none;
+  }
+}
+
+/* Inset cost medallions have explicit tracks and an optically stable numeral. */
+.royal-card .card-heading {
+  display: grid;
+  grid-template-columns: 13% minmax(0, 1fr) 10%;
+  gap: 3%;
+  padding: 1% 2.5%;
+}
+.royal-card .coin-gem {
+  position: relative;
+  inset: auto;
+  margin: 0;
+  width: 100%;
+  aspect-ratio: 1;
+  height: auto;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  letter-spacing: 0;
+  line-height: 1;
+  overflow: hidden;
+}
+.royal-card .coin-gem > span {
+  display: block;
+  position: static;
+  margin: 0;
+  padding: 0;
+  font:
+    700 7.2cqw/1 Arial,
+    sans-serif;
+  font-variant-numeric: tabular-nums;
+  transform: none;
+}
+.royal-card .card-name {
+  font-size: 5.35cqw;
+  letter-spacing: -0.015em;
+}
+.royal-card .portrait-window {
+  border-radius: 6% 6% 0 0;
+}
+.royal-card .printed-health {
+  font:
+    4.2cqw/1 Arial,
+    sans-serif;
+  color: #715b41;
+  margin-left: -2cqw;
+}
+.royal-card .resolve-stat.damaged b {
+  color: #a02e21;
+}
+.royal-card[data-face="board"] {
+  grid-template-rows: 12% 70% 6% 12% !important;
+}
+.royal-card[data-face="board"] .card-ability {
+  display: none !important;
+}
+.royal-card[data-face="board"] .role-band {
+  grid-row: 3;
+}
+.royal-card[data-face="board"] .role-band strong {
+  font-size: 4.5cqw;
+}
+.royal-card[data-face="board"] .role-band > span {
+  font-size: 5cqw;
+}
+.royal-card[data-face="board"] .card-foot {
+  grid-row: 4;
+  padding: 0 6%;
+}
+.royal-card[data-face="board"] .card-foot b {
+  font:
+    700 11cqw/1 Arial,
+    sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.royal-card[data-face="board"] .card-set {
+  display: none;
+}
+.royal-card[data-face="board"] .force-stat,
+.royal-card[data-face="board"] .resolve-stat {
+  gap: 3cqw;
+}
+
+.drop-slot {
+  width: 630px;
+  height: 880px;
+  border: 10px dashed #e3c571;
+  border-radius: 24px;
+  background: #e7c15c18;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  color: #ffeba8;
+  text-align: center;
+  font: 600 52px/1.3 Georgia;
+  pointer-events: none;
+}
+.drop-slot.active {
+  border-style: solid;
+  background: #efd27748;
+  box-shadow:
+    0 0 50px #ffd97daa,
+    inset 0 0 50px #efd27755;
+}
+[data-drop-legal] {
+  outline: 4px dashed #e9cb79 !important;
+  outline-offset: 5px;
+}
+[data-drop-current] {
+  outline: 6px solid #ffe099 !important;
+  box-shadow: 0 0 30px #ffce6599 !important;
+}
+.physical-card [data-drop-legal] {
+  outline-width: 9px !important;
+}
+.physical-card [data-drop-current] {
+  outline-width: 14px !important;
+}
+@media (max-width: 760px) {
+  .battle-shell.teaching #lesson-coach {
+    position: relative;
+    inset: auto;
+    width: auto;
+    max-width: none;
+    max-height: 300px;
+    padding: 16px;
+    margin: 8px;
+    border-radius: 10px;
+    gap: 12px;
+  }
+  .battle-shell.teaching .command-rail {
+    display: block;
+    position: relative;
+    grid-row: 4;
+    pointer-events: auto;
+  }
+  .battle-shell.teaching {
+    grid-template-rows: 2.7rem 3rem minmax(360px, 1fr) auto 14rem !important;
+    height: auto;
+    min-height: 100svh;
+  }
+  .battle-shell.teaching .hand-dock {
+    grid-row: 5;
+  }
+  #lesson-coach .guide-body h2 {
+    font-size: 22px;
+  }
+}

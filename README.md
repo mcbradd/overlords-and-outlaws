@@ -17,7 +17,7 @@ A **digital prototype of a physical card-and-board game intended for manufacture
 
 Click or tap a card and use the contextual action panel. Desktop cards have a stable side inspector; on phones, selecting a card brings its actions into view. Mouse-drag a hand card to the table to play it, or drag a Ready Royal toward a target to preview an attack before committing. Touch scrolling never commits a drag action. Hover, touch-hold, or use Inspect card for detail. Click family, gold, crown, estates or forecast to explain their state. Keyboard controls use Tab, Enter and Escape. Sound, motion and coaching can be adjusted.
 
-The game plays on a real Three.js board with shared camera geometry for its printed card faces. Cards have a fixed 63:88 prototype ratio, consistent printed values, cardstock thickness and contact shadows. Crowns, coins, estates, action counters, damage and marriage links occupy the board. Resting cards rotate. Camera buttons move closer to individual courts; narrow screens can pan across the board. The hand and contextual actions remain accessible outside the 3D scene. See [current physical-game direction](docs/PHYSICAL-GAME-DIRECTION.md) and [project memory](MEMORY.md).
+The game plays on a real Three.js board with shared camera geometry for its printed card faces. Cards have a fixed 63:88 prototype ratio, live battlefield stats and inspectable full rules, cardstock thickness and contact shadows. Crowns, coins, estates, action counters, damage and marriage links occupy the board. Resting cards rotate. Camera buttons move closer to individual courts; narrow screens can pan across the board. The hand and contextual actions remain accessible outside the 3D scene. See [current physical-game direction](docs/PHYSICAL-GAME-DIRECTION.md) and [project memory](MEMORY.md).
 
 Research and verification: [16-game UI/UX study](docs/knowledge-base/digital-card-game-ux-research.md) · [redesign report](docs/UI-UX-REDESIGN.md). The study includes three model passes, scoped competitor scores, discrepancies, and outliers. These are qualitative judgments, not measured satisfaction rankings.
 
@@ -76,3 +76,7 @@ Original PDFs stay local in `SourceMaterial/` and are excluded from Git and depl
 V3 uses a new save key, preserves V2 collection/progression/settings, and leaves incompatible old matches under their old key. Historical figures meet across centuries; fictional abilities and generated paintings are interpretations. Some figures share House portrait archetypes. This is a tested prototype, not a verified AAA commercial release.
 
 Original concept and supplied source: © 2025 Malachy Murray. This private repository grants no open-source license to the concept, implementation or art. Dependencies retain their own licenses; see [Third-party credits](docs/THIRD-PARTY.md).
+
+### Guided play
+
+The tutorial is one continuous nine-step match. A single navy/gold guide holds each explanation, combat preview, action and outcome; gold outlines identify the next interaction. Advancing preserves all cards and consequences. Legal drag destinations preview the actual landing or ability target. Battlefield faces intentionally simplify the physical design; full cards remain available on inspection. See [the user-directed presentation exception and tutorial contract](docs/GUIDED-PLAY.md).

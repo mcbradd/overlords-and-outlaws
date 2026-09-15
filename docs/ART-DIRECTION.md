@@ -214,3 +214,7 @@ Constraints: no text, frame, lettering or watermarks.
 ## Current physical-game presentation
 
 The September 15 correction is authoritative: [physical-game creative direction](PHYSICAL-GAME-DIRECTION.md). The current pass reuses the existing chamber, marble board and portrait assets. It adds a Three.js board, cardstock geometry, crowns, coins and estate pieces; a consistent ivory printed face; and restrained gold/blue/red interaction feedback. No new image generation was used in this pass. Portrait crops preserve crowns and faces. The earlier frame and flat lane experiments above remain historical records.
+
+## September 15 follow-up: cards and guidance
+
+Use restrained, inset cost medallions with centered tabular numerals. Battlefield cards prioritize name, art and live stats; keep full rules in the inspection face. This is an explicit user-authorized digital exception to the physical-game premise. Tutorial presentation uses the preferred navy/gold popover treatment as one persistent surface; no parchment duplicate or alternate lesson modal. See [GUIDED-PLAY.md](GUIDED-PLAY.md).
