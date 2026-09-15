@@ -1,0 +1,11 @@
+node_modules/
+dist/
+SourceMaterial/
+tmp/
+artifacts/
+.env*
+!.env.example
+.openai/local*
+playwright-report/
+test-results/
+*.log
