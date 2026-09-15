@@ -1,3 +1,4 @@
+import { assetUrl } from "./assets";
 import { card, house, type Role } from "./content";
 import { ROLES, spec, cost, active, type Royal, type Court } from "./duel";
 export const esc = (s: string) =>
@@ -18,12 +19,12 @@ export const portrait = (id: string) => {
     "bourbon-9": "conde",
   };
   if (card(id).name.includes("Margaret") && card(id).house === "alba")
-    return "/art/v3-margaret.png";
-  if (special[id]) return `/art/v2-${special[id]}.webp`;
+    return assetUrl("art/v3-margaret.png");
+  if (special[id]) return assetUrl(`art/v2-${special[id]}.webp`);
   const c = card(id);
   if (c.role === "Queen")
-    return `/art/${["alba", "valois", "bourbon"].includes(c.house) ? c.house + "-queen" : c.house}.webp`;
-  return `/art/${["plantagenet", "tudor", "habsburg"].includes(c.house) ? c.house + "-king" : c.house}.webp`;
+    return assetUrl(`art/${["alba", "valois", "bourbon"].includes(c.house) ? c.house + "-queen" : c.house}.webp`);
+  return assetUrl(`art/${["plantagenet", "tudor", "habsburg"].includes(c.house) ? c.house + "-king" : c.house}.webp`);
 };
 export function crest(id: string) {
   const h = house(card(id).house);

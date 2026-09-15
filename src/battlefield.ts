@@ -1,3 +1,4 @@
+import { assetUrl } from "./assets";
 import * as THREE from "three";
 import {
   CSS3DRenderer,
@@ -87,7 +88,7 @@ export class Battlefield {
     const fill = new THREE.DirectionalLight(0x7ea7c0, 1.6);
     fill.position.set(12, 8, -6);
     this.scene.add(fill);
-    const tex = new THREE.TextureLoader().load("/art/v2-table.webp");
+    const tex = new THREE.TextureLoader().load(assetUrl("art/v2-table.webp"));
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.anisotropy = this.gl.capabilities.getMaxAnisotropy();
     this.textures.add(tex);

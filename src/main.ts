@@ -1,3 +1,4 @@
+import { assetUrl } from "./assets";
 import "./style.css";
 import "./v3.css";
 import "./table.css";
@@ -169,7 +170,7 @@ function renderChoose() {
       (h) => h !== chosen && !seatHouses.includes(h),
     ),
   ].slice(0, 4);
-  app.innerHTML = `<div class="menu-shell">${header()}<main class="choose-page"><div class="eyebrow">${mode === "family" ? "PASS THE DEVICE. KEEP YOUR SECRETS." : "CHOOSE YOUR INHERITANCE"}</div><h1>${mode === "family" ? "A seat for every generation." : "Every bloodline holds power differently."}</h1><p>${mode === "family" ? "Every House is human-controlled. Private handoffs hide concealed cards between turns and defensive responses." : "Threaten their growth, protect your own, and survive the attention a crown attracts."}</p><div class="house-grid">${HOUSES.map((h) => `<button class="house-choice ${chosen === h.id ? "chosen" : ""}" data-house="${h.id}" ${mode === "daily" ? "disabled" : ""} style="--house:${h.color}"><img src="/art/${h.id}.webp" alt="${h.leader}"><span>${crest(CARDS.find((c) => c.house === h.id)!.id)}</span><div><small>${h.region}</small><h2>${h.name}</h2><p>${HOUSE_RULES[h.id].trait}</p></div></button>`).join("")}</div><p class="turn-order-note">First to act: ${house(chosen).name}. Turns proceed clockwise through the displayed seats.</p><div class="seat-roster">${
+  app.innerHTML = `<div class="menu-shell">${header()}<main class="choose-page"><div class="eyebrow">${mode === "family" ? "PASS THE DEVICE. KEEP YOUR SECRETS." : "CHOOSE YOUR INHERITANCE"}</div><h1>${mode === "family" ? "A seat for every generation." : "Every bloodline holds power differently."}</h1><p>${mode === "family" ? "Every House is human-controlled. Private handoffs hide concealed cards between turns and defensive responses." : "Threaten their growth, protect your own, and survive the attention a crown attracts."}</p><div class="house-grid">${HOUSES.map((h) => `<button class="house-choice ${chosen === h.id ? "chosen" : ""}" data-house="${h.id}" ${mode === "daily" ? "disabled" : ""} style="--house:${h.color}"><img src="${assetUrl(`art/${h.id}.webp`)}" alt="${h.leader}"><span>${crest(CARDS.find((c) => c.house === h.id)!.id)}</span><div><small>${h.region}</small><h2>${h.name}</h2><p>${HOUSE_RULES[h.id].trait}</p></div></button>`).join("")}</div><p class="turn-order-note">First to act: ${house(chosen).name}. Turns proceed clockwise through the displayed seats.</p><div class="seat-roster">${
     mode === "family"
       ? seatHouses
           .slice(1, seats)
@@ -249,7 +250,7 @@ function map() {
       : run.act === 1
         ? ["habsburg", "tudor"]
         : ["bourbon", "valois"];
-  app.innerHTML = `<div class="menu-shell">${header()}<main class="map-page"><div class="eyebrow">${house(run.house).name.toUpperCase()} · COURT ${run.act + 1} OF 3</div><h1>${["The first claim.", "The price of an alliance.", "The weight of the crown."][run.act]}</h1><p>Three Houses share each table. Choose the leading rival’s style.</p><div class="path-progress">${[1, 2, 3].map((n) => `<span class="${n <= run.act + 1 ? "active" : ""}">${n}<small>${["INHERITANCE", "AMBITION", "LEGACY"][n - 1]}</small></span>`).join("")}</div><div class="road-grid">${choices.map((h) => `<button data-encounter="${h}"><img src="/art/${h}.webp" alt=""><div><small>${HOUSE_RULES[h].policy.toUpperCase()}</small><h2>The ${house(h).name} court</h2><p>${HOUSE_RULES[h].text}</p><b>Enter this court →</b></div></button>`).join("")}</div><div class="heirlooms">${run.relics.map((id) => RELICS.find((r) => r.id === id)!.name).join(" · ") || "Your first victory earns an heirloom."}</div></main></div>`;
+  app.innerHTML = `<div class="menu-shell">${header()}<main class="map-page"><div class="eyebrow">${house(run.house).name.toUpperCase()} · COURT ${run.act + 1} OF 3</div><h1>${["The first claim.", "The price of an alliance.", "The weight of the crown."][run.act]}</h1><p>Three Houses share each table. Choose the leading rival’s style.</p><div class="path-progress">${[1, 2, 3].map((n) => `<span class="${n <= run.act + 1 ? "active" : ""}">${n}<small>${["INHERITANCE", "AMBITION", "LEGACY"][n - 1]}</small></span>`).join("")}</div><div class="road-grid">${choices.map((h) => `<button data-encounter="${h}"><img src="${assetUrl(`art/${h}.webp`)}" alt=""><div><small>${HOUSE_RULES[h].policy.toUpperCase()}</small><h2>The ${house(h).name} court</h2><p>${HOUSE_RULES[h].text}</p><b>Enter this court →</b></div></button>`).join("")}</div><div class="heirlooms">${run.relics.map((id) => RELICS.find((r) => r.id === id)!.name).join(" · ") || "Your first victory earns an heirloom."}</div></main></div>`;
 }
 function encounter(rival: HouseId) {
   const r = profile.run!;
@@ -1189,7 +1190,7 @@ document.addEventListener("click", (e) => {
     const f = forecast(g);
     modal(
       "History forecast",
-      `<div class="eyebrow">PUBLIC FORECAST · ${f.in} ROUNDS</div><h2>${f.name}</h2><p>${f.text}</p><div class="painting-gallery">${PAINTINGS.map((p, i) => `<article><div class="painting-image" style="background-image:url(/art/${["witness", "wolves", "last-witness"][i]}.webp)">${Array.from({ length: 9 }, (_, n) => `<i class="${n < paintingCounts(g!)[i] ? "revealed" : ""}"></i>`).join("")}</div><h3>${p}</h3><p>${paintingCounts(g!)[i]} revealed · nine completes the painting</p></article>`).join("")}</div><p>Eudoxia reveals one fragment after everyone has taken a turn. The paintings fill in rotation. If any painting completes before a House wins the crown, every House loses. Nothing advances while you think.</p>`,
+      `<div class="eyebrow">PUBLIC FORECAST · ${f.in} ROUNDS</div><h2>${f.name}</h2><p>${f.text}</p><div class="painting-gallery">${PAINTINGS.map((p, i) => `<article><div class="painting-image" style="background-image:url(${assetUrl(`art/${["witness", "wolves", "last-witness"][i]}.webp`)})">${Array.from({ length: 9 }, (_, n) => `<i class="${n < paintingCounts(g!)[i] ? "revealed" : ""}"></i>`).join("")}</div><h3>${p}</h3><p>${paintingCounts(g!)[i]} revealed · nine completes the painting</p></article>`).join("")}</div><p>Eudoxia reveals one fragment after everyone has taken a turn. The paintings fill in rotation. If any painting completes before a House wins the crown, every House loses. Nothing advances while you think.</p>`,
     );
     return;
   }

@@ -13,7 +13,7 @@ A **digital prototype of a physical card-and-board game intended for manufacture
 - **Daily table:** a fixed UTC-day seed and House.
 - **Archive:** 84 named historical Royals across six Houses.
 
-[Play the published game](https://overlords-and-outlaws-mcbradd.braddicus.chatgpt.site/) · [Private GitHub repository](https://github.com/mcbradd/overlords-and-outlaws)
+[Play the prototype on GitHub Pages](https://mcbradd.github.io/overlords-and-outlaws/) · [GitHub repository](https://github.com/mcbradd/overlords-and-outlaws)
 
 Click or tap a card and use the contextual action panel. Desktop cards have a stable side inspector; on phones, selecting a card brings its actions into view. Mouse-drag a hand card to the table to play it, or drag a Ready Royal toward a target to preview an attack before committing. Touch scrolling never commits a drag action. Hover, touch-hold, or use Inspect card for detail. Click family, gold, crown, estates or forecast to explain their state. Keyboard controls use Tab, Enter and Escape. Sound, motion and coaching can be adjusted.
 
@@ -50,6 +50,20 @@ npx tsx scripts/family-browser.ts --compact --four --estate
 ```
 
 `test:audit` performs 200 complete games plus counterfactual terminal rollouts. It is a diagnostic of choices, not a human enjoyment score. V3 reports and screenshots use ignored `artifacts/v3/`; some retained family scripts use `artifacts/v2/`. Checked-in audit evidence is under `docs/testing/`.
+
+## GitHub Pages deployment
+
+Work and verify locally, then push to `main`. The `Deploy prototype to GitHub Pages` workflow runs the rules and UI tests, builds the prototype, and publishes `dist/`. GitHub Pages must use **GitHub Actions** as its source. The workflow can also be started manually.
+
+The build reads `PAGES_BASE_PATH` for the repository subfolder; ordinary local builds default to `/`. Runtime artwork URLs use the same base as Vite's generated scripts and styles. To preview the Pages build in PowerShell:
+
+```powershell
+$env:PAGES_BASE_PATH = '/overlords-and-outlaws/'
+npm run build
+npm run preview
+# Open http://localhost:4173/overlords-and-outlaws/
+Remove-Item Env:PAGES_BASE_PATH
+```
 
 ## Project map
 
