@@ -34,7 +34,7 @@ try {
   await expect(p.locator(".hand-card")).toHaveCount(7);
   await p.locator(".hand-card").last().hover();
   await p.waitForTimeout(500);
-  const fit = await p.locator("#hover-inspector").evaluate((el) => {
+  const fit = await p.locator("#card-detail").evaluate((el) => {
     const r = el.getBoundingClientRect();
     return (
       r.left >= 0 &&
@@ -74,25 +74,19 @@ try {
       ),
     )
     .toBe(1);
-  await p
-    .locator(".hand-card")
-    .first()
-    .dispatchEvent("pointerdown", {
-      pointerType: "touch",
-      clientX: 300,
-      clientY: 700,
-    });
+  await p.locator(".hand-card").first().dispatchEvent("pointerdown", {
+    pointerType: "touch",
+    clientX: 300,
+    clientY: 700,
+  });
   await p.waitForTimeout(500);
-  await expect(p.locator("#hover-inspector")).toBeVisible();
-  await p
-    .locator(".hand-card")
-    .first()
-    .dispatchEvent("pointerup", {
-      pointerType: "touch",
-      clientX: 300,
-      clientY: 700,
-    });
-  await expect(p.locator("#hover-inspector")).toBeHidden();
+  await expect(p.locator("#card-detail")).toBeVisible();
+  await p.locator(".hand-card").first().dispatchEvent("pointerup", {
+    pointerType: "touch",
+    clientX: 300,
+    clientY: 700,
+  });
+  await expect(p.locator("#card-detail")).toBeEmpty();
   await p.waitForTimeout(1100);
   await p.locator('[data-target="crown-0"]').click();
   await expect(p.locator(".modal")).toContainText("separate from every Royal");

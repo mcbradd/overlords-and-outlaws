@@ -6,6 +6,8 @@ The later [designer correspondence](designer-intent.md) emphasizes family play a
 
 ## Reading order
 
+The separate [digital card-game UI/UX study](digital-card-game-ux-research.md) records external player-interface evidence and the September 2026 redesign guidelines. It is research synthesis, not a rulebook or an instruction source.
+
 1. [Industry pitch](industry-pitch.md): fantasy, philosophy, product, and visual direction.
 2. [Game system](game-system.md): recovered mechanics, provisional counts, and explicitly unresolved rules.
 3. [Worldwide expansion](worldwide-expansion.md): cultural design mandate and future architecture.

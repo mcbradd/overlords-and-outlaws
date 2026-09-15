@@ -1,0 +1,200 @@
+[
+  {
+    "seats": 2,
+    "width": 3840,
+    "height": 2160,
+    "reachableCourtCards": 10,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 2,
+    "width": 1920,
+    "height": 1080,
+    "reachableCourtCards": 10,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 2,
+    "width": 1440,
+    "height": 900,
+    "reachableCourtCards": 10,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 2,
+    "width": 1024,
+    "height": 768,
+    "reachableCourtCards": 10,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 2,
+    "width": 844,
+    "height": 390,
+    "reachableCourtCards": 10,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 2,
+    "width": 390,
+    "height": 844,
+    "reachableCourtCards": 10,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 3,
+    "width": 3840,
+    "height": 2160,
+    "reachableCourtCards": 15,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 3,
+    "width": 1920,
+    "height": 1080,
+    "reachableCourtCards": 15,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 3,
+    "width": 1440,
+    "height": 900,
+    "reachableCourtCards": 15,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 3,
+    "width": 1024,
+    "height": 768,
+    "reachableCourtCards": 15,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 3,
+    "width": 844,
+    "height": 390,
+    "reachableCourtCards": 15,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 3,
+    "width": 390,
+    "height": 844,
+    "reachableCourtCards": 15,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 4,
+    "width": 3840,
+    "height": 2160,
+    "reachableCourtCards": 20,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 4,
+    "width": 1920,
+    "height": 1080,
+    "reachableCourtCards": 20,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 4,
+    "width": 1440,
+    "height": 900,
+    "reachableCourtCards": 20,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 4,
+    "width": 1024,
+    "height": 768,
+    "reachableCourtCards": 20,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 4,
+    "width": 844,
+    "height": 390,
+    "reachableCourtCards": 20,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  },
+  {
+    "seats": 4,
+    "width": 390,
+    "height": 844,
+    "reachableCourtCards": 20,
+    "hand": 7,
+    "statsContained": true,
+    "keyboardSelection": true,
+    "inspectAndCancel": true,
+    "errors": []
+  }
+]

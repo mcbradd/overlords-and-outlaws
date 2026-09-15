@@ -12,13 +12,13 @@ import {
 export const LESSONS = [
   {
     title: "A seat at the table",
-    text: "You are House Alba, nearest you. Your cards are Royals; those in your hand are concealed Outlaws. Select David I, then play him into your court. It costs 2 gold and one of your two orders. Guardians enter upright and protect your other pieces.",
+    text: "You are House Alba, nearest you. Your cards are Royals; those in your hand are concealed Outlaws. Select David I, then play him into your court. It costs 2 gold and one of your two orders. Guardians enter Ready and protect your other pieces.",
     task: "Play your Guardian",
     types: ["deploy"],
   },
   {
     title: "See the outcome before you act",
-    text: "Upright Royals can attack. Most Royals enter sideways; Guardians and Swift Commanders enter upright. Turned Royals wait until your next turn, but can still defend themselves. At the start of your turn, clear damage and turn your Royals upright. Select your Founder, then the rival Guardian. The preview shows damage to both cards. With no gold, this rival cannot interrupt.",
+    text: "Ready Royals can attack. Most Royals enter Resting; Guardians and Swift Commanders enter Ready. Resting Royals wait until your next turn, but can still defend themselves. At the start of your turn, clear damage and ready your Royals. Select your Founder, then the rival Guardian. The preview shows damage to both cards. With no gold, this rival cannot interrupt.",
     task: "Attack the Guardian",
     types: ["attack"],
   },

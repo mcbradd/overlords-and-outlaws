@@ -1,5 +1,6 @@
 import "./style.css";
 import "./v3.css";
+import "./table.css";
 import { describeAction, COIN } from "./action-view";
 import {
   LESSONS,
@@ -38,7 +39,7 @@ import {
   type Response,
 } from "./duel";
 import type { Battlefield } from "./battlefield";
-import { cardFace, abilityFor, crest, esc } from "./cards";
+import { cardFace, abilityFor, crest, esc, portrait } from "./cards";
 import { readProgress, saveProgress } from "./progress";
 import { setSound, unlockAudio, sfx } from "./audio";
 
@@ -262,7 +263,7 @@ function targets() {
 }
 async function mountBoard() {
   field?.dispose();
-  app.innerHTML = `<div class="battle-shell"><header class="battle-top"><button class="small-brand" data-home>♛ <span>OVERLORDS & OUTLAWS</span></button><div class="objective">THREE FAMILY ROYALS · WITHSTAND EVERY HOUSE</div><div><button data-rules aria-label="How to play">?</button><button data-settings aria-label="Settings">⚙</button><button data-save>Save & leave</button></div></header><div id="scoreboard" class="scoreboard"></div><main class="table-zone"><div class="arena-column"><div class="arena-label"><span id="turn-label"></span><span id="history-label"></span></div><div id="arena" class="arena"></div><div id="event-focus" class="event-focus" aria-live="polite"></div></div></main><div id="lesson-coach"></div><aside id="decision-panel" class="decision-panel"></aside><section id="hand-dock" class="hand-dock"></section><div id="hover-inspector"></div><svg id="target-arrow" aria-hidden="true"></svg><div id="handoff-layer"></div><div id="battle-banner" aria-live="assertive"></div></div>`;
+  app.innerHTML = `<div class="battle-shell"><header class="battle-top"><button class="small-brand" data-home>♛ <span>OVERLORDS & OUTLAWS</span></button><div class="objective">THREE FAMILY ROYALS · WITHSTAND EVERY HOUSE</div><div><button data-rules aria-label="How to play">?</button><button data-settings aria-label="Settings">⚙</button><button data-save>Save & leave</button></div></header><div id="scoreboard" class="scoreboard"></div><main class="table-zone"><div class="arena-column"><div class="arena-label"><span id="turn-label"></span><span id="history-label"></span></div><div id="arena" class="arena"></div><div id="event-focus" class="event-focus" aria-live="polite"></div></div></main><aside class="command-rail" aria-label="Card details and actions"><div id="lesson-coach"></div><div id="card-detail"></div><div id="decision-panel" class="decision-panel"></div></aside><section id="hand-dock" class="hand-dock"></section><div id="hover-inspector"></div><svg id="target-arrow" aria-hidden="true"></svg><div id="handoff-layer"></div><div id="battle-banner" aria-live="assertive"></div></div>`;
   field = null;
   renderBoard();
   const token = epoch;
@@ -273,6 +274,10 @@ async function mountBoard() {
 }
 function renderBoard() {
   if (!g || screen !== "board") return;
+  const focusedRoyal =
+    document.activeElement instanceof HTMLElement
+      ? document.activeElement.dataset.royal
+      : undefined;
   effects();
   const t = targets();
   const board = document.querySelector("#scoreboard")!;
@@ -280,7 +285,7 @@ function renderBoard() {
   board.innerHTML = g.players
     .map(
       (p) =>
-        `<section class="court-score ${p.id === viewer ? "you" : ""} ${!g!.over && g!.turn === p.id ? "current" : ""} ${p.claim ? "claiming" : ""}" data-score="${p.id}" style="--house:${house(p.house).color}"><div class="house-identity"><span class="house-crest">${crest(CARDS.find((c) => c.house === p.house)!.id)}</span><div><small>${p.id === viewer ? "YOU" : p.human ? "FAMILY PLAYER" : "RIVAL HOUSE"}</small><strong>${house(p.house).name}</strong></div></div><button class="crown-piece ${t.includes("crown-" + p.id) ? "targetable" : ""}" data-target="crown-${p.id}" aria-label="${house(p.house).name} crown, ${p.stability} stability"><span>♛</span><b>${p.stability}</b><small>STABILITY</small>${p.shield ? `<i>⛨ ${p.shield}</i>` : ""}</button><div class="public-family"><button data-family="${p.id}">${dynastyCount(p)} family Royals</button><small>${g!.over ? (g!.winner === p.id ? "DYNASTY SECURED" : g!.winner === -1 ? "EUDOXIA PREVAILS" : "GAME COMPLETE") : p.claim ? "CLAIM ACTIVE" : dynastyCount(p) >= 3 ? "Eligible to claim" : "Need three to claim"}</small><span class="response-chip ${p.response ? "" : "spent"}" title="One paid response per rival turn">◈ RESPONSE</span><div class="rival-backs">${p.hand.map(() => "<i></i>").join("")}</div></div><div class="estate-zone">${Array.from({ length: p.estates }, () => `<button class="estate-piece ${t.includes("estate-" + p.id) ? "targetable" : ""}" data-target="estate-${p.id}" aria-label="${house(p.house).name} estate">⌂<small>+2 ${COIN}</small></button>`).join("")}<button class="public-money" data-economy="${p.id}">${COIN} ${p.gold}<small>Income ${income(p) >= 0 ? "+" : ""}${income(p)}</small></button></div>${p.claim ? `<div class="public-claim">TO CONTEST: ${p.challengers.map((id) => house(g!.players[id].house).name).join(" · ")}</div>` : ""}</section>`,
+        `<section class="court-score ${p.id === viewer ? "you" : ""} ${!g!.over && g!.turn === p.id ? "current" : ""} ${p.claim ? "claiming" : ""}" data-score="${p.id}" style="--house:${house(p.house).color}"><div class="house-identity"><span class="house-crest">${crest(CARDS.find((c) => c.house === p.house)!.id)}</span><div><small>${p.id === viewer ? "YOU" : p.human ? "FAMILY PLAYER" : "RIVAL HOUSE"}</small><strong>${house(p.house).name}</strong></div></div><button class="crown-piece ${t.includes("crown-" + p.id) ? "targetable" : ""}" data-target="crown-${p.id}" aria-label="${house(p.house).name} crown, ${p.stability} stability"><span>♛</span><b>${p.stability}</b><small>STABILITY</small>${p.shield ? `<i>⛨ ${p.shield}</i>` : ""}</button><div class="public-family"><button data-family="${p.id}">${dynastyCount(p)} family Royals</button><small>${g!.over ? (g!.winner === p.id ? "DYNASTY SECURED" : g!.winner === -1 ? "EUDOXIA PREVAILS" : "GAME COMPLETE") : p.claim ? "CLAIM ACTIVE" : dynastyCount(p) >= 3 ? "Eligible to claim" : "Need three to claim"}</small><span class="response-chip ${p.response ? "" : "spent"}" title="One paid response per rival turn">◈ RESPONSE</span><div class="rival-backs">${p.hand.length} in hand</div></div><div class="estate-zone">${Array.from({ length: p.estates }, () => `<button class="estate-piece ${t.includes("estate-" + p.id) ? "targetable" : ""}" data-target="estate-${p.id}" aria-label="${house(p.house).name} estate">⌂<small>+2 ${COIN}</small></button>`).join("")}<button class="public-money" data-economy="${p.id}">${COIN} ${p.gold}<small>Income ${income(p) >= 0 ? "+" : ""}${income(p)}</small></button></div>${p.claim ? `<div class="public-claim">TO CONTEST: ${p.challengers.map((id) => house(g!.players[id].house).name).join(" · ")}</div>` : ""}</section>`,
     )
     .join("");
   const f = forecast(g);
@@ -307,16 +312,29 @@ function renderBoard() {
   field?.sync(g, selected, t, viewer);
   drawTargetArrow();
   renderLesson();
+  renderCardDetail();
+  if (focusedRoyal)
+    [
+      ...document.querySelectorAll<HTMLElement>(
+        ".arena [data-royal],.hand-cards [data-royal]",
+      ),
+    ]
+      .find((el) => el.dataset.royal === focusedRoyal)
+      ?.focus({ preventScroll: true });
   if (g.over && g.mode !== "lesson") results();
 }
 function renderHand() {
   if (!g) return;
+  const scrollLeft = document.querySelector(".hand-cards")?.scrollLeft ?? 0;
   const p = g.players[viewer];
+  document
+    .querySelector(".battle-shell")
+    ?.classList.toggle("hand-empty", p.hand.length === 0);
   page = Math.min(page, Math.max(0, Math.ceil(p.hand.length / 5) - 1));
   const canPlay =
     g.turn === viewer && !busy && !g.pending && !locked && !g.over;
   document.querySelector("#hand-dock")!.innerHTML =
-    `<div class="hand-topline"><div><span class="eyebrow">${house(p.house).name.toUpperCase()} · YOUR HAND</span><small>Select a card to act · hover or hold to inspect</small></div><div class="turn-tools"><span class="gold-count">${COIN} ${p.gold}<small>GOLD</small></span><span class="order-count">${[0, 1].map((i) => `<i class="order-token ${i < (g!.turn === viewer ? g!.orders : 0) ? "" : "spent"}">${i + 1}</i>`).join("")}<small>ORDERS</small></span><button class="hint" data-hint ${!canPlay ? "disabled" : ""}>Suggest a plan</button><button class="end-turn" data-end ${!canPlay ? "disabled" : ""}>End turn →</button></div></div><div class="hand-cards" data-card-area="hand">${
+    `<div class="hand-topline"><div><span class="eyebrow">${house(p.house).name.toUpperCase()} · YOUR HAND · ${p.hand.length}</span><small>Select a card to act · hover or hold to inspect</small></div><div class="turn-tools"><span class="gold-count">${COIN} ${p.gold}<small>GOLD</small></span><span class="order-count">${[0, 1].map((i) => `<i class="order-token ${i < (g!.turn === viewer ? g!.orders : 0) ? "" : "spent"}">${i + 1}</i>`).join("")}<small>ORDERS</small></span><button class="hint" data-hint ${!canPlay ? "disabled" : ""}>Suggest a plan</button><button class="end-turn" data-end ${!canPlay ? "disabled" : ""}>End turn →</button></div></div><div class="hand-cards" data-card-area="hand">${
       locked
         ? '<div class="empty-hand">The hand is concealed.</div>'
         : p.hand
@@ -328,8 +346,10 @@ function renderHand() {
                 selected: selected === r.uid,
               }),
             )
-            .join("")
+            .join("") ||
+          '<div class="empty-hand">Your hand is empty. Draw at the start of your next turn.</div>'
     }</div><div class="pile-zones"><button data-pile="deck">▧<small>DRAW ${p.deck.length}</small></button><button data-pile="discard">▤<small>DISCARD ${p.discard.length}</small></button></div>`;
+  document.querySelector(".hand-cards")!.scrollLeft = scrollLeft;
 }
 function order(move: Move, _label = "", _detail = "", cls = "") {
   const v = describeAction(g!, move, viewer);
@@ -350,6 +370,12 @@ function renderDecision() {
     r = selected ? royalById(selected) : undefined;
   const inHand = r && p.hand.includes(r),
     own = r && p.court.includes(r);
+  document
+    .querySelector(".battle-shell")
+    ?.setAttribute(
+      "data-decision",
+      r || g.pending || g.over ? "active" : "idle",
+    );
   let html = "";
   if (g.over) {
     html = `<div class="action-context"><small>GAME COMPLETE</small><strong>${g.winner === -1 ? "Eudoxia completed a painting" : house(g.players[g.winner!].house).name + " held the crown"}</strong><p>${esc(g.reason)}</p></div><div class="dock-actions"><button class="order-button" data-log>Read the final chronicle</button></div>`;
@@ -369,9 +395,9 @@ function renderDecision() {
   } else if (r) {
     const action: Move = { type: inHand ? "deploy" : "recall", uid: r.uid };
     const v = describeAction(g, action, viewer);
-    html = `<div class="action-context"><small>${inHand ? "FROM YOUR HAND" : own ? "YOUR COURT" : "RIVAL COURT"}</small><strong>${esc(card(r.card).name)}</strong><p>${inHand ? esc(v.effect) : own ? (g.orders === 0 ? "No orders left — end your turn." : r.ready ? "Choose a highlighted rival piece to attack." : "Turned sideways: can defend, but cannot attack until your next turn.") : "Select an upright Royal in your court to attack."}</p></div><div class="dock-actions">${inHand ? order(action, "", "", "primary-order") + (card(r.card).house !== p.house ? order({ type: "marry", uid: r.uid }) : "") : own ? order(action) : ""}<button class="order-button inspect-trigger" data-inspect="${r.card}">Inspect card</button><button class="order-button" data-manage>Back</button></div>`;
+    html = `<div class="action-context"><small>${inHand ? "FROM YOUR HAND" : own ? "YOUR COURT" : "RIVAL COURT"}</small><strong>${esc(card(r.card).name)}</strong><p>${inHand ? esc(v.effect) : own ? (g.orders === 0 ? "No orders left — end your turn." : r.ready ? "Choose a highlighted rival piece to attack." : "Resting: can defend, but cannot attack until your next turn.") : "Select a Ready Royal in your court to attack."}</p></div><div class="dock-actions">${inHand ? order(action, "", "", "primary-order") + (card(r.card).house !== p.house ? order({ type: "marry", uid: r.uid }) : "") : own ? order(action) : ""}<button class="order-button inspect-trigger" data-inspect="${r.card}">Inspect card</button><button class="order-button" data-manage>Back</button></div>`;
   } else {
-    html = `<div class="action-context"><small>${g.turn === viewer ? "YOUR NEXT MOVE" : house(g.players[g.turn].house).name.toUpperCase() + " IS ACTING"}</small><strong>${g.turn !== viewer ? "Watch the table" : g.orders === 0 ? "No orders left. End your turn." : p.claim ? "Defend your claim" : "Play a Royal or manage your House"}</strong><p>${p.claim ? "Still to contest: " + p.challengers.map((id) => house(g!.players[id].house).name).join(" · ") : "Select a card in your hand to play it, or an upright Royal to attack."}</p></div><div class="dock-actions">${order({ type: "estate" })}${order({ type: "fortify" })}${order({ type: "restore" })}${order({ type: "recruit" })}${order({ type: "claim" }, "", "", "claim-button")}</div>`;
+    html = `<div class="action-context"><small>${g.turn === viewer ? "YOUR NEXT MOVE" : house(g.players[g.turn].house).name.toUpperCase() + " IS ACTING"}</small><strong>${g.turn !== viewer ? "Watch the table" : g.orders === 0 ? "No orders left. End your turn." : p.claim ? "Defend your claim" : "Play a Royal or manage your House"}</strong><p>${p.claim ? "Still to contest: " + p.challengers.map((id) => house(g!.players[id].house).name).join(" · ") : "Select a card in your hand to play it, or a Ready Royal to attack."}</p></div><div class="dock-actions">${order({ type: "estate" })}${order({ type: "fortify" })}${order({ type: "restore" })}${order({ type: "recruit" })}${order({ type: "claim" }, "", "", "claim-button")}</div>`;
   }
   document.querySelector("#decision-panel")!.innerHTML = html;
 }
@@ -477,7 +503,7 @@ async function present(events: Moment[]) {
           clearTimeout(timer);
           resolve();
         };
-        const delay = profile.coaching ? 3200 : 1400;
+        const delay = !profile.motion ? 180 : profile.coaching ? 1000 : 600;
         if (el) el.style.setProperty("--announcement-time", delay + "ms");
         const timer = setTimeout(finish, delay);
         if (el) el.onclick = finish;
@@ -660,9 +686,14 @@ function inspect(id: string) {
   const current = g?.players
     .flatMap((p) => p.court.concat(p.id === viewer ? p.hand : []))
     .find((r) => r.card === id);
+  const controller =
+    current &&
+    g?.players.find(
+      (p) => p.court.includes(current) || p.hand.includes(current),
+    );
   modal(
     c.name,
-    `<div class="inspect-layout"><div>${cardFace(current ?? { uid: "inspect", card: id, hp: spec(id).resolve, ready: false }, { zone: "inspect-card" })}</div><article><div class="eyebrow">${h.region} · ${h.name.toUpperCase()}</div><h2>${esc(c.name)}</h2><em>${esc(c.epithet)}</em><p>${ROLES[c.role].ability}</p><dl><dt>◉ Gold</dt><dd>Cost to expose, plus one order.</dd><dt>⚔ Attack</dt><dd>Damage dealt. Royals retaliate simultaneously.</dd><dt>♥ Health</dt><dd>At zero, this Royal leaves the court. Survivors recover full health when their House’s turn begins.</dd></dl><h3>${HOUSE_RULES[h.id].trait}</h3><p>${HOUSE_RULES[h.id].text}</p></article></div>`,
+    `<div class="inspect-layout"><div>${cardFace(current ?? { uid: "inspect", card: id, hp: spec(id).resolve, ready: false }, { zone: "inspect-card", owner: controller })}</div><article><div class="eyebrow">${h.region} · ${h.name.toUpperCase()}</div><h2>${esc(c.name)}</h2><em>${esc(c.epithet)}</em><p>${current ? abilityFor(current, controller) : ROLES[c.role].ability}</p><dl><dt>◉ Gold</dt><dd>Cost to expose, plus one order.</dd><dt>⚔ Attack</dt><dd>Damage dealt. Royals retaliate simultaneously.</dd><dt>♥ Health</dt><dd>At zero, this Royal leaves the court. Survivors recover full health when their House’s turn begins.</dd></dl><h3>${HOUSE_RULES[h.id].trait}</h3><p>${HOUSE_RULES[h.id].text}</p></article></div>`,
     "wide",
   );
 }
@@ -715,14 +746,14 @@ function economySheet(id: number) {
 function rules() {
   modal(
     "How to play",
-    `<div class="eyebrow">RULES OF THE TABLE</div><h2>How to hold a dynasty.</h2><div class="rules-grid"><article><h3>Your turn</h3><p>Start with 5 gold. At each own turn, recover your Royals to full health and draw toward five cards. Income starts in round two. Use two orders. Play, marry, attack, build an estate, protect your crown, renew your hand, return a Royal, or claim the crown. Each costs one order; gold costs are shown. End early to conserve gold for responses.</p></article><article><h3>The crown victory</h3><p>Gather <b>three family Royals</b>: native Royals or foreign Royals married through a supported Queen. Pay tribute equal to the play costs of your exposed Royals. <b>Each rival House gets one full challenge turn.</b> If three family Royals remain after all have acted, win. Losing the declaration or suffering succession collapse breaks the claim. Tribute is spent even if the claim fails.</p></article><article><h3>Attacks and responses</h3><p>Select an upright Royal and a highlighted target. Guardians enter upright. Upright Guardians must be attacked first. Turned Guardians do not protect other pieces. Both Royals deal damage. Once per rival turn: Brace for 2 gold (block 2), or spend 2 gold and a hidden Conspirator to Ambush (deal 3 first). Surviving attackers capture depleted defenders.</p></article><article><h3>Wealth and fragility</h3><p>Base income: 4 gold. Stewards add 1; estates add 2 and can be raided. Each Royal beyond three costs 1 upkeep; each foreign marriage adds 1. Five court seats; seven maximum hand cards. Shields protect the crown, not income pieces.</p></article><article><h3>Marriage and succession</h3><p>Each Queen in your family can marry one foreign Royal from your hand. Its income depends on her. Supported spouses count toward your dynasty; unsupported foreigners do not. Losing a Queen can break several links at once. At zero stability: lose a Royal and estate, break marriages, recover to 8. Collapse itself does not end the contest.</p></article><article><h3>History and the Witness</h3><p>In full games and the final lesson, forecast history occurs every fourth completed round. Each round adds one fragment, cycling between three paintings. If a painting reaches nine fragments before any House wins the crown, every House loses. Claims resolve after history and before a simultaneous Witness deadline.</p></article></div><p>Click/tap to select; ↗ or hover or hold to inspect. Keyboard: Tab, Enter, Escape. Family mode uses private handoffs on one shared device.</p>`,
+    `<div class="eyebrow">RULES OF THE TABLE</div><h2>How to hold a dynasty.</h2><div class="rules-grid"><article><h3>Your turn</h3><p>Start with 5 gold. At each own turn, recover your Royals to full health and draw toward five cards. Income starts in round two. Use two orders. Play, marry, attack, build an estate, protect your crown, renew your hand, return a Royal, or claim the crown. Each costs one order; gold costs are shown. End early to conserve gold for responses.</p></article><article><h3>The crown victory</h3><p>Gather <b>three family Royals</b>: native Royals or foreign Royals married through a supported Queen. Pay tribute equal to the play costs of your exposed Royals. <b>Each rival House gets one full challenge turn.</b> If three family Royals remain after all have acted, win. Losing the declaration or suffering succession collapse breaks the claim. Tribute is spent even if the claim fails.</p></article><article><h3>Attacks and responses</h3><p>Select a Ready Royal and a highlighted target. Guardians enter upright. Ready Guardians must be attacked first. Resting Guardians do not protect other pieces. Both Royals deal damage. Once per rival turn: Brace for 2 gold (block 2), or spend 2 gold and a hidden Conspirator to Ambush (deal 3 first). Surviving attackers capture depleted defenders.</p></article><article><h3>Wealth and fragility</h3><p>Base income: 4 gold. Stewards add 1; estates add 2 and can be raided. Each Royal beyond three costs 1 upkeep; each foreign marriage adds 1. Five court seats; seven maximum hand cards. Shields protect the crown, not income pieces.</p></article><article><h3>Marriage and succession</h3><p>Each Queen in your family can marry one foreign Royal from your hand. Its income depends on her. Supported spouses count toward your dynasty; unsupported foreigners do not. Losing a Queen can break several links at once. At zero stability: lose a Royal and estate, break marriages, recover to 8. Collapse itself does not end the contest.</p></article><article><h3>History and the Witness</h3><p>In full games and the final lesson, forecast history occurs every fourth completed round. Each round adds one fragment, cycling between three paintings. If a painting reaches nine fragments before any House wins the crown, every House loses. Claims resolve after history and before a simultaneous Witness deadline.</p></article></div><p>Click/tap to select; ↗ or hover or hold to inspect. Keyboard: Tab, Enter, Escape. Family mode uses private handoffs on one shared device.</p>`,
     "wide",
   );
 }
 function settings() {
   modal(
     "Settings",
-    `<div class="eyebrow">YOUR TABLE</div><h2>The chamber, your way.</h2>${(["sound", "motion", "coaching"] as const).map((k) => `<div class="setting"><div><h3>${k === "sound" ? "Sound & atmosphere" : k === "motion" ? "Motion & spectacle" : "Explain the strategy"}</h3><p>${k === "sound" ? "Synthesized ambience and responsive effects." : k === "motion" ? "3D movement, particles and impacts. Off is faster and calmer." : "Explain why moves matter beside the battlefield."}</p></div><button data-toggle="${k}" aria-pressed="${profile[k]}">${profile[k] ? "On" : "Off"}</button></div>`).join("")}<p class="muted">Progress saves in this browser. Family mode uses a shared device; online multiplayer is not included.</p>`,
+    `<div class="eyebrow">YOUR TABLE</div><h2>The chamber, your way.</h2>${(["sound", "motion", "coaching"] as const).map((k) => `<div class="setting"><div><h3>${k === "sound" ? "Sound & atmosphere" : k === "motion" ? "Motion & spectacle" : "Explain the strategy"}</h3><p>${k === "sound" ? "Synthesized ambience and responsive effects." : k === "motion" ? "Brief card movement and action feedback. Off is faster and calmer." : "Explain why moves matter beside the battlefield."}</p></div><button data-toggle="${k}" aria-pressed="${profile[k]}">${profile[k] ? "On" : "Off"}</button></div>`).join("")}<p class="muted">Progress saves in this browser. Family mode uses a shared device; online multiplayer is not included.</p>`,
   );
 }
 function archive() {
@@ -937,6 +968,10 @@ document.addEventListener("click", (e) => {
     selected = selected === r.uid ? null : r.uid;
     sfx("select");
     renderBoard();
+    if (selected && matchMedia("(max-width:760px)").matches)
+      document
+        .querySelector("#decision-panel")
+        ?.scrollIntoView({ block: "nearest" });
     return;
   }
   if (d.inspect) {
@@ -1053,9 +1088,31 @@ function hideHover() {
     el.style.display = "none";
     el.innerHTML = "";
   }
+  renderCardDetail();
+}
+function renderCardDetail(uid = selected) {
+  const el = document.querySelector<HTMLElement>("#card-detail");
+  if (!el || !g) return;
+  const r = uid && !locked ? royalById(uid) : undefined;
+  const owner =
+    r &&
+    g.players.find(
+      (p) => p.court.includes(r) || (p.id === viewer && p.hand.includes(r)),
+    );
+  if (!r || !owner) {
+    el.innerHTML = "";
+    return;
+  }
+  const c = card(r.card),
+    inCourt = owner.court.includes(r);
+  el.innerHTML = `<div class="detail-heading"><img src="${portrait(r.card)}" alt=""><div><span class="eyebrow">${house(c.house).name} · ${spec(r).title}</span><h3>${esc(c.name)}</h3></div></div><div class="detail-stats"><span><b>${cost(owner, r, !!r.marriedTo)}</b> Gold</span><span><b>${spec(r).force}</b> Attack</span><span><b>${r.hp}</b> Health</span></div><p>${esc(abilityFor(r, owner))}</p><p class="detail-status">${inCourt ? `${active(owner, r) ? "Counts toward this family." : "Foreign Royal: needs a marriage."} ${r.ready ? "Ready to attack." : "Resting: can defend; readies next turn."}` : "In your hand · costs one order to play."}</p><button class="detail-inspect" data-inspect="${r.card}">Full card & rules ↗</button>`;
 }
 function showHover(button: HTMLElement) {
   if (locked || busy || overlay.innerHTML || !g) return;
+  if (matchMedia("(min-width: 761px)").matches) {
+    renderCardDetail(button.dataset.royal);
+    return;
+  }
   const r = royalById(button.dataset.royal!);
   if (!r) return;
   const owner = g.players.find(
@@ -1090,11 +1147,15 @@ app.addEventListener("pointerout", (e) => {
   const b = (e.target as HTMLElement).closest<HTMLElement>("[data-royal]");
   if (b && !b.contains(e.relatedTarget as Node)) hideHover();
 });
+app.addEventListener("focusin", (e) => {
+  const b = (e.target as HTMLElement).closest<HTMLElement>("[data-royal]");
+  if (b && !locked) renderCardDetail(b.dataset.royal);
+});
 function actionHelp(b: HTMLElement) {
   if (!g || locked || busy) return;
   const v = describeAction(g, JSON.parse(b.dataset.move!), viewer),
     el = document.querySelector<HTMLElement>("#hover-inspector");
-  if (!el) return;
+  if (!el || matchMedia("(min-width:761px)").matches) return;
   el.innerHTML = `<div class="hover-status"><strong>${v.name}</strong><p>${v.gold ? `Pay ${v.gold} gold and ` : ""}${v.orders} order. ${esc(v.effect)}</p>${v.response ? `<p>${esc(v.response)}</p>` : ""}${v.reason ? `<p>${esc(v.reason)}</p>` : ""}</div>`;
   el.style.display = "block";
   const r = b.getBoundingClientRect();
@@ -1147,6 +1208,11 @@ app.addEventListener("pointerdown", (e) => {
 document.addEventListener("pointermove", (e) => {
   if (!gesture || !g) return;
   if (Math.hypot(e.clientX - gesture.x, e.clientY - gesture.y) > 12) {
+    if (gesture.touch) {
+      gesture = null;
+      hideHover();
+      return;
+    }
     gesture.dragging = true;
     hideHover();
     const r = royalById(gesture.uid);
@@ -1221,7 +1287,9 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     if (overlay.innerHTML) closeModal();
     else if (screen === "board") {
+      attackReview = null;
       selected = null;
+      hideHover();
       renderBoard();
     }
   }

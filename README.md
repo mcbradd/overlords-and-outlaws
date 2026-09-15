@@ -13,7 +13,11 @@ A browser dynasty card-game prototype based on **Malachy Murray's** concept. Gat
 
 [Play the published game](https://overlords-and-outlaws-mcbradd.braddicus.chatgpt.site/) · [Private GitHub repository](https://github.com/mcbradd/overlords-and-outlaws)
 
-Click or tap a card and use the bottom action dock. Drag a hand card to the table to play it, or drag an upright Royal toward a target to preview an attack before committing. Hover, touch-hold, or use ↗ to inspect without taking an action. Click the family, gold, crown, estates or forecast to explain their current state. Keyboard controls use Tab, Enter and Escape. Sound, motion and coaching can be adjusted. Full inspection provides readable detail on small landscape displays.
+Click or tap a card and use the contextual action panel. Desktop cards have a stable side inspector; on phones, selecting a card brings its actions into view. Mouse-drag a hand card to the table to play it, or drag a Ready Royal toward a target to preview an attack before committing. Touch scrolling never commits a drag action. Hover, touch-hold, or use Inspect card for detail. Click family, gold, crown, estates or forecast to explain their state. Keyboard controls use Tab, Enter and Escape. Sound, motion and coaching can be adjusted.
+
+Courts use readable, front-facing cards in labeled House lanes. Dense lanes scroll horizontally; narrow screens have rival tabs. Short screens scroll vertically instead of shrinking the entire table. Empty hands collapse, and lessons share the contextual action rail. The historical portraits remain; intricate frame overlays and the projected 3D playing pieces have been removed.
+
+Research and verification: [16-game UI/UX study](docs/knowledge-base/digital-card-game-ux-research.md) · [redesign report](docs/UI-UX-REDESIGN.md). The study includes three model passes, scoped competitor scores, discrepancies, and outliers. These are qualitative judgments, not measured satisfaction rankings.
 
 ## Run and verify
 
@@ -27,6 +31,8 @@ npm test
 npm run test:ui
 npm run test:simulate
 npm run test:audit
+npm run test:layout
+npm run test:cards
 ```
 
 With the dev server running on port 5173 and Chrome installed:
@@ -48,11 +54,11 @@ npx tsx scripts/family-browser.ts --compact --four --estate
 Current iteration: [Play Session 02 review](docs/PLAY-SESSION-02-REVIEW.md), [revision 3 plan and delivery status](docs/REVISION-3-PLAN.md), [V3 quality report](docs/QUALITY-REPORT-V3.md), and [V3 decision audit](docs/DECISION-AUDIT-V3.md). The human playthrough exposed comprehension failures that automated checks did not measure. V3 addresses their causes; human comprehension and competitive balance remain unverified.
 
 - `src/duel.ts`: deterministic **2–4-player** rules and AI; the filename is historical.
-- `src/battlefield.ts`: lazy-loaded Three.js table and projected interactive cards.
+- `src/battlefield.ts`: semantic House lanes, rival tabs, scrolling, and brief card feedback.
 - `src/cards.ts`: shared collectible card frame and portrait mapping.
 - `src/action-view.ts`: shared action labels, costs, legality and consequence descriptions.
 - `src/lessons.ts`: ten deterministic lessons using the real engine.
-- `src/main.ts`, `src/v3.css`: interaction, teaching, private handoffs, modes and responsive presentation; `src/style.css` retains the older styles in a lower-priority CSS layer.
+- `src/main.ts`, `src/table.css`: current table presentation, contextual inspection, actions, and responsive behavior. `src/v3.css` retains peripheral mode styles; `src/style.css` retains the older styles in a lower-priority CSS layer.
 - `src/progress.ts`: versioned browser-local saves; `src/audio.ts`: synthesized sound.
 - `src/content.ts`: historical identities and preserved source-era content.
 - `src/engine.ts`, `src/storage.ts`, `tests/engine.test.ts`: retained V1 reference and regression coverage; unused by the V2 game.
