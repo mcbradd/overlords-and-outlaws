@@ -147,22 +147,6 @@ export class Battlefield {
       ring.position.y = -10;
       this.scene.add(ring);
     }
-    for (let i = 0; i < 5; i++)
-      for (const side of [-1, 1]) {
-        const geo = new THREE.PlaneGeometry(142, 201);
-        this.geometries.push(geo);
-        const mat = new THREE.MeshBasicMaterial({
-          color: side === 1 ? 0x78beb3 : 0xc98a74,
-          transparent: true,
-          opacity: 0.09,
-          side: THREE.DoubleSide,
-        });
-        this.materials.push(mat);
-        const slot = new THREE.Mesh(geo, mat);
-        slot.rotation.x = -Math.PI / 2;
-        slot.position.set((i - 2) * 163, -9, side * 166);
-        this.scene.add(slot);
-      }
     const positions = new Float32Array(65 * 3);
     for (let i = 0; i < positions.length; i += 3) {
       positions[i] = (Math.random() - 0.5) * 1400;
@@ -194,9 +178,9 @@ export class Battlefield {
     this.size = { w, h };
     this.camera.aspect = w / h;
     const distance = 1300,
-      angle = h < 220 ? 0.38 : 0.76;
+      angle = 1.12;
     this.camera.fov = THREE.MathUtils.radToDeg(
-      2 * Math.atan(((h / w) * 1410) / (2 * distance)),
+      2 * Math.atan(Math.max((1420 * h) / w, 460) / (2 * distance)),
     );
     this.camera.position.set(
       0,
@@ -205,8 +189,7 @@ export class Battlefield {
     );
     this.camera.lookAt(0, 25, 0);
     this.camera.updateProjectionMatrix();
-    for (const p of this.pieces.values())
-      p.object.rotation.x = h < 220 ? -1.38 : -1.13;
+    for (const p of this.pieces.values()) p.object.rotation.x = -Math.PI / 2;
     this.css.setSize(w, h);
     this.renderer?.setSize(w, h, false);
   }
@@ -235,14 +218,14 @@ export class Battlefield {
         index = opponents.findIndex((q) => q.id === p.id);
       const center =
         (index - (opponents.length - 1) / 2) *
-        (g.players.length === 3 ? 560 : 420);
-      plaque.element.innerHTML = `<b>${p.id === viewer ? "YOUR " : ""}${house(p.house).name.toUpperCase()}</b><span>${p.hand.length} CONCEALED · ${p.court.length} EXPOSED</span>`;
+        (g.players.length === 3 ? 690 : 470);
+      plaque.element.innerHTML = `<b>${p.id === viewer ? "YOUR " : ""}${house(p.house).name.toUpperCase()}</b><span>${Array.from({ length: 5 }, (_, i) => (i < p.court.length ? "●" : "○")).join("  ")} · COURT PLACES</span>`;
       plaque.element.style.color = house(p.house).color;
-      plaque.rotation.x = -0.5;
+      plaque.rotation.x = -Math.PI / 2;
       plaque.position.set(
         p.id === viewer ? 0 : center,
         p.id === viewer ? 20 : 65,
-        p.id === viewer ? 30 : -320,
+        p.id === viewer ? 250 : -275,
       );
       plaque.scale.setScalar(p.id === viewer ? 1 : 0.8);
       for (const key of ["crown", "estate", "hand"])
@@ -267,15 +250,17 @@ export class Battlefield {
             : g.players.length === 2
               ? 1
               : g.players.length === 3
-                ? 0.73
-                : 0.57;
+                ? 0.6
+                : 0.4;
         const center =
           (index - (opponents.length - 1) / 2) *
-          (g.players.length === 3 ? 560 : 420);
+          (g.players.length === 3 ? 690 : 470);
         const home = new THREE.Vector3(
-          p.id === viewer ? (i - 2) * 163 : center + (i - 2) * 163 * scale,
+          p.id === viewer
+            ? (i - (p.court.length - 1) / 2) * 215
+            : center + (i - (p.court.length - 1) / 2) * 215 * scale,
           30,
-          p.id === viewer ? 167 : -185,
+          p.id === viewer ? 110 : -125,
         );
         const signature = JSON.stringify([
           r,
@@ -292,16 +277,15 @@ export class Battlefield {
           el.style.height = "201px";
           el.style.pointerEvents = "auto";
           const object = new CSS3DObject(el);
-          object.rotation.x = this.size.h < 220 ? -1.38 : -1.13;
+          object.rotation.x = -Math.PI / 2;
           object.position.copy(home);
           this.cards.add(object);
           const geo = new THREE.PlaneGeometry(142, 202);
           this.geometries.push(geo);
-          const mat = new THREE.MeshStandardMaterial({
-            color: 0x131914,
-            roughness: 0.5,
-            metalness: 0.3,
-            side: THREE.DoubleSide,
+          const mat = new THREE.MeshBasicMaterial({
+            color: 0x000000,
+            transparent: true,
+            opacity: 0,
           });
           this.materials.push(mat);
           const shadow = new THREE.Mesh(geo, mat);
@@ -440,7 +424,7 @@ export class Battlefield {
       ].includes(e.kind)
     ) {
       const at = this.location(e.target);
-      const geo = new THREE.RingGeometry(15, 23, 40);
+      const geo = new THREE.CircleGeometry(5, 8);
       const mat = new THREE.MeshBasicMaterial({
         color: ["brace", "fortify"].includes(e.kind)
           ? 0x87deff

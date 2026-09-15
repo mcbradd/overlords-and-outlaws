@@ -18,7 +18,7 @@ try {
     await page.addInitScript(
       (game) =>
         localStorage.setItem(
-          "oando-v2",
+          "oando-v3",
           JSON.stringify({
             version: 2,
             game,
@@ -46,18 +46,26 @@ try {
     await page.locator('[data-toggle="motion"]').click();
   await page.locator("[data-close]").click();
   let actions = 0,
-    waits = 0;
+    waits = 0,
+    lastSerial = -1;
   const screenshots = new Set<string>();
   let last: Duel | undefined;
   while (actions < 300 && waits < 3000) {
+    const banner = page.locator("#battle-banner.show");
+    if (await banner.isVisible()) await banner.click();
     const g = await page.evaluate(
-      () => JSON.parse(localStorage.getItem("oando-v2")!).game as Duel,
+      () => JSON.parse(localStorage.getItem("oando-v3")!).game as Duel,
     );
     last = g;
+    // Limit inactivity, not the accumulated animation time of a whole match.
+    if (g.serial !== lastSerial) {
+      waits = 0;
+      lastSerial = g.serial;
+    }
     if (g.over) {
       await page.waitForTimeout(100);
       await page.screenshot({
-        path: `artifacts/v2/${process.argv[2] ?? "lesson"}-result.png`,
+        path: `artifacts/v3/${process.argv[2] ?? "lesson"}-result.png`,
       });
       break;
     }
@@ -99,7 +107,7 @@ try {
         a.target!.startsWith("crown-") || a.target!.startsWith("estate-")
           ? page.locator(`[data-target="${a.target}"]`)
           : page.locator(`.arena [data-royal="${a.target}"]`);
-      await target.click();
+      await target.first().click();
     }
     if (a.type === "end") await page.locator("[data-end]").click();
     else await page.locator(`[data-move='${JSON.stringify(a)}']`).click();
@@ -107,12 +115,12 @@ try {
     if (!screenshots.has(a.type)) {
       screenshots.add(a.type);
       await page.waitForTimeout(70);
-      await page.screenshot({ path: `artifacts/v2/play-${a.type}.png` });
+      await page.screenshot({ path: `artifacts/v3/play-${a.type}.png` });
     }
   }
-  mkdirSync("artifacts/v2", { recursive: true });
+  mkdirSync("artifacts/v3", { recursive: true });
   writeFileSync(
-    `artifacts/v2/playthrough-${process.argv[2] ?? "lesson"}.json`,
+    `artifacts/v3/playthrough-${process.argv[2] ?? "lesson"}.json`,
     JSON.stringify(
       {
         actions,
@@ -140,12 +148,12 @@ try {
   );
   if (errors.length || !last?.over) process.exitCode = 1;
 } catch (error) {
-  await page.screenshot({ path: "artifacts/v2/failure.png" });
+  await page.screenshot({ path: "artifacts/v3/failure.png" });
   writeFileSync(
-    "artifacts/v2/failure.json",
+    "artifacts/v3/failure.json",
     JSON.stringify(
       await page.evaluate(() => ({
-        game: JSON.parse(localStorage.getItem("oando-v2")!).game,
+        game: JSON.parse(localStorage.getItem("oando-v3")!).game,
         pieces: [...document.querySelectorAll(".arena [data-royal]")].map(
           (e) => {
             const r = e.getBoundingClientRect();

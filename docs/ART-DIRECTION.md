@@ -58,7 +58,6 @@ Saved: `public/art/v2-table.webp`
 
 Prompt: Use case: stylized-concept. Asset: full-bleed top-down albedo texture for the surface of a premium 3D historical strategy card-game table, landscape 3:2. Orthographic directly overhead, no perspective or room, no cards, no UI, no words. A magnificent dark petrol-green marble and worn ebony council table, tasteful antique gold inlay, extremely faint engraved map of medieval Europe, thin nested heraldic compass circles in center, restrained filigree around the outermost edges, antique bronze corner ornaments and subtle burgundy velvet edge panels. Broad quiet playing space in the middle, strong tactile material microdetail, realistic old-world craftsmanship, illuminated evenly for use as a texture under realtime lighting. Rich but not busy, jewel-like highlights, physically plausible surfaces. No numbers, no lettering, no playing slots.
 
-
 Generated with the built-in image generation tool. Original outputs remain in the user’s Codex generated-images folder. Production copies are compressed as WebP in `public/art/`. House portraits serve as court archetypes for card illustrations; not all cards have individual likenesses.
 
 ## court
@@ -162,3 +161,49 @@ Prompt: Use case: historical-scene. Asset type: premium historical dynasty card 
 Saved: `public/art/last-witness.webp`
 
 Prompt: Use case: historical-scene. Asset type: premium historical dynasty card game illustration. A Renaissance allegorical oil painting: a solitary woman with long auburn hair viewed from behind stands at a high palace window, holding a small candle, a vast twilight city with golden domes and storm clouds stretches out before her, a blank open book on the window ledge and wilted white lilies. Luminous, contemplative, bittersweet, amber light and blue night.. Square composition, no frame. Richly detailed luminous oil painting, cinematic painterly realism, amber chiaroscuro, extraordinary craftsmanship. No text, no watermark, no card frame.
+
+## Revision 3 — chamber, illuminated frame and Margaret
+
+Generated on 15 September 2026 with the built-in image tool. All three original PNG outputs were visually inspected, copied unchanged into the game, and reviewed in the browser. The frame is composited using CSS; no lettering is generated into the artwork. The new Margaret replaces her prior image. The remaining archive still includes shared portrait archetypes, rather than 84 unique paintings.
+
+Production mapping:
+
+- royal-council-chamber.png → public/art/v3-chamber.png (1672×941)
+- illuminated-card-frame.png → public/art/v3-frame.png (1024×1536)
+- queen-margaret-portrait.png → public/art/v3-margaret.png (1024×1536)
+
+Exact prompts follow.
+
+# OandO v3 generated assets
+
+Mode: built-in image_gen. Exactly three independent calls; no variants or retries.
+
+## royal-council-chamber.png
+
+Use case: historical-scene
+Asset type: standalone game background, landscape 16:9.
+Primary request: Dark medieval royal council chamber viewed from low overhead toward a wide walnut gaming table.
+Style/medium: dramatic restrained oil-painted realism.
+Lighting/mood: candlelit amber and deep midnight blue.
+Materials/textures: subtly weathered artisan marquetry.
+Composition/framing: the broad tabletop and center remain calm, dark and unobstructed so overlaid game cards remain readable.
+Constraints: no text, cards, UI, people, lettering or watermarks.
+
+## illuminated-card-frame.png
+
+Use case: stylized-concept
+Asset type: standalone portrait 2:3 game card border, FRAME ONLY.
+Primary request: A lavish medieval illuminated manuscript card border around an empty, flat solid black center that looks like a dark empty opening.
+Style/medium: gold engraved botanical filigree and small ruby ornaments, restrained museum collectible quality.
+Composition/framing: front-on perfectly flat frame, coherent uniform rounded outer corners; center large and entirely empty. Border contained within image edges.
+Constraints: no text, numbers, people, illustrations inside the center, lettering or watermarks. The center must be solid black.
+
+## queen-margaret-portrait.png
+
+Use case: historical-scene
+Asset type: standalone portrait 2:3 game character illustration.
+Primary request: An imagined painted likeness of 11th-century Scottish queen Margaret, an artistic interpretation rather than a documented historic portrait.
+Subject: elegant historically inspired veil and embroidered deep teal dress, thoughtful mature face.
+Style/medium: dark Renaissance oil portrait style, museum lighting.
+Composition/framing: face fully within image with generous headroom, poised upper-body portrait against a dark background.
+Constraints: no text, frame, lettering or watermarks.

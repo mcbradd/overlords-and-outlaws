@@ -17,6 +17,8 @@ export const portrait = (id: string) => {
     "habsburg-3": "charles",
     "bourbon-9": "conde",
   };
+  if (card(id).name.includes("Margaret") && card(id).house === "alba")
+    return "/art/v3-margaret.png";
   if (special[id]) return `/art/v2-${special[id]}.webp`;
   const c = card(id);
   if (c.role === "Queen")
@@ -43,11 +45,11 @@ export function abilityFor(r: Royal, owner?: Court) {
   const role = card(r.card).role,
     controller = owner?.house ?? card(r.card).house;
   if (controller === "plantagenet" && role === "Warlord")
-    return "Swift · Can challenge on the turn it enters.";
+    return "Swift · Can attack on the turn it enters.";
   if (controller === "tudor" && role === "Intriguer")
-    return "Supported: sabotage, steal 2 gold. Hidden: Ambush 3.";
+    return "In your family: destroy an estate, steal 2 gold. In hand: Ambush 3 damage.";
   if (controller === "bourbon" && role === "Founder")
-    return "Sun court · +1 crown shield per turn, from round 2.";
+    return "Sun court · From round 2, your crown gains 1 shield at your turn.";
   return spec(r).ability;
 }
 export function cardFace(
@@ -65,6 +67,6 @@ export function cardFace(
     s = spec(r),
     ability = abilityFor(r, opts.owner),
     dormant = opts.owner && opts.zone === "court" && !active(opts.owner, r);
-  return `<button class="royal-card house-${h.id} role-${c.role.toLowerCase()} ${opts.zone ?? ""} ${opts.selected ? "selected" : ""} ${opts.target ? "targetable" : ""} ${dormant ? "foreign" : ""}" data-royal="${r.uid}" data-card-id="${r.card}" style="--house:${h.color};--role:${s.color}" aria-label="${esc(c.name)}, ${h.name}, ${s.title}, ${opts.owner ? cost(opts.owner, r, !!r.marriedTo) : s.cost} gold, ${s.force} force, ${r.hp} resolve. ${esc(ability)}"><div class="card-rim"></div><div class="card-heading"><span class="coin-gem" title="Gold cost">${opts.owner ? cost(opts.owner, r, !!r.marriedTo) : s.cost}</span><span class="card-name">${esc(c.name)}</span><span class="herald">${crest(r.card)}</span></div><div class="portrait-window"><img src="${portrait(r.card)}" alt="" draggable="false" loading="lazy"><span class="portrait-ornament"></span></div><div class="role-band"><span>${s.icon}</span><strong>${s.title}</strong><small>${h.name}</small></div><div class="card-ability">${ability}</div><div class="card-foot"><span class="force-stat" title="Force: pressure dealt in combat">⚔ <b>${s.force}</b></span><span class="card-set">${h.emblem} · ${Number(c.id.split("-")[1]) + 1}/14</span><span class="resolve-stat ${r.hp < s.resolve ? "damaged" : ""}" title="Resolve: remaining endurance">◆ <b>${r.hp}</b></span></div>${opts.zone === "court" ? `<span class="piece-status ${r.ready ? "ready" : "spent"}">${!dormant && r.marriedTo ? "∞ ALLIED · " : dormant ? "OUTLAW · " : ""}${r.ready ? "READY" : "RESTING"}</span>` : ""}</button>`;
+  return `<button class="royal-card house-${h.id} role-${c.role.toLowerCase()} ${opts.zone ?? ""} ${opts.selected ? "selected" : ""} ${opts.target ? "targetable" : ""} ${dormant ? "foreign" : ""} ${opts.zone === "court" && !r.ready ? "exhausted" : ""}" data-royal="${r.uid}" data-card-id="${r.card}" style="--house:${h.color};--role:${s.color}" aria-label="${esc(c.name)}, ${h.name}, ${s.title}, ${opts.owner ? cost(opts.owner, r, !!r.marriedTo) : s.cost} gold, ${s.force} attack, ${r.hp} health. ${esc(ability)}"><div class="card-rim"></div><div class="card-heading"><span class="coin-gem" title="Gold cost">${opts.owner ? cost(opts.owner, r, !!r.marriedTo) : s.cost}</span><span class="card-name">${esc(c.name)}</span><span class="herald">${crest(r.card)}</span></div><div class="portrait-window"><img src="${portrait(r.card)}" alt="" draggable="false" loading="lazy"><span class="portrait-ornament"></span></div><div class="role-band"><span>${s.icon}</span><strong>${s.title}</strong><small>${h.name}</small></div><div class="card-ability">${ability}</div><div class="card-foot"><span class="force-stat" title="Attack: damage dealt to the other Royal">⚔ <b>${s.force}</b></span><span class="card-set">${r.marriedTo ? "∞" : ""}</span><span class="resolve-stat ${r.hp < s.resolve ? "damaged" : ""}" title="Health: at zero this Royal leaves the court">♥ <b>${r.hp}</b></span></div>${opts.zone === "court" && r.hp < s.resolve ? `<span class="damage-counter" aria-label="${s.resolve - r.hp} damage">−${s.resolve - r.hp}</span>` : ""}</button>`;
 }
 export const roleName = (role: Role) => ROLES[role].title;

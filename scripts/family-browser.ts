@@ -19,9 +19,9 @@ try {
   });
   if (process.argv.includes("--estate")) initial.players[1].estates = 1;
   await page.addInitScript((game) => {
-    if (!localStorage.getItem("oando-v2"))
+    if (!localStorage.getItem("oando-v3"))
       localStorage.setItem(
-        "oando-v2",
+        "oando-v3",
         JSON.stringify({
           version: 2,
           game,
@@ -54,26 +54,29 @@ try {
     .click();
   const fit = await page.evaluate(() => {
     const b = [...document.querySelectorAll("[data-move]")]
-        .find((e) => e.textContent?.includes("Declare this challenge"))!
+        .find((e) => e.textContent?.includes("Attack"))!
         .getBoundingClientRect(),
       p = document.querySelector(".decision-panel")!.getBoundingClientRect();
     return b.bottom <= p.bottom && b.top >= p.top;
   });
+  await page.screenshot({path:"artifacts/v3/family-review.png"});
+  console.log("Attack button contained:",fit);
   expect(fit).toBe(true);
   await page
     .locator("[data-move]")
-    .filter({ hasText: "Declare this challenge" })
+    .filter({ hasText: "Attack" })
     .click();
   await expect(page.locator(".handoff-screen")).toContainText("Plantagenet");
   await expect(page.locator(".hand-cards [data-royal]")).toHaveCount(0);
-  await page.screenshot({ path: "artifacts/v2/family-private-response.png" });
+  await page.screenshot({ path: "artifacts/v3/family-private-response.png" });
   await page.locator("[data-ready]").click();
   await page.locator('[data-response="brace"]').click();
+  await page.locator("#battle-banner.show").click();
   await expect(page.locator(".handoff-screen")).toContainText("Alba");
   await expect(page.locator(".hand-cards [data-royal]")).toHaveCount(0);
   await page.locator("[data-ready]").click();
   await page.locator('[data-target="crown-1"]').click();
-  await expect(page.locator(".modal")).toContainText("Every exposed Royal", {
+  await expect(page.locator(".modal")).toContainText("separate from every Royal", {
     ignoreCase: true,
   });
   const initialFocus = await page.evaluate(() =>
@@ -89,12 +92,12 @@ try {
   await expect(page.locator(".hand-cards [data-royal]")).toHaveCount(0);
   await page.locator("[data-ready]").click();
   const state = await page.evaluate(
-    () => JSON.parse(localStorage.getItem("oando-v2")!).game,
+    () => JSON.parse(localStorage.getItem("oando-v3")!).game,
   );
   expect(state.players[1].stability).toBe(
     process.argv.includes("--compact") ? 12 : 10,
   );
-  expect(state.players[1].gold).toBe(4);
+  expect(state.players[1].gold).toBe(3);
   expect(state.pending).toBe(null);
   if (process.argv.includes("--estate")) {
     expect(state.players[1].estates).toBe(0);

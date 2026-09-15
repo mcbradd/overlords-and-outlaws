@@ -22,7 +22,7 @@ test("a won chronicle grants one heirloom and carries it into the next court", a
     expect(b!.disabled, s).toBe(false);
     b!.click();
   };
-  const saved = () => JSON.parse(localStorage.getItem("oando-v2")!);
+  const saved = () => JSON.parse(localStorage.getItem("oando-v3")!);
   // Resume a deterministic, legally declared crown with no rival orders left.
   const g = createDuel({
     seed: 71,
@@ -46,10 +46,11 @@ test("a won chronicle grants one heirloom and carries it into the next court", a
   // UI module is intentionally one singleton; update by reloading it in a fresh document.
   document.body.innerHTML =
     '<div id="app"></div><div id="overlay"></div><div id="announcer"></div>';
-  localStorage.setItem("oando-v2", JSON.stringify(profile));
+  localStorage.setItem("oando-v3", JSON.stringify(profile));
   await import("../src/main");
   click("[data-resume]");
-  await vi.advanceTimersByTimeAsync(2000);
+  // Coaching leaves the final contest announcement visible for 3.2 seconds.
+  await vi.advanceTimersByTimeAsync(5000);
   expect(saved().game.winner).toBe(0);
   expect(saved().wins).toBe(1);
   expect(saved().run.reward).toBe(true);

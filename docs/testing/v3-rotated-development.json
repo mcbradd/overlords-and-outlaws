@@ -1,0 +1,1547 @@
+{
+  "games": 216,
+  "witness": 76,
+  "rounds": 3076,
+  "winsBySeat": {
+    "0": 51,
+    "1": 49,
+    "2": 29,
+    "3": 11
+  },
+  "winsByPolicy": {
+    "economy": 46,
+    "rush": 29,
+    "defense": 30,
+    "adaptive": 35
+  },
+  "gamesBySeats": {
+    "2": 48,
+    "3": 72,
+    "4": 96
+  },
+  "claims": 1636,
+  "renewals": 326,
+  "royalsInWinningCourts": {
+    "Founder": 138,
+    "Royal": 129,
+    "Warlord": 53,
+    "Queen": 86,
+    "Intriguer": 23,
+    "Lawgiver": 30
+  },
+  "samples": [
+    {
+      "seed": 90000,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90000,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90000,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 6,
+      "winner": 0
+    },
+    {
+      "seed": 90000,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 10,
+      "winner": 0
+    },
+    {
+      "seed": 90000,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 11,
+      "winner": 2
+    },
+    {
+      "seed": 90000,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 10,
+      "winner": 1
+    },
+    {
+      "seed": 90000,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90000,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90000,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 21,
+      "winner": 2
+    },
+    {
+      "seed": 90001,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90001,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 4,
+      "winner": 0
+    },
+    {
+      "seed": 90001,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 6,
+      "winner": 2
+    },
+    {
+      "seed": 90001,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90001,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 8,
+      "winner": 1
+    },
+    {
+      "seed": 90001,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 7,
+      "winner": 3
+    },
+    {
+      "seed": 90001,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90001,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90001,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90002,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90002,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90002,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90002,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90002,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90002,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 6,
+      "winner": 2
+    },
+    {
+      "seed": 90002,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90002,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90002,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90003,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90003,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90003,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 21,
+      "winner": 2
+    },
+    {
+      "seed": 90003,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 25,
+      "winner": 1
+    },
+    {
+      "seed": 90003,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 7,
+      "winner": 2
+    },
+    {
+      "seed": 90003,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 22,
+      "winner": 1
+    },
+    {
+      "seed": 90003,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 8,
+      "winner": 2
+    },
+    {
+      "seed": 90003,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90003,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90004,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 8,
+      "winner": 0
+    },
+    {
+      "seed": 90004,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 4,
+      "winner": 1
+    },
+    {
+      "seed": 90004,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 2
+    },
+    {
+      "seed": 90004,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 8,
+      "winner": 0
+    },
+    {
+      "seed": 90004,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 18,
+      "winner": 0
+    },
+    {
+      "seed": 90004,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90004,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90004,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90004,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90005,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90005,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 7,
+      "winner": 1
+    },
+    {
+      "seed": 90005,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 6,
+      "winner": 0
+    },
+    {
+      "seed": 90005,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 8,
+      "winner": 1
+    },
+    {
+      "seed": 90005,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 4,
+      "winner": 0
+    },
+    {
+      "seed": 90005,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90005,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 9,
+      "winner": 2
+    },
+    {
+      "seed": 90005,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 15,
+      "winner": 2
+    },
+    {
+      "seed": 90005,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 9,
+      "winner": 0
+    },
+    {
+      "seed": 90006,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90006,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 6,
+      "winner": 0
+    },
+    {
+      "seed": 90006,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 16,
+      "winner": 2
+    },
+    {
+      "seed": 90006,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 6,
+      "winner": 2
+    },
+    {
+      "seed": 90006,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 7,
+      "winner": 0
+    },
+    {
+      "seed": 90006,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90006,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90006,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90006,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90007,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90007,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90007,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90007,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90007,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 12,
+      "winner": 2
+    },
+    {
+      "seed": 90007,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 8,
+      "winner": 3
+    },
+    {
+      "seed": 90007,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90007,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 7,
+      "winner": 3
+    },
+    {
+      "seed": 90007,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90008,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90008,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90008,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90008,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 15,
+      "winner": 1
+    },
+    {
+      "seed": 90008,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 9,
+      "winner": 0
+    },
+    {
+      "seed": 90008,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 9,
+      "winner": 2
+    },
+    {
+      "seed": 90008,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90008,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90008,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90009,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 6,
+      "winner": 0
+    },
+    {
+      "seed": 90009,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 8,
+      "winner": 1
+    },
+    {
+      "seed": 90009,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90009,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 6,
+      "winner": 2
+    },
+    {
+      "seed": 90009,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90009,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90009,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 19,
+      "winner": 3
+    },
+    {
+      "seed": 90009,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 7,
+      "winner": 2
+    },
+    {
+      "seed": 90009,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 13,
+      "winner": 1
+    },
+    {
+      "seed": 90010,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90010,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90010,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 6,
+      "winner": 1
+    },
+    {
+      "seed": 90010,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 9,
+      "winner": 1
+    },
+    {
+      "seed": 90010,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 6,
+      "winner": 2
+    },
+    {
+      "seed": 90010,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90010,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 7,
+      "winner": 3
+    },
+    {
+      "seed": 90010,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90010,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90011,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90011,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90011,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 6,
+      "winner": 1
+    },
+    {
+      "seed": 90011,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90011,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 12,
+      "winner": 0
+    },
+    {
+      "seed": 90011,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90011,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90011,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90011,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90012,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90012,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 4,
+      "winner": 1
+    },
+    {
+      "seed": 90012,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90012,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90012,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 9,
+      "winner": 2
+    },
+    {
+      "seed": 90012,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90012,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90012,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 24,
+      "winner": 2
+    },
+    {
+      "seed": 90012,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 9,
+      "winner": 1
+    },
+    {
+      "seed": 90013,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 6,
+      "winner": 0
+    },
+    {
+      "seed": 90013,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90013,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90013,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90013,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 11,
+      "winner": 1
+    },
+    {
+      "seed": 90013,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90013,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90013,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 7,
+      "winner": 2
+    },
+    {
+      "seed": 90013,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90014,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90014,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90014,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90014,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 7,
+      "winner": 1
+    },
+    {
+      "seed": 90014,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 6,
+      "winner": 1
+    },
+    {
+      "seed": 90014,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90014,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90014,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 7,
+      "winner": 0
+    },
+    {
+      "seed": 90014,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 8,
+      "winner": 3
+    },
+    {
+      "seed": 90015,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90015,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90015,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 6,
+      "winner": 0
+    },
+    {
+      "seed": 90015,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90015,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 6,
+      "winner": 1
+    },
+    {
+      "seed": 90015,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90015,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90015,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90015,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90016,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 9,
+      "winner": 1
+    },
+    {
+      "seed": 90016,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90016,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 7,
+      "winner": 0
+    },
+    {
+      "seed": 90016,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90016,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 6,
+      "winner": 2
+    },
+    {
+      "seed": 90016,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90016,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90016,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 13,
+      "winner": 3
+    },
+    {
+      "seed": 90016,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 9,
+      "winner": 1
+    },
+    {
+      "seed": 90017,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 6,
+      "winner": 0
+    },
+    {
+      "seed": 90017,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90017,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90017,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 6,
+      "winner": 2
+    },
+    {
+      "seed": 90017,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 13,
+      "winner": 1
+    },
+    {
+      "seed": 90017,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 6,
+      "winner": 1
+    },
+    {
+      "seed": 90017,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 8,
+      "winner": 3
+    },
+    {
+      "seed": 90017,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90017,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90018,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90018,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 6,
+      "winner": 0
+    },
+    {
+      "seed": 90018,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 12,
+      "winner": 1
+    },
+    {
+      "seed": 90018,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90018,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 8,
+      "winner": 0
+    },
+    {
+      "seed": 90018,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90018,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90018,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 8,
+      "winner": 0
+    },
+    {
+      "seed": 90018,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 6,
+      "winner": 2
+    },
+    {
+      "seed": 90019,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90019,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 6,
+      "winner": 1
+    },
+    {
+      "seed": 90019,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 7,
+      "winner": 1
+    },
+    {
+      "seed": 90019,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90019,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 16,
+      "winner": 1
+    },
+    {
+      "seed": 90019,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90019,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 9,
+      "winner": 0
+    },
+    {
+      "seed": 90019,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90019,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 12,
+      "winner": 3
+    },
+    {
+      "seed": 90020,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90020,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90020,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 6,
+      "winner": 2
+    },
+    {
+      "seed": 90020,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90020,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90020,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90020,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90020,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90020,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90021,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90021,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 4,
+      "winner": 0
+    },
+    {
+      "seed": 90021,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 6,
+      "winner": 0
+    },
+    {
+      "seed": 90021,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 20,
+      "winner": 2
+    },
+    {
+      "seed": 90021,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 6,
+      "winner": 2
+    },
+    {
+      "seed": 90021,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90021,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90021,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90021,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90022,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90022,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90022,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 6,
+      "winner": 1
+    },
+    {
+      "seed": 90022,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90022,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 6,
+      "winner": 2
+    },
+    {
+      "seed": 90022,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 14,
+      "winner": 3
+    },
+    {
+      "seed": 90022,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 9,
+      "winner": 2
+    },
+    {
+      "seed": 90022,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 7,
+      "winner": 2
+    },
+    {
+      "seed": 90022,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 9,
+      "winner": 1
+    },
+    {
+      "seed": 90023,
+      "seats": 2,
+      "rotation": 0,
+      "rounds": 5,
+      "winner": 0
+    },
+    {
+      "seed": 90023,
+      "seats": 2,
+      "rotation": 1,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90023,
+      "seats": 3,
+      "rotation": 0,
+      "rounds": 7,
+      "winner": 1
+    },
+    {
+      "seed": 90023,
+      "seats": 3,
+      "rotation": 1,
+      "rounds": 6,
+      "winner": 0
+    },
+    {
+      "seed": 90023,
+      "seats": 3,
+      "rotation": 2,
+      "rounds": 5,
+      "winner": 1
+    },
+    {
+      "seed": 90023,
+      "seats": 4,
+      "rotation": 0,
+      "rounds": 18,
+      "winner": 3
+    },
+    {
+      "seed": 90023,
+      "seats": 4,
+      "rotation": 1,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90023,
+      "seats": 4,
+      "rotation": 2,
+      "rounds": 26,
+      "winner": -1
+    },
+    {
+      "seed": 90023,
+      "seats": 4,
+      "rotation": 3,
+      "rounds": 26,
+      "winner": -1
+    }
+  ],
+  "averageRounds": 14.24074074074074
+}

@@ -1,5 +1,7 @@
 # Revision 2 quality report — 15 September 2026
 
+Historical record. Current behavior and evidence are in the [V3 quality report](QUALITY-REPORT-V3.md). V3 replaces the protected tutorial, card presentation and several rules described below.
+
 ## Delivered scope
 
 A real Three.js battlefield with projected interactive cards, physical deployments/challenges/captures, marriage links, impact effects, explicit stat panels, six House frames and role identities. Solo tables support 2–4 Houses; local family tables support 2–4 humans with chosen Houses and private handoffs. Guided practice, three-court chronicles, daily seeds, an 84-Royal archive and browser-local saves provide replay paths.
@@ -35,3 +37,6 @@ This is a tested, substantially revised prototype. These checks do not establish
 Online multiplayer, network security, account systems, cloud saves, the original passing draft and full expansion content are outside the implemented revision. V1 saves are retained under their old storage key but are incompatible with V2. Generated art and fictional game abilities are labeled as interpretations. The source PDFs and full Markdown knowledge base remain separate from the published static game.
 
 The stricter final audit identifies 1,087 tradeoff candidates, but equivalent/forced decisions and seat effects remain. No honest automated process can certify that every design possibility has been exhausted. The next evidence should come from real families learning and playing this build.
+# Human playtest follow-up
+
+Play Session 02 found substantial onboarding, causal-feedback, and strategic-clarity failures in V2. The automated evidence below remains a historical record of its measured checks, not evidence that new players understand the game. See [the session review](PLAY-SESSION-02-REVIEW.md) and [revision 3 plan](REVISION-3-PLAN.md) for the resulting requirements. Gameplay changes for that plan are not yet implemented.

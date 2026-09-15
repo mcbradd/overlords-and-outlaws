@@ -34,7 +34,9 @@ export const fresh = (): Progress => ({
 });
 export function readProgress(): Progress {
   try {
-    const p = JSON.parse(localStorage.getItem("oando-v2") ?? "null");
+    const current = localStorage.getItem("oando-v3");
+    const p = JSON.parse(current ?? localStorage.getItem("oando-v2") ?? "null");
+    if (p && !current) p.game = null;
     if (!p || p.version !== 2) return fresh();
     if (p.game && !validateDuel(p.game)) p.game = null;
     if (
@@ -59,7 +61,7 @@ export function readProgress(): Progress {
 }
 export function saveProgress(p: Progress) {
   try {
-    localStorage.setItem("oando-v2", JSON.stringify(p));
+    localStorage.setItem("oando-v3", JSON.stringify(p));
     return true;
   } catch {
     return false;

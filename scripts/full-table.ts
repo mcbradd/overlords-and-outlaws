@@ -3,7 +3,7 @@ import { createDuel } from "../src/duel";
 import { mkdirSync, writeFileSync } from "node:fs";
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 const results: unknown[] = [];
-mkdirSync("artifacts/v2", { recursive: true });
+mkdirSync("artifacts/v3", { recursive: true });
 try {
   for (const seats of [2, 3, 4]) {
     const g = createDuel({ seed: 2026, house: "alba", seats });
@@ -12,7 +12,7 @@ try {
     await page.addInitScript(
       (game) =>
         localStorage.setItem(
-          "oando-v2",
+          "oando-v3",
           JSON.stringify({
             version: 2,
             game,
@@ -32,6 +32,8 @@ try {
     await page.goto("http://localhost:5173");
     await page.locator("[data-resume]").click();
     for (const [w, h] of [
+      [3840, 2160],
+      [1920, 1080],
       [1440, 900],
       [1024, 600],
       [844, 390],
@@ -63,7 +65,7 @@ try {
         };
       });
       results.push({ seats, w, h, ...geometry });
-      await page.screenshot({ path: `artifacts/v2/full-${seats}-${w}.png` });
+      await page.screenshot({ path: `artifacts/v3/full-${seats}-${w}.png` });
       if (geometry.scroll || geometry.clipped.length)
         throw Error(JSON.stringify(results.at(-1)));
     }
@@ -71,7 +73,7 @@ try {
   }
   console.log(JSON.stringify(results));
   writeFileSync(
-    "artifacts/v2/full-tables.json",
+    "artifacts/v3/full-tables.json",
     JSON.stringify(results, null, 2),
   );
 } finally {

@@ -22,7 +22,7 @@ test("family privacy, inspection, save/resume, and campaign inheritance through 
   const p = fresh();
   p.motion = false;
   p.sound = false;
-  localStorage.setItem("oando-v2", JSON.stringify(p));
+  localStorage.setItem("oando-v3", JSON.stringify(p));
   await import("../src/main");
   const click = (s: string) => {
     const b = document.querySelector<HTMLButtonElement>(s);
@@ -30,7 +30,7 @@ test("family privacy, inspection, save/resume, and campaign inheritance through 
     expect(b!.disabled, s).toBe(false);
     b!.click();
   };
-  const saved = () => JSON.parse(localStorage.getItem("oando-v2")!);
+  const saved = () => JSON.parse(localStorage.getItem("oando-v3")!);
   click('[data-start="family"]');
   const select = document.querySelector<HTMLSelectElement>("#seats")!;
   select.value = "4";

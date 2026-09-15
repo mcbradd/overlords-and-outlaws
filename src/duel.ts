@@ -50,6 +50,9 @@ export interface Moment {
   amount?: number;
   title: string;
   why: string;
+  changes?: { uid: string; before: number; after: number }[];
+  round?: number;
+  turn?: number;
 }
 export interface Duel {
   version: 2;
@@ -91,22 +94,22 @@ export const ROLES: Record<
   }
 > = {
   Founder: {
-    icon: "♛",
+    icon: "⚑",
     color: "#e8bc57",
-    title: "ANCHOR",
+    title: "FOUNDER",
     cost: 5,
     force: 4,
     resolve: 6,
-    ability: "Anchor · Powerful, resilient, and costly to replace.",
+    ability: "Founder · Strong in attack. Expensive to play again.",
   },
   Queen: {
     icon: "∞",
     color: "#ce94dc",
-    title: "DIPLOMAT",
+    title: "QUEEN",
     cost: 3,
     force: 2,
     resolve: 4,
-    ability: "Alliance · Supported spouses join your family.",
+    ability: "Marriage · Bring one foreign Royal into your family.",
   },
   Warlord: {
     icon: "⚔",
@@ -115,7 +118,7 @@ export const ROLES: Record<
     cost: 2,
     force: 3,
     resolve: 3,
-    ability: "Pressure · Efficient force for raids and captures.",
+    ability: "Attack · Strong offense for raids and captures.",
   },
   Lawgiver: {
     icon: "⛨",
@@ -123,8 +126,8 @@ export const ROLES: Record<
     title: "GUARDIAN",
     cost: 3,
     force: 2,
-    resolve: 6,
-    ability: "Guard · Rivals must challenge Guardians first.",
+    resolve: 5,
+    ability: "Guard · Enters upright. Protects other pieces while upright.",
   },
   Intriguer: {
     icon: "†",
@@ -133,16 +136,16 @@ export const ROLES: Record<
     cost: 2,
     force: 2,
     resolve: 2,
-    ability: "Sabotage an estate. In hand: Ambush for 3 pressure.",
+    ability: "In play: destroy an estate. In hand: Ambush for 3 damage.",
   },
   Royal: {
-    icon: "✧",
+    icon: "◉",
     color: "#a6cf83",
     title: "STEWARD",
     cost: 2,
     force: 1,
     resolve: 3,
-    ability: "Income · +1 gold each turn while supported.",
+    ability: "Income · Gain 1 extra gold each turn while in your family.",
   },
 };
 export const HOUSE_RULES: Record<
@@ -166,7 +169,7 @@ export const HOUSE_RULES: Record<
   },
   valois: {
     trait: "Patronage",
-    text: "Recruit costs 1 gold instead of 2. Search your archive for fresh options.",
+    text: "Renew hand costs 1 gold instead of 2. Discard your hand and draw five replacements.",
     policy: "economy",
   },
   habsburg: {
@@ -271,9 +274,11 @@ export const cost = (p: Court, r: Royal, marry = false) =>
       (marry && p.house === "habsburg" ? 1 : 0),
   );
 export const guards = (p: Court) =>
-  p.court.filter((r) => card(r.card).role === "Lawgiver" && active(p, r));
+  p.court.filter(
+    (r) => card(r.card).role === "Lawgiver" && active(p, r) && r.ready,
+  );
 export const forecast = (g: Duel) =>
-  g.mode === "lesson"
+  g.mode === "lesson" && g.lesson < 10
     ? {
         in: 0,
         name: "Teaching match",
@@ -284,7 +289,7 @@ export const forecast = (g: Duel) =>
         ...HISTORY[Math.floor((g.round - 1) / 4) % HISTORY.length],
       };
 export function emit(g: Duel, event: Omit<Moment, "id">) {
-  g.events.push({ id: ++g.serial, ...event });
+  g.events.push({ id: ++g.serial, round: g.round, turn: g.turn, ...event });
   if (g.events.length > 160) g.events.shift();
 }
 function drawOne(p: Court) {
@@ -298,11 +303,21 @@ function drawOne(p: Court) {
   }
   return p.deck.pop();
 }
-function draw(p: Court) {
+function draw(p: Court, g?: Duel) {
   while (p.hand.length < 5) {
     const r = drawOne(p);
     if (!r) break;
     p.hand.push(r);
+    if (g)
+      emit(g, {
+        kind: "draw",
+        actor: p.id,
+        source: `deck-${p.id}`,
+        target: `hand-${p.id}`,
+        amount: 1,
+        title: `${house(p.house).name} draws a Royal`,
+        why: `A card moves from the draw pile into the concealed hand.`,
+      });
   }
 }
 export function createDuel(opts: {
@@ -423,7 +438,12 @@ export function moves(g: Duel): Move[] {
       if (p.gold >= cost(p, r)) result.push({ type: "deploy", uid: r.uid });
       if (
         card(r.card).house !== p.house &&
-        p.court.some((x) => card(x.card).role === "Queen" && active(p, x)) &&
+        p.court.some(
+          (x) =>
+            card(x.card).role === "Queen" &&
+            active(p, x) &&
+            !p.court.some((spouse) => spouse.marriedTo === x.uid),
+        ) &&
         p.gold >= cost(p, r, true)
       )
         result.push({ type: "marry", uid: r.uid });
@@ -450,7 +470,6 @@ export function moves(g: Duel): Move[] {
   if (p.gold >= 2 && p.stability < 12) result.push({ type: "restore" });
   if (
     p.gold >= (p.house === "valois" ? 1 : 2) &&
-    p.hand.length < 7 &&
     (p.deck.length || p.discard.length)
   )
     result.push({ type: "recruit" });
@@ -467,7 +486,7 @@ export function reactions(g: Duel): Response[] {
   const p = g.players[g.pending.defender];
   return [
     "accept",
-    ...(p.response && p.gold >= 1
+    ...(p.response && p.gold >= 2
       ? [
           "brace",
           ...(p.hand.some((r) => card(r.card).role === "Intriguer")
@@ -576,10 +595,15 @@ export function act(g: Duel, requested: Move) {
     p.gold -= cost(p, r, a.type === "marry");
     p.hand = p.hand.filter((x) => x.uid !== r.uid);
     r.hp = spec(r).resolve;
-    r.ready = p.house === "plantagenet" && card(r.card).role === "Warlord";
+    r.ready =
+      card(r.card).role === "Lawgiver" ||
+      (p.house === "plantagenet" && card(r.card).role === "Warlord");
     if (a.type === "marry")
       r.marriedTo = p.court.find(
-        (x) => card(x.card).role === "Queen" && active(p, x),
+        (x) =>
+          card(x.card).role === "Queen" &&
+          active(p, x) &&
+          !p.court.some((spouse) => spouse.marriedTo === x.uid),
       )!.uid;
     p.court.push(r);
     if (card(r.card).role === "Intriguer" && active(p, r)) {
@@ -665,7 +689,7 @@ export function act(g: Duel, requested: Move) {
       actor: p.id,
       target: `crown-${p.id}`,
       title: "+3 shields",
-      why: "Shields absorb pressure against your crown. They do not protect Royals or generate income.",
+      why: "Crown shields block damage to your crown. Your Royals do not receive these shields.",
     });
   }
   if (a.type === "restore") {
@@ -681,14 +705,15 @@ export function act(g: Duel, requested: Move) {
   }
   if (a.type === "recruit") {
     p.gold -= p.house === "valois" ? 1 : 2;
-    const r = drawOne(p)!;
-    p.hand.push(r);
+    const oldHand = p.hand.splice(0);
+    p.discard.push(...oldHand);
+    draw(p);
     emit(g, {
       kind: "recruit",
       actor: p.id,
       target: `hand-${p.id}`,
-      title: "A new concealed option",
-      why: "An additional Royal is drawn from your archive. The order and gold could instead have developed or defended the court.",
+      title: "A new inheritance · hand renewed",
+      why: `${oldHand.length} concealed Royals move to your discard pile. Draw ${p.hand.length} replacements. Saved ambushes and marriage options are given up.`,
     });
   }
   if (a.type === "claim") {
@@ -701,7 +726,7 @@ export function act(g: Duel, requested: Move) {
       actor: p.id,
       target: `crown-${p.id}`,
       title: "THE CROWN IS CLAIMED",
-      why: `The declaration names three family Royals. ${p.challengers.map((id) => house(g.players[id].house).name).join(", ")} each get a complete challenge turn. Coronation tribute is the total printed gold cost of your exposed Royals: ${fee} gold. A larger retinue asks for more.`,
+      why: `Your family has at least three Royals in play. ${p.challengers.map((id) => house(g.players[id].house).name).join(", ")} each get a complete challenge turn. Coronation tribute is the total play cost of your exposed Royals: ${fee} gold. A larger retinue asks for more.`,
     });
   }
   breakClaims(g);
@@ -715,7 +740,7 @@ export function respond(g: Duel, response: Response) {
     attacker = p.court.find((r) => r.uid === c.attacker)!;
   let reduce = 0;
   if (response !== "accept") {
-    q.gold--;
+    q.gold -= 2;
     q.response = false;
     if (response === "brace") reduce = 2;
     else {
@@ -736,7 +761,7 @@ export function respond(g: Duel, response: Response) {
           : "AMBUSH · 3 damage before combat",
       why:
         response === "brace"
-          ? "One gold buys a defensive response. This defending House cannot buy another response during the same rival turn."
+          ? "Two gold and your response marker are spent. This defending House cannot buy another response during the same rival turn."
           : "A concealed Conspirator is spent. A surviving attacker still completes its challenge.",
     });
   }
@@ -748,7 +773,7 @@ export function respond(g: Duel, response: Response) {
       actor: q.id,
       target: attacker.uid,
       title: "The ambush stops the attack",
-      why: "The attacker lost all resolve before the challenge could land.",
+      why: "The attacker lost all health before dealing combat damage.",
     });
   } else {
     const hit = Math.max(0, spec(attacker).force - reduce);
@@ -767,20 +792,34 @@ export function respond(g: Duel, response: Response) {
         title: hit ? "Estate raided · +2 gold" : "The raid was repelled",
         why: hit
           ? "The rival loses an estate and its future income. You gain 2 gold."
-          : "Brace prevented all pressure; the investment survives.",
+          : "Brace blocked all damage; the estate survives.",
       });
     } else {
       const defender = q.court.find((r) => r.uid === c.target)!;
+      const attackerBefore = attacker.hp,
+        defenderBefore = defender.hp;
       defender.hp -= hit;
       attacker.hp -= spec(defender).force;
       emit(g, {
         kind: "combat",
+        changes: [
+          {
+            uid: attacker.uid,
+            before: attackerBefore,
+            after: Math.max(0, attacker.hp),
+          },
+          {
+            uid: defender.uid,
+            before: defenderBefore,
+            after: Math.max(0, defender.hp),
+          },
+        ],
         actor: p.id,
         source: attacker.uid,
         target: defender.uid,
         amount: hit,
-        title: `${hit} pressure ↔ ${spec(defender).force} retaliation`,
-        why: `${card(defender.card).name} retaliates simultaneously. ${card(attacker.card).name}: ${Math.max(0, attacker.hp)} resolve. ${card(defender.card).name}: ${Math.max(0, defender.hp)} resolve.`,
+        title: `${card(attacker.card).name} deals ${hit} · ${card(defender.card).name} deals ${spec(defender).force}`,
+        why: `${card(attacker.card).name}: ${attackerBefore} → ${Math.max(0, attacker.hp)} health. ${card(defender.card).name}: ${defenderBefore} → ${Math.max(0, defender.hp)} health. Both Royals deal damage simultaneously.`,
       });
       if (defender.hp <= 0) {
         remove(g, q, defender);
@@ -794,9 +833,21 @@ export function respond(g: Duel, response: Response) {
             source: defender.uid,
             target: `hand-${p.id}`,
             title: `${card(defender.card).name} seized`,
-            why: "The Royal enters the victor’s concealed hand. Foreign Royals need a marriage for income and support. A supported marriage brings them into your dynasty.",
+            why: `${card(defender.card).name} moves from ${house(q.house).name}’s court into ${house(p.house).name}’s hand.`,
           });
-        } else q.discard.push(defender);
+        } else {
+          q.discard.push(defender);
+          emit(g, {
+            kind: "defeat",
+            actor: q.id,
+            target: defender.uid,
+            title: `${card(defender.card).name} goes to the discard pile`,
+            why:
+              attacker.hp <= 0
+                ? "Both Royals were defeated. Neither is captured."
+                : "The attacker’s hand is full, so the defender is discarded.",
+          });
+        }
       }
       if (attacker.hp <= 0) {
         remove(g, p, attacker);
@@ -806,7 +857,7 @@ export function respond(g: Duel, response: Response) {
           actor: q.id,
           target: attacker.uid,
           title: "The attacker is displaced",
-          why: "The defender’s retaliation exhausted the attacker’s resolve.",
+          why: "The defender’s damage reduced the attacker to zero health.",
         });
       }
     }
@@ -820,7 +871,7 @@ function endTurn(g: Duel) {
   const next = g.players[(g.turn + 1) % g.players.length];
   if (next.id === 0) {
     g.round++;
-    if (g.mode !== "lesson") {
+    if (g.mode !== "lesson" || g.lesson >= 10) {
       g.witness++;
       if ((g.round - 1) % 4 === 0) history(g);
     }
@@ -870,21 +921,24 @@ function endTurn(g: Duel) {
   for (const p of g.players) if (p.id !== next.id) p.response = true;
   const earned = g.round > 1 ? income(next) : 0;
   next.gold = Math.min(30, Math.max(0, next.gold + earned));
-  next.court.forEach((r) => (r.ready = true));
+  next.court.forEach((r) => {
+    r.ready = true;
+    r.hp = spec(r).resolve;
+  });
   if (
     g.round > 1 &&
     next.house === "bourbon" &&
     next.court.some((r) => card(r.card).role === "Founder")
   )
     next.shield = Math.min(5, next.shield + 1);
-  draw(next);
+  draw(next, g);
   emit(g, {
     kind: "turn",
     actor: next.id,
     target: `crown-${next.id}`,
     amount: earned,
     title: `${house(next.house).name.toUpperCase()} TURN ${earned >= 0 ? "+" : ""}${earned} gold`,
-    why: `${g.round === 1 ? "Opening treasury already funded. No extra income in round one." : "2 orders. Income includes " + next.estates + " estates"} and ${upkeep(next)} upkeep for exposed power.`,
+    why: `Royals turn upright and recover full health. ${g.round === 1 ? "Opening gold is already funded." : `Receive ${earned} gold: 4 base + ${next.estates * 2} from estates + ${next.court.filter((r) => card(r.card).role === "Royal" && active(next, r)).length} from Stewards − ${upkeep(next)} upkeep.`} Two orders are available.`,
   });
 }
 function history(g: Duel) {
@@ -925,16 +979,16 @@ export function explain(g: Duel, a: Move, actor = g.turn): string {
     if (card(r.card).house !== p.house)
       return "A foreign Outlaw supplies force, but no income or special abilities. A Queen can marry a foreign Royal from hand.";
     return role === "Royal"
-      ? "A Steward trades immediate force for +1 recurring income. Guard it from pressure."
+      ? "A Steward adds 1 gold each turn while in your family. Its low attack makes it vulnerable."
       : role === "Lawgiver"
-        ? "A Guardian forces enemy attacks through this Royal. It protects income and legitimacy."
+        ? "While upright, a Guardian protects your other pieces. Attacking gives up that protection until your next turn."
         : role === "Warlord"
           ? "A Commander develops cheap force. It can punish an investment before it repays its cost."
           : role === "Intriguer"
             ? "A Conspirator dismantles estates now, but can no longer be used as a concealed Ambush."
             : role === "Queen"
               ? "A Queen opens foreign alliances; those allies become dependent on her survival."
-              : "An Anchor brings strong force and resolve, at a substantial gold cost.";
+              : "A Founder brings strong attack and health, at a substantial gold cost.";
   }
   if (a.type === "attack") {
     if (a.target?.startsWith("crown-"))
@@ -967,12 +1021,14 @@ export function explain(g: Duel, a: Move, actor = g.turn): string {
     : a.type === "fortify"
       ? "Shields counter crown pressure, but cannot protect income or win a crown alone."
       : a.type === "recruit"
-        ? "Trade an order and gold for an additional concealed option."
+        ? "Discard your hand and draw five replacements. Trade your saved options for a fresh inheritance."
         : a.type === "claim"
           ? "Declare three family Royals and give every rival House a full turn to challenge the dynasty."
           : a.type === "restore"
             ? "Repair stability to prevent a succession collapse."
-            : "Save unspent gold for a response or the next turn.";
+            : g.orders === 0
+              ? "No orders left. End your turn."
+              : "End your turn to keep unspent gold for responses or your next turn.";
 }
 export function aiResponse(g: Duel): Response {
   const available = reactions(g);
@@ -988,11 +1044,19 @@ export function aiResponse(g: Duel): Response {
         (r) => r.uid === g.pending!.attacker,
       )!;
     const target = q.court.find((r) => r.uid === g.pending!.target);
+    const hit = spec(a).force;
+    const savesRoyal =
+      target && target.hp <= hit && target.hp > Math.max(0, hit - 2);
+    const savesEstate = g.pending!.target.startsWith("estate-") && hit <= 2;
+    const savesCrown =
+      g.pending!.target.startsWith("crown-") &&
+      q.stability + q.shield <= hit &&
+      q.stability + q.shield > hit - 2;
     if (
-      q.claim ||
-      g.pending!.target.startsWith("estate-") ||
-      (target && target.hp <= spec(a).force) ||
-      q.gold >= 4
+      savesRoyal ||
+      savesEstate ||
+      savesCrown ||
+      (target && target.hp > Math.max(0, hit - 2) && (q.claim || q.gold >= 4))
     )
       return "brace";
   }
@@ -1000,13 +1064,7 @@ export function aiResponse(g: Duel): Response {
 }
 export function chooseMove(g: Duel, policy = g.players[g.turn].policy): Move {
   const p = g.players[g.turn],
-    available = moves(g).filter(
-      (a) =>
-        g.mode !== "lesson" ||
-        p.id === 0 ||
-        (a.type !== "claim" &&
-          (a.type !== "attack" || targetCourt(g, a.target!).id !== 0)),
-    );
+    available = moves(g);
   if (!available.length) throw Error("No moves during a response.");
   const value = (a: Move) => {
     const q =
@@ -1049,7 +1107,19 @@ export function chooseMove(g: Duel, policy = g.players[g.turn].policy): Move {
       const r = p.court.find((r) => r.uid === a.uid)!,
         t = q.court.find((r) => r.uid === a.target);
       const force = spec(r).force;
-      n = 2;
+      const givesUpGuard =
+        card(r.card).role === "Lawgiver" && guards(p).length === 1;
+      const canBrace = q.response && q.gold >= 2;
+      const otherAttack =
+        g.orders > 1 &&
+        p.court.some(
+          (other) =>
+            other.uid !== r.uid && other.ready && spec(other).force > 2,
+        );
+      const blocked = canBrace && force <= 2;
+      if (blocked && !otherAttack && !q.claim) return -12;
+      if (t && r.hp <= spec(t).force && t.hp > force && !q.claim) return -14;
+      n = givesUpGuard && !q.claim ? -6 : 2;
       if (t) {
         n += t.hp <= force ? 7 : 1;
         n +=
@@ -1060,6 +1130,13 @@ export function chooseMove(g: Duel, policy = g.players[g.turn].policy): Move {
               ? 5
               : 0;
         n -= r.hp <= spec(t).force ? 5 : 0;
+        if (
+          r.hp <= spec(t).force &&
+          active(p, r) &&
+          dynastyCount(p) <= 3 &&
+          !q.claim
+        )
+          n -= 12;
         if (q.claim) n += 25 + (t.hp <= force ? 15 : 0);
         if (p.claim && r.hp <= spec(t).force) n -= 20;
       } else if (a.target?.startsWith("estate-")) n += q.estates ? 7 : 0;
@@ -1106,7 +1183,11 @@ export function chooseMove(g: Duel, policy = g.players[g.turn].policy): Move {
     if (a.type === "restore")
       n = (p.stability < 6 ? 14 : 3) + (p.claim ? 12 : 0);
     if (a.type === "recruit")
-      n = p.hand.some((r) => card(r.card).house === p.house) ? -4 : 4;
+      n = p.hand.some((r) => card(r.card).house === p.house)
+        ? -4
+        : dynastyCount(p) < 3
+          ? 22
+          : 4;
     return n;
   };
   return available

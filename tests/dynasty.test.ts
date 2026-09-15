@@ -149,7 +149,7 @@ test("Brace spends gold and blocks pressure", () => {
   const gold = g.players[1].gold;
   respond(g, "brace");
   assert.equal(victim.hp, 1);
-  assert.equal(g.players[1].gold, gold - 1);
+  assert.equal(g.players[1].gold, gold - 2);
   assert.equal(g.players[1].response, false);
   assert.ok(validateDuel(g));
 });
@@ -178,6 +178,7 @@ test("a Queen loss disables a foreign Guardian without deleting the ally", () =>
   g.players[2].hand = g.players[2].hand.filter((r) => r !== foreign);
   q.court.push(foreign);
   foreign.marriedTo = queen.uid;
+  foreign.ready = true;
   assert.ok(guards(q).includes(foreign));
   g.turn = 1;
   act(g, { type: "recall", uid: queen.uid });

@@ -1,0 +1,443 @@
+{
+  "games": 50,
+  "rounds": 561,
+  "wins": {
+    "defense": 8,
+    "economy": 13,
+    "Witness": 11,
+    "adaptive": 11,
+    "rush": 7
+  },
+  "seatWins": {
+    "0": 14,
+    "1": 21,
+    "2": 3,
+    "3": 1,
+    "-1": 11
+  },
+  "decisions": 1052,
+  "forced": 162,
+  "dominant": 100,
+  "tradeoffs": 131,
+  "trivial": 140,
+  "unavoidableLoss": 519,
+  "responses": 746,
+  "responseChoices": 746,
+  "actions": {
+    "deploy": 937,
+    "end": 1796,
+    "estate": 284,
+    "claim": 301,
+    "attack": 1622,
+    "marry": 161,
+    "restore": 16,
+    "recruit": 44,
+    "recall": 13
+  },
+  "examples": [
+    {
+      "seed": 20150,
+      "round": 1,
+      "house": "alba",
+      "orders": 2,
+      "first": {
+        "move": {
+          "type": "recruit"
+        },
+        "mean": 0.75,
+        "outcomes": [
+          0,
+          1,
+          1,
+          1
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "estate"
+        },
+        "mean": 0.75,
+        "outcomes": [
+          1,
+          0,
+          1,
+          1
+        ]
+      },
+      "explanation": "Each alternative wins a continuation where the other loses; neither dominates the other."
+    },
+    {
+      "seed": 20151,
+      "round": 1,
+      "house": "plantagenet",
+      "orders": 2,
+      "first": {
+        "move": {
+          "type": "deploy",
+          "uid": "0:plantagenet-2"
+        },
+        "mean": 0.75,
+        "outcomes": [
+          1,
+          1,
+          0,
+          1
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "deploy",
+          "uid": "0:plantagenet-12"
+        },
+        "mean": 0.75,
+        "outcomes": [
+          0,
+          1,
+          1,
+          1
+        ]
+      },
+      "explanation": "Each alternative wins a continuation where the other loses; neither dominates the other."
+    },
+    {
+      "seed": 20151,
+      "round": 2,
+      "house": "plantagenet",
+      "orders": 1,
+      "first": {
+        "move": {
+          "type": "estate"
+        },
+        "mean": 0.5,
+        "outcomes": [
+          0,
+          0,
+          1,
+          1
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "recruit"
+        },
+        "mean": 0.25,
+        "outcomes": [
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "explanation": "Each alternative wins a continuation where the other loses; neither dominates the other."
+    },
+    {
+      "seed": 20151,
+      "round": 3,
+      "house": "plantagenet",
+      "orders": 2,
+      "first": {
+        "move": {
+          "type": "estate"
+        },
+        "mean": 0.5,
+        "outcomes": [
+          0,
+          0,
+          1,
+          1
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "recruit"
+        },
+        "mean": 0.25,
+        "outcomes": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "explanation": "Each alternative wins a continuation where the other loses; neither dominates the other."
+    },
+    {
+      "seed": 20151,
+      "round": 4,
+      "house": "plantagenet",
+      "orders": 1,
+      "first": {
+        "move": {
+          "type": "fortify"
+        },
+        "mean": 0.25,
+        "outcomes": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "recruit"
+        },
+        "mean": 0.25,
+        "outcomes": [
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "explanation": "Each alternative wins a continuation where the other loses; neither dominates the other."
+    },
+    {
+      "seed": 20152,
+      "round": 1,
+      "house": "tudor",
+      "orders": 2,
+      "first": {
+        "move": {
+          "type": "estate"
+        },
+        "mean": 0.25,
+        "outcomes": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "recruit"
+        },
+        "mean": 0.25,
+        "outcomes": [
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "explanation": "Each alternative wins a continuation where the other loses; neither dominates the other."
+    },
+    {
+      "seed": 20152,
+      "round": 2,
+      "house": "tudor",
+      "orders": 2,
+      "first": {
+        "move": {
+          "type": "deploy",
+          "uid": "0:tudor-4"
+        },
+        "mean": 0.5,
+        "outcomes": [
+          0,
+          0,
+          1,
+          1
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "fortify"
+        },
+        "mean": 0.25,
+        "outcomes": [
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "explanation": "Each alternative wins a continuation where the other loses; neither dominates the other."
+    },
+    {
+      "seed": 20154,
+      "round": 1,
+      "house": "habsburg",
+      "orders": 2,
+      "first": {
+        "move": {
+          "type": "deploy",
+          "uid": "0:habsburg-10"
+        },
+        "mean": 0.5,
+        "outcomes": [
+          0,
+          1,
+          0,
+          1
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "end"
+        },
+        "mean": 0.5,
+        "outcomes": [
+          0,
+          1,
+          1,
+          0
+        ]
+      },
+      "explanation": "Each alternative wins a continuation where the other loses; neither dominates the other."
+    },
+    {
+      "seed": 20154,
+      "round": 1,
+      "house": "habsburg",
+      "orders": 1,
+      "first": {
+        "move": {
+          "type": "deploy",
+          "uid": "0:habsburg-9"
+        },
+        "mean": 0.5,
+        "outcomes": [
+          0,
+          1,
+          1,
+          0
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "deploy",
+          "uid": "0:habsburg-10"
+        },
+        "mean": 0.5,
+        "outcomes": [
+          1,
+          1,
+          0,
+          0
+        ]
+      },
+      "explanation": "Each alternative wins a continuation where the other loses; neither dominates the other."
+    },
+    {
+      "seed": 20154,
+      "round": 2,
+      "house": "habsburg",
+      "orders": 1,
+      "first": {
+        "move": {
+          "type": "fortify"
+        },
+        "mean": 0.5,
+        "outcomes": [
+          0,
+          0,
+          1,
+          1
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "attack",
+          "uid": "0:habsburg-0",
+          "target": "2:alba-11"
+        },
+        "mean": 0.25,
+        "outcomes": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "explanation": "Each alternative wins a continuation where the other loses; neither dominates the other."
+    },
+    {
+      "seed": 20154,
+      "round": 3,
+      "house": "habsburg",
+      "orders": 1,
+      "first": {
+        "move": {
+          "type": "estate"
+        },
+        "mean": 0.5,
+        "outcomes": [
+          1,
+          1,
+          0,
+          0
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "recruit"
+        },
+        "mean": 0.5,
+        "outcomes": [
+          0,
+          1,
+          1,
+          0
+        ]
+      },
+      "explanation": "Each alternative wins a continuation where the other loses; neither dominates the other."
+    },
+    {
+      "seed": 20155,
+      "round": 2,
+      "house": "bourbon",
+      "orders": 2,
+      "first": {
+        "move": {
+          "type": "deploy",
+          "uid": "0:bourbon-9"
+        },
+        "mean": 0.5,
+        "outcomes": [
+          0,
+          1,
+          0,
+          1
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "recruit"
+        },
+        "mean": 0.5,
+        "outcomes": [
+          0,
+          0,
+          1,
+          1
+        ]
+      },
+      "explanation": "Each alternative wins a continuation where the other loses; neither dominates the other."
+    }
+  ],
+  "histogram": {
+    "5": 16,
+    "6": 5,
+    "7": 4,
+    "8": 6,
+    "9": 1,
+    "10": 3,
+    "11": 1,
+    "12": 1,
+    "13": 1,
+    "14": 1,
+    "26": 11
+  },
+  "responseAudit": {
+    "decisions": 204,
+    "forced": 23,
+    "dominant": 4,
+    "tradeoffs": 6,
+    "trivial": 24,
+    "unavoidableLoss": 147
+  },
+  "averageRounds": 11.22,
+  "method": "Strict victory-set proxy, not human enjoyment. Up to nine candidate orders and all available responses are rolled to termination under four continuation policies. Own victory=1; all losses, including Witness,=0. No winning candidate: unavoidableLoss. Exactly one: forced. Multiple distinct non-dominated victory sets: tradeoffs. One frontier vector shared by multiple candidates: trivial. Otherwise: dominant. Production AI never reads rival hands; offline diagnostic rollouts retain fixture state."
+}

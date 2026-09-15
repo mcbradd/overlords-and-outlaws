@@ -153,7 +153,8 @@ function examineResponse(g: Duel) {
     .sort((a, b) => b.mean - a.mean);
   responseAudit[classifyChoices(scores.map((s) => s.outcomes)).kind]++;
 }
-for (let n = 0; n < count; n++) {
+const offset = Number(process.argv[4] ?? 0);
+for (let n = offset; n < offset + count; n++) {
   if (n % 25 === 0) console.log(`Auditing ${n}/${count}`);
   const g = createDuel({
     seed: 20000 + n,
@@ -186,9 +187,9 @@ for (let n = 0; n < count; n++) {
     (result.seatWins[String(g.winner)] ?? 0) + 1;
   result.histogram[g.round] = (result.histogram[g.round] ?? 0) + 1;
 }
-mkdirSync("artifacts/v2", { recursive: true });
+mkdirSync("artifacts/v3", { recursive: true });
 writeFileSync(
-  `artifacts/v2/audit-${tag}.json`,
+  `artifacts/v3/audit-${tag}.json`,
   JSON.stringify(
     {
       ...result,

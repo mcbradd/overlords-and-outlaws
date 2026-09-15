@@ -4,7 +4,7 @@ A browser dynasty card-game prototype based on **Malachy Murray's** concept. Gat
 
 ## Play
 
-- **Guided lesson:** a clearly labeled practice table, with protected learning and the real claim victory.
+- **Ten short lessons:** fixed practice positions teach actions, capture, marriage, income, broken and defended claims, hand renewal, and Eudoxia. Opponents use real legal attacks.
 - **Skirmish:** one human with one to three AI Houses.
 - **Family table:** two to four human players, choosing distinct Houses and passing a shared device privately.
 - **Chronicle:** three branching courts with inherited rewards.
@@ -13,7 +13,7 @@ A browser dynasty card-game prototype based on **Malachy Murray's** concept. Gat
 
 [Play the published game](https://overlords-and-outlaws-mcbradd.braddicus.chatgpt.site/) · [Private GitHub repository](https://github.com/mcbradd/overlords-and-outlaws)
 
-Click or tap a card, read its action panel, and choose an order. Select a ready Royal and a highlighted target to review a challenge before committing. Inspect with ↗ or right-click. Keyboard controls use Tab, Enter and Escape. Sound, motion and strategic explanations can be adjusted. The table supports desktop browsers and landscape phones; full inspection provides readable detail on small displays.
+Click or tap a card and use the bottom action dock. Drag a hand card to the table to play it, or drag an upright Royal toward a target to preview an attack before committing. Hover, touch-hold, or use ↗ to inspect without taking an action. Click the family, gold, crown, estates or forecast to explain their current state. Keyboard controls use Tab, Enter and Escape. Sound, motion and coaching can be adjusted. Full inspection provides readable detail on small landscape displays.
 
 ## Run and verify
 
@@ -33,21 +33,26 @@ With the dev server running on port 5173 and Chrome installed:
 
 ```sh
 npm run test:browser
-npx tsx scripts/playthrough.ts
+npx tsx scripts/session02-browser.ts
+npx tsx scripts/interaction-v3.ts
 npx tsx scripts/playthrough.ts normal
-node scripts/visual-v2.mjs
+npx tsx scripts/playthrough.ts normal --motion
 npx tsx scripts/family-browser.ts
 npx tsx scripts/family-browser.ts --compact --four --estate
 ```
 
-`test:audit` performs 200 complete games plus counterfactual terminal rollouts. It is a diagnostic of choices, not a human enjoyment score. Reports and screenshots are written to ignored `artifacts/v2/`; checked-in summaries are under `docs/`.
+`test:audit` performs 200 complete games plus counterfactual terminal rollouts. It is a diagnostic of choices, not a human enjoyment score. V3 reports and screenshots use ignored `artifacts/v3/`; some retained family scripts use `artifacts/v2/`. Checked-in audit evidence is under `docs/testing/`.
 
 ## Project map
+
+Current iteration: [Play Session 02 review](docs/PLAY-SESSION-02-REVIEW.md), [revision 3 plan and delivery status](docs/REVISION-3-PLAN.md), [V3 quality report](docs/QUALITY-REPORT-V3.md), and [V3 decision audit](docs/DECISION-AUDIT-V3.md). The human playthrough exposed comprehension failures that automated checks did not measure. V3 addresses their causes; human comprehension and competitive balance remain unverified.
 
 - `src/duel.ts`: deterministic **2–4-player** rules and AI; the filename is historical.
 - `src/battlefield.ts`: lazy-loaded Three.js table and projected interactive cards.
 - `src/cards.ts`: shared collectible card frame and portrait mapping.
-- `src/main.ts`, `src/style.css`: interaction, teaching, private handoffs, modes and responsive presentation.
+- `src/action-view.ts`: shared action labels, costs, legality and consequence descriptions.
+- `src/lessons.ts`: ten deterministic lessons using the real engine.
+- `src/main.ts`, `src/v3.css`: interaction, teaching, private handoffs, modes and responsive presentation; `src/style.css` retains the older styles in a lower-priority CSS layer.
 - `src/progress.ts`: versioned browser-local saves; `src/audio.ts`: synthesized sound.
 - `src/content.ts`: historical identities and preserved source-era content.
 - `src/engine.ts`, `src/storage.ts`, `tests/engine.test.ts`: retained V1 reference and regression coverage; unused by the V2 game.
@@ -60,6 +65,6 @@ npx tsx scripts/family-browser.ts --compact --four --estate
 
 Original PDFs stay local in `SourceMaterial/` and are excluded from Git and deployment. Their Markdown knowledge base is preserved in the private repository. Only the built static game is publicly served. No runtime AI, purchases, accounts or cloud saves are required. Art, fonts and audio generation are local to the application.
 
-V2 uses a new save key. V1 saves remain stored but cannot be resumed under incompatible rules. Historical figures meet across centuries; fictional abilities and generated paintings are interpretations. Some figures share House portrait archetypes. This is a tested prototype, not a verified AAA commercial release.
+V3 uses a new save key, preserves V2 collection/progression/settings, and leaves incompatible old matches under their old key. Historical figures meet across centuries; fictional abilities and generated paintings are interpretations. Some figures share House portrait archetypes. This is a tested prototype, not a verified AAA commercial release.
 
 Original concept and supplied source: © 2025 Malachy Murray. This private repository grants no open-source license to the concept, implementation or art. Dependencies retain their own licenses; see [Third-party credits](docs/THIRD-PARTY.md).
