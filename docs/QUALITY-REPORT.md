@@ -1,44 +1,37 @@
-# Quality report — 14 September 2026
+# Revision 2 quality report — 15 September 2026
 
-## Delivered build
+## Delivered scope
 
-Playable single-player vertical slice with six houses, 84 named Royals, eight historical events, three Witness paintings, nine encounter definitions, six heirlooms, a guided opening, four-court branching chronicles, skirmish, UTC daily challenges, archive, automatic saves, synthesized audio, and landscape touch layouts. Seventeen generated paintings and portraits, plus fonts, ship locally.
+A real Three.js battlefield with projected interactive cards, physical deployments/challenges/captures, marriage links, impact effects, explicit stat panels, six House frames and role identities. Solo tables support 2–4 Houses; local family tables support 2–4 humans with chosen Houses and private handoffs. Guided practice, three-court chronicles, daily seeds, an 84-Royal archive and browser-local saves provide replay paths.
 
-This is a polished prototype. Commercial AAA release quality has not been established by these checks.
+The [rules](RULES.md) connect victory to a three-Royal family, printed tribute and each actual rival's challenge turn. Supported marriage chains contribute legitimacy and fail when disconnected from a native Queen. History is forecast, and the Witness's nine-fragment painting completion is public. There is no opaque authority score.
 
-## Automated verification
+## Automated validation
 
-- `npm run build`: strict TypeScript checking and production bundling pass. JavaScript is approximately 60 KB (22 KB gzip); CSS approximately 61 KB (14 KB gzip), before art and fonts.
-- `npm test`: 13 rule tests pass. Coverage includes atomic invalid moves, deterministic replay, draft conservation, 500 hostile drafts, protection, marriage loss, delayed claims, all six action families, save validation, and 180 full matches with state validation after every action.
-- `npm run test:ui`: two DOM integration scenarios pass. A tutorial runs from inheritance through results; rapid save/resume during rival turns preserves action count; campaign navigation, archive inspection, settings, fixed daily selection, and replacement work. A separate winning-court scenario verifies one-time rewards and heirloom transfer into the next act. Audio and animation are mocked; these checks do not measure visual rendering.
-- `npm run test:simulate`: 600 diagnostic matches terminate, 100 per selected house. Mean duration ranges from 9.98 to 11.68 rounds. The Witness wins 24–39% depending on the tested selection. The player-slot draft policy differs from rival drafting, so these numbers are diagnostics, not a fair house-balance study or evidence of human win rates.
-- Dependency installation reported zero audit vulnerabilities at validation time.
+- Strict TypeScript checking and production build pass. The initial application is approximately 69 KB JavaScript / 26 KB gzip. The 3D runtime loads when entering a table: Three core is approximately 533 KB / 133 KB gzip, plus small scene/renderer chunks. Vite reports the expected >500 KB vendor-chunk warning; this is not evidence of a measured low-end-device performance budget.
+- **16 V2 rule tests** cover equal opening income, 2–4 seats, card conservation, legal/atomic moves, named claim windows, supported marriage chains, Guard, Brace, Ambush, seizure, upkeep, archive recycling, Witness completion, chosen family Houses and hidden-information isolation. Two additional tests check the strict audit classification. Another 13 retained tests cover the historical V1 engine, which is not used by the new UI.
+- **Two DOM integration tests** exercise family privacy, save/resume, archive inspection and one-time chronicle rewards carried into the next court. Rendering/audio are mocked in these tests.
+- **600 full V2 smoke-test games** validate state after every action and end with explicit reasons. Seeds 30000–30599: 133 Witness endings, average 12.95 rounds.
+- **Four 200-game audit runs**, plus pilots, informed the revision. The release run completed 200 games and 4,427 order/response samples. See [Decision audit](DECISION-AUDIT.md) for all categories, counterfactual method and limitations.
+- Dependency installation/audit reported zero known vulnerabilities at validation time.
 
-## Visual and interactive inspection
+## Real-browser checks
 
-Chrome inspection covered the home screen, 1440×900 drafting and declaration, card selection, a committed move with both rival responses, and the 844×390 landscape board. No console errors were reported during those inspected flows. Portraits, card framing, typography, court lighting, and layered backgrounds were reviewed visually.
+Isolated headless Chrome was used without the user's browsing profile. Tests exercise real click targets and avoid forced clicks.
 
-The small landscape board was reworked into a tactical layout. Measured document dimensions matched 844×390, and the commit control remained inside the viewport. A subsequent CSS adjustment compressed the Witness panel to expose more of the public exchange. That final adjustment, and the final desktop height correction, could not receive another browser screenshot before computer control stopped.
+- All exposed cards were clicked in full 2-, 3- and 4-House tables at 1440×900, 1024×600, 844×390, 667×375 and 568×320. No card clipping, page overflow or blocked target clicks in these fifteen configurations.
+- Screenshot/geometry checks report no vertical scrolling in card areas or the decision panel. The document matches viewport dimensions at the tested landscape sizes.
+- A complete guided lesson finishes in four rounds, with nine user-side actions/responses, through the actual crown condition. Its protected opponent policy is explicitly disclosed.
+- A complete four-House normal match finishes in five rounds in the fixed browser scenario, with sixteen user-side actions/responses and an AI House securing the crown. It includes actual card selection, target review, defensive responses and a specific result explanation.
+- The normal browser flow also completes with motion enabled. A separate 844×390 family flow verifies private defensive handoffs, Brace costs and pressure, private reload/resume, public-number inspection and keyboard dialog focus. The compact 568×320 variant also checks four-House estate targeting and a Royal challenge.
+- Earlier failed browser runs found CSS3D focus scrolling, a decorative label intercepting target clicks, and an empty stale hand page. Compact-phone testing also found hidden crown/estate controls, which were restored before publication. Each failure was corrected and the full flows rerun.
 
-## Iterations completed
+Screenshots and machine reports are generated under local ignored `artifacts/v2/`. Reproduction commands are in the README.
 
-- Recovered embedded PDF exhibit text and preserved contradictions separately from executable rules.
-- Made unsuccessful drafting recoverable without creating or losing cards.
-- Added a legal petition action for exhausted hands to avoid deadlock.
-- Reduced protection accumulation and made crown claims spend protection to retain counterplay.
-- Added explicit card inspection, suggested moves, event logs, move feedback, and mobile rules/settings access.
-- Fixed cancellation of old AI timers when saving and rapidly resuming.
-- Bundled fonts and compressed artwork; removed runtime font-network dependence.
+## Known limitations
 
-## Remaining limits
+This is a tested, substantially revised prototype. These checks do not establish AAA release quality, human enjoyment, first-seat fairness, full accessibility certification, Safari/iOS behavior or low-end mobile GPU performance. Tiny battlefield cards on phones rely on the selected detail panel and full inspection. Six figures have individual new portraits; many others share House archetypes. Heraldic marks are inspired designs, not certified historical arms.
 
-- No independent human playtest, complete multi-act campaign browser playthrough, Safari/WebKit test, physical mobile-device test, or long-duration performance soak has been completed.
-- Portraits are shared court archetypes, not 84 unique historical likenesses. Audio is synthesized rather than a recorded orchestral score or voiced cast.
-- Balance and tutorial comprehension need human evidence. Difficulty labels and session estimates are design targets.
-- Saves are local to one browser. Export is available; cloud synchronization and import are not implemented.
-- GitHub publishing was initially blocked by invalid CLI credentials. On 15 September 2026 the owner completed GitHub CLI authentication; repository/workflow access was verified and the committed source was successfully pushed to the private `mcbradd/overlords-and-outlaws` repository.
-- Native computer control ended because it could not confidently verify the current browser URL for policy enforcement. No further browser or native UI automation was attempted after that stop.
+Online multiplayer, network security, account systems, cloud saves, the original passing draft and full expansion content are outside the implemented revision. V1 saves are retained under their old storage key but are incompatible with V2. Generated art and fictional game abilities are labeled as interpretations. The source PDFs and full Markdown knowledge base remain separate from the published static game.
 
-## Handoff
-
-The Markdown knowledge base includes page-by-page text from all three PDFs and a separate transcription of illustrated card exhibits. Original PDFs, credentials, temporary files, dependencies, and generated build directories are excluded from source control. Deployment status and its exact URL are reported separately in the final handoff, after the hosting service confirms them.
+The stricter final audit identifies 1,087 tradeoff candidates, but equivalent/forced decisions and seat effects remain. No honest automated process can certify that every design possibility has been exhausted. The next evidence should come from real families learning and playing this build.

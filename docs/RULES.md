@@ -1,80 +1,81 @@
-# The Witness — executable prototype rules and decision ledger
+# Revision 2: a family of rivals
 
-These are new digital design decisions based on the source material. They do not claim to be the missing final tabletop rules. See `knowledge-base/` for original wording, unresolved branches, and illustrated card evidence.
+This is the executable digital adaptation, not a claim that the provisional PDF rules are finished. Original wording and conflicts remain in the [knowledge base](knowledge-base/README.md). The later [designer correspondence](knowledge-base/designer-intent.md) gives family play, historical identity and fragile power priority.
 
-## Match structure
+## Table and victory
 
-One human and two AI-controlled courts play clockwise. Each encounter uses the fourteen cards belonging to each participating archive: 42 unique Royals total. Six playable archives exist, 84 figures in the collection. Archives are asynchronous historical groupings, including consorts and related lines. Alba intentionally follows the supplied broad Scottish grouping.
+Two to four Houses play clockwise. Solo defaults to one human and two AI Houses; local family mode supports two to four humans, each choosing a distinct House. Private handoffs conceal hands between turns and defensive responses. Shared-device privacy relies on people looking away. There is no online multiplayer.
 
-### Inheritance
+**Gather three family Royals, claim the crown, and hold that family through one complete turn from every other House.** A family Royal is either native to your House or joined by a marriage supported through a Queen connected to your House. This extends the source's three-matching-Royal declaration to marriage, making alliances useful and vulnerable. Unsupported foreign Outlaws supply force but do not count toward the dynasty or receive active role abilities.
 
-Each player receives eight cards, seeded with five native Royals including a Founder and Queen, plus three cards from the mixed remainder. Every player simultaneously chooses three cards to pass clockwise, then two, then one. AI decisions use its own hand only. A no-triple recovery exchanges foreign cards for native cards from the available archive; the implementation must preserve uniqueness.
+Claim costs one order and **tribute equal to the sum of the gold costs printed on every exposed Royal**, including House discounts. It is spent even if the claim fails. A larger retinue demands a larger coronation. Each actual rival is named in the challenge track; no fixed arbitrary number of rounds is assigned. A claim breaks immediately if fewer than three family Royals remain or succession collapses. Surviving all named turns wins. A broken claim may be rebuilt and declared again.
 
-### Declaration
+At a round boundary, forecast history resolves first, then surviving claims, then the Witness deadline. Claim victory therefore wins a simultaneous deadline if history did not break it. All endings include a specific reason.
 
-Choose three native Royals to reveal. Other players do the same. A declared Founder grants one protection, or two for Alba. Ordinary initial Royals do not fire Build abilities. The live concealed hand normalizes to five. The four-card public exchange is dealt. Interregna and Eudoxia only become active after declarations.
+## Turn and economy
 
-### One strategic action
+- Start with one native Founder, five gold and a curated five-card concealed hand containing development, defense, pressure and alliance options. Deck order is seeded.
+- Each House has 18 unique cards: its 14 archive figures plus four foreigners from nonparticipating Houses. No historical card is duplicated within a table.
+- Opening treasuries are already funded. **Income begins in round two** for every seat. Base income is four, plus two per estate and one per supported Steward, minus upkeep.
+- Upkeep is one for each exposed Royal beyond three, plus one per supported foreign marriage. Court capacity is five; hand capacity seven; gold capacity thirty.
+- Draw toward five cards at the start of a turn. Exhausted archives recycle displaced cards without duplication. Captured Royals remain with their captor until played, lost or captured again.
+- Each turn grants two orders. Every action below uses one. Unused orders expire; gold is retained. End turn explicitly, including after both orders are spent.
 
-| Action | Cost / eligibility | Outcome |
-|---|---|---|
-| Build | One native Royal, or a Royal of a house linked by a living marriage | Move it to your public court. Founder counts for two authority, other active Royals for one. A built Founder, Warlord, or Lawgiver grants protection. |
-| Barter | One hand card and one selected public-exchange card | Swap them. The public exchange represents a standing, consenting market offer. This is the prototype's explicit consent rule; no AI hand is exposed. |
-| Seize | Discard two same-house hand cards; Plantagenet may instead use a Warlord plus any card | Target a rival's non-Founder, or their Founder if it is their only card. Protection absorbs the move. Otherwise transfer the Royal to your court; a foreign captive requires marriage to count. |
-| Marry | One active, unmarried Queen in your court plus a foreign hand card from a house not already joined | The Queen opens that house and the foreign Royal enters your court. One Queen supports one marriage. Multiple Queens allow multiple houses. |
-| Betray | Discard an Intriguer; target a rival whose house is linked to yours | Remove a target Royal, subject to protection and Founder immunity. Tudor, the Velvet Veil, and the intrigue encounter bypass the marriage requirement. |
-| Conceal / Scheme | Discard one hand card | Replenish and gain protection. If the hand is entirely empty, petition instead: take the first public Royal if available and gain protection. |
+## Role vocabulary
 
-After a move, replenish the actor's hand to five if cards remain and refill the public exchange to four. Shuffle discards when the draw archive runs out. Never duplicate a figure. Exhaustion may temporarily leave a smaller hand; petition guarantees a legal turn while history continues.
+| Printed subclass | Source role | Gold | Force | Resolve | Active ability |
+|---|---|---:|---:|---:|---|
+| Anchor | Founder | 5 | 4 | 6 | Strong force and endurance |
+| Diplomat | Queen | 3 | 2 | 4 | Supports foreign marriages |
+| Commander | Warlord | 2 | 3 | 3 | Efficient military pressure |
+| Guardian | Lawgiver | 3 | 2 | 6 | Intercepts attacks on its court |
+| Conspirator | Intriguer | 2 | 2 | 2 | Sabotage on exposure; hidden Ambush |
+| Steward | Royal | 2 | 1 | 3 | One recurring income |
 
-## Protection, marriage, and collapse
+Force deals pressure; resolve is remaining endurance. The historical figure's name is an identity, not a claim that these fictional abilities describe that person's conduct.
 
-Protection holds at most two charges (three with Saint's Medallion). Each charge absorbs one hostile action or historical card loss. A claim to the throne spends one protection, exposing the coronation to meaningful counterplay.
+## Orders and subgames
 
-Removing a married Queen breaks her link immediately. Foreign cards remain in play but cease contributing authority unless another live marriage permits their house. If fewer than two native Royals remain, all the court's marriages break. The surviving core remains playable: a player can Build native Royals to recover. Founder immunity applies to Seize and Betray while the court has other Royals, but the Founder contributes no automatic supremacy.
+**Expose:** pay the Royal's cost, place it in a free seat resting. Readies next own turn. Plantagenet Commanders are immediately ready. Foreign deployment without marriage gives force but no supported abilities.
 
-## Victory and history
+**Marry:** expose a foreign card from hand linked to an active Queen. It contributes to the family and receives its role ability while supported. Habsburg discounts the cost by one. Queen loss breaks her direct marriages; dependent chains also lose legitimacy and abilities if disconnected from a native root. This can break a claim without capturing every member.
 
-Default skirmish target: nine authority. Tutorial: seven. Campaign targets vary by encounter (eight to ten). Royal Charter lowers only its owner's target by one. Reaching the target starts a public claim and spends one protection. Falling below target immediately removes the claim. Secure it by remaining above the target until your next turn.
+**Challenge:** a ready Royal attacks once per own turn. Choose a rival House and a target. Any active Guardians in that House must be confronted first. They do not protect other Houses. Review outgoing pressure, retaliation, and possible responses before committing.
 
-A new round reveals one Eudoxia fragment; from round ten, two. Three paintings contain nine fragments apiece. Completing any painting immediately ends the game: Eudoxia wins and all courts lose. Historical resolution precedes a pending start-of-turn claim check when a new round begins. Tutorial gives two early rounds of breathing room before history starts.
+- Against a Royal, both deal force simultaneously. A surviving attacker captures a depleted defender into its concealed hand if there is room. Otherwise the defender is displaced to its owner's discard. An exhausted attacker is displaced.
+- Against an estate, any unblocked pressure destroys one estate and steals two gold. Guardians prevent reaching the estate; Brace can repel low-force raids.
+- Against a crown, shields absorb pressure before stability. At zero stability, succession collapses: lose the newest non-Founder Royal (or the Founder if alone), one estate, marriages, and any claim; recover to eight stability. This is a disruption, not a separate health-bar victory.
 
-Every third round draws one of eight Interregna (every second in the Fractured Realm). Effects can remove Royals, break marriages, remove or grant protection, refresh the exchange, or accelerate paintings. The source's rank-based Blood Edict is preserved in the knowledge base; ranks were not adopted into this prototype because the deck does not reconcile that system.
+**Defense response:** accept free, keep resources; Brace for one gold to block two pressure; or spend one gold and a concealed Conspirator to Ambush for three pressure before combat. A defeated attacker never lands its hit. There is one paid response per opposing House's turn. Accept does not consume it. This makes order sequencing, reserve gold and concealed cards matter.
 
-## House identities
+**Invest:** three gold establishes an estate, maximum three. It earns two on future turns and can be raided or sabotaged. It repays its cost during its second surviving income turn.
 
-- Alba: Founders grant two protection when declared or built.
-- Plantagenet: a Warlord can form a competing pair with any other card.
-- Tudor: Intriguers can betray any court.
-- Valois: building a Lawgiver removes one fragment from the most complete painting.
-- Habsburg: every living marriage grants one additional authority.
-- Bourbon: the house's active Founder grants one additional authority.
+**Fortify:** two gold adds three crown shields, capped at five. These do not protect Royals or estates.
 
-## Replay structure
+**Restore:** two gold restores three stability, capped at twelve.
 
-Chronicles comprise three branching acts and a final coronation, four victories in total. Two routes are offered at each early act. Victories grant a choice of three available heirlooms; selected effects persist through the run. Failure ends that run; renown and discovered figures remain. A completed chronicle grants additional renown. The daily challenge fixes seed, house, difficulty, and encounter modifier using the UTC date; best score is stored locally. Repeating the same completed match does not repeatedly grant renown.
+**Recruit:** two gold draws one extra card if the hand has room; Valois pays one.
 
-All houses are available immediately. Unlocks are run heirloom choices and archive discoveries, not paid cards or power purchases. No multiplayer, backend account, cloud save, native app binary, or historical specialist review is implied.
+**Recall:** return an exposed Royal healed to hand (or discard if the hand is full). This costs tempo and exposed legitimacy. Its marriages break. A later exposure costs gold again.
 
-## AI and determinism
+A supported Conspirator sabotages an estate belonging to the rival with the most estates; gold, then seat order break ties. Tudor also steals up to two gold. An unsupported foreign Conspirator does not activate this ability. Keeping a Conspirator concealed preserves Ambush instead.
 
-The AI uses the same enumerated legal moves as the UI. It values authority, new marriage access, defense, and disrupting imminent rival claims. It reads its own concealed hand and public courts/exchange, never another hand or future deck order. Difficulty changes decision noise and how strongly rivals prioritize disrupting claims. Seeded randomness drives drafts, shuffles, history, and AI choice; saves retain the random state.
+## Houses
 
-## Deliberate departures from provisional source
+Alba Guardians cost one less. Plantagenet Commanders enter ready. Tudor Conspirators steal gold on supported exposure. Valois recruits for one. Habsburg married foreigners cost one less. Bourbon gains one crown shield at the start of its turns from round two while its Founder remains.
 
-| Source ambiguity | Prototype decision |
-|---|---|
-| Twelve-house branch; 14 Royals; counts provisional | Six-house collection, three-house encounters, 14 Royals each. |
-| Approximately 24 Interregna | Eight distinct systemic event rules reused by seeded draws. |
-| Founder treatment open | Two authority, protection, conditional seizure immunity. |
-| Completion count open | Authority target plus a full circuit of rivals' turns. |
-| No circulation procedure | Five-card replenishment, public exchange, discard recycling, exhaustion petition. |
-| Seize pair grammar open | Matching pair, Founder restriction, foreign captive rules. |
-| Marriage counting and succession open | Explicit live links, bonus authority for certain houses, dormant foreign cards after link loss. |
-| Betray has no procedure | Intriguer removal with alliance eligibility and named exceptions. |
-| Eudoxia frequency unknown | Public round-based reveals and late-round acceleration. |
-| Outsiders future-facing | Excluded from this release. |
+## History and Eudoxia
 
-## Status
+History is public and forecast. Every fourth completed round cycles through: pay two gold or lose one stability; overextension pressure of one per Royal beyond three; pay two per marriage or break it; recover two stability. Shields can absorb historical stability pressure.
 
-Rules are executable and simulation-tested. Balance remains prototype balance. Automated AI-vs-AI statistics are diagnostics, not a substitute for a representative human playtest study.
+Each completed round adds one fragment, cycling among the source's three paintings. **Nine fragments complete a painting.** Consequently the first completion is the 25th stroke: the paintings contain nine, eight, and eight fragments. If no dynasty has held, Eudoxia wins and every House loses. This is a turn-based shared threat, never a real-time timer.
+
+## Teaching and replay
+
+The guided lesson explicitly pauses history and Eudoxia. Teaching opponents develop and challenge each other; they do not attack the learner or claim. The player still wins through the real family, tribute and named-rival-turn rules. Normal skirmish, daily and chronicle matches use competitive opponents and the full Witness/history systems. Local family play uses the same normal rules.
+
+Chronicles contain three branching courts and two earned heirloom choices. Daily tables use a fixed UTC-day seed, House and three seats. Saves are browser-local. V1 saves remain stored under their old key; incompatible rules are not silently converted.
+
+## Tuning versus source
+
+Three-Royal declaration, concealed/exposed states, Houses, marriage, seizure, Interregna, Eudoxia and nine-fragment paintings originate in the source. Combat stats, gold, orders, upkeep, the exact claim procedure, marriage eligibility and deterministic event/fragment pace are explicit prototype design decisions. They have gameplay reasons and automated evidence, not historical authority. The original passing draft and expansion systems remain documented in the knowledge base rather than being inaccurately described as implemented in revision 2.

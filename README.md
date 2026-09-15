@@ -1,62 +1,65 @@
-# Overlords & Outlaws: The Witness
+# Overlords & Outlaws — The Weight of the Crown
 
-A single-player historical dynasty card game about exposed authority, concealed leverage, and the witness who records the cost. Based on the supplied game concept by **Malachy Murray**.
+A browser dynasty card-game prototype based on **Malachy Murray's** concept. Gather a family by blood or marriage, pay for coronation, and withstand every rival House's challenge. Growing power creates upkeep, vulnerable estates and dependent marriages.
 
 ## Play
 
-- **Learn to rule:** an interactive inheritance draft and guided opening encounter.
-- **Chronicle:** choose a house, navigate three branching acts, collect heirlooms, and survive a final coronation.
-- **Skirmish:** challenge two AI courts with your chosen house and difficulty.
-- **Daily chronicle:** replay a fixed UTC-day inheritance, house, difficulty, and historical modifier.
-- **Archive:** inspect all 84 Royals across six European archives and track discoveries.
+- **Guided lesson:** a clearly labeled practice table, with protected learning and the real claim victory.
+- **Skirmish:** one human with one to three AI Houses.
+- **Family table:** two to four human players, choosing distinct Houses and passing a shared device privately.
+- **Chronicle:** three branching courts with inherited rewards.
+- **Daily table:** a fixed UTC-day seed and House.
+- **Archive:** 84 named historical Royals across six Houses.
 
-The game runs in a desktop browser and includes a tactical layout for landscape phones. Click or tap to select cards, choose an action, select a target where needed, and **Commit move**. The in-game rulebook explains all mechanics. Settings provide sound, reduced motion, and save export. Progress saves in the current browser automatically.
+[Play the published game](https://overlords-and-outlaws-mcbradd.braddicus.chatgpt.site/) · [Private GitHub repository](https://github.com/mcbradd/overlords-and-outlaws)
 
-## Run locally
+Click or tap a card, read its action panel, and choose an order. Select a ready Royal and a highlighted target to review a challenge before committing. Inspect with ↗ or right-click. Keyboard controls use Tab, Enter and Escape. Sound, motion and strategic explanations can be adjusted. The table supports desktop browsers and landscape phones; full inspection provides readable detail on small displays.
 
-Requires Node.js 22.12+ (or a compatible newer LTS).
+## Run and verify
+
+Node.js 22.12+ or a compatible newer version:
 
 ```sh
 npm ci
 npm run dev
-```
-
-Open the local URL printed by Vite. Build and validate with:
-
-```sh
 npm run build
 npm test
 npm run test:ui
 npm run test:simulate
-npm run preview
+npm run test:audit
 ```
+
+With the dev server running on port 5173 and Chrome installed:
+
+```sh
+npm run test:browser
+npx tsx scripts/playthrough.ts
+npx tsx scripts/playthrough.ts normal
+node scripts/visual-v2.mjs
+npx tsx scripts/family-browser.ts
+npx tsx scripts/family-browser.ts --compact --four --estate
+```
+
+`test:audit` performs 200 complete games plus counterfactual terminal rollouts. It is a diagnostic of choices, not a human enjoyment score. Reports and screenshots are written to ignored `artifacts/v2/`; checked-in summaries are under `docs/`.
 
 ## Project map
 
-- `src/engine.ts`: deterministic rules, legal moves, history, and AI.
-- `src/content.ts`: 84 historical figures, six house identities, eight events, nine encounters, and six heirlooms.
-- `src/main.ts`: gameplay UI, campaign, onboarding, archive, and dialogs.
-- `src/style.css`: court presentation and responsive tactical layouts.
-- `src/audio.ts`: synthesized ambient sound and action feedback.
-- `src/storage.ts`: browser-local versioned progress.
-- `public/art/`: compressed generated paintings and court portraits.
-- `tests/`: rule, conservation, save, and complete-match checks.
-- `docs/knowledge-base/`: complete Markdown distillation, page transcripts, illustrated card text, and source conflicts.
-- `docs/RULES.md`: executable decisions and departures from provisional source material.
-- `docs/PRODUCTION-PLAN.md`: approved scope and release checks.
-- `docs/QUALITY-REPORT.md`: actual validation results and remaining limits.
-- `docs/ART-DIRECTION.md`: asset provenance and exact generation prompts.
+- `src/duel.ts`: deterministic **2–4-player** rules and AI; the filename is historical.
+- `src/battlefield.ts`: lazy-loaded Three.js table and projected interactive cards.
+- `src/cards.ts`: shared collectible card frame and portrait mapping.
+- `src/main.ts`, `src/style.css`: interaction, teaching, private handoffs, modes and responsive presentation.
+- `src/progress.ts`: versioned browser-local saves; `src/audio.ts`: synthesized sound.
+- `src/content.ts`: historical identities and preserved source-era content.
+- `src/engine.ts`, `src/storage.ts`, `tests/engine.test.ts`: retained V1 reference and regression coverage; unused by the V2 game.
+- `docs/knowledge-base/`: complete source distillation, transcripts, visual exhibits, conflicts and designer correspondence.
+- `docs/RULES.md`: current executable rules and adaptations.
+- `docs/REVISION-2-PLAN.md`, `docs/DECISION-AUDIT.md`, `docs/QUALITY-REPORT.md`: iteration evidence and limitations.
+- `docs/ART-DIRECTION.md`: generated-asset provenance and exact prompts.
 
-## Source and historical interpretation
+## Source, privacy and rights
 
-Original PDFs are deliberately excluded from this private repository. Their content has been preserved as a Markdown knowledge base. The supplied decks describe an unfinished, unbalanced tabletop design; this prototype makes explicit digital decisions for victory, card circulation, marriage, collapse, and AI play.
+Original PDFs stay local in `SourceMaterial/` and are excluded from Git and deployment. Their Markdown knowledge base is preserved in the private repository. Only the built static game is publicly served. No runtime AI, purchases, accounts or cloud saves are required. Art, fonts and audio generation are local to the application.
 
-Historical figures meet asynchronously. Archive membership includes relatives, consorts, and allied lineages; Alba follows the source's broad Scottish grouping. Game abilities and attributed in-world lines are fiction, not claims about the moral character of historical people. Court portraits are generated artistic interpretations shared across some card archetypes.
+V2 uses a new save key. V1 saves remain stored but cannot be resumed under incompatible rules. Historical figures meet across centuries; fictional abilities and generated paintings are interpretations. Some figures share House portrait archetypes. This is a tested prototype, not a verified AAA commercial release.
 
-## Hosting and privacy
-
-The deployed game is static. No runtime AI API, purchase system, account, or cloud-save service is required. Fonts and art are bundled. Gameplay saves stay on the player's browser and device. Publishing uploads only the built game; source knowledge-base files and original PDFs are not served by the game host.
-
-## Rights
-
-Original game concept and supplied source material: © 2025 Malachy Murray, as credited in the source decks. This private development repository does not grant an open-source license to the game concept, artwork, or implementation. Third-party dependencies retain their respective licenses; see `docs/THIRD-PARTY.md`.
+Original concept and supplied source: © 2025 Malachy Murray. This private repository grants no open-source license to the concept, implementation or art. Dependencies retain their own licenses; see [Third-party credits](docs/THIRD-PARTY.md).

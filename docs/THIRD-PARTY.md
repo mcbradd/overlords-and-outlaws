@@ -1,5 +1,7 @@
 # Dependencies and credits
 
+- Three.js (3D renderer): MIT, https://github.com/mrdoob/three; license bundled at `public/licenses/three.txt`.
+- Prettier (development formatting): MIT, https://github.com/prettier/prettier
 - Vite: MIT, https://github.com/vitejs/vite
 - TypeScript: Apache-2.0, https://github.com/microsoft/TypeScript
 - tsx: MIT, https://github.com/privatenumber/tsx

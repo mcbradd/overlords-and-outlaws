@@ -1,3 +1,5 @@
+> Historical V1 plan. The current implementation follows [Revision 2](REVISION-2-PLAN.md), with two-to-four-player family support and revised rules.
+
 # Overlords & Outlaws — production plan
 
 ## Approved brief

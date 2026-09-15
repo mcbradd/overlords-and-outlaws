@@ -1,5 +1,27 @@
-import {createGame,draft,declare,chooseAI,applyAction,validateGame} from '../src/engine';
-import {HOUSES,card} from '../src/content';
-const report=[];
-for(const h of HOUSES){const wins=[0,0,0];let witness=0,totalRounds=0,min=99,max=0;const actions:Record<string,number>={};for(let i=1;i<=100;i++){const g=createGame({seed:i*97,house:h.id});while(g.phase==='draft'){const hand=[...g.players[0].hand].sort((a,b)=>(card(a).house===h.id?10:0)+(card(a).role==='Founder'?3:0)-(card(b).house===h.id?10:0)-(card(b).role==='Founder'?3:0));draft(g,hand.slice(0,3-g.draftStep));}declare(g,g.players[0].hand.filter(id=>card(id).house===h.id).slice(0,3));let steps=0;while(g.phase!=='over'&&steps++<240){const a=chooseAI(g);actions[a.type]=(actions[a.type]??0)+1;applyAction(g,a);if(!validateGame(g))throw Error('Card invariant failed');}if(g.phase!=='over')throw Error('Nonterminal game');if(g.winner===-1)witness++;else wins[g.winner!]++;totalRounds+=g.round;min=Math.min(min,g.round);max=Math.max(max,g.round);}report.push({house:h.name,games:100,wins,witness,averageRounds:totalRounds/100,min,max,actions});}
-console.log(JSON.stringify(report,null,2));
+import {
+  createDuel,
+  act,
+  respond,
+  chooseMove,
+  aiResponse,
+  validateDuel,
+} from "../src/duel";
+import { HOUSES } from "../src/content";
+const report = { games: 600, witness: 0, rounds: 0 };
+for (let n = 0; n < report.games; n++) {
+  const g = createDuel({
+    seed: 30000 + n,
+    house: HOUSES[n % 6].id,
+    seats: 2 + (n % 3),
+  });
+  for (let step = 0; step < 800 && !g.over; step++) {
+    if (g.pending) respond(g, aiResponse(g));
+    else act(g, chooseMove(g));
+    if (!validateDuel(g))
+      throw Error(`Invalid state: seed ${g.seed}, step ${step}`);
+  }
+  if (!g.over) throw Error(`Unfinished game ${g.seed}`);
+  report.rounds += g.round;
+  if (g.winner === -1) report.witness++;
+}
+console.log({ ...report, averageRounds: report.rounds / report.games });

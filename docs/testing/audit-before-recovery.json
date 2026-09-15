@@ -1,0 +1,444 @@
+{
+  "games": 200,
+  "rounds": 2776,
+  "wins": {
+    "rush": 30,
+    "adaptive": 29,
+    "economy": 57,
+    "Witness": 63,
+    "defense": 21
+  },
+  "seatWins": {
+    "0": 51,
+    "1": 57,
+    "2": 23,
+    "3": 6,
+    "-1": 63
+  },
+  "decisions": 5324,
+  "forced": 212,
+  "dominant": 1068,
+  "tradeoffs": 1443,
+  "trivial": 2355,
+  "unavoidableLoss": 246,
+  "responses": 4838,
+  "responseChoices": 4838,
+  "actions": {
+    "deploy": 4722,
+    "end": 8460,
+    "estate": 920,
+    "attack": 8621,
+    "claim": 813,
+    "fortify": 201,
+    "marry": 1575,
+    "restore": 42,
+    "recruit": 14
+  },
+  "examples": [
+    {
+      "seed": 20001,
+      "round": 1,
+      "house": "plantagenet",
+      "orders": 1,
+      "first": {
+        "move": {
+          "type": "deploy",
+          "uid": "0:plantagenet-7"
+        },
+        "mean": -10,
+        "outcomes": [
+          -20,
+          -100,
+          100,
+          -20
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "estate"
+        },
+        "mean": -10,
+        "outcomes": [
+          -20,
+          -100,
+          -20,
+          100
+        ]
+      },
+      "explanation": "Preferred choice changes with opponent policy."
+    },
+    {
+      "seed": 20001,
+      "round": 2,
+      "house": "plantagenet",
+      "orders": 2,
+      "first": {
+        "move": {
+          "type": "deploy",
+          "uid": "0:plantagenet-7"
+        },
+        "mean": 10,
+        "outcomes": [
+          -20,
+          100,
+          -20,
+          -20
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "recruit"
+        },
+        "mean": -10,
+        "outcomes": [
+          -20,
+          -100,
+          -20,
+          100
+        ]
+      },
+      "explanation": "Preferred choice changes with opponent policy."
+    },
+    {
+      "seed": 20001,
+      "round": 2,
+      "house": "plantagenet",
+      "orders": 1,
+      "first": {
+        "move": {
+          "type": "end"
+        },
+        "mean": -60,
+        "outcomes": [
+          -100,
+          -100,
+          -20,
+          -20
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "deploy",
+          "uid": "0:plantagenet-10"
+        },
+        "mean": -80,
+        "outcomes": [
+          -100,
+          -100,
+          -20,
+          -100
+        ]
+      },
+      "explanation": "Comparable terminal results with different outcomes across continuations."
+    },
+    {
+      "seed": 20002,
+      "round": 1,
+      "house": "tudor",
+      "orders": 2,
+      "first": {
+        "move": {
+          "type": "fortify"
+        },
+        "mean": -10,
+        "outcomes": [
+          -100,
+          100,
+          -20,
+          -20
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "estate"
+        },
+        "mean": -20,
+        "outcomes": [
+          -20,
+          -20,
+          -20,
+          -20
+        ]
+      },
+      "explanation": "Preferred choice changes with opponent policy."
+    },
+    {
+      "seed": 20002,
+      "round": 2,
+      "house": "tudor",
+      "orders": 2,
+      "first": {
+        "move": {
+          "type": "recruit"
+        },
+        "mean": -10,
+        "outcomes": [
+          -100,
+          100,
+          -20,
+          -20
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "attack",
+          "uid": "0:tudor-0",
+          "target": "3:valois-7"
+        },
+        "mean": -40,
+        "outcomes": [
+          -20,
+          -100,
+          -20,
+          -20
+        ]
+      },
+      "explanation": "Preferred choice changes with opponent policy."
+    },
+    {
+      "seed": 20002,
+      "round": 3,
+      "house": "tudor",
+      "orders": 1,
+      "first": {
+        "move": {
+          "type": "claim"
+        },
+        "mean": -20,
+        "outcomes": [
+          -20,
+          -20,
+          -20,
+          -20
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "end"
+        },
+        "mean": -40,
+        "outcomes": [
+          -20,
+          -100,
+          -20,
+          -20
+        ]
+      },
+      "explanation": "Comparable terminal results with different outcomes across continuations."
+    },
+    {
+      "seed": 20002,
+      "round": 4,
+      "house": "tudor",
+      "orders": 2,
+      "first": {
+        "move": {
+          "type": "deploy",
+          "uid": "0:tudor-8"
+        },
+        "mean": -10,
+        "outcomes": [
+          100,
+          -100,
+          -20,
+          -20
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "deploy",
+          "uid": "0:tudor-12"
+        },
+        "mean": -20,
+        "outcomes": [
+          -20,
+          -20,
+          -20,
+          -20
+        ]
+      },
+      "explanation": "Preferred choice changes with opponent policy."
+    },
+    {
+      "seed": 20002,
+      "round": 4,
+      "house": "tudor",
+      "orders": 1,
+      "first": {
+        "move": {
+          "type": "deploy",
+          "uid": "2:alba-12"
+        },
+        "mean": -10,
+        "outcomes": [
+          -100,
+          100,
+          -20,
+          -20
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "recruit"
+        },
+        "mean": -20,
+        "outcomes": [
+          -20,
+          -20,
+          -20,
+          -20
+        ]
+      },
+      "explanation": "Preferred choice changes with opponent policy."
+    },
+    {
+      "seed": 20002,
+      "round": 5,
+      "house": "tudor",
+      "orders": 2,
+      "first": {
+        "move": {
+          "type": "restore"
+        },
+        "mean": -20,
+        "outcomes": [
+          -20,
+          -20,
+          -20,
+          -20
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "estate"
+        },
+        "mean": -40,
+        "outcomes": [
+          -20,
+          -100,
+          -20,
+          -20
+        ]
+      },
+      "explanation": "Comparable terminal results with different outcomes across continuations."
+    },
+    {
+      "seed": 20002,
+      "round": 6,
+      "house": "tudor",
+      "orders": 2,
+      "first": {
+        "move": {
+          "type": "estate"
+        },
+        "mean": -40,
+        "outcomes": [
+          -100,
+          -20,
+          -20,
+          -20
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "deploy",
+          "uid": "0:tudor-10"
+        },
+        "mean": -40,
+        "outcomes": [
+          -20,
+          -20,
+          -20,
+          -100
+        ]
+      },
+      "explanation": "Preferred choice changes with opponent policy."
+    },
+    {
+      "seed": 20002,
+      "round": 7,
+      "house": "tudor",
+      "orders": 1,
+      "first": {
+        "move": {
+          "type": "end"
+        },
+        "mean": -20,
+        "outcomes": [
+          -20,
+          -20,
+          -20,
+          -20
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "attack",
+          "uid": "2:alba-12",
+          "target": "2:alba-8"
+        },
+        "mean": -40,
+        "outcomes": [
+          -20,
+          -100,
+          -20,
+          -20
+        ]
+      },
+      "explanation": "Comparable terminal results with different outcomes across continuations."
+    },
+    {
+      "seed": 20003,
+      "round": 1,
+      "house": "valois",
+      "orders": 2,
+      "first": {
+        "move": {
+          "type": "end"
+        },
+        "mean": 50,
+        "outcomes": [
+          100,
+          -100,
+          100,
+          100
+        ]
+      },
+      "second": {
+        "move": {
+          "type": "estate"
+        },
+        "mean": 50,
+        "outcomes": [
+          -100,
+          100,
+          100,
+          100
+        ]
+      },
+      "explanation": "Preferred choice changes with opponent policy."
+    }
+  ],
+  "histogram": {
+    "4": 10,
+    "5": 6,
+    "6": 23,
+    "7": 32,
+    "8": 19,
+    "9": 13,
+    "10": 10,
+    "11": 8,
+    "12": 3,
+    "13": 2,
+    "14": 2,
+    "15": 1,
+    "16": 2,
+    "17": 2,
+    "18": 1,
+    "19": 2,
+    "22": 1,
+    "26": 63
+  },
+  "averageRounds": 13.88,
+  "method": "Proxy audit, not a claim of human enjoyment. Up to nine strategically distinct candidates; terminal rollouts (650-step cap) per alternative under four continuation policies. Forced: only one candidate has mean above -70 while another loses every continuation. Dominant: best mean exceeds runner-up by >25 outcome units without policy reversal. Terminal utility: own victory 100, rival victory -100, shared Witness loss -20. Equal outcome vectors count as trivial; all-loss states are separate. Tradeoff candidate: close alternatives or policy-dependent preference. Unobserved hidden hands are not used by production move selection; the diagnostic rollouts retain the fixture state."
+}

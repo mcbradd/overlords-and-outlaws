@@ -2,6 +2,8 @@
 
 This is the searchable source of truth distilled from the three supplied 12-page PDF decks. Original PDFs remain local in `SourceMaterial/` and are deliberately excluded from Git. The source credits **Overlords & Outlaws © 2025 Malachy Murray**. Names and concepts remain attributed to that supplied work; no ownership transfer is implied.
 
+The later [designer correspondence](designer-intent.md) emphasizes family play and the fragility of accumulated power. It steers revision 2 alongside these preserved source decks.
+
 ## Reading order
 
 1. [Industry pitch](industry-pitch.md): fantasy, philosophy, product, and visual direction.

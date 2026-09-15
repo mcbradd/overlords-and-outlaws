@@ -1,98 +1,852 @@
-import './style.css';
-import {HOUSES,CARDS,card,house,ROLE_TEXT,EVENTS,ENCOUNTERS,PAINTINGS,RELICS,type HouseId} from './content';
-import {createGame,draft,declare,legalActions,applyAction,chooseAI,authority,isActive,targetGoal,type Game,type Action,type Mode,type Difficulty,type Player} from './engine';
-import {readProfile,saveProfile,type Profile} from './storage';
-import {setSound,unlockAudio,sfx} from './audio';
+import "./style.css";
+import { CARDS, HOUSES, PAINTINGS, card, house, type HouseId } from "./content";
+import {
+  createDuel,
+  act,
+  respond,
+  moves,
+  reactions,
+  chooseMove,
+  aiResponse,
+  dynastyCount,
+  nativeCount,
+  active,
+  paintingCounts,
+  WITNESS_LIMIT,
+  upkeep,
+  income,
+  canHold,
+  claimCost,
+  spec,
+  cost,
+  forecast,
+  explain,
+  HOUSE_RULES,
+  RELICS,
+  ROLES,
+  type Move,
+  type Moment,
+  type Mode,
+  type Response,
+} from "./duel";
+import type { Battlefield } from "./battlefield";
+import { cardFace, abilityFor, esc } from "./cards";
+import { readProgress, saveProgress } from "./progress";
+import { setSound, unlockAudio, sfx } from "./audio";
 
-const app=document.querySelector<HTMLDivElement>('#app')!,overlay=document.querySelector<HTMLDivElement>('#overlay')!;
-let profile:Profile=readProfile(),g:Game|null=profile.game;
-let screen:'home'|'houses'|'map'|'board'|'archive'='home',mode:Mode='campaign',chosenHouse:HouseId='alba',difficulty:Difficulty='standard';
-let selected:string[]=[],actionType:Action['type']='build',selectedTarget:string|null=null,selectedMarket:string|null=null,busy=false,epoch=0,archiveHouse:HouseId='alba';
-let toastTimer:ReturnType<typeof setTimeout>,lastFocus:HTMLElement|null=null;
-const icons={crown:'♛',build:'♜',barter:'⇄',seize:'⚔',marry:'∞',betray:'†',scheme:'◈'};
-const escape=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
-const art=(id:string)=>{const c=card(id);if(c.role==='Queen')return ['alba','valois','bourbon'].includes(c.house)?`${c.house}-queen`:c.house;return ['tudor','habsburg','plantagenet'].includes(c.house)?`${c.house}-king`:c.house;};
-const seed=()=>crypto.getRandomValues(new Uint32Array(1))[0];
-const day=()=>new Date().toISOString().slice(0,10);
-function dailySeed(){return Number(day().replaceAll('-',''));}
-function persist(){profile.game=g;if(g)profile.seen=[...new Set([...profile.seen,...g.players[0].hand,...g.players.flatMap(p=>p.court),...g.market])];if(!saveProfile(profile))toast('Storage is unavailable. Keep this tab open to preserve your progress.');}
-function announcement(text:string){document.querySelector('#announcer')!.textContent=text;}
-function toast(text:string){document.querySelector('.toast')?.remove();const t=document.createElement('div');t.className='toast';t.textContent=text;t.setAttribute('role','status');document.body.append(t);clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.remove(),4200);}
-function effects(){document.body.classList.toggle('reduced-motion',!profile.motion);setSound(profile.sound);}
-function logo(){return `<span class="brand-mark">♛</span><span class="brand-name">OVERLORDS <i>&</i> OUTLAWS<small>THE WITNESS</small></span>`;}
-function header(active='play'){return `<header class="topbar"><button class="brand" data-nav="home" aria-label="Overlords and Outlaws home">${logo()}</button><nav aria-label="Main navigation"><button class="nav-item ${active==='play'?'active':''}" data-nav="home">Play</button><button class="nav-item ${active==='archive'?'active':''}" data-nav="archive">The Archive <span class="nav-count">84</span></button><button class="nav-item" data-dialog="rules">How to play</button></nav><div class="top-tools"><span class="renown"><b>✧</b> ${profile.renown}<small>RENOWN</small></span><button class="icon-button" data-dialog="settings" aria-label="Settings">⚙</button></div></header>`;}
-function cardHTML(id:string,variant='hand',options:{selected?:boolean;disabled?:boolean;inactive?:boolean;data?:string;idx?:number}={}){const c=card(id),h=house(c.house);return `<button class="game-card ${variant} ${options.selected?'selected':''} ${options.inactive?'inactive-card':''} ${c.role==='Founder'?'founder':''}" style="--house:${h.color};--i:${options.idx??0}" ${options.disabled?'disabled':''} data-card="${id}" ${options.data??''} aria-label="${escape(c.name)}, ${h.name}, ${c.role}${options.selected?', selected':''}" aria-pressed="${!!options.selected}"><img src="/art/${art(id)}.webp" alt="" loading="${variant==='hero-card'?'eager':'lazy'}" draggable="false"><span class="card-top"><span class="card-emblem">${h.emblem}</span><span class="card-house">${h.name}</span><span class="card-power">${c.role==='Founder'?2:1}</span></span><span class="card-bottom"><span class="card-role">${c.role}</span><strong>${c.name}</strong><span class="card-epithet">${c.epithet}</span></span><span class="card-corner tl"></span><span class="card-corner tr"></span><span class="card-corner bl"></span><span class="card-corner br"></span>${options.selected?'<span class="selected-check">✓</span>':''}</button>`;}
-function render(){effects();if(screen==='home')renderHome();if(screen==='houses')renderHouses();if(screen==='map')renderMap();if(screen==='board')renderBoard();if(screen==='archive')renderArchive();}
-function renderHome(){app.innerHTML=`<div class="game-shell home-shell">${header()}<main class="home-main"><div class="home-copy"><div class="eyebrow"><span></span> SANGUINIS CAERULEI · THE FIRST ARCHIVE</div><h1>Power is inherited.<br><em>A dynasty is earned.</em></h1><p class="home-description">Build your bloodline. Conceal your intentions.<br>Outmaneuver rival courts before the Witness<br class="desktop-only"> finishes the story of your downfall.</p><div class="hero-actions"><button class="primary large" data-start="campaign">${profile.run?'Continue your chronicle':'Begin your chronicle'} <span>→</span></button><button class="text-button" data-start="tutorial"><span class="play-circle">▷</span> ${profile.tutorial?'Revisit the first lesson':'Learn to rule'} <small>GUIDED INTRODUCTION</small></button></div><div class="session-detail">SINGLE PLAYER <span>◇</span> 5–15 MINUTE ENCOUNTERS <span>◇</span> SAVE & RETURN</div>${g&&g.phase!=='over'?`<button class="resume-strip" data-resume="true"><span class="pulse-dot"></span><span>YOUR COURT AWAITS<strong>${house(g.players[0].house).name} · ${g.phase==='play'?'Round '+g.round:'The inheritance'}</strong></span><span>Resume →</span></button>`:''}</div><div class="hero-display" aria-label="Featured dynasty cards"><div class="orbital-ring"></div><span class="hero-overline">SIX BLOODLINES. ONE CROWN.</span>${cardHTML('alba-0','hero-card hero-left')}${cardHTML('tudor-1','hero-card hero-center')}${cardHTML('valois-1','hero-card hero-right')}<div class="hero-caption"><span>✦</span> WHAT YOU REVEAL CAN BE TAKEN. <span>✦</span></div></div></main><section class="mode-tiles" aria-label="Other ways to play"><button class="mode-tile" data-start="skirmish"><span class="mode-icon">⚔</span><span><small>THE COUNCIL TABLE</small><strong>A contest of crowns</strong><p>Choose a house. Challenge two rival courts.</p></span><span class="tile-arrow">↗</span></button><button class="mode-tile" data-start="daily"><span class="mode-icon">◈</span><span><small>DAILY CHRONICLE · ${day()} UTC</small><strong>One inheritance. A new fate.</strong><p>${profile.daily?.date===day()?'Your best score: '+profile.daily.score:'A shared seed. Your decisions write the ending.'}</p></span><span class="tile-arrow">↗</span></button><button class="mode-tile witness-tile" data-dialog="witness"><img src="/art/eudoxia.webp" alt="Eudoxia, the Witness"><span><small>THE GAME BENEATH THE GAME</small><strong>She is already watching.</strong><p>Discover Eudoxia’s hidden victory.</p></span><span class="tile-arrow">↗</span></button></section><footer class="home-footer"><span>INHERIT CAREFULLY. CONCEAL WISELY.</span><span>A game by Malachy Murray <b>·</b> Digital prototype</span><button data-dialog="credits">Credits & provenance</button></footer><div class="embers" aria-hidden="true">${Array.from({length:14},(_,i)=>`<i style="--n:${i}"></i>`).join('')}</div></div>`;}
-function renderHouses(){const h=house(chosenHouse);app.innerHTML=`<div class="game-shell">${header()}<main class="house-page"><div class="page-heading"><button class="back" data-nav="home">← Back to court</button><div class="eyebrow">${mode==='daily'?'THE DAILY CHRONICLE':mode==='campaign'?'A NEW CHRONICLE':'A CONTEST OF CROWNS'}</div><h1>Choose your inheritance.</h1><p>Every house holds power differently. Which story will you write?</p></div><div class="house-selection">${HOUSES.map(x=>`<button data-house="${x.id}" class="house-choice ${x.id===chosenHouse?'chosen':''}" style="--house:${x.color}"><img src="/art/${x.id}.webp" alt="${x.leader}"><div class="house-choice-shade"></div><span class="house-seal">${x.emblem}</span><span class="house-choice-copy"><small>${x.region}</small><strong>${x.name}</strong><em>${x.trait}</em></span>${x.id===chosenHouse?'<span class="house-check">✓</span>':''}</button>`).join('')}</div><div class="house-detail"><div><span class="eyebrow">${h.trait}</span><h2>“${h.motto}”</h2><p>${h.description}</p></div><div class="house-launch"><label class="select-label">RIVAL DIFFICULTY<select id="difficulty"><option value="story" ${difficulty==='story'?'selected':''}>Story · room to learn</option><option value="standard" ${difficulty==='standard'?'selected':''}>Standard · a worthy contest</option><option value="ruthless" ${difficulty==='ruthless'?'selected':''}>Ruthless · every move matters</option></select></label><button class="primary large" data-launch="true">${mode==='campaign'?'Write your chronicle':'Take your seat'} <span>→</span></button></div></div></main></div>`;}
-function renderMap(){const run=profile.run;if(!run){screen='home';render();return;}const pairs=[[0,1],[2,3],[4,7]];const choices=run.act<3?pairs[run.act]:[8];app.innerHTML=`<div class="game-shell map-shell">${header()}<main class="map-page"><div class="page-heading"><button class="back" data-nav="home">← Return to court</button><div class="eyebrow">THE CHRONICLE OF ${house(run.house).name.toUpperCase()}</div><h1>${run.act===3?'The last coronation.':'A kingdom at a crossroads.'}</h1><p>${run.act===3?'One final court. One crown to keep.':'Choose your next court. The road you take shapes the ruler you become.'}</p></div><div class="act-track">${['INHERITANCE','AMBITION','RECKONING','CORONATION'].map((name,i)=>`<span class="${i===run.act?'current':i<run.act?'complete':''}"><b>${i<run.act?'✓':i+1}</b>${name}</span>`).join('')}</div><div class="encounter-choices">${choices.map((idx,i)=>{const e=ENCOUNTERS[idx];return `<button class="encounter" data-encounter="${idx}"><img src="/art/${e.rivals[0]}.webp" alt=""><div class="encounter-shade"></div><div class="encounter-copy"><span class="eyebrow">${e.place}</span><h2>${e.name}</h2><p>${e.text}</p><div class="encounter-rules"><span>♛ ${e.goal} authority</span><span>⚔ ${house(e.rivals[0]).name} & ${house(e.rivals[1]).name}</span></div><strong>Enter this court <span>→</span></strong></div>${i===0&&run.act===0?'<span class="recommended">A GOOD FIRST CLAIM</span>':''}</button>`;}).join('')}</div><div class="relic-rack"><span class="eyebrow">YOUR INHERITANCE</span>${run.relics.length?run.relics.map(id=>{const r=RELICS.find(x=>x.id===id)!;return `<button class="relic-token" data-relic-info="${id}">${r.icon} ${r.name}</button>`;}).join(''):'<span class="muted">Win encounters to earn heirlooms that change your next court.</span>'}</div></main></div>`;}
-function stat(p:Player){const a=authority(g!,p),goal=targetGoal(g!,p);return `<div class="authority ${p.claim?'claimed':''}" title="Authority: ${a} of ${goal}. Hold a claim through rivals’ turns to win."><span>♛</span><b>${a}</b><small>/ ${goal}</small></div>`;}
-function protection(p:Player){return `<span class="protection" title="Protection absorbs one hostile action or historical loss per charge.">♜ ${p.ward}<small>PROTECTION</small></span>`;}
-function rivalHTML(p:Player){return `<section class="rival court-panel ${g!.turn===p.id?'thinking':''}" style="--house:${house(p.house).color}" aria-label="${house(p.house).name} rival court"><div class="rival-head"><img class="avatar" src="/art/${p.house}.webp" alt=""><div><small>RIVAL HOUSE</small><h2>${house(p.house).name}</h2></div>${p.claim?'<span class="claim-badge">CROWN CLAIMED</span>':''}${stat(p)}</div><div class="rival-cards">${p.court.map((id,i)=>cardHTML(id,'court-card',{selected:selectedTarget===id,inactive:!isActive(p,id),data:`data-rival="${p.id}"`,idx:i})).join('')||'<span class="empty-court">Their throne stands empty.</span>'}</div><div class="rival-foot">${protection(p)}<span class="hidden-hand">${Array.from({length:p.hand.length},()=>'<i>♛</i>').join('')}<small>${p.hand.length} concealed</small></span>${p.marriages.length?`<span class="marriage-tag">∞ ${p.marriages.map(m=>house(m.house).name).join(', ')}</span>`:''}</div></section>`;}
-function coachText(){if(!g)return '';if(g.phase==='draft')return ['You inherit eight Royals. Keep a Founder, a Queen, and your own bloodline. Select THREE cards to pass clockwise.','Inspect your new inheritance. Keep your matching Royals; select TWO cards to pass.','One last decision. Select ONE card to pass. Your rivals are shaping their hands, too.'][g.draftStep];if(g.phase==='declare')return 'Select THREE Royals of your chosen house. A Founder gives 2 authority and protection. A Queen opens the path to marriage.';if(g.mode==='tutorial'){if(g.actions===0)return 'Now make your first move. Select a matching Royal and choose Build. Each action is followed by your rivals’ turns.';if(g.round===2)return 'Try the other paths. Barter exchanges a hand card with the four public Royals. Marry uses a declared Queen to bring a foreign bloodline into your court.';if(g.round===3)return 'Two matching cards can Seize exposed power. An Intriguer can Betray a married rival; Tudor Intriguers can target any court. Protection absorbs one attack.';if(g.round===4)return 'History has arrived. Fragments reveal each round; Interregna strike every third round. Any completed nine-piece painting defeats everyone.';return 'Reach your authority target and survive until your next turn. The crown indicator lights up when your claim is ready.';}return g.players[0].claim?'Your crown is claimed. Protect your court and hold until your next turn.':'One move. A hundred consequences. Select a card, choose an action, then commit.';}
-function renderDraft(){const declaring=g!.phase==='declare',p=g!.players[0],needed=declaring?3:3-g!.draftStep;return `<main class="draft-page"><div class="draft-intro"><div class="eyebrow">${declaring?'MAKE YOUR CLAIM':'THE INHERITANCE · '+(g!.draftStep+1)+' OF 3'}</div><h1>${declaring?'A dynasty must be declared.':'Choose what remains hidden.'}</h1><p>${declaring?`Reveal three Royals of ${house(p.house).name}. The rest remain your Outlaws.`:`Pass ${needed} ${needed===1?'Royal':'Royals'} clockwise. Keep the bloodline you intend to build.`}</p><div class="draft-stages">${[3,2,1].map((n,i)=>`<span class="${i===g!.draftStep?'current':i<g!.draftStep?'done':''}">${i<g!.draftStep?'✓':n}<small>PASS</small></span>`).join('')}<span class="${declaring?'current':''}">♛<small>DECLARE</small></span></div></div><div class="draft-hand">${p.hand.map((id,i)=>cardHTML(id,'draft-card',{selected:selected.includes(id),disabled:declaring&&card(id).house!==p.house,idx:i})).join('')}</div><div class="draft-bottom"><div class="coach-inline"><img src="/art/eudoxia.webp" alt=""><p>${coachText()}</p></div><button class="primary large" data-draft-confirm="true" ${selected.length!==needed?'disabled':''}>${declaring?'Declare your dynasty':'Pass '+needed+' '+(needed===1?'Royal':'Royals')} <span>${selected.length} / ${needed}</span></button></div></main>`;}
-function witnessPanel(){return `<button class="witness-panel" data-dialog="witness"><div class="witness-heading"><span>◈</span><div><small>THE WITNESS</small><h3>Eudoxia’s record</h3></div><span>↗</span></div><p>One painting completed.<br>Every dynasty undone.</p><div class="painting-previews">${g!.paintings.map((count,p)=>`<div class="painting-preview"><div class="mosaic">${Array.from({length:9},(_,i)=>`<i class="${i<count?'revealed':''}" style="--x:${i%3};--y:${Math.floor(i/3)};--painting:url('/art/${p===0?'witness':p===1?'wolves':'last-witness'}.webp')"></i>`).join('')}</div><span>${count}<small> / 9</small></span></div>`).join('')}</div><div class="witness-timer"><span class="pulse-dot"></span> ${Math.max(...g!.paintings)>=6?'HER RECORD NEARS COMPLETION':'A FRAGMENT REVEALS EACH ROUND'}</div></button>`;}
-function candidate(){if(!g)return undefined;return legalActions(g).find(a=>a.type===actionType&&a.cards.length===selected.length&&a.cards.every(id=>selected.includes(id))&&(a.targetCard?selectedTarget===a.targetCard:true)&&(a.market?selectedMarket===a.market:true));}
-function actionHint(){if(!selected.length)return candidate()?.detail??'Select a card from your hidden hand.';if(actionType==='seize'&&selected.length<2)return 'Select a second matching Royal for your competing pair.';if(['seize','betray'].includes(actionType)&&!selectedTarget)return 'Choose an exposed Royal in a rival court.';if(actionType==='barter'&&!selectedMarket)return 'Choose a Royal from the public exchange.';const c=candidate();return c?c.detail:'This combination cannot perform that move. Choose another card or action.';}
-function renderBoard(){if(!g){screen='home';render();return;}const p=g.players[0];app.innerHTML=`<div class="game-shell board-shell">${header()}<div class="board-titlebar"><button class="back" data-save-exit="true">← Save & leave</button><span>${g.mode==='tutorial'?'THE FIRST LESSON':g.mode==='daily'?'DAILY CHRONICLE':g.mode==='campaign'&&profile.run?ENCOUNTERS[profile.run.path.at(-1)??0].name.toUpperCase():'A CONTEST OF CROWNS'}</span><button class="mobile-tool" data-dialog="rules" aria-label="How to play">?</button><button class="mobile-tool" data-dialog="settings" aria-label="Settings">⚙</button><span class="round-label">${g.phase==='draft'||g.phase==='declare'?'INHERITANCE':`ROUND <b>${g.round}</b>`}</span><button class="icon-button" data-dialog="log" aria-label="Open chronicle log">☷</button></div>${g.phase==='draft'||g.phase==='declare'?renderDraft():`<main class="board-layout"><div class="play-area"><div class="rivals-row">${g.players.slice(1).map(rivalHTML).join('')}</div><div class="table-divider"><i></i><span>${busy?'THE COURT RESPONDS':p.claim?'HOLD YOUR CLAIM':'YOUR DYNASTY'}</span><i></i></div><section class="own-court court-panel" style="--house:${house(p.house).color}"><div class="own-head"><span class="house-shield">${house(p.house).emblem}</span><div><small>HOUSE OF ${house(p.house).name.toUpperCase()}</small><h2>Your Overlords <span>VISIBLE POWER</span></h2></div>${protection(p)}${stat(p)}</div><div class="own-cards">${p.court.map((id,i)=>cardHTML(id,'own-card',{inactive:!isActive(p,id),data:'data-own-court="true"',idx:i})).join('')}${Array.from({length:Math.max(0,5-p.court.length)},()=>'<div class="empty-slot"><span>♛</span></div>').join('')}</div>${p.marriages.length?`<div class="alliance-strip">∞ ${p.marriages.map(m=>`${card(m.queen).name} → ${house(m.house).name}`).join(' · ')}</div>`:''}</section><div class="hand-label"><span>YOUR OUTLAWS <small>HIDDEN POSSIBILITY</small></span><span>${p.hand.length} / 5 <button class="hint-button" data-hint="true">✦ Suggest a move</button></span></div><div class="hand-row">${p.hand.map((id,i)=>cardHTML(id,'hand-card',{selected:selected.includes(id),idx:i})).join('')}</div><div class="action-dock"><div class="action-tabs" role="group" aria-label="Choose strategic action">${(['build','barter','seize','marry','betray','scheme'] as const).map(type=>`<button data-action-type="${type}" class="${actionType===type?'active':''}" aria-pressed="${actionType===type}" title="${type==='scheme'?'Cycle a card and gain protection':type}"><b>${icons[type]}</b><span>${type}</span></button>`).join('')}</div><div class="commit-row"><p id="action-hint">${busy?'Your rivals weigh their next move…':actionHint()}</p>${selected.length===1?'<button class="inspect-selection" data-inspect-selected="true">Inspect</button>':''}<button class="primary commit" data-commit="true" ${!candidate()||busy||g.phase==='over'?'disabled':''}>${busy?'Rivals’ turn…':'Commit move'} <span>→</span></button></div></div></div><aside class="board-sidebar">${witnessPanel()}<section class="exchange-panel"><div class="section-label"><span>THE PUBLIC EXCHANGE</span><button data-exchange-help="true" aria-label="About the public exchange">?</button></div><p>Offer a secret. Find an opportunity.</p><div class="market-grid">${g.market.map((id,i)=>cardHTML(id,'market-card',{selected:selectedMarket===id,data:'data-market="true"',idx:i})).join('')}</div></section><div class="coach-card"><img src="/art/eudoxia.webp" alt="Eudoxia"><div><small>${g.mode==='tutorial'?'YOUR FIRST LESSON':'A WORD FROM THE WITNESS'}</small><p>${coachText()}</p></div></div><button class="chronicle-peek" data-dialog="log"><small>LAST IN THE CHRONICLE</small><p>${escape(g.log.at(-1)?.text??'The court awaits.')}</p><span>View chronicle ↗</span></button></aside></main>`}</div>`;if(g.phase==='over')finishGame();}
-function renderArchive(){const h=house(archiveHouse);app.innerHTML=`<div class="game-shell archive-shell">${header('archive')}<main class="archive-page"><div class="page-heading"><div class="eyebrow">SANGUINIS CAERULEI</div><h1>The blood remembers.</h1><p>Six historical archives. Eighty-four lives bound to the pursuit of power.</p><span class="archive-discovered">${profile.seen.length} / 84 encountered · Every house is playable from the beginning</span></div><div class="archive-tabs">${HOUSES.map(x=>`<button data-archive-house="${x.id}" class="${x.id===archiveHouse?'active':''}">${x.emblem} ${x.name}</button>`).join('')}</div><div class="archive-description"><strong>${h.trait}</strong><span>${h.description}</span></div><div class="archive-grid">${CARDS.filter(c=>c.house===archiveHouse).map((c,i)=>`<div>${cardHTML(c.id,'archive-card',{idx:i})}<small>${profile.seen.includes(c.id)?'✦ ENCOUNTERED':'◇ UNDISCOVERED IN PLAY'}</small></div>`).join('')}</div><p class="archive-note">An imagined meeting across centuries. Archive membership includes rulers, relatives, and consorts; game roles are designed abilities, not historical judgments. Portraits are artistic interpretations shared by court archetypes.</p></main></div>`;}
-function modal(title:string,body:string,cls=''){lastFocus=document.activeElement as HTMLElement;overlay.innerHTML=`<div class="modal-backdrop"><section class="modal ${cls}" role="dialog" aria-modal="true" aria-label="${escape(title)}"><button class="modal-close" data-close="true" aria-label="Close dialog">×</button>${body}</section></div>`;overlay.querySelector<HTMLButtonElement>('.modal-close')?.focus();}
-function closeModal(){overlay.innerHTML='';lastFocus?.focus();}
-function inspect(id:string){const c=card(id),h=house(c.house);modal(c.name,`<div class="inspect-art">${cardHTML(id,'inspect-card')}</div><div class="inspect-copy"><div class="eyebrow">${h.region} · ${h.name.toUpperCase()}</div><h2>${c.name}</h2><em>${c.epithet}</em><div class="role-pill">${c.role} · ${c.role==='Founder'?2:1} authority</div><p>${ROLE_TEXT[c.role]}</p><div class="inspect-trait"><strong>${h.trait}</strong><p>${h.description}</p></div><small class="muted">Historical figure · designed game ability<br>Illustrative court portrait; not a verified likeness.</small></div>`,'inspect-modal');}
-function showRules(){modal('How to play',`<div class="eyebrow">THE DYNASTIC ENGINE</div><h2>Learn to hold power.</h2><p class="modal-lead">Reach your authority target, then survive until your next turn. Every exposed Royal is another claim—and another target.</p><div class="rules-grid"><article><b>01</b><h3>Inherit & declare</h3><p>Begin with eight Royals. Pass three, then two, then one clockwise. Reveal three Royals of your house. Keep a Founder and a Queen if you can. Your concealed hand returns to five after every move.</p></article><article><b>02</b><h3>Build your court</h3><p>Choose one strategic action per turn. Matching Royals add 1 authority; Founders add 2. A Founder, Warlord, or Lawgiver built grants protection. Your house may change these abilities.</p></article><article><b>03</b><h3>Make your move</h3><p><strong>Barter:</strong> exchange one hand card with a public Royal. <strong>Seize:</strong> discard two matching Royals to take an exposed rival. <strong>Marry:</strong> a declared Queen brings in a foreign Royal and opens their house. <strong>Betray:</strong> discard an Intriguer to remove a married rival’s Royal. Tudor can betray anyone.</p></article><article><b>04</b><h3>Survive history</h3><p>Protection absorbs one hostile move or historical loss per charge. Founders cannot be seized while other Royals remain. A lost Queen breaks her marriage; foreign Royals then stop counting. Fewer than two native Royals breaks every marriage.</p></article><article><b>05</b><h3>The Witness</h3><p>A fragment reveals each round, two from round ten. Every third round brings an Interregnum. Eudoxia wins if any painting reaches nine fragments. Completing your authority target starts a claim and spends 1 protection. History may break the claim before your next turn.</p></article><article><b>06</b><h3>Think beyond this turn</h3><p><strong>Scheme:</strong> cycle one card and gain protection. A foreign captive needs a marriage to count. Keep strong pairs hidden when a rival nears victory. Select cards, select your target if needed, then commit.</p></article></div><p class="muted">Controls: click or tap cards, use action buttons, then Commit move. Keyboard: Tab and Enter; Escape closes dialogs or clears selection. Settings include sound and reduced motion.</p>`,'wide-modal');}
-function showWitness(){modal('Eudoxia’s record',`<div class="witness-story"><img src="/art/eudoxia.webp" alt="Eudoxia di Rossi"><div><div class="eyebrow">THE GAME BENEATH THE GAME</div><h2>She does not seek<br>your throne.</h2><p>Eudoxia di Rossi paints what every dynasty would rather forget. While you build your legacy, she assembles its cost.</p><p><strong>Three paintings. Nine fragments each.</strong><br>If any painting is completed before a crown is secured, Eudoxia wins. Every dynasty loses.</p><p>Fragments reveal at each new round. From round ten, two appear. Valois Lawgivers and the Painter’s Favor heirloom can buy time.</p></div></div><div class="witness-gallery">${PAINTINGS.map((name,i)=>`<div><img src="/art/${i===0?'witness':i===1?'wolves':'last-witness'}.webp" alt="${name}"><h3>${name}</h3><p>${g?g.paintings[i]:0} / 9 fragments revealed</p></div>`).join('')}</div>`,'wide-modal');}
-function showSettings(){modal('Settings',`<div class="eyebrow">YOUR EXPERIENCE</div><h2>The chamber, your way.</h2><div class="setting-row"><div><h3>Sound & atmosphere</h3><p>Quiet harmonic ambience and responsive card sounds.</p></div><button class="toggle ${profile.sound?'on':''}" data-toggle="sound" aria-pressed="${profile.sound}">${profile.sound?'On':'Off'}</button></div><div class="setting-row"><div><h3>Motion & effects</h3><p>Card entrances, drifting embers, and transitions.</p></div><button class="toggle ${profile.motion?'on':''}" data-toggle="motion" aria-pressed="${profile.motion}">${profile.motion?'On':'Reduced'}</button></div><div class="setting-row"><div><h3>Your progress</h3><p>${profile.wins} crowns secured · ${profile.completedRuns} chronicles completed<br>Saved automatically on this browser and device.</p></div><span class="renown">✧ ${profile.renown}</span></div><button class="secondary" data-export="true">Export saved progress</button><p class="muted">Designed for desktop and landscape touch screens. No account or connection is needed once the game has loaded.</p>`);}
-function showLog(){modal('Your chronicle',`<div class="eyebrow">A RECORD OF POWER</div><h2>The court remembers.</h2><div class="log-list">${g?[...g.log].reverse().map(l=>`<div class="log-line ${l.kind}"><span>R${l.round}</span><p>${escape(l.text)}</p></div>`).join(''):'<p>Your first chronicle is still unwritten.</p>'}</div>`);}
-function start(which:Mode){closeModal();mode=which;selected=[];if(which==='tutorial'){if(g&&g.phase!=='over'){modal('Start a new lesson',`<h2>A new first lesson?</h2><p>Your current encounter will be replaced. Your earned renown and archive discoveries are kept.</p><button class="primary" data-replace-tutorial="true">Begin the lesson</button>`);return;}launchTutorial();return;}if(which==='campaign'&&profile.run){if(profile.run.awaitingReward){showRewards();return;}if(g&&g.mode==='campaign'&&g.phase!=='over'){resume();return;}screen='map';render();return;}chosenHouse=which==='daily'?HOUSES[dailySeed()%6].id:chosenHouse;if(which==='daily')difficulty='standard';screen='houses';render();}
-function launchTutorial(){mode='tutorial';chosenHouse='alba';g=createGame({seed:1306,house:'alba',mode:'tutorial',difficulty:'story',goal:7});busy=false;epoch++;screen='board';persist();render();}
-function launch(){if(g&&g.phase!=='over'){modal('Replace encounter',`<h2>A different inheritance?</h2><p>This starts a new encounter and replaces the saved one. Your earned renown and discoveries remain.</p><button class="primary" data-confirm-launch="true">Take a new seat</button>`);return;}launchConfirmed();}
-function launchConfirmed(){closeModal();epoch++;busy=false;selected=[];if(mode==='campaign'){profile.run={house:chosenHouse,seed:seed(),act:0,relics:[],path:[],difficulty,awaitingReward:false};g=null;screen='map';persist();render();}else{g=createGame({seed:mode==='daily'?dailySeed():seed(),house:mode==='daily'?HOUSES[dailySeed()%6].id:chosenHouse,mode,difficulty:mode==='daily'?'standard':difficulty,modifier:mode==='daily'?ENCOUNTERS[dailySeed()%ENCOUNTERS.length].mod:'standard'});screen='board';persist();render();}}
-function beginEncounter(index:number){const run=profile.run!;run.path.push(index);const e=ENCOUNTERS[index];g=createGame({seed:run.seed+run.act*7919+index,house:run.house,mode:'campaign',difficulty:run.difficulty,goal:e.goal,modifier:e.mod,rivals:e.rivals,relics:run.relics});screen='board';selected=[];epoch++;busy=false;persist();render();}
-function resume(){if(!g)return;screen='board';render();if(g.phase==='play'&&g.turn!==0)void runRivals();}
-function selectCard(id:string,el:HTMLElement){if(screen==='home'||screen==='archive'){inspect(id);return;}if(screen!=='board'||!g||busy)return;
- if(el.hasAttribute('data-own-court')){inspect(id);return;}
- if(el.hasAttribute('data-rival')){if(['seize','betray'].includes(actionType)){selectedTarget=selectedTarget===id?null:id;renderBoard();}else inspect(id);return;}
- if(el.hasAttribute('data-market')){selectedMarket=selectedMarket===id?null:id;actionType='barter';selected=selected.slice(0,1);renderBoard();return;}
- const limit=g.phase==='draft'?3-g.draftStep:g.phase==='declare'?3:actionType==='seize'?2:1;
- if(selected.includes(id))selected=selected.filter(x=>x!==id);else if(selected.length>=limit)selected=[...selected.slice(1),id];else selected.push(id);
- sfx('select');renderBoard();}
-function moveFeedback(a:Action,actor:number){if(!g)return;const label=a.type==='build'?'A ROYAL RISES':a.type==='marry'?'BLOODLINES JOIN':a.type==='seize'?'POWER CHANGES HANDS':a.type==='betray'?'A KNIFE IN THE COURT':a.type==='barter'?'A BARGAIN IS STRUCK':'SECRETS KEPT';document.querySelector('.move-banner')?.remove();const banner=document.createElement('div');banner.className='move-banner '+a.type;banner.innerHTML='<small>'+house(g.players[actor].house).name.toUpperCase()+'</small><strong>'+label+'</strong>';document.body.append(banner);setTimeout(()=>banner.remove(),profile.motion?1300:650);if(profile.motion&&['build','marry','seize'].includes(a.type)){const id=a.type==='seize'?a.targetCard!:a.cards[0];const target=app.querySelector<HTMLElement>('[data-card="'+id+'"]');if(target)target.animate([{filter:'brightness(2)',transform:'translateY(-12px) scale(1.15)'},{filter:'brightness(1)',transform:'translateY(0) scale(1)'}],{duration:650,easing:'cubic-bezier(.2,.8,.2,1)'});}}
-async function commit(){const a=candidate();if(!a||!g||busy)return;closeModal();applyAction(g,a);sfx(a.type);selected=[];selectedTarget=null;selectedMarket=null;announcement(g.log.at(-1)?.text??'Move resolved.');persist();renderBoard();moveFeedback(a,0);if(g.phase!=='over')await runRivals();}
-const delay=(ms:number)=>new Promise(r=>setTimeout(r,ms));
-async function runRivals(){if(!g||busy)return;busy=true;const token=++epoch;while(g.phase==='play'&&g.turn!==0){renderBoard();await delay(profile.motion?1550:250);if(epoch!==token||screen!=='board'){if(epoch===token)busy=false;return;}const actor=g.turn;const a=chooseAI(g);applyAction(g,a);sfx(a.type);persist();renderBoard();moveFeedback(a,actor);}busy=false;persist();renderBoard();if(g.phase==='play'){announcement('Your turn. Round '+g.round);if(g.log.at(-1)?.kind==='history'){sfx('history');toast(EVENTS[g.history.at(-1)!].name);}}}
-function finishGame(){if(!g||overlay.querySelector('.result-modal'))return;const key=`${g.seed}-${g.mode}-${g.actions}`;const win=g.winner===0;if(!profile.processed.includes(key)){profile.processed.push(key);profile.renown+=win?100:25;if(win)profile.wins++;if(g.mode==='tutorial')profile.tutorial=true;if(g.mode==='daily'){const score=win?Math.max(100,1500-g.round*45+authority(g,g.players[0])*20):authority(g,g.players[0])*25;if(profile.daily?.date!==day()||profile.daily.score<score)profile.daily={date:day(),score};}if(g.mode==='campaign'&&profile.run){if(win){if(profile.run.act===3){profile.completedRuns++;profile.renown+=300;profile.run=null;}else profile.run.awaitingReward=true;}else profile.run=null;}persist();sfx(win?'victory':'history');}
- const title=win?'A crown worth keeping.':g.winner===-1?'The Witness remembers.':'The throne changes hands.';
- modal(title,`<div class="result-emblem">${win?'♛':g.winner===-1?'◈':'⚔'}</div><div class="eyebrow">${win?'DYNASTY SECURED':g.winner===-1?'EUDOXIA PREVAILS':'YOUR CHRONICLE CONTINUES'}</div><h2>${title}</h2><p>${win?'You inherited possibility. You leave behind a dynasty.':g.winner===-1?'Her record is complete. No dynasty can hide from what it cost.':`${house(g.players[g.winner!].house).name} held its claim. A different inheritance may lead you to a different fate.`}</p><div class="result-stats"><span><b>${g.round}</b>ROUNDS</span><span><b>${authority(g,g.players[0])}</b>AUTHORITY</span><span><b>+${win?100:25}</b>RENOWN</span></div><p class="result-lesson">${win?'You held your authority through the rivals’ turns.':g.winner===-1?'Next time: watch the paintings, build earlier, or use Valois patronage.':'Next time: keep a competing pair or Intriguer ready when a rival claims the crown.'}</p><button class="primary large" data-result-next="true">${profile.run?.awaitingReward?'Choose your heirloom':g.mode==='tutorial'?'Begin your chronicle':'Return to the court'} <span>→</span></button><button class="text-button" data-dialog="log">Read the chronicle ↗</button>`,'result-modal');}
-function showRewards(){const run=profile.run;if(!run)return;const available=RELICS.filter(r=>!run.relics.includes(r.id));const choices=available.slice(run.act%2,run.act%2+3);modal('Choose your heirloom',`<div class="eyebrow">POWER LEAVES AN INHERITANCE</div><h2>What will you carry forward?</h2><p>Choose one heirloom. Its effect follows you into every remaining encounter in this chronicle.</p><div class="reward-grid">${choices.map(r=>`<button class="reward" data-reward="${r.id}"><span>${r.icon}</span><h3>${r.name}</h3><p>${r.text}</p></button>`).join('')}</div>`,'wide-modal');}
-function hint(){if(!g||g.turn!==0||busy)return;const a=chooseAI(structuredClone(g));actionType=a.type;selected=[...a.cards];selectedTarget=a.targetCard??null;selectedMarket=a.market??null;renderBoard();toast(`${a.label}. ${a.detail}`);}
+const app = document.querySelector<HTMLDivElement>("#app")!,
+  overlay = document.querySelector<HTMLDivElement>("#overlay")!;
+let profile = readProgress(),
+  g = profile.game,
+  screen = "home",
+  mode: Mode = "skirmish",
+  chosen: HouseId = "alba",
+  seats = 3,
+  viewer = 0,
+  page = 0;
+let seatHouses: HouseId[] = ["alba", "plantagenet", "tudor", "valois"];
+let attackReview: Move | null = null;
+let selected: string | null = null,
+  field: Battlefield | null = null,
+  busy = false,
+  epoch = 0,
+  locked = false,
+  handOffTo = 0,
+  archiveHouse: HouseId = "alba",
+  lastEvent: Moment | null = null;
+let lastFocus: HTMLElement | null = null;
+const seed = () => crypto.getRandomValues(new Uint32Array(1))[0];
+const today = () => new Date().toISOString().slice(0, 10);
+function persist() {
+  profile.game = g;
+  if (g)
+    profile.seen = [
+      ...new Set([
+        ...profile.seen,
+        ...g.players
+          .filter((p) => p.human)
+          .flatMap((p) => p.hand.map((r) => r.card)),
+        ...g.players.flatMap((p) => p.court.map((r) => r.card)),
+      ]),
+    ];
+  if (!saveProgress(profile))
+    toast("Storage is unavailable. Keep this tab open to preserve progress.");
+}
+function toast(text: string) {
+  document.querySelector(".toast")?.remove();
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.textContent = text;
+  el.setAttribute("role", "status");
+  document.body.append(el);
+  setTimeout(() => el.remove(), 4200);
+}
+function effects() {
+  document.body.classList.toggle("reduced-motion", !profile.motion);
+  setSound(profile.sound);
+  field?.setMotion(profile.motion);
+}
+function header() {
+  return `<header class="site-header"><button class="wordmark" data-home><span>♛</span><div>OVERLORDS <i>&</i> OUTLAWS<small>THE WEIGHT OF THE CROWN</small></div></button><nav><button data-start="skirmish">Play</button><button data-archive>The Archive</button><button data-rules>How to play</button></nav><div class="header-right"><span>${CARDS.length} ROYALS</span><button data-settings aria-label="Settings">⚙</button></div></header>`;
+}
+function leave() {
+  epoch++;
+  busy = false;
+  locked = false;
+  field?.dispose();
+  field = null;
+  selected = null;
+  attackReview = null;
+  overlay.innerHTML = "";
+  persist();
+}
+function home() {
+  leave();
+  screen = "home";
+  app.innerHTML = `<div class="home-shell">${header()}<main class="home-hero"><div><div class="eyebrow">A FAMILY OF RIVALS · A TABLE OF CONSEQUENCES</div><h1>Anyone can take<br>a crown.<br><em>Can you keep it?</em></h1><p>Raise a House. Swear an alliance. Conceal your next move.<br>The more power you expose, the more there is to lose.</p><div class="home-actions"><button class="primary" data-start="lesson">Learn to hold power →</button><button class="secondary" data-start="family">Gather the family <small>2–4 PLAYERS</small></button></div>${g && !g.over ? '<button class="resume" data-resume>● Your table is saved — resume →</button>' : ""}<div class="home-meta">SOLO WITH AI · LOCAL SHARED TABLE · NO CARD PACKS</div></div><div class="hero-cards">${cardFace({ uid: "hero1", card: "alba-3", hp: 6, ready: false })}${cardFace({ uid: "hero2", card: "tudor-1", hp: 4, ready: false })}${cardFace({ uid: "hero3", card: "plantagenet-2", hp: 3, ready: false })}</div></main><section class="mode-grid"><button data-start="chronicle"><span>01 / THE CHRONICLE</span><h2>A dynasty is earned.</h2><p>Three courts. Choose a road, earn an heirloom, carry your legacy.</p><b>Begin a chronicle ↗</b></button><button data-start="skirmish"><span>02 / THE OPEN TABLE</span><h2>Every House has a plan.</h2><p>Six bloodlines. Two to four Houses. Competing claims and shifting threats.</p><b>Choose your rivals ↗</b></button><button data-start="daily"><span>03 / ${today()} UTC</span><h2>The daily inheritance.</h2><p>A fixed table and shared seed. Find a better line through the same decisions.</p><b>Take today’s seat ↗</b></button></section><footer>A game concept by Malachy Murray <button data-credits>Credits & source decisions</button></footer></div>`;
+  effects();
+}
+function start(which: Mode) {
+  mode = which;
+  if (which === "daily") {
+    chosen = HOUSES[Number(today().replaceAll("-", "")) % 6].id;
+    seats = 3;
+  }
+  if (which === "chronicle" && profile.run) {
+    if (profile.run.reward) {
+      rewards();
+      return;
+    }
+    if (g && !g.over && g.mode === "chronicle") {
+      resume();
+      return;
+    }
+    map();
+    return;
+  }
+  if (which === "lesson") {
+    launch("alba", 3);
+    return;
+  }
+  leave();
+  screen = "choose";
+  renderChoose();
+}
+function renderChoose() {
+  seatHouses = [
+    chosen,
+    ...seatHouses.filter((h) => h !== chosen),
+    ...HOUSES.map((h) => h.id).filter(
+      (h) => h !== chosen && !seatHouses.includes(h),
+    ),
+  ].slice(0, 4);
+  app.innerHTML = `<div class="menu-shell">${header()}<main class="choose-page"><div class="eyebrow">${mode === "family" ? "PASS THE DEVICE. KEEP YOUR SECRETS." : "CHOOSE YOUR INHERITANCE"}</div><h1>${mode === "family" ? "A seat for every generation." : "Every bloodline holds power differently."}</h1><p>${mode === "family" ? "Every House is human-controlled. Private handoffs hide concealed cards between turns and defensive responses." : "Threaten their growth, protect your own, and survive the attention a crown attracts."}</p><div class="house-grid">${HOUSES.map((h) => `<button class="house-choice ${chosen === h.id ? "chosen" : ""}" data-house="${h.id}" ${mode === "daily" ? "disabled" : ""} style="--house:${h.color}"><img src="/art/${h.id}.webp" alt="${h.leader}"><span>${h.emblem}</span><div><small>${h.region}</small><h2>${h.name}</h2><p>${HOUSE_RULES[h.id].trait}</p></div></button>`).join("")}</div><p class="turn-order-note">First to act: ${house(chosen).name}. Turns proceed clockwise through the displayed seats.</p><div class="seat-roster">${
+    mode === "family"
+      ? seatHouses
+          .slice(1, seats)
+          .map(
+            (id, i) =>
+              `<label>PLAYER ${i + 2}<select data-seat-house="${i + 1}">${HOUSES.map((h) => `<option value="${h.id}" ${h.id === id ? "selected" : ""} ${h.id === chosen ? "disabled" : ""}>${h.name}</option>`).join("")}</select></label>`,
+          )
+          .join("")
+      : mode === "daily"
+        ? "Today’s House and three-seat table are fixed for replay."
+        : ""
+  }</div><div class="choose-footer"><div><strong>${HOUSE_RULES[chosen].trait}</strong><p>${HOUSE_RULES[chosen].text}</p></div><label>HOUSES AT THE TABLE<select id="seats" ${mode === "daily" ? "disabled" : ""}>${[2, 3, 4].map((n) => `<option ${n === seats ? "selected" : ""}>${n}</option>`).join("")}</select></label><button class="primary" data-launch>Take your seat →</button></div></main></div>`;
+}
+function launch(h = chosen, count = seats) {
+  if (g && !g.over && screen !== "choose-confirm") {
+    modal(
+      "Replace saved table",
+      `<h2>Start a new table?</h2><p>The saved encounter will be replaced. Your archive discoveries and completed victories remain.</p><button class="primary" data-confirm-new>Start the new table</button>`,
+    );
+    return;
+  }
+  leave();
+  if (mode === "chronicle") {
+    profile.run = { house: h, act: 0, seed: seed(), relics: [], reward: false };
+    g = null;
+    persist();
+    map();
+    return;
+  }
+  const daily = Number(today().replaceAll("-", ""));
+  g = createDuel({
+    seed: mode === "lesson" ? 1306 : mode === "daily" ? daily : seed(),
+    house: mode === "daily" ? HOUSES[daily % 6].id : h,
+    mode,
+    seats: mode === "daily" || mode === "lesson" ? 3 : count,
+    humans: mode === "family" ? count : 1,
+    houses: mode === "family" ? seatHouses.slice(0, count) : undefined,
+  });
+  viewer = 0;
+  page = 0;
+  lastEvent = g.events.at(-1)!;
+  screen = "board";
+  mountBoard();
+  persist();
+  if (mode === "lesson") lessonIntro();
+  if (mode === "family") handoff(0);
+}
+function resume() {
+  if (!g) return;
+  leave();
+  screen = "board";
+  viewer = g.mode === "family" ? (g.pending?.defender ?? g.turn) : 0;
+  lastEvent = g.events.at(-1) ?? null;
+  mountBoard();
+  if (g.mode === "family") handoff(viewer);
+  else void advance();
+}
+function map() {
+  leave();
+  screen = "map";
+  const run = profile.run;
+  if (!run) {
+    home();
+    return;
+  }
+  const choices: HouseId[] =
+    run.act === 0
+      ? ["plantagenet", "alba"]
+      : run.act === 1
+        ? ["habsburg", "tudor"]
+        : ["bourbon", "valois"];
+  app.innerHTML = `<div class="menu-shell">${header()}<main class="map-page"><div class="eyebrow">${house(run.house).name.toUpperCase()} · COURT ${run.act + 1} OF 3</div><h1>${["The first claim.", "The price of an alliance.", "The weight of the crown."][run.act]}</h1><p>Three Houses share each table. Choose the leading rival’s style.</p><div class="path-progress">${[1, 2, 3].map((n) => `<span class="${n <= run.act + 1 ? "active" : ""}">${n}<small>${["INHERITANCE", "AMBITION", "LEGACY"][n - 1]}</small></span>`).join("")}</div><div class="road-grid">${choices.map((h) => `<button data-encounter="${h}"><img src="/art/${h}.webp" alt=""><div><small>${HOUSE_RULES[h].policy.toUpperCase()}</small><h2>The ${house(h).name} court</h2><p>${HOUSE_RULES[h].text}</p><b>Enter this court →</b></div></button>`).join("")}</div><div class="heirlooms">${run.relics.map((id) => RELICS.find((r) => r.id === id)!.name).join(" · ") || "Your first victory earns an heirloom."}</div></main></div>`;
+}
+function encounter(rival: HouseId) {
+  const r = profile.run!;
+  g = createDuel({
+    seed: r.seed + r.act * 7307,
+    house: r.house,
+    rival,
+    mode: "chronicle",
+    seats: 3,
+    relics: r.relics,
+  });
+  viewer = 0;
+  screen = "board";
+  lastEvent = g.events.at(-1)!;
+  mountBoard();
+  persist();
+}
+const royalById = (id: string) =>
+  g?.players.flatMap((p) => [...p.court, ...p.hand]).find((r) => r.uid === id);
+function targets() {
+  return g && selected
+    ? moves(g)
+        .filter((a) => a.type === "attack" && a.uid === selected)
+        .map((a) => ("target" in a ? a.target! : ""))
+    : [];
+}
+async function mountBoard() {
+  field?.dispose();
+  app.innerHTML = `<div class="battle-shell"><header class="battle-top"><button class="small-brand" data-home>♛ <span>OVERLORDS & OUTLAWS</span></button><div class="objective">THREE FAMILY ROYALS · WITHSTAND EVERY HOUSE</div><div><button data-rules aria-label="How to play">?</button><button data-settings aria-label="Settings">⚙</button><button data-save>Save & leave</button></div></header><div id="scoreboard" class="scoreboard"></div><main class="table-zone"><div class="arena-column"><div class="arena-label"><span id="turn-label"></span><span id="history-label"></span></div><div id="arena" class="arena"></div><div id="event-focus" class="event-focus" aria-live="polite"></div></div><aside id="decision-panel" class="decision-panel"></aside></main><section id="hand-dock" class="hand-dock"></section><div id="handoff-layer"></div><div id="battle-banner" aria-live="assertive"></div></div>`;
+  field = null;
+  renderBoard();
+  const token = epoch;
+  const { Battlefield: Renderer } = await import("./battlefield");
+  if (token !== epoch || screen !== "board") return;
+  field = new Renderer(document.querySelector("#arena")!);
+  renderBoard();
+}
+function renderBoard() {
+  if (!g || screen !== "board") return;
+  effects();
+  const t = targets();
+  document
+    .querySelector("#scoreboard")!
+    .setAttribute("data-seats", String(g.players.length));
+  document.querySelector("#scoreboard")!.innerHTML = g.players
+    .map(
+      (p) =>
+        `<section class="court-score ${p.id === viewer ? "you" : ""} ${g!.turn === p.id ? "current" : ""} ${p.claim ? "claiming" : ""}" style="--house:${house(p.house).color}" data-score="${p.id}"><button class="crown-seal ${t.includes("crown-" + p.id) ? "targetable" : ""}" data-target="crown-${p.id}" aria-label="${house(p.house).name} crown, ${p.stability} stability">${house(p.house).emblem}</button><div class="score-main"><div class="score-title"><strong>${house(p.house).name}</strong><small>${p.human ? "HUMAN" : p.policy.toUpperCase()}</small><b class="stability ${p.stability < 5 ? "danger" : ""}" title="At zero: succession collapse">♥ ${p.stability}<span>STABILITY</span></b></div><div class="claim-requirements"><span class="${dynastyCount(p) >= 3 ? "met" : ""}">♟ <b>${dynastyCount(p)}</b> family Royals <small>need 3</small></span><span>⛨ ${p.shield} shields</span></div><div class="claim-track ${p.claim ? "active" : ""}">${p.claim ? `<b>TO CONTEST: ${p.challengers.map((id) => house(g!.players[id].house).name).join(" · ")}</b>` : canHold(p) ? `<b>${p.gold >= claimCost(p) ? "READY TO CLAIM" : "SAVE " + (claimCost(p) - p.gold) + " MORE GOLD"} · TRIBUTE ${claimCost(p)}</b>` : "Gather three Royals by blood or marriage"}</div></div><div class="economy-readout"><span>✧ <b>${p.gold}</b></span><button data-target="estate-${p.id}" class="${t.includes("estate-" + p.id) ? "targetable" : ""}" title="Estates can be raided">⌂ ${p.estates}</button><small>${income(p) >= 0 ? "+" : ""}${income(p)} gold/turn</small><small>${p.hand.length} hidden</small></div></section>`,
+    )
+    .join("");
+  const f = forecast(g);
+  document.querySelector("#turn-label")!.textContent =
+    `ROUND ${g.round} · ${house(g.players[g.turn].house).name.toUpperCase()} · ${g.orders} ORDERS LEFT`;
+  document.querySelector("#history-label")!.innerHTML =
+    g.mode === "lesson"
+      ? "<button data-lesson>Learning guide ↗ · History paused</button>"
+      : `<span class="${g.witness >= WITNESS_LIMIT - 4 ? "danger" : ""}">◈ WITNESS ${Math.max(...paintingCounts(g))} OF 9</span><button data-forecast>${f.name} · in ${f.in} rounds</button>`;
+  renderHand();
+  renderDecision();
+  renderEvent();
+  field?.sync(g, selected, t, viewer);
+  if (g.over) results();
+}
+function renderHand() {
+  if (!g) return;
+  const p = g.players[viewer];
+  page = Math.min(page, Math.max(0, Math.ceil(p.hand.length / 5) - 1));
+  const canPlay =
+    g.turn === viewer && !busy && !g.pending && !locked && !g.over;
+  document.querySelector("#hand-dock")!.innerHTML =
+    `<div class="hand-topline"><div><span class="eyebrow">${house(p.house).name.toUpperCase()} · CONCEALED OUTLAWS</span><small>Opening treasury: 5 gold. Income begins in round two.</small></div><div class="turn-tools"><span class="gold-count">✧ ${p.gold}<small>GOLD</small></span><span class="order-count">${"◆".repeat(g.orders)}${"◇".repeat(2 - g.orders)}<small>ORDERS</small></span><button class="hint" data-hint ${!canPlay ? "disabled" : ""}>Suggest a plan</button><button class="end-turn" data-end ${!canPlay ? "disabled" : ""}>${g.orders ? "End turn" : "Pass the table"} →</button></div></div><div class="hand-cards" data-card-area="hand">${
+      locked
+        ? '<div class="empty-hand">The hand is concealed.</div>'
+        : p.hand
+            .slice(page * 5, page * 5 + 5)
+            .map((r) =>
+              cardFace(r, {
+                owner: p,
+                zone: "hand-card",
+                selected: selected === r.uid,
+              }),
+            )
+            .join("")
+    }</div>${p.hand.length > 5 ? `<div class="hand-pages"><button data-page="0" ${page === 0 ? "disabled" : ""}>←</button><span>${page + 1} of 2</span><button data-page="1" ${page === 1 ? "disabled" : ""}>→</button></div>` : ""}`;
+}
+function order(move: Move, label: string, detail: string, cls = "") {
+  const valid =
+    g && moves(g).some((a) => JSON.stringify(a) === JSON.stringify(move));
+  return `<button class="order-button ${cls}" data-move='${JSON.stringify(move)}' ${!valid || busy || g!.turn !== viewer || locked ? "disabled" : ""}><strong>${label}</strong><small>${detail}</small></button>`;
+}
+function renderDecision() {
+  if (!g) return;
+  const p = g.players[viewer],
+    r = selected ? royalById(selected) : undefined,
+    isOwn = r && p.court.includes(r),
+    inHand = r && p.hand.includes(r);
+  let html = "";
+  if (
+    g.pending &&
+    g.players[g.pending.defender].human &&
+    !busy &&
+    !locked &&
+    viewer === g.pending.defender
+  ) {
+    const a = royalById(g.pending.attacker)!;
+    html = `<div class="eyebrow danger">YOUR COURT IS CHALLENGED</div><h2>Answer the threat.</h2><p><b>${card(a.card).name}</b> brings ${spec(a).force} force.</p><div class="response-options">${reactions(
+      g,
+    )
+      .map(
+        (x) =>
+          `<button data-response="${x}" class="${x === "accept" ? "secondary" : "primary"}">${x === "accept" ? "Accept · keep gold" : x === "brace" ? "Brace · 1 gold" : "Ambush · 1 gold + card"}<small>${x === "ambush" ? "Conspirator deals 3 before combat" : x === "brace" ? "Block 2 · one response this rival turn" : "Normal combat resolves"}</small></button>`,
+      )
+      .join("")}</div>`;
+  } else if (attackReview?.type === "attack" && r) {
+    const a = attackReview,
+      target = royalById(a.target!),
+      q = g.players.find(
+        (p) =>
+          p.court.some((r) => r.uid === a.target) ||
+          a.target === `crown-${p.id}` ||
+          a.target === `estate-${p.id}`,
+      )!;
+    html = `<div class="eyebrow">CHALLENGE PREVIEW · 1 ORDER</div><h2>${target ? esc(card(target.card).name) : a.target?.startsWith("estate") ? "Raid the estate" : "Pressure the crown"}</h2><div class="combat-equation"><span><b>${spec(r).force}</b> outgoing force</span><span><b>${target ? spec(target).force : 0}</b> retaliation</span></div><p>${target ? `Without a response: target resolve ${target.hp} → ${Math.max(0, target.hp - spec(r).force)}. Your resolve ${r.hp} → ${Math.max(0, r.hp - spec(target).force)}.` : explain(g, a)}</p><p class="response-warning">${q.response && q.gold ? "The defender has gold reserved: Brace can block 2, or a concealed Conspirator may Ambush for 3." : "The defender cannot buy a response this turn."}</p>${order(a, "Declare this challenge", "The defender responds before pressure resolves", "primary-order")}`;
+  } else if (r && !locked) {
+    html = `<div class="selection-heading"><span class="eyebrow">${inHand ? "CONCEALED OPTION" : isOwn ? "YOUR EXPOSED ROYAL" : "EXPOSED RIVAL"}</span><button data-inspect="${r.card}" aria-label="Inspect full card">↗</button></div><div class="selected-card-preview">${cardFace(r, { owner: inHand || isOwn ? p : undefined, zone: "preview-card" })}</div><div class="selection-summary"><h3>${esc(card(r.card).name)}</h3><p>${spec(r).force} force · ${r.hp} resolve<br>${abilityFor(r, p)}</p></div><div class="selected-orders">${inHand ? order({ type: "deploy", uid: r.uid }, `Expose · ${cost(p, r)} gold`, "1 order · enters resting unless Swift", "primary-order") + (card(r.card).house !== p.house ? order({ type: "marry", uid: r.uid }, `Marry · ${cost(p, r, true)} gold`, "1 order · active Queen required") : "") : isOwn ? `<p class="target-instruction">${r.ready ? "Choose a highlighted rival Royal, crown, or estate to challenge." : "Resting until your next turn."}</p>${order({ type: "recall", uid: r.uid }, "Recall to hand", "1 order · restore resolve · lose exposed presence")}` : '<p class="target-instruction">Select your ready Royal to challenge. Confront Guardians first.</p>'}</div>`;
+  } else
+    html = `<div class="eyebrow">THE WEIGHT OF THE CROWN</div><h2>Power has a price.</h2><div class="victory-recipe"><b>♟ ♟ ♟</b><span>Three family Royals<br>establish your dynasty.</span></div><p>Claim the crown. <b>Each other House gets one complete challenge turn.</b> Keep your three family Royals through all of them.</p><div class="strategy-wheel"><span>⚔ Pressure punishes greed</span><span>⛨ Defense checks pressure</span><span>✧ Growth outlasts defense</span></div>`;
+  html += `<button class="manage-link" data-manage>Manage House / clear selection</button><div class="infrastructure"><div class="section-title">MANAGE YOUR HOUSE <span>1 ORDER EACH</span></div>${order({ type: "estate" }, "⌂ Invest · 3 gold", `${p.estates} estates · +2 income`)}${order({ type: "fortify" }, "⛨ Fortify · 2 gold", "+3 shields · crown only")}${order({ type: "restore" }, "♥ Restore · 2 gold", "+3 stability · prevent collapse")}${order({ type: "recruit" }, `✧ Recruit · ${p.house === "valois" ? 1 : 2} gold`, "Draw one extra Royal")}</div>${order({ type: "claim" }, p.claim ? "CROWN CLAIMED" : `♛ CLAIM · ${claimCost(p)} GOLD`, `Tribute = exposed Royals’ printed gold costs`, "claim-button")}<div class="upkeep-note">Income ${income(p) >= 0 ? "+" : ""}${income(p)} · includes ${upkeep(p)} upkeep<br>Large courts and marriages cost gold.</div>`;
+  document
+    .querySelector("#decision-panel")!
+    .classList.toggle("has-selection", !!r);
+  document
+    .querySelector("#decision-panel")!
+    .classList.toggle("reacting", !!g.pending);
+  document
+    .querySelector("#decision-panel")!
+    .classList.toggle("reviewing", !!attackReview);
+  document.querySelector("#decision-panel")!.innerHTML = html;
+}
+function renderEvent() {
+  const el = document.querySelector("#event-focus"),
+    e = lastEvent ?? g?.events.at(-1);
+  if (el)
+    el.innerHTML = e
+      ? `<span class="event-icon">${e.kind === "claim" ? "♛" : e.kind === "combat" ? "⚔" : "✦"}</span><div><strong>${e.actor >= 0 && g ? house(g.players[e.actor].house).name + " · " : ""}${esc(e.title)}</strong><p>${profile.coaching ? esc(e.why) : ""}</p></div><button data-log aria-label="Open chronicle">☷</button>`
+      : "";
+}
+function banner(e: Moment) {
+  if (e.kind !== "turn" || !lastEvent) lastEvent = e;
+  renderEvent();
+  document.querySelector("#announcer")!.textContent = `${e.title}. ${e.why}`;
+  if (
+    [
+      "claim",
+      "broken",
+      "collapse",
+      "countdown",
+      "history",
+      "ambush",
+      "capture",
+    ].includes(e.kind)
+  ) {
+    const el = document.querySelector("#battle-banner")!;
+    el.className = "show " + e.kind;
+    el.innerHTML = `<small>${e.actor >= 0 ? house(g!.players[e.actor].house).name.toUpperCase() : "HISTORY BELONGS TO NO HOUSE"}</small><strong>${esc(e.title)}</strong>`;
+    setTimeout(() => (el.className = ""), 1900);
+  }
+  if (profile.motion && ["combat", "crown-hit"].includes(e.kind))
+    document
+      .querySelector(".arena-column")
+      ?.animate(
+        [
+          { transform: "translateX(-3px)" },
+          { transform: "translateX(3px)" },
+          { transform: "none" },
+        ],
+        { duration: 180 },
+      );
+}
+async function present(events: Moment[]) {
+  const token = epoch;
+  for (const e of events) {
+    if (token !== epoch) return;
+    banner(e);
+    sfx(
+      e.kind === "combat"
+        ? "seize"
+        : e.kind === "claim"
+          ? "victory"
+          : e.kind === "deploy"
+            ? "build"
+            : e.kind,
+    );
+    if (["deploy", "marry"].includes(e.kind))
+      field?.sync(g!, selected, [], viewer);
+    await field?.animate(e);
+    if (
+      profile.motion &&
+      ["turn", "claim", "broken", "history"].includes(e.kind)
+    )
+      await new Promise((r) => setTimeout(r, 450));
+  }
+  if (token === epoch) renderBoard();
+}
+async function execute(move: Move | Response) {
+  if (!g || busy || locked) return;
+  const token = epoch;
+  busy = true;
+  selected = null;
+  attackReview = null;
+  const serial = g.serial;
+  try {
+    if (typeof move === "string") respond(g, move);
+    else act(g, move);
+    persist();
+    renderHand();
+    renderDecision();
+    await present(g.events.filter((e) => e.id > serial));
+  } catch (err) {
+    toast((err as Error).message);
+  } finally {
+    if (token === epoch) busy = false;
+  }
+  if (token === epoch) {
+    renderBoard();
+    await advance();
+  }
+}
+async function advance() {
+  if (!g || screen !== "board" || busy || locked) return;
+  if (g.over) {
+    results();
+    return;
+  }
+  if (g.pending) {
+    const defender = g.players[g.pending.defender];
+    if (defender.human) {
+      if (viewer !== defender.id) handoff(defender.id);
+      else renderBoard();
+      return;
+    }
+    const token = epoch;
+    await new Promise((r) => setTimeout(r, profile.motion ? 500 : 30));
+    if (token === epoch && g?.pending && !locked) await execute(aiResponse(g));
+    return;
+  }
+  const current = g.players[g.turn];
+  if (current.human) {
+    if (viewer !== current.id) handoff(current.id);
+    else renderBoard();
+    return;
+  }
+  const token = epoch;
+  await new Promise((r) => setTimeout(r, profile.motion ? 750 : 40));
+  if (token === epoch && screen === "board" && !busy && !locked && g && !g.over)
+    await execute(chooseMove(g));
+}
+function handoff(id: number) {
+  if (!g) return;
+  locked = true;
+  handOffTo = id;
+  selected = null;
+  closeModal();
+  renderBoard();
+  document.querySelector("#handoff-layer")!.innerHTML =
+    `<div class="handoff-screen"><div class="handoff-seal">${house(g.players[id].house).emblem}</div><div class="eyebrow">PRIVATE HANDOFF</div><h1>Pass the table to<br>${house(g.players[id].house).name}.</h1><p>${g.pending ? "Your court is challenged. Choose your private response." : "Your concealed hand stays hidden until you are ready."}</p><button class="primary" data-ready>Only ${house(g.players[id].house).name} is looking · reveal →</button><small>Other players should look away. A shared screen cannot enforce physical privacy.</small></div>`;
+}
+function unlockHandoff() {
+  viewer = handOffTo;
+  locked = false;
+  page = 0;
+  document.querySelector("#handoff-layer")!.innerHTML = "";
+  renderBoard();
+  void advance();
+}
+function modal(title: string, body: string, cls = "") {
+  lastFocus = document.activeElement as HTMLElement;
+  overlay.innerHTML = `<div class="modal-shade"><section class="modal ${cls}" role="dialog" aria-modal="true" aria-label="${esc(title)}"><button class="close-modal" data-close aria-label="Close">×</button>${body}</section></div>`;
+  overlay.querySelector<HTMLButtonElement>("[data-close]")?.focus();
+}
+function closeModal() {
+  overlay.innerHTML = "";
+  lastFocus?.focus();
+}
+function lessonIntro() {
+  modal(
+    "The first lesson",
+    `<div class="eyebrow">THE FIRST LESSON · THREE HOUSES</div><h2>The crown is a promise.<br>Make one you can keep.</h2><div class="lesson-steps"><article><b>1</b><h3>Build a dynasty</h3><p>Gather three Royals by blood or marriage: the three-Royal declaration, extended here to supported marriages. Spend gold and one of two orders each turn. Stewards earn income; Guardians protect pieces.</p></article><article><b>2</b><h3>Contest exposed power</h3><p>A ready Royal challenges a rival. Force deals pressure; resolve measures endurance. Defenders can spend gold or a hidden Conspirator to answer.</p></article><article><b>3</b><h3>Claim, then hold</h3><p>Press Claim. Each other House gets one complete turn to contest you. Keep three family Royals through every challenge. The Houses still to respond are named above the table.</p></article></div><p><b>Guided practice: history and Eudoxia are paused. Rivals develop and challenge each other; they do not attack you or claim. In a normal table, every House contests your crown.</b> The game ends only when a House holds its declared dynasty. Nothing advances while you think.</p><button class="primary" data-close>Take my seat →</button>`,
+    "wide",
+  );
+}
+function inspect(id: string) {
+  const c = card(id),
+    h = house(c.house);
+  modal(
+    c.name,
+    `<div class="inspect-layout"><div>${cardFace({ uid: "inspect", card: id, hp: spec(id).resolve, ready: false }, { zone: "inspect-card" })}</div><article><div class="eyebrow">${h.region} · ${h.name.toUpperCase()}</div><h2>${esc(c.name)}</h2><em>${esc(c.epithet)}</em><p>${ROLES[c.role].ability}</p><dl><dt>✧ Gold</dt><dd>Cost to expose, plus one order.</dd><dt>⚔ Force</dt><dd>Pressure dealt. Royals retaliate simultaneously.</dd><dt>◆ Resolve</dt><dd>Endurance. At zero, captured or displaced.</dd></dl><h3>${HOUSE_RULES[h.id].trait}</h3><p>${HOUSE_RULES[h.id].text}</p><p class="muted">Historical person; fictional game abilities. Art is an interpretation, sometimes shared by court archetypes. The archive spans centuries, not one contemporaneous family tree.</p></article></div>`,
+    "wide",
+  );
+}
 
-document.addEventListener('click',e=>{const el=(e.target as HTMLElement).closest<HTMLElement>('button');if(!el)return;unlockAudio();const d=el.dataset;
- if(d.close!==undefined){closeModal();return;}
- if(d.dialog){if(d.dialog==='rules')showRules();if(d.dialog==='witness')showWitness();if(d.dialog==='settings')showSettings();if(d.dialog==='log')showLog();if(d.dialog==='credits')modal('Credits & provenance',`<div class="eyebrow">OVERLORDS & OUTLAWS</div><h2>A game by Malachy Murray.</h2><p>Based on the supplied Game System V1.1, Industry Pitch V1.2, and Worldwide Expansion V1.1 decks, credited © 2025 Malachy Murray.</p><p>Digital prototype: The Witness. New rules resolve unfinished procedures for single-player play. Historical figures meet across centuries; archive membership includes consorts and allied lineages.</p><p>Original generated court artwork and portraits; synthesized sound. Portraits are artistic interpretations shared across court archetypes. No historical dialogue is presented as a quotation.</p><p>Built with TypeScript and Vite. No paid card packs, account requirement, or runtime AI service.</p>`);return;}
- if(d.nav){epoch++;busy=false;closeModal();screen=d.nav==='archive'?'archive':'home';render();return;}
- if(d.start){start(d.start as Mode);return;}
- if(d.resume!==undefined){resume();return;}
- if(d.house){if(mode==='daily'){toast('Today’s chronicle uses a fixed house and Standard difficulty for a fair replay.');return;}chosenHouse=d.house as HouseId;renderHouses();return;}
- if(d.launch!==undefined){launch();return;}
- if(d.confirmLaunch!==undefined){launchConfirmed();return;}
- if(d.replaceTutorial!==undefined){closeModal();launchTutorial();return;}
- if(d.encounter){beginEncounter(Number(d.encounter));return;}
- if(d.archiveHouse){archiveHouse=d.archiveHouse as HouseId;renderArchive();return;}
- if(d.card){if(!overlay.contains(el))selectCard(d.card,el);return;}
- if(d.actionType){actionType=d.actionType as Action['type'];selected=selected.slice(0,actionType==='seize'?2:1);selectedTarget=null;selectedMarket=null;renderBoard();return;}
- if(d.draftConfirm!==undefined&&g){try{if(g.phase==='draft'){draft(g,selected);sfx('draft');}else{declare(g,selected);sfx('declare');}selected=[];persist();renderBoard();}catch(err){toast((err as Error).message);}return;}
- if(d.commit!==undefined){void commit();return;}
- if(d.hint!==undefined){hint();return;}
- if(d.inspectSelected!==undefined&&selected.length===1){inspect(selected[0]);return;}
- if(d.saveExit!==undefined){epoch++;busy=false;persist();screen='home';render();return;}
- if(d.exchangeHelp!==undefined){toast('Select a hand card, choose Barter, then select a public Royal. Commit to exchange them.');return;}
- if(d.toggle){if(d.toggle==='sound')profile.sound=!profile.sound;else profile.motion=!profile.motion;effects();persist();showSettings();return;}
- if(d.export!==undefined){const blob=new Blob([JSON.stringify(profile,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='overlords-and-outlaws-save.json';a.click();URL.revokeObjectURL(url);return;}
- if(d.resultNext!==undefined){closeModal();if(profile.run?.awaitingReward)showRewards();else if(g?.mode==='tutorial'){g=null;start('campaign');}else{screen='home';render();}return;}
- if(d.reward){const run=profile.run!;if(!run.awaitingReward||!RELICS.some(r=>r.id===d.reward))return;run.relics.push(d.reward);run.act++;run.awaitingReward=false;g=null;persist();closeModal();screen='map';render();return;}
- if(d.relicInfo){const r=RELICS.find(r=>r.id===d.relicInfo)!;toast(r.text);}
+function courtSheet(id: number) {
+  if (!g) return;
+  const p = g.players[id],
+    family = dynastyCount(p),
+    natives = nativeCount(p);
+  modal(
+    `${house(p.house).name} — public court`,
+    `<div class="eyebrow">EVERY NUMBER HAS A SOURCE</div><h2>${house(p.house).name}</h2><div class="rules-grid"><article><h3>${family} family Royals</h3><p>${natives} native Royals + ${family - natives} supported spouses. Three establish a dynasty. Unsupported foreigners do not count.</p><p>${p.claim ? `Still to contest: ${p.challengers.map((i) => house(g!.players[i].house).name).join(", ")}.` : "No crown claim is active."}</p></article><article><h3>${income(p)} gold each turn</h3><p>4 base + ${p.estates * 2} from ${p.estates} estates + ${p.court.filter((r) => card(r.card).role === "Royal" && active(p, r)).length} from Stewards − ${upkeep(p)} upkeep.</p><p>Opening treasuries are already funded. Income begins in round two.</p></article><article><h3>${claimCost(p)} gold tribute</h3>${p.court.map((r) => `<p>${esc(card(r.card).name)}: ${cost(p, r, !!r.marriedTo)} gold</p>`).join("")}<p>One coronation pays every exposed Royal. The gold is spent even if the claim breaks.</p></article><article><h3>${p.stability} stability · ${p.shield} shields</h3><p>Crown pressure consumes shields, then stability. At zero: lose a Royal and estate, break marriages and claims, recover to 8. This does not end the game.</p><p>${p.response ? "A paid response remains available this rival turn." : "The paid response has been spent this rival turn."}</p></article></div>`,
+    "wide",
+  );
+}
+function rules() {
+  modal(
+    "How to play",
+    `<div class="eyebrow">SIMPLE ORDERS. COMPLICATED LOYALTIES.</div><h2>How to hold a dynasty.</h2><div class="rules-grid"><article><h3>Your turn</h3><p>Start with 5 gold. From round two, receive income; draw toward five cards. Use two orders. Deploy, marry, challenge, invest, fortify, restore, recruit, recall, or claim. Each costs one order; gold costs are shown. End early to conserve gold for responses.</p></article><article><h3>The crown victory</h3><p>Gather <b>three family Royals</b>: native Royals or foreign Royals married through a supported Queen. Pay tribute equal to the printed gold costs of your exposed Royals. <b>Each rival House gets one full challenge turn.</b> If three family Royals remain after all have acted, win. Losing the declaration or suffering succession collapse breaks the claim. Tribute is spent even if the claim fails.</p></article><article><h3>Force and response</h3><p>Select a ready Royal and a highlighted target. Guardians must be confronted first. Both Royals deal pressure. Once per rival turn: Brace for 1 gold (block 2), or spend 1 gold and a hidden Conspirator to Ambush (deal 3 first). Surviving attackers capture depleted defenders.</p></article><article><h3>Wealth and fragility</h3><p>Base income: 4 gold. Stewards add 1; estates add 2 and can be raided. Each Royal beyond three costs 1 upkeep; each foreign marriage adds 1. Five court seats; seven maximum hand cards. Shields protect the crown, not income pieces.</p></article><article><h3>Marriage and succession</h3><p>An active Queen can marry a foreign Royal from hand. Its income depends on her. Supported spouses count toward your dynasty; unsupported foreigners do not. Losing a Queen can break several links at once. At zero stability: lose a Royal and estate, break marriages, recover to 8. Collapse itself does not end the contest.</p></article><article><h3>History and the Witness</h3><p>Outside lessons, forecast history occurs every fourth completed round. Each round adds one fragment, cycling between three paintings. The first completed nine-fragment painting defeats every unproven House. Claims resolve after history and before a simultaneous Witness deadline.</p></article></div><p>The three-Royal declaration is source-derived; counting supported marriages is this revision’s adaptation. Costs, force, resolve, limits and Witness pace are explicit prototype tuning values, not historical facts. Claim duration comes from the actual rival Houses.</p><p>Click/tap to select; ↗ or right-click to inspect. Keyboard: Tab, Enter, Escape. Family mode uses private handoffs on one shared device.</p>`,
+    "wide",
+  );
+}
+function settings() {
+  modal(
+    "Settings",
+    `<div class="eyebrow">YOUR TABLE</div><h2>The chamber, your way.</h2>${(["sound", "motion", "coaching"] as const).map((k) => `<div class="setting"><div><h3>${k === "sound" ? "Sound & atmosphere" : k === "motion" ? "Motion & spectacle" : "Explain the strategy"}</h3><p>${k === "sound" ? "Synthesized ambience and responsive effects." : k === "motion" ? "3D movement, particles and impacts. Off is faster and calmer." : "Explain why moves matter beside the battlefield."}</p></div><button data-toggle="${k}" aria-pressed="${profile[k]}">${profile[k] ? "On" : "Off"}</button></div>`).join("")}<p class="muted">Progress saves in this browser. Family mode uses a shared device; online multiplayer is not included.</p>`,
+  );
+}
+function archive() {
+  leave();
+  screen = "archive";
+  app.innerHTML = `<div class="menu-shell">${header()}<main class="archive-page"><div class="eyebrow">THE HISTORICAL ARCHIVE · 84 ROYALS</div><h1>A bloodline worth remembering.</h1><p>Study the person. Read the role. Recognize the House.</p><div class="archive-tabs">${HOUSES.map((h) => `<button data-archive-house="${h.id}" class="${h.id === archiveHouse ? "active" : ""}">${h.emblem} ${h.name}</button>`).join("")}</div><div class="archive-grid">${CARDS.filter(
+    (c) => c.house === archiveHouse,
+  )
+    .map((c) =>
+      cardFace({
+        uid: "archive:" + c.id,
+        card: c.id,
+        hp: spec(c.id).resolve,
+        ready: false,
+      }),
+    )
+    .join("")}</div></main></div>`;
+}
+function results() {
+  if (!g || !g.over || overlay.querySelector(".result")) return;
+  const id = `${g.seed}-${g.mode}-${g.turns}`;
+  if (!profile.processed.includes(id)) {
+    profile.processed.push(id);
+    if (g.winner !== null && g.winner >= 0 && g.players[g.winner].human)
+      profile.wins++;
+    if (g.mode === "chronicle" && profile.run) {
+      if (g.winner === 0 && profile.run.act < 2) profile.run.reward = true;
+      else {
+        profile.run = null;
+      }
+    }
+    if (
+      g.mode === "daily" &&
+      g.winner === 0 &&
+      (profile.daily?.date !== today() || profile.daily.rounds > g.round)
+    )
+      profile.daily = { date: today(), rounds: g.round };
+    persist();
+  }
+  modal(
+    "The table is decided",
+    `<div class="result"><div class="result-crown">${g.winner === -1 ? "◈" : "♛"}</div><div class="eyebrow">${g.winner === -1 ? "THE WITNESS PREVAILS" : "A DYNASTY SECURED"}</div><h1>${g.winner === -1 ? "Every crown was temporary." : `${house(g.players[g.winner!].house).name} held the crown.`}</h1><p class="result-reason">${esc(g.reason)}</p><div class="result-scores">${g.players.map((p) => `<div><strong>${house(p.house).name}</strong><span>♟ ${dynastyCount(p)} family Royals</span><span>♥ ${p.stability} stability</span><span>✧ ${p.gold} gold</span></div>`).join("")}</div><p>${g.winner === -1 ? "Turn income into a dynasty before the record fills. The Witness counts rounds, never real time." : "Every rival had a full challenge turn. The declaration remained intact. Read the chronicle to see the contests that decided it."}</p><button class="primary" data-result-next>${profile.run?.reward ? "Choose your heirloom" : "Return to the great hall"} →</button><button class="secondary" data-log>Read the final chronicle</button></div>`,
+    "wide",
+  );
+  sfx(g.winner === viewer ? "victory" : "history");
+}
+function rewards() {
+  const r = profile.run;
+  if (!r) return;
+  modal(
+    "Choose your heirloom",
+    `<div class="eyebrow">VICTORY BECOMES AN INHERITANCE</div><h2>What will you carry forward?</h2><div class="reward-grid">${RELICS.filter(
+      (x) => !r.relics.includes(x.id),
+    )
+      .map(
+        (x) =>
+          `<button data-reward="${x.id}"><span>${x.icon}</span><h3>${x.name}</h3><p>${x.text}</p></button>`,
+      )
+      .join("")}</div>`,
+    "wide",
+  );
+}
+function log() {
+  modal(
+    "The chronicle",
+    `<div class="eyebrow">CAUSE. RESPONSE. CONSEQUENCE.</div><h2>The table remembers.</h2><div class="chronicle-log">${
+      g
+        ? [...g.events]
+            .reverse()
+            .map(
+              (e) =>
+                `<article><small>${e.actor >= 0 ? house(g!.players[e.actor].house).name : "HISTORY"}</small><h3>${esc(e.title)}</h3><p>${esc(e.why)}</p></article>`,
+            )
+            .join("")
+        : "Your first chronicle is unwritten."
+    }</div>`,
+    "wide",
+  );
+}
+
+document.addEventListener("click", (e) => {
+  const b = (e.target as HTMLElement).closest<HTMLButtonElement>("button");
+  if (!b || b.disabled) return;
+  try {
+    unlockAudio();
+  } catch {}
+  const d = b.dataset;
+  if (d.close !== undefined) {
+    closeModal();
+    return;
+  }
+  if (d.home !== undefined || d.save !== undefined) {
+    home();
+    return;
+  }
+  if (d.start) {
+    start(d.start as Mode);
+    return;
+  }
+  if (d.resume !== undefined) {
+    resume();
+    return;
+  }
+  if (d.house) {
+    chosen = d.house as HouseId;
+    renderChoose();
+    return;
+  }
+  if (d.launch !== undefined) {
+    launch();
+    return;
+  }
+  if (d.confirmNew !== undefined) {
+    screen = "choose-confirm";
+    launch(mode === "lesson" ? "alba" : chosen, mode === "lesson" ? 3 : seats);
+    return;
+  }
+  if (d.encounter) {
+    encounter(d.encounter as HouseId);
+    return;
+  }
+  if (d.lesson !== undefined) {
+    lessonIntro();
+    return;
+  }
+  if (d.rules !== undefined) {
+    rules();
+    return;
+  }
+  if (d.settings !== undefined) {
+    settings();
+    return;
+  }
+  if (d.toggle) {
+    const k = d.toggle as "sound" | "motion" | "coaching";
+    profile[k] = !profile[k];
+    effects();
+    persist();
+    settings();
+    return;
+  }
+  if (d.archive !== undefined) {
+    archive();
+    return;
+  }
+  if (d.archiveHouse) {
+    archiveHouse = d.archiveHouse as HouseId;
+    archive();
+    return;
+  }
+  if (d.royal) {
+    if (overlay.contains(b)) return;
+    if (screen !== "board") {
+      inspect(d.cardId!);
+      return;
+    }
+    if (locked || busy) return;
+    const r = royalById(d.royal);
+    if (!r) return;
+    if (targets().includes(r.uid) && selected) {
+      attackReview = { type: "attack", uid: selected, target: r.uid };
+      renderDecision();
+      return;
+    }
+    attackReview = null;
+    selected = selected === r.uid ? null : r.uid;
+    sfx("select");
+    renderBoard();
+    return;
+  }
+  if (d.inspect) {
+    inspect(d.inspect);
+    return;
+  }
+  if (d.target) {
+    if (selected && targets().includes(d.target)) {
+      attackReview = { type: "attack", uid: selected, target: d.target };
+      renderDecision();
+    } else courtSheet(Number(d.target.split("-")[1]));
+    return;
+  }
+  if (d.manage !== undefined) {
+    selected = null;
+    attackReview = null;
+    renderBoard();
+    return;
+  }
+  if (d.move) {
+    void execute(JSON.parse(d.move));
+    return;
+  }
+  if (d.end !== undefined) {
+    void execute({ type: "end" });
+    return;
+  }
+  if (d.response) {
+    void execute(d.response as Response);
+    return;
+  }
+  if (d.ready !== undefined) {
+    unlockHandoff();
+    return;
+  }
+  if (d.hint !== undefined && g) {
+    const a = chooseMove(structuredClone(g), "adaptive");
+    if ("uid" in a) {
+      selected = a.uid;
+      renderBoard();
+    }
+    lastEvent = {
+      id: -1,
+      kind: "hint",
+      actor: viewer,
+      title:
+        a.type === "attack"
+          ? "Suggested challenge"
+          : a.type === "end"
+            ? "Save your gold and pass"
+            : `Consider ${a.type}`,
+      why: explain(g, a),
+    };
+    renderEvent();
+    if (!("uid" in a)) toast(explain(g, a));
+    return;
+  }
+  if (d.page) {
+    page = Number(d.page);
+    renderHand();
+    return;
+  }
+  if (d.log !== undefined) {
+    log();
+    return;
+  }
+  if (d.forecast !== undefined && g) {
+    const f = forecast(g);
+    modal(
+      "History forecast",
+      `<div class="eyebrow">PUBLIC FORECAST · ${f.in} ROUNDS</div><h2>${f.name}</h2><p>${f.text}</p><p>${PAINTINGS.map((p, i) => `<p><b>${p}</b> · ${paintingCounts(g!)[i]} of 9 fragments</p>`).join("")}Each painting needs nine fragments. Strokes cycle between paintings, one per round. Nothing advances while you think.</p>`,
+    );
+    return;
+  }
+  if (d.resultNext !== undefined) {
+    closeModal();
+    if (profile.run?.reward) rewards();
+    else home();
+    return;
+  }
+  if (d.reward && profile.run?.reward) {
+    profile.run.relics.push(d.reward);
+    profile.run.act++;
+    profile.run.reward = false;
+    g = null;
+    persist();
+    closeModal();
+    map();
+    return;
+  }
+  if (d.credits !== undefined)
+    modal(
+      "Credits",
+      `<h2>Overlords & Outlaws</h2><p>Original concept and source material: © 2025 Malachy Murray. This revision follows the designer’s emphasis on family play, exposed power, inheritance, and legacy.</p><p>Historical figures meet across centuries. Roles, combat, economy and tuning values are prototype decisions. Generated art is not a verified likeness.</p><p>Three.js battlefield, original generated portraits, local fonts and synthesized audio. No paid packs, runtime AI, or account required.</p>`,
+    );
 });
-document.addEventListener('change',e=>{if((e.target as HTMLElement).id==='difficulty')difficulty=(e.target as HTMLSelectElement).value as Difficulty;});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(overlay.innerHTML)closeModal();else if(screen==='board'){selected=[];selectedTarget=null;selectedMarket=null;renderBoard();}}if(e.key==='Tab'&&overlay.innerHTML){const focusable=[...overlay.querySelectorAll<HTMLElement>('button:not([disabled]),a,input,select,[tabindex="0"]')];const first=focusable[0],last=focusable.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}});
-document.addEventListener('visibilitychange',()=>{if(document.hidden)persist();});
-render();
+app.addEventListener("contextmenu", (e) => {
+  const b = (e.target as HTMLElement).closest<HTMLElement>("[data-card-id]");
+  if (b) {
+    e.preventDefault();
+    inspect(b.dataset.cardId!);
+  }
+});
+document.addEventListener("change", (e) => {
+  const el = e.target as HTMLSelectElement;
+  if (el.id === "seats") {
+    seats = Number(el.value);
+    renderChoose();
+  }
+  if (el.dataset.seatHouse) {
+    const i = Number(el.dataset.seatHouse),
+      other = seatHouses.indexOf(el.value as HouseId);
+    if (other >= 0) seatHouses[other] = seatHouses[i];
+    seatHouses[i] = el.value as HouseId;
+    renderChoose();
+  }
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    if (overlay.innerHTML) closeModal();
+    else if (screen === "board") {
+      selected = null;
+      renderBoard();
+    }
+  }
+  if (e.key === "Tab" && overlay.innerHTML) {
+    const all = [
+        ...overlay.querySelectorAll<HTMLElement>(
+          "button:not(:disabled),input,select,a",
+        ),
+      ],
+      first = all[0],
+      last = all.at(-1);
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last?.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first?.focus();
+    }
+  }
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) persist();
+});
+home();
