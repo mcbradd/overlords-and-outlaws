@@ -1,6 +1,8 @@
+> **Current product direction:** This is a digital prototype of a physically manufactured card-and-board game, presented on a real 3D board. See [current creative direction](/docs/PHYSICAL-GAME-DIRECTION.md). The flat September 15 lane presentation was rejected and is superseded; historical discussion below records its context, not current acceptance.
+
 # Overlords & Outlaws — The Weight of the Crown
 
-A browser dynasty card-game prototype based on **Malachy Murray's** concept. Gather a family by blood or marriage, pay for coronation, and withstand every rival House's challenge. Growing power creates upkeep, vulnerable estates and dependent marriages.
+A **digital prototype of a physical card-and-board game intended for manufacture**, based on **Malachy Murray's** concept. Gather a family by blood or marriage, pay for coronation, and withstand every rival House's challenge. Growing power creates upkeep, vulnerable estates and dependent marriages.
 
 ## Play
 
@@ -15,7 +17,7 @@ A browser dynasty card-game prototype based on **Malachy Murray's** concept. Gat
 
 Click or tap a card and use the contextual action panel. Desktop cards have a stable side inspector; on phones, selecting a card brings its actions into view. Mouse-drag a hand card to the table to play it, or drag a Ready Royal toward a target to preview an attack before committing. Touch scrolling never commits a drag action. Hover, touch-hold, or use Inspect card for detail. Click family, gold, crown, estates or forecast to explain their state. Keyboard controls use Tab, Enter and Escape. Sound, motion and coaching can be adjusted.
 
-Courts use readable, front-facing cards in labeled House lanes. Dense lanes scroll horizontally; narrow screens have rival tabs. Short screens scroll vertically instead of shrinking the entire table. Empty hands collapse, and lessons share the contextual action rail. The historical portraits remain; intricate frame overlays and the projected 3D playing pieces have been removed.
+The game plays on a real Three.js board with shared camera geometry for its printed card faces. Cards have a fixed 63:88 prototype ratio, consistent printed values, cardstock thickness and contact shadows. Crowns, coins, estates, action counters, damage and marriage links occupy the board. Resting cards rotate. Camera buttons move closer to individual courts; narrow screens can pan across the board. The hand and contextual actions remain accessible outside the 3D scene. See [current physical-game direction](docs/PHYSICAL-GAME-DIRECTION.md) and [project memory](MEMORY.md).
 
 Research and verification: [16-game UI/UX study](docs/knowledge-base/digital-card-game-ux-research.md) · [redesign report](docs/UI-UX-REDESIGN.md). The study includes three model passes, scoped competitor scores, discrepancies, and outliers. These are qualitative judgments, not measured satisfaction rankings.
 
@@ -31,7 +33,7 @@ npm test
 npm run test:ui
 npm run test:simulate
 npm run test:audit
-npm run test:layout
+npm run test:physical
 npm run test:cards
 ```
 

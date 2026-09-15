@@ -1,0 +1,146 @@
+[
+  {
+    "seats": 2,
+    "width": 3840,
+    "height": 2160,
+    "cards": 10,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 2,
+    "width": 1920,
+    "height": 1080,
+    "cards": 10,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 2,
+    "width": 1440,
+    "height": 900,
+    "cards": 10,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 2,
+    "width": 1024,
+    "height": 768,
+    "cards": 10,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 2,
+    "width": 390,
+    "height": 844,
+    "cards": 10,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 2,
+    "width": 844,
+    "height": 390,
+    "cards": 10,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 3,
+    "width": 3840,
+    "height": 2160,
+    "cards": 15,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 3,
+    "width": 1920,
+    "height": 1080,
+    "cards": 15,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 3,
+    "width": 1440,
+    "height": 900,
+    "cards": 15,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 3,
+    "width": 1024,
+    "height": 768,
+    "cards": 15,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 3,
+    "width": 390,
+    "height": 844,
+    "cards": 15,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 3,
+    "width": 844,
+    "height": 390,
+    "cards": 15,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 4,
+    "width": 3840,
+    "height": 2160,
+    "cards": 20,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 4,
+    "width": 1920,
+    "height": 1080,
+    "cards": 20,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 4,
+    "width": 1440,
+    "height": 900,
+    "cards": 20,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 4,
+    "width": 1024,
+    "height": 768,
+    "cards": 20,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 4,
+    "width": 390,
+    "height": 844,
+    "cards": 20,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  },
+  {
+    "seats": 4,
+    "width": 844,
+    "height": 390,
+    "cards": 20,
+    "inspectionPreservesOrders": true,
+    "errors": []
+  }
+]

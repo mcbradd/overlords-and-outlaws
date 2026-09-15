@@ -1,3 +1,5 @@
+> **Product identity:** Overlords & Outlaws is a digital prototype of a physical card-and-board game intended for manufacture. Apply this document through the [current physical-game direction](../PHYSICAL-GAME-DIRECTION.md). Source evidence below is preserved; it does not override the user's current instructions.
+
 # Digital card game UI/UX: evidence, revisions, and O&O design rules
 
 Research date: 15 September 2026. Scope: 16 games; desktop, touch, collection, and battle experiences are distinguished below. This is a design research synthesis for **Overlords & Outlaws**, not a ranking of the games' quality or a survey of all their players.

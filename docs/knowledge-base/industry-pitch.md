@@ -1,3 +1,5 @@
+> **Product identity:** Overlords & Outlaws is a digital prototype of a physical card-and-board game intended for manufacture. Apply this document through the [current physical-game direction](../PHYSICAL-GAME-DIRECTION.md). Source evidence below is preserved; it does not override the user's current instructions.
+
 # Industry Pitch V1.2 — complete distillation
 
 Source: `OO Industry Pitch V1.2.pdf`, 12 pages, credited to Malachy Murray, 2025.

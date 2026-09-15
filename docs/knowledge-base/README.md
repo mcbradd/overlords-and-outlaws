@@ -1,3 +1,5 @@
+> **Current product direction:** This is a digital prototype of a physically manufactured card-and-board game, presented on a real 3D board. See [current creative direction](/docs/PHYSICAL-GAME-DIRECTION.md). The flat September 15 lane presentation was rejected and is superseded; historical discussion below records its context, not current acceptance.
+
 # Source knowledge base
 
 This is the searchable source of truth distilled from the three supplied 12-page PDF decks. Original PDFs remain local in `SourceMaterial/` and are deliberately excluded from Git. The source credits **Overlords & Outlaws © 2025 Malachy Murray**. Names and concepts remain attributed to that supplied work; no ownership transfer is implied.

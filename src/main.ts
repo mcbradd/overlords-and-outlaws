@@ -124,7 +124,7 @@ function leave() {
 function home() {
   leave();
   screen = "home";
-  app.innerHTML = `<div class="home-shell">${header()}<main class="home-hero"><div><div class="eyebrow">A FAMILY OF RIVALS · A TABLE OF CONSEQUENCES</div><h1>Anyone can take<br>a crown.<br><em>Can you keep it?</em></h1><p>Raise a House. Swear an alliance. Conceal your next move.<br>The more power you expose, the more there is to lose.</p><div class="home-actions"><button class="primary" data-start="lesson">Learn to hold power →</button><button class="secondary" data-start="family">Gather the family <small>2–4 PLAYERS</small></button></div>${g && !g.over ? '<button class="resume" data-resume>● Your table is saved — resume →</button>' : ""}<div class="home-meta">SOLO WITH AI · LOCAL SHARED TABLE · NO CARD PACKS</div></div><div class="hero-cards">${cardFace({ uid: "hero1", card: "alba-3", hp: spec("alba-3").resolve, ready: false })}${cardFace({ uid: "hero2", card: "tudor-1", hp: 4, ready: false })}${cardFace({ uid: "hero3", card: "plantagenet-2", hp: 3, ready: false })}</div></main><section class="mode-grid"><button data-start="chronicle"><span>01 / THE CHRONICLE</span><h2>A dynasty is earned.</h2><p>Three courts. Choose a road, earn an heirloom, carry your legacy.</p><b>Begin a chronicle ↗</b></button><button data-start="skirmish"><span>02 / THE OPEN TABLE</span><h2>Every House has a plan.</h2><p>Six bloodlines. Two to four Houses. Competing claims and shifting threats.</p><b>Choose your rivals ↗</b></button><button data-start="daily"><span>03 / ${today()} UTC</span><h2>The daily inheritance.</h2><p>A fixed table and shared seed. Find a better line through the same decisions.</p><b>Take today’s seat ↗</b></button></section><footer>A game concept by Malachy Murray <button data-credits>Credits & source decisions</button></footer></div>`;
+  app.innerHTML = `<div class="home-shell">${header()}<main class="home-hero"><div><div class="eyebrow">THE PHYSICAL GAME · DIGITAL PLAYTEST</div><h1>Overlords<br><em>& Outlaws</em></h1><p>Raise a House. Swear an alliance. Conceal your next move.<br>The more power you expose, the more there is to lose.</p><div class="home-actions"><button class="primary" data-start="lesson">Learn to play →</button><button class="secondary" data-start="family">Gather the family <small>2–4 PLAYERS</small></button></div>${g && !g.over ? '<button class="resume" data-resume>● Your table is saved — resume →</button>' : ""}<div class="home-meta">A PHYSICAL CARD & BOARD GAME BY MALACHY MURRAY</div></div><div class="hero-cards">${cardFace({ uid: "hero1", card: "alba-3", hp: spec("alba-3").resolve, ready: false })}${cardFace({ uid: "hero2", card: "tudor-1", hp: 4, ready: false })}${cardFace({ uid: "hero3", card: "plantagenet-2", hp: 3, ready: false })}</div></main><section class="mode-grid"><button data-start="chronicle"><span>01 / THE CHRONICLE</span><h2>A dynasty is earned.</h2><p>Three courts. Choose a road, earn an heirloom, carry your legacy.</p><b>Begin a chronicle ↗</b></button><button data-start="skirmish"><span>02 / THE OPEN TABLE</span><h2>Every House has a plan.</h2><p>Six bloodlines. Two to four Houses. Competing claims and shifting threats.</p><b>Choose your rivals ↗</b></button><button data-start="daily"><span>03 / ${today()} UTC</span><h2>The daily inheritance.</h2><p>A fixed table and shared seed. Find a better line through the same decisions.</p><b>Take today’s seat ↗</b></button></section><footer>A game concept by Malachy Murray <button data-credits>Credits & source decisions</button></footer></div>`;
   effects();
 }
 function start(which: Mode) {
@@ -481,15 +481,7 @@ async function present(events: Moment[]) {
       field?.sync(g!, selected, [], viewer);
     if (e.kind === "combat") {
       await field?.animate(e);
-      for (const change of e.changes ?? []) {
-        const value = document.querySelector(
-          `.arena [data-royal="${change.uid}"] .resolve-stat b`,
-        );
-        if (value) {
-          value.textContent = String(change.after);
-          value.parentElement?.classList.add("damaged");
-        }
-      }
+      field?.sync(g!, selected, [], viewer);
       banner(e);
     }
     if (announcementKinds.includes(e.kind)) {
@@ -1105,7 +1097,12 @@ function renderCardDetail(uid = selected) {
   }
   const c = card(r.card),
     inCourt = owner.court.includes(r);
-  el.innerHTML = `<div class="detail-heading"><img src="${portrait(r.card)}" alt=""><div><span class="eyebrow">${house(c.house).name} · ${spec(r).title}</span><h3>${esc(c.name)}</h3></div></div><div class="detail-stats"><span><b>${cost(owner, r, !!r.marriedTo)}</b> Gold</span><span><b>${spec(r).force}</b> Attack</span><span><b>${r.hp}</b> Health</span></div><p>${esc(abilityFor(r, owner))}</p><p class="detail-status">${inCourt ? `${active(owner, r) ? "Counts toward this family." : "Foreign Royal: needs a marriage."} ${r.ready ? "Ready to attack." : "Resting: can defend; readies next turn."}` : "In your hand · costs one order to play."}</p><button class="detail-inspect" data-inspect="${r.card}">Full card & rules ↗</button>`;
+  const preview = cardFace(r, { owner, zone: "reference-card" })
+    .replace("<button", '<div role="img"')
+    .replace("</button>", "</div>")
+    .replace(/data-royal="[^"]*"/, "")
+    .replace(/aria-pressed="[^"]*"/, "");
+  el.innerHTML = `<div class="detail-card-preview">${preview}</div><div class="detail-description"><div class="detail-heading"><img src="${portrait(r.card)}" alt=""><div><span class="eyebrow">${house(c.house).name} · ${spec(r).title}</span><h3>${esc(c.name)}</h3></div></div><div class="detail-stats"><span><b>${cost(owner, r, !!r.marriedTo)}</b> Gold</span><span><b>${spec(r).force}</b> Attack</span><span><b>${r.hp}</b> Health</span></div><p>${esc(abilityFor(r, owner))}</p><p class="detail-status">${inCourt ? `${active(owner, r) ? "Counts toward this family." : "Foreign Royal: needs a marriage."} ${r.ready ? "Ready to attack." : "Resting: can defend; readies next turn."}` : "In your hand · costs one order to play."}</p><button class="detail-inspect" data-inspect="${r.card}">Full card & rules ↗</button></div>`;
 }
 function showHover(button: HTMLElement) {
   if (locked || busy || overlay.innerHTML || !g) return;

@@ -1,3 +1,5 @@
+> **Product identity:** Overlords & Outlaws is a digital prototype of a physical card-and-board game intended for manufacture. Apply this document through the [current physical-game direction](../PHYSICAL-GAME-DIRECTION.md). Source evidence below is preserved; it does not override the user's current instructions.
+
 # Illustrated exhibits — text embedded in the PDFs
 
 Native images were extracted and visually inspected. These details do not appear in ordinary PDF text extraction. Development artwork is evidence of design ancestry, not a reconciled final rulebook.

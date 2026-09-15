@@ -1,3 +1,5 @@
+> **Current product direction:** This is a digital prototype of a physically manufactured card-and-board game, presented on a real 3D board. See [current creative direction](/docs/PHYSICAL-GAME-DIRECTION.md). The flat September 15 lane presentation was rejected and is superseded; historical discussion below records its context, not current acceptance.
+
 # Art direction and generated assets
 
 ## Revision 2 — individual portraits and tabletop
@@ -207,3 +209,8 @@ Subject: elegant historically inspired veil and embroidered deep teal dress, tho
 Style/medium: dark Renaissance oil portrait style, museum lighting.
 Composition/framing: face fully within image with generous headroom, poised upper-body portrait against a dark background.
 Constraints: no text, frame, lettering or watermarks.
+
+
+## Current physical-game presentation
+
+The September 15 correction is authoritative: [physical-game creative direction](PHYSICAL-GAME-DIRECTION.md). The current pass reuses the existing chamber, marble board and portrait assets. It adds a Three.js board, cardstock geometry, crowns, coins and estate pieces; a consistent ivory printed face; and restrained gold/blue/red interaction feedback. No new image generation was used in this pass. Portrait crops preserve crowns and faces. The earlier frame and flat lane experiments above remain historical records.

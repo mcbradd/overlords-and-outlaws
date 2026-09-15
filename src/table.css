@@ -1,1293 +1,2054 @@
-/* Research-led table: stable zones, one action rail, quiet card geometry. */
+/* Physical prototype: the board is the scene, printed cards are the primary objects. */
 :root {
-  font-size: clamp(16px, 0.85vw, 24px);
-  --table-line: #91b5aa35;
+  font-size: clamp(16px, 0.85vw, 23px);
+  --ivory: #eadcba;
+  --gold: #cba66b;
+  --ink: #f4e7c8;
 }
 .battle-shell,
 .battle-shell:not(.teaching),
 .battle-shell.teaching {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 2.7rem 4.2rem minmax(300px, 1fr) 11.4rem;
   width: 100%;
   height: 100svh;
-  min-height: 680px;
-  padding: 0;
+  min-height: 740px;
   gap: 0;
-  grid-template-columns: minmax(0, 1fr) 19rem;
-  grid-template-rows: 3rem 5.4rem minmax(0, 1fr) 13rem;
-  background:
-    linear-gradient(#08151bea, #08151bf4),
-    url("/art/v3-chamber.png") center/cover;
+  padding: 0;
   overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 40%, #0a152533, #050b13db),
+    url("/art/v3-chamber.png") center/cover;
 }
 .battle-top {
-  grid-area: 1/1/2/3;
-  padding: 0 1rem;
-  min-width: 0;
+  grid-area: 1/1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.3rem;
+  background: linear-gradient(#091019ee, #091019bb);
+  border-bottom: 1px solid #c7aa6b30;
+  z-index: 3;
 }
 .battle-top .small-brand {
   font-size: 0.85rem;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.12em;
+  color: #e9c58a;
+}
+.battle-top .objective {
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  color: #c3bba9;
 }
 .battle-top button {
   min-height: 36px;
-}
-.battle-top .objective {
   font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  color: #bccac6;
 }
 .scoreboard {
-  grid-area: 2/1/3/3;
-  padding: 0.5rem 0.75rem;
-  gap: 0.5rem;
-  min-width: 0;
+  grid-area: 2/1;
+  padding: 0.35rem 1.4rem;
+  gap: 1.4rem;
+  z-index: 3;
 }
 .court-score {
-  border-radius: 5px;
+  padding: 0.3rem 0.7rem;
+  gap: 0.6rem;
+  border: 0;
+  border-bottom: 1px solid #ba995b55;
+  border-radius: 0;
+  background: linear-gradient(90deg, #0a1216e0, #0a121622);
   box-shadow: none;
-  background: #10232a;
-  border: 1px solid var(--table-line);
-  border-left: 3px solid var(--house);
-  border-top: 1px solid var(--table-line);
 }
 .court-score.you {
-  background: #183239;
-  outline: none;
+  background: linear-gradient(90deg, #24413cea, #0a121622);
+  outline: 0;
 }
 .court-score.current {
-  box-shadow: inset 0 -2px #dfbf7a;
+  box-shadow: 0 1px #e5c180;
 }
 .court-score.current:after {
   display: none;
 }
-.house-identity {
-  flex-shrink: 0;
-}
 .house-identity strong {
   font:
-    600 1rem Georgia,
+    600 1.02rem Georgia,
     serif;
 }
 .house-identity small {
-  font-size: 0.65rem;
-  letter-spacing: 0.06em;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
 }
 .house-crest {
-  width: 1.5rem;
   height: 1.8rem;
+  width: 1.6rem;
+}
+.house-identity div {
+  gap: 0.08rem;
 }
 .crown-piece {
-  min-width: 2.6rem;
-  padding: 0.1rem 0.3rem;
+  background: none;
   border: 0;
-  background: #21383d;
-  grid-template-columns: auto auto;
+  padding: 0.1rem;
+  min-width: 2rem;
+  gap: 0 0.2rem;
 }
 .crown-piece span,
 .crown-piece b {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
 }
 .crown-piece small {
-  font-size: 0.6rem;
+  font-size: 0.5rem;
 }
-.public-family small {
-  font-size: 0.65rem;
+.public-family {
+  gap: 0.08rem;
 }
-.response-chip {
-  font-size: 0.6rem;
+.public-family button {
+  font-size: 0.7rem;
+}
+.public-family small,
+.response-chip,
+.rival-backs {
+  font-size: 0.52rem;
+}
+.rival-backs {
+  height: auto;
+  line-height: 1.2;
 }
 .public-money {
-  font-size: 1rem;
-  min-width: 2.5rem;
+  font-size: 0.9rem;
 }
 .public-money small {
-  font-size: 0.65rem;
+  font-size: 0.55rem;
 }
 .estate-zone {
-  gap: 0.3rem;
+  gap: 0.25rem;
 }
 .estate-piece {
-  font-size: 1.2rem;
-  min-width: 30px;
+  font-size: 1rem;
+  padding: 0.1rem;
+}
+.estate-piece small {
+  font-size: 0.5rem;
 }
 .public-claim {
-  position: static;
-  padding: 3px;
+  font-size: 0.55rem;
 }
 .table-zone {
-  grid-area: 3/1/4/2;
+  grid-area: 3/1;
+  padding: 0;
   display: block;
-  padding: 0 0.75rem;
-  overflow: hidden;
+  overflow: visible;
+  min-height: 0;
   min-width: 0;
 }
 .arena-column {
-  grid-template-rows: 2rem minmax(0, 1fr) 2.7rem;
-  gap: 0.4rem;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1.5rem minmax(0, 1fr) 2.2rem;
+  gap: 0;
+  min-height: 0;
+  overflow: visible;
 }
 .arena-label {
-  padding: 0 0.25rem;
-  font-size: 0.75rem;
-  letter-spacing: 0;
+  padding: 0 1.5rem;
+  font-size: 0.62rem;
+  color: #d0ba8d;
+  letter-spacing: 0.1em;
+  z-index: 4;
 }
 .arena-label button,
-.arena-label #history-label {
-  font-size: 0.7rem;
+#history-label {
+  font-size: 0.6rem;
 }
-.arena-label #history-label {
-  gap: 0.5rem;
-}
-.painting-track {
-  font-size: 0.65rem;
-}
-.court-table {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  gap: 0.75rem;
+.physical-world {
+  position: relative;
+  width: 100%;
   height: 100%;
   overflow: hidden;
+  background: none;
+  border: 0;
   border-radius: 0;
+  perspective: none;
 }
-.rival-courts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem;
-  min-height: 0;
+.physical-world > canvas,
+.world-print {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
-.rival-courts[data-rivals="1"] {
-  grid-template-columns: minmax(0, 1fr);
+.world-print {
+  pointer-events: none;
 }
-.rival-courts[data-rivals="3"] {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.physical-card {
+  pointer-events: none;
 }
-.court-lane {
-  min-width: 0;
-  min-height: 0;
-  display: grid;
-  grid-template-rows: 1.8rem minmax(0, 1fr);
-  background: #10232b;
-  border: 1px solid #84a79b38;
-  border-radius: 8px;
-  overflow: hidden;
+.physical-card > .royal-card {
+  pointer-events: auto;
+  backface-visibility: hidden;
 }
-.court-lane.your-court {
-  background: linear-gradient(135deg, #173534, #122a30);
-  border-color: #81b7a65c;
-}
-.court-lane-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 0.75rem;
-  border-bottom: 1px solid #809b8e26;
-  gap: 0.5rem;
-}
-.court-lane-heading strong {
+.board-engraving {
+  color: #dfc694;
+  text-align: center;
   font:
-    600 0.9rem Georgia,
+    28px Georgia,
     serif;
-  color: #eee6ce;
+  letter-spacing: 5px;
+  text-shadow: 0 2px 3px #000;
+  pointer-events: none;
 }
-.court-lane-heading span {
-  font-size: 0.65rem;
-  color: #b6c6c3;
-}
-.court-cards {
-  min-width: 0;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: safe center;
-  gap: 0.6rem;
-  padding: 0.6rem 0.75rem;
-  overflow: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #62897e #11232a;
-}
-.court-cards:focus-visible {
-  outline: 2px solid #e3c17d;
-  outline-offset: -3px;
-}
-.empty-court {
-  color: #9bb2ad;
-  font-size: 0.9rem;
-  padding: 1rem;
-  border: 1px dashed #7d9c8e42;
-  border-radius: 6px;
-}
-.piece-container {
-  flex: 0 0 auto;
-  width: clamp(100px, 8.5vw, 188px);
-  max-height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  transform: none;
-  touch-action: pan-x;
-}
-.piece-container .royal-card {
-  width: 100% !important;
-  height: auto !important;
-  min-height: 110px;
-  max-height: calc(100% - 1.35rem);
-  flex: 1 1 auto;
-  aspect-ratio: 4/5 !important;
-  grid-template-rows: 23% 47% 13% 0% 17% !important;
-}
-.piece-container .royal-card.exhausted {
-  rotate: none;
-}
-.piece-state {
+.board-engraving b {
   display: block;
-  flex: 0 0 1.2rem;
-  text-align: center;
-  font-size: 0.65rem;
-  line-height: 1.2rem;
-  color: #b2bdbd;
+  font-size: 37px;
+  font-weight: 500;
 }
-.piece-state.ready {
-  color: #a9ddc3;
+.board-engraving > span:not(.token-inscription) {
+  display: block;
+  font:
+    16px Arial,
+    sans-serif;
+  letter-spacing: 4px;
+  margin-top: 12px;
+  color: #c5b794;
 }
-.marriage-label {
-  color: #e8cb92;
-  font-size: 0.6rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
+.board-engraving button {
+  pointer-events: auto;
+  color: #f7dfa8;
+}
+.board-crown {
+  display: grid;
+  justify-items: center;
+  font:
+    bold 46px Georgia,
+    serif;
+  background: none;
+  border: 0;
+}
+.board-crown small {
+  font: 16px Arial;
+  letter-spacing: 3px;
+}
+.token-inscription {
+  font: bold 49px Georgia;
+  letter-spacing: 0;
+  color: #21190f;
+  text-shadow: 0 1px #fff8;
+}
+.physical-pile {
+  width: 200px;
+  height: 280px;
+  border: 5px double #c4a563;
+  border-radius: 12px;
+  background: repeating-linear-gradient(45deg, #172b30 0 4px, #1d3438 4px 7px);
+  font-size: 95px;
+  box-shadow: 3px 5px 0 #d8c8a6;
+  display: grid;
+  place-content: center;
+}
+.physical-pile small {
+  font: 21px Georgia;
+  letter-spacing: 1px;
+}
+.physical-pile.empty {
+  opacity: 0.3;
+}
+.concealed-cards i {
+  display: inline-grid;
+  place-content: center;
+  width: 65px;
+  height: 90px;
+  border: 3px double #c5ab76;
+  background: #172b30;
+  font: 40px Georgia;
+  margin-left: -15px;
+  transform: rotate(-5deg);
+}
+.marriage-inscription {
+  font-size: 70px !important;
+  color: #f3d29d !important;
+}
+.claim-inscription {
+  color: #ffdc92 !important;
 }
 .event-focus {
-  min-width: 0;
-  padding: 0.25rem 0.5rem;
-  background: transparent;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 auto;
+  padding: 0.3rem 0.8rem;
+  max-width: 60%;
+  width: max-content;
+  min-height: 0;
+  background: linear-gradient(90deg, transparent, #091318d9, transparent);
   border: 0;
   border-radius: 0;
-  gap: 0.5rem;
+  z-index: 3;
+  pointer-events: auto;
 }
 .event-focus strong {
-  font-size: 0.75rem;
+  font-size: 0.67rem;
 }
 .event-focus p {
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   line-height: 1.3;
+  margin: 0;
 }
-.event-icon {
-  color: #d7b779;
+.event-focus .event-icon {
+  font-size: 1rem;
+}
+.event-focus button {
+  font-size: 1rem;
 }
 .command-rail {
-  grid-area: 3/2/5/3;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-  border-left: 1px solid var(--table-line);
-  background: #0b191ff5;
-  padding: 0.75rem;
-  gap: 1rem;
-  scrollbar-width: thin;
+  display: contents;
 }
 #lesson-coach {
+  position: absolute;
+  left: 1.4rem;
+  bottom: 12.2rem;
+  width: 14.3rem;
+  max-height: 16rem;
+  overflow: auto;
+  z-index: 5;
   display: grid;
-  grid-template-columns: 2rem 1fr;
-  padding: 0 0 0.9rem;
+  grid-template-columns: 1.8rem 1fr;
   gap: 0.5rem;
-  border: 0;
-  border-bottom: 1px solid var(--table-line);
-  background: none;
-  height: auto !important;
+  padding: 0.7rem 0.8rem;
+  background: linear-gradient(110deg, #e9d9b8f5, #cebc98ed);
+  color: #342f25;
+  border: 1px solid #ae8a53;
+  box-shadow:
+    0 8px 24px #0008,
+    inset 0 0 0 4px #f8ecc530;
+  border-radius: 2px;
 }
 #lesson-coach:empty {
   display: none;
 }
+#lesson-coach > div > small {
+  color: #765527;
+  font-size: 0.52rem;
+  letter-spacing: 0.08em;
+}
 .lesson-number {
-  font: 1.5rem Georgia;
-  min-width: 0;
+  font: 1.45rem Georgia;
+  color: #805c2c;
 }
 .lesson-number small {
-  font-size: 0.6rem;
-}
-#lesson-coach > div > small {
-  font-size: 0.65rem;
-  letter-spacing: 0.04em;
+  display: block;
+  font: 0.45rem Arial;
+  white-space: nowrap;
 }
 #lesson-coach h2 {
-  display: block;
-  font: 600 1.05rem/1.25 Georgia;
-  margin: 0.25rem 0 0.5rem;
+  font: 600 1.05rem Georgia;
+  margin: 0.15rem 0 0.3rem;
 }
 #lesson-coach p {
-  display: block;
-  font-size: 0.85rem;
+  font-size: 0.68rem;
   line-height: 1.55;
+  margin: 0;
+  color: #484133;
 }
 .lesson-controls {
   grid-column: 2;
-  flex-direction: row;
+  display: flex;
   flex-wrap: wrap;
-  margin: 0;
-  gap: 0.5rem;
+  gap: 0.3rem;
 }
 .lesson-controls button {
-  min-height: 32px;
-  font-size: 0.75rem;
-  padding: 0.35rem 0;
+  font-size: 0.6rem;
+  min-height: 30px;
+  color: #654520;
 }
 .lesson-controls .primary {
-  padding: 0.5rem 0.75rem;
+  padding: 0.4rem 0.65rem;
+  color: #201b13;
 }
 .lesson-read {
   display: none;
 }
 #card-detail {
-  padding: 0 0 1rem;
-  border-bottom: 1px solid var(--table-line);
+  position: absolute;
+  right: 1.4rem;
+  bottom: 12.2rem;
+  width: 14.3rem;
+  z-index: 6;
+  padding: 0.85rem;
+  background: linear-gradient(120deg, #151f25f5, #0a131bf5);
+  border: 1px solid #c2a46a66;
+  box-shadow: 0 8px 25px #0009;
+  pointer-events: auto;
+}
+#card-detail:empty {
+  display: none;
 }
 .detail-heading {
   display: flex;
+  gap: 0.6rem;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
 }
 .detail-heading img {
-  width: 3.5rem;
-  height: 4.1rem;
+  width: 3.1rem;
+  height: 4rem;
   object-fit: cover;
-  object-position: center 18%;
-  border-radius: 4px;
+  border: 1px solid #b99455;
 }
 .detail-heading .eyebrow {
-  font-size: 0.65rem;
-  letter-spacing: 0.04em;
+  font-size: 0.5rem;
 }
-.detail-heading h3,
-.detail-idle h3 {
-  font: 600 1.2rem/1.2 Georgia;
-  margin: 0.25rem 0;
+.detail-heading h3 {
+  font: 1.15rem Georgia;
+  margin: 0.2rem 0;
 }
 .detail-stats {
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 0;
-  border-top: 1px solid var(--table-line);
-  border-bottom: 1px solid var(--table-line);
-  margin-bottom: 0.6rem;
-  font-size: 0.75rem;
-  color: #b4c7c4;
+  margin: 0.6rem 0;
+  font-size: 0.65rem;
 }
 .detail-stats b {
-  color: #f0dab0;
-  font-size: 1.1rem;
-  margin-right: 0.2rem;
+  color: #e5c38a;
+  font-size: 1rem;
 }
 #card-detail p {
-  font-size: 0.9rem;
-  line-height: 1.55;
-  color: #e0e5dc;
+  font-size: 0.72rem;
+  line-height: 1.5;
 }
 #card-detail .detail-status {
-  color: #9dbbb5;
-  font-size: 0.8rem;
-  margin-top: 0.6rem;
-}
-.detail-tip {
-  display: block;
-  font-size: 0.8rem;
-  color: #99aaa8;
-  line-height: 1.5;
-  margin-top: 0.75rem;
+  color: #afa997;
+  font-size: 0.6rem;
 }
 .detail-inspect {
-  font-size: 0.8rem;
-  color: #e1c58a;
-  padding: 0.5rem 0 0;
-  min-height: 32px;
+  font-size: 0.65rem;
+  color: #e9c58a;
 }
 .decision-panel {
+  position: absolute;
+  left: 50%;
+  bottom: 11.3rem;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 33rem);
+  z-index: 8;
   display: flex;
-  flex-direction: column !important;
-  align-items: stretch;
-  justify-content: flex-start;
-  padding: 0;
-  min-height: 0;
-  max-height: none;
-  gap: 0.75rem;
-  border: 0;
-  background: none;
-  overflow: visible;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #d3b37655;
+  border-radius: 4px;
+  background: linear-gradient(#1d262bed, #0d171bed);
+  box-shadow: 0 5px 30px #0006;
 }
 .action-context {
-  flex: 0 0 auto;
-  min-width: 0;
-  max-width: none;
+  max-width: 15rem;
+  flex: 1;
 }
 .action-context small {
-  font-size: 0.65rem;
+  font-size: 0.48rem;
+  letter-spacing: 0.12em;
+  color: #cfae76;
 }
 .action-context strong {
-  font: 600 1.1rem/1.3 Georgia;
-}
-.battle-shell .decision-panel p {
   display: block;
-  line-height: 1.5;
+  font: 600 0.82rem Georgia;
+}
+.action-context p {
+  font-size: 0.62rem;
+  line-height: 1.35;
+  margin: 0.18rem 0;
+  color: #c7c2b5;
 }
 .dock-actions {
-  height: auto;
-  max-height: none;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.4rem;
+  display: flex;
+  align-items: stretch;
+  gap: 0.3rem;
+  flex-wrap: wrap;
 }
 .order-button {
-  min-width: 0;
-  width: 100%;
-  max-width: none;
-  min-height: 3.5rem;
-  padding: 0.55rem;
-  border-radius: 4px;
+  flex: 1;
+  min-width: 4.2rem;
+  border: 1px solid #a9936660;
+  background: #162329;
+  border-radius: 3px;
+  padding: 0.4rem 0.6rem;
   text-align: left;
-  align-items: flex-start;
-  background: #172c32;
+  min-height: 38px;
 }
 .order-button strong {
-  font-weight: 600;
+  font-size: 0.68rem;
+  display: block;
+  white-space: nowrap;
 }
 .order-button small {
-  font-size: 0.7rem;
-  line-height: 1.3;
-}
-.order-button .blocked-reason {
+  font-size: 0.53rem;
   display: block;
-  font-size: 0.65rem;
-  line-height: 1.3;
 }
+.order-button .blocked-reason,
 .action-effect {
+  font-size: 0.5rem;
   display: block;
-  font-size: 0.7rem;
   line-height: 1.3;
-}
-.order-button.unavailable {
-  opacity: 0.72;
 }
 .order-button.primary-order {
-  background: #ddbf7c;
-  color: #172321;
+  background: linear-gradient(#ead29a, #b68b47);
+  color: #242015;
+  border: 1px solid #eed69c;
 }
-.order-button.primary-order small {
-  color: #28322d;
+.primary-order small {
+  color: #3b3020;
 }
-.order-button.primary-order,
-.claim-button {
-  grid-column: 1/-1;
+.order-button.unavailable {
+  opacity: 0.55;
+}
+.battle-shell[data-decision="idle"] .decision-panel .action-context {
+  display: none;
+}
+.battle-shell.teaching[data-decision="idle"] .decision-panel {
+  max-width: calc(100% - 33rem);
+}
+.teaching .order-button:disabled {
+  display: none;
 }
 .hand-dock,
 .teaching .hand-dock {
-  grid-area: 4/1/5/2;
+  position: relative;
+  grid-area: 4/1;
   margin: 0;
-  border: 0;
-  border-top: 1px solid var(--table-line);
-  border-radius: 0;
-  padding: 0.45rem 0.9rem;
-  background: #0b1b22;
+  padding: 0.4rem 1.4rem 0;
+  display: grid;
+  grid-template-rows: 2rem 1fr;
   min-height: 0;
-  grid-template-rows: 2.4rem minmax(0, 1fr);
-  overflow: hidden;
+  overflow: visible;
+  background: linear-gradient(0deg, #050b13ef, #071018c9 80%, transparent);
+  border: 0;
+  border-top: 1px solid #c5a57230;
+  border-radius: 0;
+  z-index: 7;
 }
 .hand-topline {
-  min-width: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 0.5rem;
-}
-.hand-topline > div:first-child {
-  gap: 0.5rem;
-  flex-shrink: 0;
 }
 .hand-topline .eyebrow {
-  font-size: 0.7rem;
-  letter-spacing: 0.04em;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
 }
-.hand-topline small {
-  display: none;
-}
-.hand-topline > div:first-child > small {
-  display: none;
-}
-.turn-tools {
-  width: auto;
+.hand-topline > div:first-child {
+  display: flex;
+  align-items: center;
   gap: 0.7rem;
 }
+.hand-topline > div:first-child > small {
+  font-size: 0.58rem;
+  color: #b2ab9c;
+}
+.turn-tools {
+  gap: 0.6rem;
+}
 .turn-tools button {
-  font-size: 0.75rem;
-  padding: 0.4rem 0.7rem;
-  min-height: 36px;
+  font-size: 0.7rem;
+  padding: 0.4rem 0.8rem;
+  min-height: 35px;
 }
 .gold-count {
-  font-size: 1.15rem;
+  font-size: 1.25rem;
 }
-.order-count {
-  font-size: 1rem;
+.gold-count small,
+.order-count small {
+  display: none;
 }
 .order-token {
-  width: 1.3rem;
-  height: 1.3rem;
+  width: 1.5rem;
+  height: 1.5rem;
   font-size: 0.8rem;
+}
+.order-count {
+  gap: 0.3rem;
+}
+.end-turn {
+  background: linear-gradient(#e8d092, #b98f4c);
+  border: 1px solid #d7b676;
+  box-shadow:
+    0 2px 0 #745b34,
+    0 3px 9px #0008;
+  color: #282215;
+}
+.hint {
+  color: #c7b994;
 }
 .hand-cards,
 .teaching .hand-cards {
-  min-width: 0;
-  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
   justify-content: safe center;
-  align-items: center;
-  gap: 0.6rem;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 0.3rem 0 !important;
-  scrollbar-width: thin;
+  gap: 0;
+  height: 100%;
+  padding: 0.6rem 1rem 0 !important;
+  overflow: visible;
+  min-width: 0;
 }
-.hand-cards:after,
-.teaching .hand-cards:after {
-  display: none;
+.hand-cards:after {
+  display: none !important;
 }
 .hand-cards > .royal-card,
 .hand-cards:has(> .royal-card:nth-child(-n + 5):last-child) > .royal-card {
-  flex: 0 0 auto;
-  height: 100%;
-  max-height: 100%;
-  width: auto;
+  position: relative;
+  width: 8.3rem !important;
+  height: auto !important;
+  aspect-ratio: 63/88 !important;
+  flex: 0 0 8.3rem;
+  max-height: none;
   max-width: none;
-  min-height: 0;
-  margin: 0;
-  aspect-ratio: 4/5 !important;
-  grid-template-rows: 23% 47% 13% 0% 17% !important;
-  transform: none;
+  margin: 0 -0.65rem;
+  transform: translateY(0.4rem) rotate(-2deg);
+  transform-origin: 50% 95%;
+  box-shadow: 0 5px 20px #000b;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   touch-action: pan-x;
 }
-.hand-cards > .royal-card:hover {
-  transform: none;
+.hand-cards > .royal-card:nth-child(even) {
+  transform: translateY(0.2rem) rotate(2deg);
 }
-.hand-cards .card-ability {
-  display: none;
-}
-.empty-hand {
-  padding: 1rem;
-  font-size: 0.9rem;
-  color: #9eb6b1;
+.hand-cards > .royal-card:hover,
+.hand-cards > .royal-card:focus-visible,
+.hand-cards > .royal-card.selected {
+  transform: translateY(-4.8rem) scale(1.23) !important;
+  z-index: 20;
+  box-shadow:
+    0 15px 35px #000b,
+    0 0 0 2px #e9ca8c;
 }
 .hand-dock .pile-zones {
-  position: static;
-  grid-row: 1;
-  grid-column: 1;
-  align-self: center;
-  justify-self: center;
-  pointer-events: none;
+  position: absolute;
+  bottom: 1rem;
+  left: 1.4rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 2;
 }
 .pile-zones button {
-  width: auto;
-  height: auto;
-  min-height: 32px;
-  font-size: 0;
-  padding: 0;
-  background: none;
-  box-shadow: none;
-  border: 0;
-  pointer-events: auto;
+  width: 3rem;
+  height: 4rem;
+  border: 1px solid #b79a6055;
+  border-radius: 3px;
+  background: repeating-linear-gradient(45deg, #172b30 0 2px, #1d3438 2px 4px);
+  box-shadow:
+    2px 3px #c8b998,
+    4px 5px #1a252c;
+  font-size: 1.1rem;
+  color: #bfa375;
 }
 .pile-zones small {
-  font-size: 0.65rem;
-  color: #95aaa5;
+  display: block;
+  font-size: 0.48rem;
 }
-.hand-topline {
-  grid-area: 1/1;
+.empty-hand {
+  font: italic 0.85rem Georgia;
+  color: #b5aa92;
+  padding: 1.5rem;
 }
-.hand-cards {
-  grid-area: 2/1;
-}
-.teaching .public-money,
-.teaching .public-family,
-.teaching .crown-piece {
-  opacity: 1;
-  visibility: visible;
-}
+/* One printable face shared by hand, board, archive and inspector. */
 .royal-card {
-  aspect-ratio: 2/3 !important;
-  border: 1px solid #658579 !important;
-  border-radius: 6px !important;
-  background: #10242b !important;
-  box-shadow: 0 3px 5px #0005 !important;
-  grid-template-rows: 17% 40% 10% 23% 10% !important;
+  container-type: inline-size;
+  box-sizing: border-box;
+  position: relative;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 10% 54% 8% 19% 9% !important;
+  aspect-ratio: 63/88 !important;
+  width: 210px;
+  height: auto;
+  padding: 3.1% !important;
+  gap: 0;
+  background: linear-gradient(120deg, #f2e5c7, #d8c69d) !important;
+  border: 1px solid #9b7843 !important;
+  border-radius: 4.2%/3% !important;
   overflow: hidden;
-  transform: none;
+  color: #302b21;
+  isolation: isolate;
+  box-shadow:
+    inset 0 0 0 3px #dac9a1,
+    inset 0 0 0 5px #8d743c,
+    2px 3px 1px #bbaa82,
+    0 5px 10px #0007;
+  text-align: center;
 }
-.royal-card .card-rim,
+.royal-card:before {
+  content: "";
+  position: absolute;
+  inset: 2%;
+  border: 1px solid #9b8150;
+  border-radius: 2%;
+  pointer-events: none;
+  z-index: 6;
+}
+.royal-card:after {
+  display: none !important;
+}
 .royal-card .portrait-ornament {
   display: none;
 }
 .royal-card .card-heading {
-  padding: 3px 5px;
-  gap: 4px;
-  margin: 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: 13% 1fr 13%;
+  align-items: center;
+  gap: 2%;
+  padding: 0 1%;
+  background: transparent !important;
   border: 0;
-  border-bottom: 2px solid var(--house);
-  border-radius: 0;
-  background: #12272e;
+  min-height: 0;
 }
-.royal-card .card-name,
-.piece-container .royal-card .card-name {
-  font: 600 max(12px, 8cqw) / 1.1 Georgia;
-  text-align: left;
-  text-shadow: none;
-  min-width: 0;
+.royal-card .card-name {
+  position: static;
+  font:
+    600 5.8cqw/1.05 Georgia,
+    serif;
+  color: #322b1f;
+  white-space: normal;
+  overflow: visible;
+  text-shadow: 0 1px #fff6;
+  letter-spacing: -0.025em;
+  text-align: center;
 }
 .royal-card .coin-gem {
-  flex: 0 0 20px;
-  font: 700 14px/1 Arial;
-  border: 0;
-  border-radius: 4px;
-  background: #dbc082;
-  color: #152b2b;
-  box-shadow: none;
+  position: static;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font: 700 8.5cqw Georgia;
+  color: #352a1b;
+  background: radial-gradient(at 35% 25%, #f9e5ae, #c4a569);
+  border: 1px solid #9b7c43;
+  box-shadow: inset 0 0 0 2px #eee0ac;
+  transform: none;
 }
 .royal-card .herald {
-  display: none;
+  position: static;
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--house);
+  filter: brightness(0.65);
+}
+.royal-card .herald svg {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 .royal-card .portrait-window {
-  margin: 0;
-  border: 0;
-  border-radius: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid #947546;
+  border-radius: 36% 36% 0 0/15% 15% 0 0;
+  background: #192d2c;
 }
 .royal-card .portrait-window img {
-  object-position: center 22%;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: 50% 28%;
+  filter: none;
+  transform: none;
 }
 .royal-card .role-band {
-  margin: 0;
-  border: 0;
-  border-left: 3px solid var(--role);
-  background: #1c3a3c;
-  gap: 4px;
-  padding: 0 4px;
-  justify-content: flex-start;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4%;
+  padding: 0 2%;
+  background: linear-gradient(90deg, #163e3a, #2a5049, #163e3a) !important;
+  border-top: 1px solid #c7a469;
+  border-bottom: 1px solid #9e7b47;
+  min-height: 0;
+  color: #eee1b9;
 }
 .royal-card .role-band strong {
-  font: 600 max(11px, 7cqw) / 1.1 Arial;
-  letter-spacing: 0;
-  text-transform: none;
+  font: 600 5.5cqw Georgia;
+  letter-spacing: 0.07em;
+  color: #eee1b9;
+  white-space: nowrap;
 }
-.royal-card .role-band span {
-  font-size: 12px;
+.royal-card .role-band > span {
+  font-size: 6cqw;
+  color: #e9ce91;
+}
+.royal-card .role-band small {
+  display: none;
 }
 .royal-card .card-ability {
-  margin: 0;
-  background: #e2ddca;
-  color: #182a2c;
-  font: max(12px, 5.6cqw) / 1.35 Arial;
-  text-align: left;
-  text-wrap: pretty;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 2% 4%;
+  font:
+    4.65cqw/1.22 Georgia,
+    serif;
+  color: #3d3526;
+  background: transparent !important;
+  text-align: center;
+  overflow: hidden;
+  min-height: 0;
+  border: 0;
 }
 .royal-card .card-foot {
-  margin: 0;
-  padding: 0 6px;
-  background: #10242b;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 0;
+  padding: 0 5%;
+  border-top: 1px solid #a88d5a88;
+  background: transparent;
+  color: #342d20;
 }
 .royal-card .force-stat,
 .royal-card .resolve-stat {
-  font: 14px Arial;
-  gap: 4px;
+  position: static;
+  display: flex;
+  gap: 4cqw;
+  align-items: center;
+  font: 6.5cqw Georgia;
+  background: none;
+  color: #554127;
 }
 .royal-card .force-stat b,
 .royal-card .resolve-stat b {
-  font: 700 max(16px, 12cqw) / 1 Arial;
+  font: 700 9.5cqw Georgia;
+  color: #2d2c23;
 }
 .royal-card .card-set {
-  font-size: 14px;
+  font: 3.1cqw Georgia;
+  letter-spacing: 0.12em;
+  color: #806e4b;
 }
-.royal-card.selected {
-  outline: 3px solid #f3d58e;
-  outline-offset: 1px;
-  box-shadow: 0 0 0 4px #f3d58e22 !important;
+.royal-card .damage-counter {
+  position: absolute;
+  bottom: 8%;
+  right: 2%;
+  font: 700 8cqw Georgia;
+  background: #933c31;
+  color: #fff1d4;
+  border: 1px solid #efc5a0;
+  border-radius: 50%;
+  width: 16%;
+  height: auto;
+  aspect-ratio: 1;
+  display: grid;
+  place-content: center;
+  box-shadow: 1px 2px 4px #0008;
+  z-index: 10;
 }
-.royal-card.targetable,
-.piece-container .royal-card.targetable {
-  outline: 3px dashed #f5c483;
-  outline-offset: 1px;
-  box-shadow: none !important;
+.royal-card.selected,
+.royal-card.targetable {
+  outline: 3px solid #e7be6d;
+  outline-offset: 3px;
+  filter: none;
 }
-.royal-card:hover {
-  filter: brightness(1.08);
+.royal-card.foreign {
+  filter: saturate(0.7);
 }
-.damage-counter {
-  width: 25px;
-  height: 25px;
-  font: 700 14px Arial;
-  border: 1px solid #edb293;
-  top: 30%;
-  right: 5%;
+.physical-card .royal-card {
+  width: 630px !important;
+  height: 880px !important;
+  padding: 19px !important;
+  transform: none !important;
+  box-shadow:
+    0 5px 7px #0007,
+    2px 4px 0 #cdb991;
 }
-.inspect-layout .royal-card {
-  width: 100%;
+.physical-card .royal-card.exhausted {
+  filter: none;
+}
+.physical-card .damage-counter {
+  display: none;
+}
+.inspect-layout .royal-card,
+.hover-full-card {
+  width: min(30vw, 350px) !important;
+  max-height: none !important;
   height: auto !important;
+  aspect-ratio: 63/88 !important;
 }
 .inspect-layout {
-  align-items: start;
+  gap: 2rem;
 }
-.inspect-layout article p,
-.inspect-layout article dl {
-  font-size: 1rem;
-  line-height: 1.6;
+.inspect-layout h2 {
+  font-family: Georgia;
+}
+.inspect-layout .card-ability {
+  display: flex !important;
 }
 #hover-inspector {
-  width: min(280px, 80vw);
-  max-height: calc(100svh - 16px);
-  overflow: auto;
-}
-.hover-full-card {
-  max-height: 65svh;
+  z-index: 100;
+  pointer-events: none;
 }
 .hover-status {
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  background: #111e24;
+  padding: 0.5rem;
 }
-#battle-banner.show {
-  top: auto;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(32rem, 90vw);
-  padding: 0.75rem 1rem;
+#target-arrow {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 15;
 }
-#battle-banner strong {
-  font-size: 1.2rem;
+.royal-card:focus-visible,
+button:focus-visible {
+  outline: 3px solid #f6d691;
+  outline-offset: 3px;
 }
-#battle-banner p {
-  font-size: 0.85rem;
+/* Game-native opening menu, not a marketing page. */
+.home-shell {
+  min-height: 100svh;
+  background:
+    linear-gradient(90deg, #050b13e8 0%, #07111c75 56%, #07111c18),
+    url("/art/v3-chamber.png") center/cover;
 }
-@media (min-width: 2000px) {
+.home-hero {
+  min-height: 70svh;
+  padding: 6vh 7vw 2vh;
+  grid-template-columns: 1.1fr 1fr;
+}
+.home-hero h1 {
+  font-size: clamp(42px, 5.8vw, 100px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+}
+.home-hero p {
+  max-width: 29rem;
+  font-size: 0.94rem;
+  line-height: 1.7;
+  color: #cbbfa5;
+}
+.home-hero .eyebrow {
+  font-size: 0.63rem;
+  letter-spacing: 0.2em;
+  color: #d3b783;
+}
+.hero-cards {
+  perspective: 1300px;
+}
+.hero-cards .royal-card {
+  width: clamp(180px, 19vw, 330px) !important;
+  aspect-ratio: 63/88 !important;
+  box-shadow:
+    3px 6px #b09a70,
+    10px 30px 55px #000a;
+}
+.hero-cards .royal-card:nth-child(1) {
+  transform: translate(-60%, -1%) rotate(-13deg);
+}
+.hero-cards .royal-card:nth-child(2) {
+  transform: translate(-7%, -5%) rotate(2deg);
+}
+.hero-cards .royal-card:nth-child(3) {
+  transform: translate(46%, 3%) rotate(15deg);
+}
+.home-meta {
+  font-size: 0.6rem;
+  color: #b7a785;
+}
+.mode-grid {
+  margin: 1rem 7vw;
+  gap: 1rem;
+  border-top: 1px solid #b8985e44;
+  padding-top: 1rem;
+}
+.mode-grid > button {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0.6rem 1rem;
+  text-align: left;
+}
+.mode-grid h2 {
+  font-size: 1.05rem;
+  margin: 0.3rem 0;
+}
+.mode-grid p {
+  font-size: 0.7rem;
+  color: #baaf9a;
+}
+.mode-grid b,
+.mode-grid span {
+  font-size: 0.6rem;
+}
+.reduced-motion .hand-cards > .royal-card {
+  transition: none;
+}
+@media (min-width: 2200px) {
   .battle-shell,
-  .battle-shell:not(.teaching),
-  .battle-shell.teaching {
-    grid-template-rows: 3rem 5.4rem minmax(0, 1fr) 14rem;
+  .battle-shell.teaching,
+  .battle-shell:not(.teaching) {
+    grid-template-rows: 2.7rem 4.2rem minmax(300px, 1fr) 13rem;
   }
-  .piece-container {
-    width: clamp(160px, 9vw, 240px);
+  .decision-panel {
+    bottom: 12.9rem;
+  }
+  #lesson-coach,
+  #card-detail {
+    bottom: 14rem;
+  }
+  .hand-cards > .royal-card {
+    width: 10rem !important;
+    flex-basis: 10rem;
   }
 }
-@media (max-width: 1200px) {
-  .battle-shell,
-  .battle-shell:not(.teaching),
-  .battle-shell.teaching {
-    grid-template-columns: minmax(0, 1fr) 16rem;
-    grid-template-rows: 3rem 5.4rem minmax(0, 1fr) 11rem;
+@media (max-width: 1100px) {
+  .public-family small,
+  .response-chip,
+  .battle-top .objective,
+  .hand-topline > div:first-child > small {
+    display: none;
+  }
+  .scoreboard {
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
   }
   .court-score {
-    gap: 0.4rem;
-    padding: 0.3rem 0.4rem;
-  }
-  .house-crest {
-    display: none;
-  }
-  .public-family small,
-  .response-chip {
-    display: none;
+    gap: 0.3rem;
+    padding: 0.25rem;
   }
   .house-identity strong {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
-  .hand-dock .pile-zones {
-    display: none;
+  .house-crest {
+    width: 1.2rem;
   }
-  .turn-tools .hint {
-    display: none;
+  .decision-panel {
+    max-width: calc(100% - 25rem);
   }
-  .piece-container {
-    width: 100px;
+  #lesson-coach,
+  #card-detail {
+    width: 11.5rem;
+    left: 0.6rem;
+    padding: 0.55rem;
   }
-  .court-lane-heading {
-    padding: 0 0.4rem;
+  #card-detail {
+    left: auto;
+    right: 0.6rem;
   }
-  .court-lane-heading span {
-    font-size: 0.6rem;
+  .order-button {
+    padding: 0.3rem;
+    min-width: 3rem;
   }
-  .arena-label #history-label .painting-track {
+  .action-context {
+    max-width: 9rem;
+  }
+  .battle-shell.teaching[data-decision="idle"] .decision-panel {
+    max-width: calc(100% - 25rem);
+  }
+  .hand-cards > .royal-card {
+    flex-basis: 7rem !important;
+    width: 7rem !important;
+    margin: 0 -0.8rem;
+  }
+  .hint {
     display: none;
   }
 }
 @media (max-width: 760px) {
   .battle-shell,
-  .battle-shell:not(.teaching),
-  .battle-shell.teaching {
-    height: auto;
-    min-height: 100svh;
-    overflow: visible;
-    display: flex;
-    flex-direction: column;
+  .battle-shell.teaching,
+  .battle-shell:not(.teaching) {
+    min-height: 850px;
+    grid-template-rows: 2.7rem 4rem minmax(360px, 1fr) 14rem;
+    overflow: hidden;
   }
   .battle-top {
-    min-height: 48px;
-    padding: 0.2rem 0.5rem;
-    flex-wrap: wrap;
-    gap: 0.25rem;
-  }
-  .battle-top .objective {
-    display: none;
+    padding: 0 0.5rem;
   }
   .battle-top .small-brand {
-    font-size: 0.75rem;
+    font-size: 0.6rem;
+  }
+  .battle-top button {
+    font-size: 0.65rem;
   }
   .scoreboard {
-    display: flex;
-    overflow-x: auto;
-    padding: 0.4rem;
-    flex: none;
+    gap: 0.2rem;
+    padding: 0.2rem;
+  }
+  .house-crest,
+  .public-family,
+  .estate-zone .public-money small,
+  .crown-piece small {
+    display: none;
+  }
+  .house-identity strong {
+    font-size: 0.65rem;
+  }
+  .house-identity small {
+    font-size: 0.45rem;
+  }
+  .crown-piece {
+    min-width: 1rem;
+  }
+  .crown-piece span,
+  .crown-piece b {
+    font-size: 0.8rem;
   }
   .court-score {
-    flex: 0 0 245px;
-    min-height: 66px;
+    justify-content: space-between;
   }
-  .table-zone {
-    order: 2;
-    overflow: visible;
-    padding: 0 0.4rem;
-    flex: none;
+  .estate-zone {
+    margin-left: 0;
   }
-  .arena-column {
-    height: auto;
-    grid-template-rows: 2rem auto 3rem;
+  .public-money {
+    font-size: 0.65rem;
   }
   .arena-label {
-    font-size: 0.65rem;
+    padding: 0 0.5rem;
+    font-size: 0.5rem;
   }
-  .arena-label #history-label {
-    display: none;
+  .arena-label button {
+    font-size: 0.5rem;
   }
-  .court-table {
-    height: auto;
-    grid-template-rows: auto auto;
-    gap: 0.5rem;
-    overflow: visible;
+  .physical-world {
+    overflow-x: auto;
   }
-  .rival-courts,
-  .rival-courts[data-rivals="3"] {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.5rem;
+  .physical-world > canvas,
+  .world-print {
+    min-width: 760px;
+    left: 50%;
+    transform: translateX(-50%);
   }
-  .court-lane {
-    height: 205px;
-    grid-template-rows: 1.8rem minmax(0, 1fr);
-  }
-  .court-cards {
-    justify-content: flex-start;
-  }
-  .piece-container {
-    width: 112px;
-  }
-  .hand-dock,
-  .teaching .hand-dock {
-    order: 3;
-    height: 210px;
-    min-height: 210px;
-    padding: 0.4rem;
-  }
-  .hand-topline {
-    gap: 0.3rem;
-  }
-  .hand-topline .eyebrow {
-    font-size: 0.65rem;
-  }
-  .turn-tools {
-    gap: 0.4rem;
-  }
-  .turn-tools button {
-    padding: 0.4rem;
-  }
-  .order-count {
-    display: none;
-  }
-  .command-rail {
-    order: 4;
-    overflow: visible;
-    border-left: 0;
-    border-top: 1px solid var(--table-line);
-    padding: 1rem;
-  }
-  #card-detail {
-    display: none;
-  }
-  .decision-panel {
-    order: -1;
-  }
-  .hand-cards {
-    justify-content: flex-start;
+  .event-focus {
+    max-width: 95%;
   }
   .event-focus p {
     display: none;
   }
   #lesson-coach {
-    margin-top: 0.5rem;
+    left: 0.5rem;
+    bottom: 14.6rem;
+    width: 11rem;
+    max-height: 9rem;
+    padding: 0.4rem;
+    grid-template-columns: 1.3rem 1fr;
   }
-  .inspect-layout {
-    display: flex;
-    flex-direction: column;
+  .lesson-number {
+    font-size: 1rem;
   }
-  .inspect-layout > div {
-    width: min(260px, 100%);
-    margin: auto;
-  }
-}
-@media (max-height: 650px) and (min-width: 761px) {
-  .battle-shell,
-  .battle-shell:not(.teaching),
-  .battle-shell.teaching {
-    min-height: 600px;
-    height: auto;
-    grid-template-rows: 3rem 5rem 340px 11rem;
-  }
-  .command-rail {
-    max-height: none;
-  }
-  .court-lane-heading strong {
+  #lesson-coach h2 {
     font-size: 0.8rem;
   }
-  .piece-container {
-    width: 100px;
+  #lesson-coach p {
+    font-size: 0.55rem;
   }
-  .piece-state {
-    font-size: 0.65rem;
+  #lesson-coach > div > small {
+    font-size: 0.45rem;
   }
-}
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
+  .lesson-controls button {
+    font-size: 0.5rem;
+    min-height: 25px;
   }
-}
-/* Card cells are explicit: hiding rules must never move stats into the rules row. */
-.royal-card {
-  color: #f2e7ce;
-}
-.royal-card .card-heading {
-  grid-row: 1;
-}
-.royal-card .portrait-window {
-  grid-row: 2;
-}
-.royal-card .role-band {
-  grid-row: 3;
-  color: #e1eee8;
-}
-.royal-card .card-ability {
-  grid-row: 4;
-}
-.royal-card .card-foot {
-  grid-row: 5;
-}
-.royal-card .card-name {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.royal-card .role-band strong {
-  color: #dce8df;
-}
-.rival-tabs {
-  display: none;
-}
-@media (max-width: 760px) {
-  .rival-tabs {
-    display: flex;
-    gap: 0.35rem;
-    overflow: auto;
-  }
-  .rival-tabs button {
-    min-height: 36px;
-    flex: 1;
-    font-size: 0.75rem;
-    padding: 0.3rem;
-    border-bottom: 2px solid transparent;
-    background: #142a30;
-  }
-  .rival-tabs button[aria-pressed="true"] {
-    border-color: #e3c27e;
-    color: #f3d28e;
-  }
-  .rival-tabs span {
-    color: #9cb5ad;
-    font-size: 0.65rem;
-  }
-  .rival-court:not(.shown-rival) {
+  #card-detail {
     display: none;
   }
-  .court-table {
-    grid-template-rows: auto auto auto;
+  .decision-panel,
+  .battle-shell.teaching[data-decision="idle"] .decision-panel {
+    bottom: 14.5rem;
+    left: auto;
+    right: 0.5rem;
+    transform: none;
+    max-width: calc(100% - 13rem);
+    width: 12rem;
+    display: block;
+    padding: 0.4rem;
+    max-height: 10rem;
+    overflow: auto;
   }
-  .court-lane {
-    height: 180px;
+  .action-context {
+    max-width: none;
   }
-  .court-score {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+  .action-context p {
+    font-size: 0.55rem;
   }
-  .estate-zone {
-    display: flex;
+  .action-context strong {
+    font-size: 0.7rem;
   }
-  .order-count {
-    display: flex;
+  .dock-actions {
+    gap: 0.2rem;
+  }
+  .order-button {
+    min-height: 32px;
+    min-width: 3.4rem;
+  }
+  .order-button strong {
+    font-size: 0.6rem;
+  }
+  .order-button small {
+    font-size: 0.5rem;
+  }
+  .order-button .blocked-reason,
+  .action-effect {
+    display: none;
+  }
+  .hand-dock,
+  .teaching .hand-dock {
+    padding: 0.4rem 0.5rem 0;
+  }
+  .hand-topline .eyebrow {
+    font-size: 0.5rem;
+  }
+  .turn-tools {
+    gap: 0.3rem;
+  }
+  .turn-tools button {
+    font-size: 0.6rem;
+    padding: 0.25rem 0.5rem;
+  }
+  .gold-count {
+    font-size: 0.9rem;
   }
   .order-token {
     width: 1.1rem;
     height: 1.1rem;
   }
-  .hand-topline .eyebrow {
-    max-width: 6rem;
+  .hand-cards,
+  .teaching .hand-cards {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 1rem 0.8rem !important;
+    gap: 0.4rem;
   }
-  .battle-top .small-brand span {
-    display: inline;
+  .hand-cards > .royal-card,
+  .hand-cards:has(> .royal-card:nth-child(-n + 5):last-child) > .royal-card {
+    margin: 0 !important;
+    flex-basis: 7.8rem !important;
+    width: 7.8rem !important;
+    transform: none !important;
   }
-  .battle-top .small-brand {
-    max-width: 12rem;
-    text-align: left;
+  .hand-cards > .royal-card:hover,
+  .hand-cards > .royal-card.selected,
+  .hand-cards > .royal-card:focus-visible {
+    transform: none !important;
   }
-  .hand-dock,
-  .teaching .hand-dock {
-    height: 185px;
-    min-height: 185px;
-  }
-}
-@media (max-height: 650px) and (min-width: 761px) {
-  .battle-shell,
-  .battle-shell:not(.teaching),
-  .battle-shell.teaching {
-    height: 644px;
-    min-height: 644px;
-    overflow: visible;
-  }
-  body:has(.battle-shell) {
-    overflow-y: auto;
-  }
-}
-#card-detail:empty {
-  display: none;
-}
-.battle-shell.hand-empty,
-.battle-shell.hand-empty:not(.teaching),
-.battle-shell.hand-empty.teaching {
-  grid-template-rows: 3rem 5.4rem minmax(0, 1fr) 5.5rem;
-}
-.teaching[data-decision="idle"] .decision-panel .action-context {
-  display: none;
-}
-.teaching[data-lesson-index="1"] .public-family,
-.teaching[data-lesson-index="1"] .crown-piece,
-.teaching[data-lesson-index="1"] .public-money {
-  visibility: visible;
-}
-.royal-card .card-name,
-.piece-container .royal-card .card-name {
-  font-size: max(13px, 8cqw);
-}
-.royal-card .role-band strong {
-  font-size: max(12px, 7cqw);
-}
-.royal-card .role-band {
-  overflow: hidden;
-}
-@media (max-height: 650px) and (min-width: 761px) {
-  .battle-shell,
-  .battle-shell:not(.teaching),
-  .battle-shell.teaching {
-    height: 734px;
-    min-height: 734px;
-    grid-template-rows: 3rem 5rem 430px 11rem;
-  }
-  .battle-shell.hand-empty,
-  .battle-shell.hand-empty:not(.teaching),
-  .battle-shell.hand-empty.teaching {
-    height: 646px;
-    min-height: 646px;
-    grid-template-rows: 3rem 5rem 430px 5.5rem;
-  }
-  .scoreboard {
-    overflow: auto;
-    grid-template-columns: repeat(3, minmax(280px, 1fr));
-  }
-  .scoreboard[data-seats="4"] {
-    grid-template-columns: repeat(4, minmax(280px, 1fr));
-  }
-  .hand-topline > div:first-child {
-    display: flex;
-  }
-}
-@media (max-width: 760px) {
-  .battle-shell.hand-empty .hand-dock {
-    height: 100px;
-    min-height: 100px;
-  }
-  .command-rail {
-    scroll-margin-top: 8px;
-  }
-}
-.rival-backs {
-  display: block;
-  height: auto;
-  padding: 0;
-  font-size: 0.65rem;
-  color: #b7c9c1;
-}
-.court-lane[data-overflow="true"] .court-lane-heading span::after {
-  content: " · scroll →";
-  color: #e4c783;
-}
-.hand-dock .pile-zones {
-  display: flex;
-  gap: 0.4rem;
-}
-@media (max-width: 1200px) {
   .hand-dock .pile-zones {
-    justify-self: start;
-    align-self: end;
-    transform: translateY(0.25rem);
+    display: none;
   }
-  .hand-topline {
-    align-self: start;
+  .inspect-layout .royal-card,
+  .hover-full-card {
+    width: 240px !important;
   }
-  .pile-zones small {
-    font-size: 0.6rem;
-  }
-}
-@media (max-width: 760px) {
-  .public-family small {
+  .home-hero {
     display: block;
-    font-size: 0.6rem;
+    padding: 3rem 1.5rem;
+    min-height: auto;
   }
-  .hand-dock .pile-zones {
-    align-self: center;
-    grid-area: 3/1;
-    transform: none;
-    justify-self: end;
+  .home-hero h1 {
+    font-size: 3rem;
   }
-  .hand-dock,
-  .teaching .hand-dock {
-    grid-template-rows: 2.4rem minmax(0, 1fr) 1rem;
-    height: 210px;
-    min-height: 210px;
+  .hero-cards {
+    height: 330px;
+    margin-top: 2rem;
+  }
+  .hero-cards .royal-card {
+    width: 160px !important;
+  }
+  .mode-grid {
+    margin: 1rem;
+    grid-template-columns: 1fr;
+  }
+  .home-actions {
+    flex-wrap: wrap;
   }
 }
-.royal-card .coin-gem {
-  width: max(20px, 13cqw);
-  min-width: max(20px, 13cqw);
-  height: max(22px, 14cqw);
-  flex-basis: max(20px, 13cqw);
-  font-size: max(14px, 9cqw);
-}
-.public-family .response-chip {
-  display: block;
-}
-.piece-container .royal-card,
-.hand-cards > .royal-card,
-.hand-cards:has(> .royal-card:nth-child(-n + 5):last-child) > .royal-card {
-  grid-template-rows:
-    minmax(32px, 22%) minmax(0, 1fr) minmax(20px, 13%)
-    0 minmax(24px, 18%) !important;
-}
-.decision-panel .inspect-trigger {
-  display: flex;
-}
+/* Pass 2: fixed face geometry, component scale and removal of inherited web layout constraints. */
 .royal-card {
-  scroll-margin: 8px;
+  padding: 6px !important;
+  box-shadow:
+    inset 0 0 0 2px #d9c7a1,
+    2px 3px 0 #a18b64,
+    0 7px 12px #0008 !important;
 }
-.court-cards {
-  scroll-padding: 8px;
+.royal-card .card-heading,
+.royal-card .portrait-window,
+.royal-card .role-band,
+.royal-card .card-ability,
+.royal-card .card-foot {
+  margin: 0;
+  width: 100%;
+  left: auto;
+  right: auto;
+  top: auto;
+  bottom: auto;
+  box-sizing: border-box;
+}
+.royal-card .coin-gem,
+.royal-card .herald {
+  min-width: 0;
 }
 .royal-card .force-stat,
 .royal-card .resolve-stat {
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
   box-shadow: none;
-  font-size: max(14px, 7cqw);
 }
 .royal-card .card-ability {
-  padding: 3cqw;
-  font-size: max(12px, 5cqw);
+  font-size: 4.75cqw;
 }
-.order-button strong {
-  font-size: 0.875rem;
+.royal-card .role-band {
+  border-left: 0;
 }
-.order-button small,
-.order-button .blocked-reason,
-.action-effect {
-  font-size: 0.75rem;
+.hand-cards > .royal-card {
+  padding: 4px !important;
 }
-.battle-shell .decision-panel p {
-  font-size: 0.875rem;
-}
-/* Every House summary uses the same two-row grid, including four-player tables. */
-.court-score {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  grid-template-rows: minmax(0, 1fr) auto;
-  min-height: 0;
-  height: 100%;
-  gap: 2px 8px;
-  align-items: center;
-  padding: 5px 8px;
-}
-.house-identity {
-  grid-area: 1/1;
+.hero-cards {
   min-width: 0;
-}
-.crown-piece {
-  grid-area: 1/2;
-}
-.estate-zone {
-  grid-area: 1/3;
-  margin: 0;
-}
-.public-family {
-  grid-area: 2/1/3/4;
+  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 5px;
+  position: relative;
+  grid-column: 2;
 }
-.public-family button {
-  white-space: nowrap;
-  font-size: 0.75rem;
-  min-height: 20px;
+.hero-cards .royal-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(180px, 16vw, 280px) !important;
+  transform-origin: center center;
 }
-.public-family small {
+.hero-cards .royal-card:nth-child(1) {
+  transform: translate(-98%, -45%) rotate(-16deg);
+}
+.hero-cards .royal-card:nth-child(2) {
+  transform: translate(-47%, -52%) rotate(0deg);
+}
+.hero-cards .royal-card:nth-child(3) {
+  transform: translate(5%, -42%) rotate(16deg);
+}
+.home-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+.home-hero > div:first-child {
+  z-index: 4;
+}
+.hero-cards {
+  z-index: 1;
+}
+.battle-shell .decision-panel {
+  min-height: 0;
+  height: auto;
+}
+.battle-shell.teaching[data-decision="idle"]
+  .decision-panel:has(.dock-actions > button:disabled):not(
+    :has(.dock-actions > button:not(:disabled))
+  ) {
   display: none;
 }
-.public-family .response-chip {
-  font-size: 0.6rem;
-  white-space: nowrap;
+.battle-shell .action-context {
+  min-width: 0;
 }
-.rival-backs {
-  white-space: nowrap;
+.battle-shell .decision-panel p {
+  font-size: 0.62rem;
 }
-.public-claim {
-  grid-area: 3/1/4/4;
-  font-size: 0.6rem;
+.dock-actions {
+  height: auto;
 }
-.court-score.claiming {
-  grid-template-rows: minmax(0, 1fr) auto auto;
+.teaching .public-family,
+.teaching .crown-piece,
+.teaching .public-money {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+#lesson-coach {
+  grid-template-columns: 1.6rem 1fr;
+  align-items: start;
+}
+#lesson-coach .lesson-number {
+  align-self: start;
+  grid-row: 1;
+}
+.lesson-controls {
+  grid-row: 2;
+}
+@media (min-width: 761px) {
+  .battle-shell,
+  .battle-shell.teaching,
+  .battle-shell:not(.teaching) {
+    grid-template-rows: 2.7rem 4.2rem minmax(300px, 1fr) 13.2rem;
+  }
+  .decision-panel {
+    bottom: 13.1rem;
+  }
+  #lesson-coach,
+  #card-detail {
+    bottom: 14rem;
+  }
+  .hand-cards > .royal-card {
+    transform: rotate(-2deg);
+  }
+  .hand-cards > .royal-card:nth-child(even) {
+    transform: rotate(2deg);
+  }
 }
 @media (max-width: 760px) {
-  .court-score {
-    flex: 0 0 270px;
-    height: 76px;
+  .home-hero {
+    display: block;
   }
-  .court-score.claiming {
-    height: 95px;
+  .hero-cards {
+    height: 350px;
+  }
+  .hero-cards .royal-card {
+    width: 160px !important;
   }
 }
-.battle-shell,
-.battle-shell:not(.teaching),
-.battle-shell.teaching {
-  min-height: 42.5rem;
+/* Pass 3: readable peripheral controls and a fully visible hand. */
+@media (min-width: 761px) {
+  .battle-shell,
+  .battle-shell.teaching,
+  .battle-shell:not(.teaching) {
+    grid-template-rows: 2.7rem 4.8rem minmax(300px, 1fr) 15rem;
+  }
+  .decision-panel {
+    bottom: 14.9rem;
+  }
+  #lesson-coach,
+  #card-detail {
+    bottom: 15.8rem;
+  }
+  .hand-cards,
+  .teaching .hand-cards {
+    padding: 0.3rem 1rem 0 !important;
+  }
+  .hand-cards > .royal-card:hover,
+  .hand-cards > .royal-card:focus-visible,
+  .hand-cards > .royal-card.selected {
+    transform: translateY(-3rem) scale(1.18) !important;
+  }
 }
-body:has(.battle-shell) {
+.battle-top .small-brand {
+  font-size: max(0.85rem, 13px);
+}
+.battle-top button {
+  font-size: max(0.75rem, 12px);
+}
+.battle-top .objective {
+  font-size: max(0.66rem, 11px);
+}
+.house-identity strong {
+  font-size: max(1.02rem, 16px);
+}
+.house-identity small {
+  font-size: max(0.55rem, 10px);
+}
+.public-family button {
+  font-size: max(0.7rem, 12px);
+}
+.public-family small,
+.response-chip,
+.rival-backs,
+.public-money small {
+  font-size: max(0.52rem, 10px);
+}
+.crown-piece small {
+  font-size: max(0.5rem, 9px);
+}
+.arena-label,
+.arena-label button,
+#history-label {
+  font-size: max(0.6rem, 11px);
+}
+#lesson-coach {
+  width: 16rem;
+  max-height: 18rem;
+  background: linear-gradient(115deg, #eadcbb, #cdbb96);
+}
+.lesson-number {
+  font-size: 1.4rem;
+}
+#lesson-coach > div > small {
+  font-size: 10px;
+}
+#lesson-coach h2 {
+  font-size: 19px;
+}
+#lesson-coach p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.lesson-controls button {
+  font-size: 11px;
+}
+.event-focus strong {
+  font-size: 12px;
+}
+.event-focus p {
+  font-size: 11px;
+}
+.hand-topline .eyebrow {
+  font-size: 12px;
+}
+.hand-topline > div:first-child > small {
+  font-size: 11px;
+}
+.turn-tools button {
+  font-size: 13px;
+}
+.action-context small {
+  font-size: 10px;
+}
+.action-context strong {
+  font-size: 15px;
+}
+.battle-shell .decision-panel p {
+  font-size: 12px;
+}
+.order-button strong {
+  font-size: 12px;
+}
+.order-button small {
+  font-size: 11px;
+}
+.order-button .blocked-reason,
+.action-effect {
+  font-size: 10px;
+}
+.order-button {
+  min-width: 70px;
+  gap: 3px;
+}
+.decision-panel {
+  max-width: calc(100% - 35rem);
+}
+#card-detail {
+  width: 16rem;
+  max-height: calc(100svh - 23rem);
   overflow: auto;
+  pointer-events: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  box-shadow: none;
+  scrollbar-width: thin;
 }
-body:has(.battle-shell) { overflow-x:clip; overflow-y:auto; }
-.inspect-layout { grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); }
-.inspect-layout > * { min-width:0; }
-.inspect-layout article { overflow-wrap:anywhere; }
-.inspect-layout dl { grid-template-columns:minmax(3rem,.28fr) minmax(0,1fr); }
-.inspect-layout dd { margin:0; }
+.detail-card-preview {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+.detail-card-preview > .royal-card {
+  width: 220px !important;
+  padding: 7px !important;
+  transform: none;
+}
+.detail-description {
+  padding: 0.7rem;
+  background: #101c23f5;
+  border: 1px solid #c3a16566;
+  box-shadow: 0 6px 20px #0007;
+}
+.detail-description button {
+  pointer-events: auto;
+}
+.detail-heading img {
+  display: none;
+}
+.detail-heading h3 {
+  font-size: 18px;
+}
+.detail-heading .eyebrow {
+  font-size: 10px;
+}
+.detail-stats {
+  font-size: 12px;
+}
+#card-detail p {
+  font-size: 13px;
+  margin: 0.4rem 0;
+}
+#card-detail .detail-status,
+.detail-inspect {
+  font-size: 11px;
+}
+@media (max-width: 1100px) {
+  #lesson-coach {
+    width: 13rem;
+  }
+  #lesson-coach p {
+    font-size: 12px;
+  }
+  .decision-panel {
+    max-width: calc(100% - 29rem);
+  }
+  .public-family small,
+  .response-chip {
+    display: none;
+  }
+  .hand-topline > div:first-child > small {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .house-identity strong {
+    font-size: 12px;
+  }
+  .house-identity small {
+    font-size: 9px;
+  }
+  .arena-label,
+  .arena-label button,
+  #history-label {
+    font-size: 9px;
+  }
+  #lesson-coach {
+    width: 12rem;
+    max-height: 10rem;
+  }
+  #lesson-coach h2 {
+    font-size: 14px;
+  }
+  #lesson-coach p {
+    font-size: 11px;
+  }
+  .lesson-controls button {
+    font-size: 10px;
+  }
+  .decision-panel,
+  .battle-shell.teaching[data-decision="idle"] .decision-panel {
+    max-width: calc(100% - 14rem);
+  }
+  .order-button {
+    min-width: 55px;
+  }
+  .order-button strong {
+    font-size: 11px;
+  }
+  .order-button small {
+    font-size: 10px;
+  }
+  .action-context strong {
+    font-size: 12px;
+  }
+  .battle-shell .decision-panel p {
+    font-size: 11px;
+  }
+  .hand-topline .eyebrow {
+    font-size: 10px;
+  }
+  .turn-tools button {
+    font-size: 11px;
+  }
+  .battle-top .small-brand {
+    font-size: 10px;
+  }
+  .battle-top button {
+    font-size: 11px;
+  }
+}
+.board-view-controls {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 12;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+  width: 100%;
+  pointer-events: none;
+  padding: 5px 0;
+  background: linear-gradient(#071019aa, transparent);
+}
+.board-view-controls button {
+  pointer-events: auto;
+  padding: 5px 10px;
+  background: #0b1921bd;
+  color: #baae93;
+  border: 1px solid #b4976130;
+  border-radius: 3px;
+  font-size: 12px;
+}
+.board-view-controls span {
+  font-size: 10px;
+  color: #b8a884;
+  margin-right: 5px;
+}
+.board-view-controls button[aria-pressed="true"] {
+  color: #f3d49b;
+  border-color: #c5a36d;
+  background: #243536;
+}
+@media (max-width: 760px) {
+  .physical-world {
+    overflow: auto;
+  }
+  .physical-world > canvas,
+  .world-print {
+    min-width: 0;
+    left: 0;
+    transform: none;
+  }
+  .scoreboard {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+  .scoreboard[data-seats="2"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .scoreboard[data-seats="4"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+  .court-score {
+    overflow: hidden;
+  }
+  .court-score .estate-zone {
+    display: none;
+  }
+  .court-score .house-identity {
+    min-width: 0;
+  }
+  .house-identity strong {
+    font-size: 11px;
+  }
+  .house-identity small {
+    font-size: 8px;
+  }
+  .arena-label {
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+    gap: 8px;
+  }
+  #history-label {
+    display: none;
+  }
+  .battle-top .small-brand span {
+    display: inline !important;
+  }
+  .board-view-controls {
+    justify-content: flex-start;
+    padding-left: 8px;
+    position: sticky;
+    left: 0;
+    width: 390px;
+    gap: 2px;
+  }
+  .board-view-controls span {
+    display: none;
+  }
+  .board-view-controls button {
+    font-size: 10px;
+    padding: 6px;
+  }
+  .event-focus {
+    overflow: hidden;
+    max-height: 28px;
+  }
+  .hand-cards > .royal-card {
+    height: auto !important;
+    align-self: flex-start;
+  }
+  .decision-panel .dock-actions {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .decision-panel .order-button {
+    flex-basis: 45%;
+  }
+  .battle-shell:not(.teaching) .decision-panel[data-unused] {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .scoreboard {
+    grid-auto-rows: auto !important;
+  }
+  .court-score {
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    justify-content: space-between;
+  }
+  .crown-piece {
+    min-width: 20px;
+  }
+  .crown-piece span {
+    display: none;
+  }
+  .scoreboard[data-seats="4"] .house-identity strong {
+    font-size: 10px;
+  }
+  .battle-shell,
+  .battle-shell.teaching,
+  .battle-shell:not(.teaching) {
+    grid-template-rows: 2.7rem 3rem minmax(360px, 1fr) 14rem;
+  }
+  .arena-label {
+    flex-wrap: nowrap;
+  }
+  .physical-world {
+    scrollbar-width: thin;
+    scrollbar-color: #b29962 #0e1b20;
+  }
+  .hand-cards > .royal-card {
+    flex-basis: 7.5rem !important;
+    width: 7.5rem !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hand-cards > .royal-card {
+    transition: none;
+  }
+}
+.board-estate {
+  font: bold 27px Georgia;
+  background: #172925;
+  border: 1px solid #ba9e6b;
+  border-radius: 4px;
+  padding: 4px 12px;
+}
+.board-estate.targetable {
+  outline: 5px solid #f1ca74;
+}
+.physical-card:has(.selected) {
+  filter: drop-shadow(0 0 7px #e3bf7680);
+}
+.scoreboard {
+  margin: 0;
+  min-height: 0;
+  align-items: stretch;
+}
+.court-score {
+  min-height: 0;
+}
+.public-family {
+  line-height: 1.15;
+}
+.scoreboard .house-identity {
+  min-width: 0;
+}
+@media (max-width: 760px) {
+  .scoreboard {
+    grid-auto-rows: minmax(0, 1fr) !important;
+  }
+  .court-score {
+    min-height: 0;
+  }
+  .public-family {
+    display: none;
+  }
+}
+.event-focus {
+  position: absolute;
+  left: 1.4rem;
+  bottom: 15.2rem;
+  margin: 0;
+  max-width: 20rem;
+  width: auto;
+  padding: 0.3rem 0;
+  z-index: 5;
+  background: linear-gradient(90deg, #081219d9, transparent);
+}
+.teaching .event-focus {
+  top: 9.4rem;
+  bottom: auto;
+  max-width: 15rem;
+}
+.event-focus p {
+  line-height: 1.4;
+}
+@media (max-width: 1100px) {
+  .event-focus {
+    max-width: 13rem;
+  }
+  .event-focus p {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .event-focus {
+    left: 0.5rem;
+    bottom: 14.2rem;
+    max-width: 12rem;
+  }
+  .teaching .event-focus {
+    display: none;
+  }
+  .event-focus strong {
+    font-size: 11px;
+  }
+}
+.inspect-trigger {
+  display: flex;
+}
+.battle-shell .action-context p {
+  display: block;
+}
+#lesson-coach {
+  height: auto;
+}
+.battle-shell .decision-panel .dock-actions {
+  max-height: none;
+}
+#lesson-coach > div:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+}
+#lesson-coach .lesson-number {
+  display: block;
+  min-width: 0;
+}
+#lesson-coach .lesson-controls {
+  max-width: none;
+  justify-self: start;
+}
+@media (max-width: 760px) {
+  #lesson-coach p {
+    display: none !important;
+  }
+  #lesson-coach .lesson-read {
+    display: block;
+  }
+  #lesson-coach {
+    max-height: 180px;
+    overflow: auto;
+  }
+  #lesson-coach > div > small {
+    font-size: 9px;
+  }
+  #lesson-coach .lesson-number {
+    font-size: 17px;
+  }
+  .lesson-controls {
+    gap: 0;
+  }
+  #lesson-coach .lesson-controls button {
+    min-height: 30px;
+  }
+}
+/* Portraits retain the sitter's crown and face; full-body source art crops from the top. */
+.royal-card .portrait-window img {
+  object-position: 50% 0%;
+}
+@media (min-width: 1800px) {
+  .home-hero h1 {
+    font-size: clamp(100px, 6vw, 230px);
+  }
+  .hero-cards {
+    height: clamp(500px, 29vw, 1050px);
+  }
+  .hero-cards .royal-card {
+    width: clamp(280px, 17vw, 620px) !important;
+  }
+  .home-hero p {
+    font-size: clamp(18px, 1vw, 32px);
+    max-width: 40rem;
+  }
+  .home-actions button {
+    font-size: clamp(15px, 0.85vw, 28px);
+    padding: 1rem 1.6rem;
+  }
+  .home-meta,
+  .home-hero .eyebrow {
+    font-size: clamp(12px, 0.65vw, 20px);
+  }
+  .mode-grid h2 {
+    font-size: clamp(20px, 1.1vw, 34px);
+  }
+  .mode-grid p {
+    font-size: clamp(14px, 0.8vw, 24px);
+  }
+  .mode-grid span,
+  .mode-grid b {
+    font-size: clamp(12px, 0.65vw, 20px);
+  }
+}
+/* Empty hands release their space back to the board. */
+@media (min-width: 761px) {
+  .battle-shell[data-decision="active"] .decision-panel {
+    bottom: 16.7rem;
+  }
+  .battle-shell.hand-empty,
+  .battle-shell.hand-empty.teaching,
+  .battle-shell.hand-empty:not(.teaching) {
+    grid-template-rows: 2.7rem 4.8rem minmax(300px, 1fr) 4rem;
+  }
+  .hand-empty #lesson-coach,
+  .hand-empty #card-detail {
+    bottom: 4.8rem;
+  }
+  .hand-empty .decision-panel,
+  .hand-empty[data-decision="active"] .decision-panel {
+    bottom: 4.7rem;
+  }
+  .hand-empty .event-focus {
+    bottom: 4.2rem;
+  }
+  .hand-empty.teaching .event-focus {
+    top: 9.4rem;
+    bottom: auto;
+  }
+  .hand-empty .hand-dock .pile-zones {
+    display: none;
+  }
+  .hand-empty .empty-hand {
+    padding: 0;
+    font-size: 0.7rem;
+  }
+  .hand-empty .hand-cards {
+    padding: 0 !important;
+  }
+}
+#lesson-coach p {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+#lesson-coach .lesson-read {
+  display: block;
+}
+@media (max-width: 760px) {
+  #lesson-coach p {
+    display: none !important;
+  }
+  .battle-shell.hand-empty,
+  .battle-shell.hand-empty.teaching,
+  .battle-shell.hand-empty:not(.teaching) {
+    grid-template-rows: 2.7rem 3rem minmax(360px, 1fr) 4rem;
+  }
+  .hand-empty #lesson-coach,
+  .hand-empty .decision-panel,
+  .hand-empty.teaching[data-decision="idle"] .decision-panel {
+    bottom: 4.5rem;
+  }
+  .hand-empty .event-focus {
+    bottom: 4.2rem;
+  }
+  .hand-empty .empty-hand {
+    padding: 0;
+    font-size: 11px;
+  }
+  .hand-empty .hand-cards {
+    padding: 0 !important;
+  }
+}

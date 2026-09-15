@@ -2536,7 +2536,7 @@
       min-height: 620px;
     }
     .scoreboard {
-      grid-template-columns: 1fr 1fr !important;
+      grid-template-columns: 1fr 1fr;
       grid-auto-rows: 62px;
     }
     .table-zone {

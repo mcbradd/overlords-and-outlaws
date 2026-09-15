@@ -1,3 +1,5 @@
+> **Current product direction:** This is a digital prototype of a physically manufactured card-and-board game, presented on a real 3D board. See [current creative direction](/docs/PHYSICAL-GAME-DIRECTION.md). The flat September 15 lane presentation was rejected and is superseded; historical discussion below records its context, not current acceptance.
+
 # Designer correspondence — supplied by the user, 15 September 2026
 
 ## Design authority
