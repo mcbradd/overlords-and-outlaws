@@ -53,16 +53,24 @@ npx tsx scripts/family-browser.ts --compact --four --estate
 
 ## GitHub Pages deployment
 
-Work and verify locally, then push to `main`. The `Deploy prototype to GitHub Pages` workflow runs the rules and UI tests, builds the prototype, and publishes `dist/`. GitHub Pages must use **GitHub Actions** as its source. The workflow can also be started manually.
+[Live](https://mcbradd.github.io/overlords-and-outlaws/) runs the frozen `main` branch.
+[Prod evaluation](https://mcbradd.github.io/overlords-and-outlaws-prod/) runs `prod`.
+Work and push on `prod`. Promotion to Main requires your explicit command, the
+full release suite, and actual visual inspection. See [the release procedure](docs/RELEASE.md).
 
-The build reads `PAGES_BASE_PATH` for the repository subfolder; ordinary local builds default to `/`. Runtime artwork URLs use the same base as Vite's generated scripts and styles. To preview the Pages build in PowerShell:
+The prod workflow publishes only built files to the separate evaluation repository.
+Prod saves are isolated from Live. The Live workflow publishes after an authorized
+promotion; Main remains locked between releases.
+
+To preview the prod Pages build in PowerShell:
 
 ```powershell
-$env:PAGES_BASE_PATH = '/overlords-and-outlaws/'
+$env:PAGES_BASE_PATH = '/overlords-and-outlaws-prod/'
+$env:VITE_SAVE_NAMESPACE = 'prod:'
 npm run build
 npm run preview
-# Open http://localhost:4173/overlords-and-outlaws/
-Remove-Item Env:PAGES_BASE_PATH
+# Open http://localhost:4173/overlords-and-outlaws-prod/
+Remove-Item Env:PAGES_BASE_PATH, Env:VITE_SAVE_NAMESPACE
 ```
 
 ## Project map

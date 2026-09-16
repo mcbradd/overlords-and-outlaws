@@ -1,7 +1,7 @@
 name: Game checks
 on:
   push:
-    branches: [main]
+    branches: [main, prod]
   pull_request:
 jobs:
   verify:

@@ -1,0 +1,39 @@
+name: Deploy prod evaluation site
+on:
+  push:
+    branches: [prod]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: prod-pages
+  cancel-in-progress: false
+jobs:
+  deploy-prod:
+    if: github.ref == 'refs/heads/prod'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run test:ui
+      - run: npm run build
+        env:
+          PAGES_BASE_PATH: /overlords-and-outlaws-prod/
+          VITE_SAVE_NAMESPACE: "prod:"
+      - name: Identify the evaluated source revision
+        run: |
+          printf '{"branch":"prod","sha":"%s"}\n' "$GITHUB_SHA" > dist/revision.json
+          touch dist/.nojekyll
+      - name: Publish built files to the separate prod repository
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.PROD_PAGES_DEPLOY_KEY }}
+          external_repository: mcbradd/overlords-and-outlaws-prod
+          publish_branch: gh-pages
+          publish_dir: ./dist
+          commit_message: Evaluate prod ${{ github.sha }}

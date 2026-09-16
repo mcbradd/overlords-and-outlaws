@@ -14,7 +14,8 @@
     "test:browser": "tsx scripts/ux-interactions.ts",
     "test:layout": "tsx scripts/ux-layout.ts",
     "test:cards": "node scripts/ux-cardfaces.mjs",
-    "test:physical": "tsx scripts/physical-verify.ts"
+    "test:physical": "tsx scripts/physical-verify.ts",
+    "test:release": "node scripts/release-suite.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",

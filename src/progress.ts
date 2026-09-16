@@ -1,5 +1,7 @@
 import { validateDuel, type Duel, type Mode } from "./duel";
 import { HOUSES, type HouseId } from "./content";
+// Pages project sites share an origin. Evaluation saves must not overwrite Live.
+const savePrefix = import.meta.env?.VITE_SAVE_NAMESPACE ?? "";
 export interface Progress {
   version: 2;
   game: Duel | null;
@@ -34,8 +36,10 @@ export const fresh = (): Progress => ({
 });
 export function readProgress(): Progress {
   try {
-    const current = localStorage.getItem("oando-v3");
-    const p = JSON.parse(current ?? localStorage.getItem("oando-v2") ?? "null");
+    const current = localStorage.getItem(`${savePrefix}oando-v3`);
+    const p = JSON.parse(
+      current ?? localStorage.getItem(`${savePrefix}oando-v2`) ?? "null",
+    );
     if (p && !current) p.game = null;
     if (!p || p.version !== 2) return fresh();
     if (p.game && !validateDuel(p.game)) p.game = null;
@@ -61,7 +65,7 @@ export function readProgress(): Progress {
 }
 export function saveProgress(p: Progress) {
   try {
-    localStorage.setItem("oando-v3", JSON.stringify(p));
+    localStorage.setItem(`${savePrefix}oando-v3`, JSON.stringify(p));
     return true;
   } catch {
     return false;

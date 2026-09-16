@@ -19,8 +19,6 @@ header{padding:24px 32px;background:#15242c;position:relative!important;top:auto
 <small>84 individual portraits across six Houses. These are the same print textures used on the 3D cards.</small></header>
 <main id="proof-cards"></main><script type="module" src="/src/proof-gallery.ts"></script></html>`,
 );
-mkdirSync("proof", { recursive: true });
-writeFileSync("proof/index.html", readFileSync(`${output}/index.html`));
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 try {
   const page = await browser.newPage({
