@@ -4,9 +4,11 @@ import {
   CSS3DRenderer,
   CSS3DObject,
 } from "three/addons/renderers/CSS3DRenderer.js";
-import { cardFace, esc } from "./cards";
+import { cardFace, cardFaceModel, esc } from "./cards";
+import { paintCard } from "./card-texture";
 import { type Duel, type Moment } from "./duel";
 import { house, card } from "./content";
+import { courtPosition } from "./court-layout";
 
 /** One camera and one world coordinate system for board, components and crisp printed faces. */
 export class Battlefield {
@@ -25,7 +27,15 @@ export class Battlefield {
     { body: THREE.Group; face: CSS3DObject; y: number; angle: number }
   >();
   private placement: CSS3DObject | null = null;
-  private placementOrigins = new Map<string, number>();
+  private placementOrigins = new Map<string, THREE.Vector3>();
+  private placementCamera: {
+    viewer: number;
+    center: THREE.Vector3;
+    distance: number;
+  } | null = null;
+  private tableLayers: THREE.Mesh[] = [];
+  private boardCenter = 0.3;
+  private boardDistance = 23;
   private hovered: string | null = null;
   private viewSeat: number | null = null;
   private seats = new Map<number, THREE.Vector3>();
@@ -34,6 +44,9 @@ export class Battlefield {
   private nav = document.createElement("nav");
   private materials = new Set<THREE.Material>();
   private textures = new Set<THREE.Texture>();
+  private cardTextures = new Set<THREE.Texture>();
+  private cardMaterials = new Set<THREE.Material>();
+  private cardGeneration = 0;
   private gold = new THREE.MeshStandardMaterial({
     color: 0xc4a363,
     metalness: 0.72,
@@ -92,15 +105,15 @@ export class Battlefield {
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.anisotropy = this.gl.capabilities.getMaxAnisotropy();
     this.textures.add(tex);
-    this.box(33.2, 0.65, 19, 0, -0.5, 0, this.wood);
-    this.box(32.8, 0.12, 18.6, 0, -0.12, 0, this.gold);
+    this.tableLayers.push(this.box(33.2, 0.65, 19, 0, -0.5, 0, this.wood));
+    this.tableLayers.push(this.box(32.8, 0.12, 18.6, 0, -0.12, 0, this.gold));
     const board = new THREE.MeshStandardMaterial({
       map: tex,
       roughness: 0.72,
       metalness: 0.14,
     });
     this.materials.add(board);
-    this.box(32.4, 0.16, 18.2, 0, -0.04, 0, board);
+    this.tableLayers.push(this.box(32.4, 0.16, 18.2, 0, -0.04, 0, board));
     this.scene.add(this.pieces);
     this.resize = new ResizeObserver(this.fit);
     this.resize.observe(container);
@@ -135,11 +148,11 @@ export class Battlefield {
     this.camera.aspect = w / h;
     const center =
       this.viewSeat === null
-        ? new THREE.Vector3(0, 0, 0.3)
+        ? new THREE.Vector3(0, 0, this.boardCenter)
         : (this.seats.get(this.viewSeat) ?? new THREE.Vector3());
     const distance =
       this.viewSeat === null
-        ? Math.max(23, 45 / this.camera.aspect)
+        ? Math.max(this.boardDistance, 45 / this.camera.aspect)
         : Math.max(
             this.closeDistance.get(this.viewSeat) ?? 15,
             ((this.closeDistance.get(this.viewSeat) ?? 15) * 1.7) /
@@ -147,6 +160,7 @@ export class Battlefield {
           );
     this.camera.position.set(center.x, distance, center.z + distance * 0.57);
     this.camera.lookAt(center);
+    this.camera.far = Math.max(150, distance * 4);
     this.camera.updateProjectionMatrix();
     this.nav
       .querySelectorAll<HTMLElement>("[data-camera-seat]")
@@ -220,7 +234,10 @@ export class Battlefield {
     html: string,
     count = 1,
   ) {
-    for (let i = 0; i < count; i++)
+    // The count token records the holding; a representative stack avoids
+    // constructing thousands of meshes when resources grow without a cap.
+    const visible = Math.min(count, 8);
+    for (let i = 0; i < visible; i++)
       this.box(
         width,
         0.055,
@@ -238,9 +255,9 @@ export class Battlefield {
     face.scale.setScalar(width / 630);
     face.rotation.x = -Math.PI / 2;
     face.position.set(
-      x + (count - 1) * 0.09,
-      0.121 + (count - 1) * 0.045,
-      z - (count - 1) * 0.09,
+      x + (visible - 1) * 0.09,
+      0.121 + (visible - 1) * 0.045,
+      z - (visible - 1) * 0.09,
     );
     this.print.add(face);
   }
@@ -258,11 +275,18 @@ export class Battlefield {
       this.placement.element.remove();
       this.placement = null;
     }
-    for (const [uid, x] of this.placementOrigins) {
+    for (const [uid, position] of this.placementOrigins) {
       const figure = this.figures.get(uid);
-      if (figure) figure.body.position.x = x;
+      if (figure) figure.body.position.copy(position);
     }
     this.placementOrigins.clear();
+    if (this.placementCamera) {
+      const { viewer, center, distance } = this.placementCamera;
+      this.seats.set(viewer, center);
+      this.closeDistance.set(viewer, distance);
+      this.placementCamera = null;
+      this.fit();
+    }
   }
   previewPlacement(
     g: Duel,
@@ -271,14 +295,28 @@ export class Battlefield {
     clientY: number,
   ): boolean {
     const p = g.players[viewer];
-    if (p.court.length >= 5) return false;
     if (!this.placement) {
+      this.placementCamera = {
+        viewer,
+        center: this.seats.get(viewer)!.clone(),
+        distance: this.closeDistance.get(viewer)!,
+      };
+      this.seats.set(
+        viewer,
+        new THREE.Vector3(
+          0,
+          0,
+          5.1 + (Math.ceil((p.court.length + 1) / 5) - 1) * 2.1,
+        ),
+      );
       // Show the complete prospective arrangement, including the new card's exact center.
       p.court.forEach((r, i) => {
         const figure = this.figures.get(r.uid);
         if (figure) {
-          this.placementOrigins.set(r.uid, figure.body.position.x);
-          figure.body.position.x = (i - p.court.length / 2) * 3.75;
+          this.placementOrigins.set(r.uid, figure.body.position.clone());
+          const at = courtPosition(p.court.length + 1, i, 5, 3.75);
+          figure.body.position.x = at.x;
+          figure.body.position.z = 5.1 + at.z;
         }
       });
       const el = document.createElement("div");
@@ -287,11 +325,15 @@ export class Battlefield {
       this.placement = new CSS3DObject(el);
       this.placement.scale.setScalar(2.45 / 630);
       this.placement.rotation.x = -Math.PI / 2;
-      this.placement.position.set((p.court.length / 2) * 3.75, 0.15, 5.1);
+      const at = courtPosition(p.court.length + 1, p.court.length, 5, 3.75);
+      this.placement.position.set(at.x, 0.15, 5.1 + at.z);
       this.print.add(this.placement);
       this.closeDistance.set(
         viewer,
-        p.court.length < 2 ? 9 : p.court.length < 3 ? 12 : 15,
+        Math.max(
+          p.court.length < 2 ? 9 : p.court.length < 3 ? 12 : 15,
+          8 + Math.ceil((p.court.length + 1) / 5) * 6,
+        ),
       );
       this.fit();
     }
@@ -325,6 +367,11 @@ export class Battlefield {
     return active;
   }
   sync(g: Duel, selected: string | null, targets: string[] = [], viewer = 0) {
+    const generation = ++this.cardGeneration;
+    for (const texture of this.cardTextures) texture.dispose();
+    for (const material of this.cardMaterials) material.dispose();
+    this.cardTextures.clear();
+    this.cardMaterials.clear();
     this.clearPlacement();
     this.pieces.traverse((o) => {
       if (o instanceof THREE.Mesh) o.geometry.dispose();
@@ -343,6 +390,20 @@ export class Battlefield {
     this.figures.clear();
     const rivals = g.players.filter((p) => p.id !== viewer);
     const ordered = [...rivals, g.players[viewer]];
+    const rivalRows = Math.max(
+      2,
+      ...rivals.map((p) => Math.ceil(p.court.length / 3)),
+    );
+    const ownRows = Math.max(1, Math.ceil(g.players[viewer].court.length / 5));
+    const rivalZ = -8.5 - (rivalRows - 2) * 4.2;
+    const top = rivalZ - 4.5,
+      bottom = 5.1 + (ownRows - 1) * 4.2 + 4;
+    this.boardCenter = (top + bottom) / 2;
+    this.boardDistance = Math.max(23, (bottom - top) * 1.35);
+    this.tableLayers.forEach((layer) => {
+      layer.scale.z = Math.max(1, (bottom - top + 1) / 18.2);
+      layer.position.z = this.boardCenter;
+    });
     this.nav.innerHTML = `<span>VIEW</span><button data-camera-seat="all">Board</button>${[g.players[viewer], ...rivals].map((p) => `<button data-camera-seat="${p.id}">${p.id === viewer ? "Your court" : house(p.house).name}</button>`).join("")}`;
     this.seats.clear();
     if (g.lesson !== this.lastLesson) {
@@ -353,33 +414,59 @@ export class Battlefield {
       const own = p.id === viewer,
         n = rivals.length,
         index = rivals.indexOf(p);
-      const cx = own ? 0 : (index - (n - 1) / 2) * (n === 3 ? 10.4 : 14.7);
-      const cz = own ? 5.1 : -4.3;
+      const cx = own ? 0 : (index - (n - 1) / 2) * (n === 3 ? 10.7 : 14.7);
+      const cz = own ? 5.1 : rivalZ;
       const width = 2.45;
       const step = own ? 3.75 : 3.5,
-        total = 5 * step;
-      this.seats.set(p.id, new THREE.Vector3(cx, 0, own ? cz : cz + 0.8));
+        columns = own ? 5 : 3;
+      const rows = Math.max(1, Math.ceil(p.court.length / columns));
+      this.seats.set(p.id, new THREE.Vector3(cx, 0, cz + (rows - 1) * 2.1));
       this.closeDistance.set(
         p.id,
-        p.court.length <= 2 ? 9 : p.court.length <= 3 ? 12 : 15,
+        Math.max(
+          p.court.length <= 2 ? 9 : p.court.length <= 3 ? 12 : 15,
+          rows * 6 + 4,
+        ),
       );
       this.label(
-        `<b data-preview-anchor="court-${p.id}">${esc(house(p.house).name.toUpperCase())}</b><span>${own ? "YOUR COURT" : "RIVAL HOUSE"} · ${p.court.length}/5 ROYALS</span>`,
+        `<b data-preview-anchor="court-${p.id}">${esc(house(p.house).name.toUpperCase())}</b><span>${own ? "YOUR COURT" : "RIVAL HOUSE"} · ${p.court.length} NOBLES</span>`,
         cx,
         cz - 2.3,
       );
       p.court.forEach((r, i) => {
         const count = p.court.length;
-        const row = own ? 0 : Math.floor(i / 3),
-          rowCount = own ? count : Math.min(3, count - row * 3);
-        const x = cx + ((own ? i : i % 3) - (rowCount - 1) / 2) * step;
-        const cardZ = cz + row * 4;
+        const at = courtPosition(count, i, columns, step);
+        const x = cx + at.x;
+        const cardZ = cz + at.z;
         const body = new THREE.Group();
         body.position.set(x, 0.085, cardZ);
         this.pieces.add(body);
         const angle = r.ready ? 0 : Math.PI / 2;
         this.box(width, 0.055, (width * 88) / 63, 0, 0, 0, this.ivory, body);
         body.rotation.y = angle;
+        void paintCard(cardFaceModel(r, p, true))
+          .then(({ canvas }) => {
+            if (this.disposed || generation !== this.cardGeneration) return;
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.colorSpace = THREE.SRGBColorSpace;
+            texture.anisotropy = this.gl.capabilities.getMaxAnisotropy();
+            const material = new THREE.MeshBasicMaterial({
+              map: texture,
+              transparent: true,
+              toneMapped: false,
+            });
+            this.cardTextures.add(texture);
+            this.cardMaterials.add(material);
+            const surface = new THREE.Mesh(
+              new THREE.PlaneGeometry(width, (width * 88) / 63),
+              material,
+            );
+            surface.rotation.x = -Math.PI / 2;
+            surface.position.y = 0.031;
+            body.add(surface);
+            wrapper.dataset.textureReady = "true";
+          })
+          .catch(console.error);
         const wrapper = document.createElement("div");
         wrapper.className = "physical-card";
         wrapper.dataset.owner = String(p.id);
@@ -420,10 +507,10 @@ export class Battlefield {
       });
       const supportOffset = Math.max(
         3.1,
-        ((p.court.length - 1) * step) / 2 + 2.8,
+        ((Math.min(columns, p.court.length) - 1) * step) / 2 + 2.8,
       );
-      const side = own ? -supportOffset : cx - 4.35;
-      const supportZ = own ? cz - 1.7 : cz + 4;
+      const side = own ? -supportOffset : cx - 3.2;
+      const supportZ = own ? cz - 1.7 : cz + (rows - 1) * 4.2 + 3.7;
       const supportWidth = own ? 2.05 : 1.45;
       const crownRules = `${house(p.house).name} crown. ${p.stability} current stability. ${p.shield} shields. Shields absorb crown damage first. At zero stability, succession collapses.`;
       this.componentCard(
@@ -439,14 +526,14 @@ export class Battlefield {
         </button>`,
       );
       this.token(
-        own ? 11.2 : cx + 4,
-        own ? cz + 1.8 : cz + 5.6,
+        own ? 11.2 : cx,
+        own ? cz + 1.8 : supportZ,
         String(p.gold),
         "#c3a566",
         0.42,
         `gold-${p.id}`,
       );
-      const estateX = own ? supportOffset : cx + 4.35;
+      const estateX = own ? supportOffset : cx + 3.2;
       const estateZ = supportZ;
       if (p.estates) {
         const estateRules = `${house(p.house).name}: ${p.estates} estate cards. Each estate provides 2 gold income per turn; ${p.estates * 2} total. A successful raid destroys one estate.`;
@@ -639,6 +726,9 @@ export class Battlefield {
     update();
   }
   dispose() {
+    this.cardGeneration++;
+    this.cardTextures.forEach((t) => t.dispose());
+    this.cardMaterials.forEach((m) => m.dispose());
     this.disposed = true;
     cancelAnimationFrame(this.frame);
     this.resize.disconnect();

@@ -16,7 +16,7 @@ export function actionPreview(g: Duel, move: Move | Response) {
       title: `${name} · ${move === "ambush" ? "Ambush" : "Brace"}`,
       detail:
         move === "ambush"
-          ? "Spend 2 gold and a concealed Conspirator to deal 3 damage to the attacker first."
+          ? "Pay 2 gold and discard a Conspirator from hand: deal 3 damage to the attacker before combat. You may repeat while you can pay the costs."
           : "Spend 2 gold to block 2 incoming damage at the marked defender.",
     };
   }
@@ -47,7 +47,7 @@ export function actionPreview(g: Duel, move: Move | Response) {
     move.type === "attack"
       ? move.target!
       : move.type === "recall"
-        ? `${p.hand.length >= 7 ? "discard" : "hand"}-${actor}`
+        ? `hand-${actor}`
         : move.type === "marry"
           ? queen!.uid
           : move.type === "deploy"

@@ -1,0 +1,295 @@
+{
+  "selected": [
+    {
+      "house": "alba",
+      "face": "full",
+      "path": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-5062b8ab-7ddf-4c40-a284-06b310b97a03.png",
+      "pass": "alpha"
+    },
+    {
+      "house": "alba",
+      "face": "board",
+      "path": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-16cd6741-d981-441c-bff3-2e0c0efa81e9.png",
+      "pass": "final"
+    },
+    {
+      "house": "plantagenet",
+      "face": "full",
+      "path": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-7d65f60a-67ef-4596-8127-d8315b4512fb.png",
+      "pass": "final"
+    },
+    {
+      "house": "plantagenet",
+      "face": "board",
+      "path": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-ac554cad-78c6-48c8-a2da-4a4739637cf8.png",
+      "pass": "final"
+    },
+    {
+      "house": "tudor",
+      "face": "full",
+      "path": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-18e40a67-4a4d-4c76-96e8-a9cb7e5b9252.png",
+      "pass": "final"
+    },
+    {
+      "house": "tudor",
+      "face": "board",
+      "path": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-4deeb5fd-4d28-4c04-97cb-cba435f3b1af.png",
+      "pass": "approved"
+    },
+    {
+      "house": "valois",
+      "face": "full",
+      "path": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-dae877fa-419a-4baf-9460-2b9aee1e92c3.png",
+      "pass": "alpha"
+    },
+    {
+      "house": "valois",
+      "face": "board",
+      "path": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-c869511c-fd83-4ccc-9d69-96bde356210f.png",
+      "pass": "final"
+    },
+    {
+      "house": "habsburg",
+      "face": "full",
+      "path": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-44038a44-0d7d-4142-8cf5-fa9ec234f3e6.png",
+      "pass": "final"
+    },
+    {
+      "house": "habsburg",
+      "face": "board",
+      "path": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-22dff55c-370b-4d68-bcae-f25517ce288c.png",
+      "pass": "final"
+    },
+    {
+      "house": "bourbon",
+      "face": "full",
+      "path": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-5ffc36d5-9220-4c81-ba0f-e6f36e209389.png",
+      "pass": "final"
+    },
+    {
+      "house": "bourbon",
+      "face": "board",
+      "path": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-e42b66c0-115c-4052-b7c5-f276a42f077b.png",
+      "pass": "final"
+    }
+  ],
+  "records": [
+    {
+      "house": "alba",
+      "face": "full",
+      "pass": "generation",
+      "prompt": "Create ONE production raster OVERLAY for a full-art historical playing card. Actual transparent PNG, 63:88 portrait canvas at high resolution. No portrait or scene: upper art window is real alpha transparency. No letters, numbers or symbols anywhere; all information is inserted later. This must be a single coherent illustration with uniform fine detail density, NOT pasted-on UI widgets. Coordinates are percent of canvas. Thin outer perimeter occupying x0–4% and x96–100%, top0–3%, tastefully engraved. TOP LEFT: integrated empty circular cost socket centered x13%,y9.2%, external diameter20% of canvas width; matte dark interior completely empty, subtle thin material rim blends INTO outer frame, not dangling coin. LOWER FULL-WIDTH PANEL: from x3% to97%, y62% to89.5%, an uninterrupted nearly-black matte material field. Its very thin edge flows organically into left and right outer frame. The entire rectangle x8%–92%, y65%–87.5% must be absolutely plain, evenly dark, flat and unobstructed for dynamic name/role/rules lettering. No divider lines at all inside this rectangle; no central ornaments, no decorative tips, no flourishes, no glints. Do not draw a rounded gold web-form text box. FOOTER: built into lower frame, an empty dark horizontal combat-stat compartment from x3.5% to41.5%,y90%–98.5%, with the entire x5%–39%,y91%–97% dark and blank; no internal divider. At exact bottom center x50%,y94.8%, integrate an EMPTY flat circular icon socket diameter14% canvas width, thin rim; NO crest, no heraldry, no pictorial emblem in this socket. Bottom-right remains artwork/ornament only. No text of any sort. All three sockets and broad information panel are part of the SAME house-specific engraved craftwork; identical placement and generous clear interiors, no isolated generic gold fittings. Restraint: no ornament within any blank data field. Full bleed image will show THROUGH large transparent upper 62% art window. Avoid gradients, haze, rainbow/pastel palette, black opaque art window, checkerboard painted into pixels. HOUSE THEME: HOUSE OF ALBA. Dark slate and weathered SILVER, authentic insular manuscript interlace, a few spare carved thistle leaves confined to external corners. Lower information field dark charcoal slate with very subtle fine grain; fine silver engraved boundary at outer sides, no gold anywhere. Quiet, imposing craftsmanship with readable uninterrupted negative space.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-01210166-5532-4ca6-9e39-ad11ea9ac33d.png"
+    },
+    {
+      "house": "alba",
+      "face": "full",
+      "pass": "alpha-",
+      "prompt": "Background extraction / transparent asset conversion. Return this EXACT frame as a genuine RGBA TRANSPARENT PNG. Remove the checkerboard completely from the large upper portrait opening and from outside the perimeter; these regions must have ALPHA ZERO, not a drawn transparency grid and not white/black opaque pixels. Preserve all silver metalwork, blank dark circular sockets and blank dark lower text panel. Remove any faint ghost shapes in the portrait opening as well. Do not redesign, move, resize or invent any detail. Output the transparent frame asset only.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-5062b8ab-7ddf-4c40-a284-06b310b97a03.png"
+    },
+    {
+      "house": "alba",
+      "face": "board",
+      "pass": "generation",
+      "prompt": "Background extraction and card-frame variation. Output a GENUINE TRANSPARENT RGBA PNG asset. Remove every checkerboard pixel from the large upper portrait opening AND outside the outer perimeter, replacing with ALPHA ZERO, not a fake transparency grid. Preserve the exact supplied family frame and all its fine workmanship. Make ONLY this geometric change: move the broad lower information panel's TOP edge DOWN to y74% of the canvas height, extending the alpha portrait opening to that new edge. Keep its bottom edge near87.5% and the full panel width unchanged. This makes a shallow full-width blank name-and-role strip. Side rails must extend naturally to the new edge. Keep the cost circle, combat-stat compartment, bottom-center blank icon socket and footer in EXACT original positions and sizes. No text, no numbers, no icon, no empty new frames or dividers. Absolutely no ornaments inside the clear dark field. No background scene. True alpha transparency mandatory.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-2a34c516-9579-42b6-a989-76d17b648c73.png"
+    },
+    {
+      "house": "alba",
+      "face": "board",
+      "pass": "final-",
+      "prompt": "TRANSPARENT BACKGROUND PNG cutout asset. Extract the ornamental card frame in this image onto transparent background. The large central picture window must be completely transparent. Delete ALL gray and white checker squares: they are unwanted background pixels. Keep the opaque black lower information panels and both opaque dark circular sockets. Keep the original frame geometry and its details exactly. Transparent background, alpha channel, isolated frame cutout. No checkerboard, no background color, no text.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-16cd6741-d981-441c-bff3-2e0c0efa81e9.png"
+    },
+    {
+      "house": "plantagenet",
+      "face": "full",
+      "pass": "generation",
+      "prompt": "Recreate the supplied transparent card-frame asset in the following family's distinct historical craftsmanship, as a SINGLE coherent high-detail raster illustration. Preserve EXACTLY the reference canvas proportions and geometry: identical circular top-left blank cost socket, identical bottom-left blank combat compartment, identical EMPTY bottom-center circle for a runtime house icon, identical large full-width lower information panel with thin straight edges and generous clear dark interior. These blank functional regions must not move, resize or change usable shape. Replace decorative edge motifs and materials only. Give the cost/stat/socket rims the new family's materials so ALL the fittings flow into the family frame, with the SAME fine pixel/detail density across entire asset. Keep text region x7–93%, y64–86% completely flat, dark and empty: no engravings or bright motifs intrude. Never draw a center divider, medallion or protruding ornament. No text, numbers, portraits, coats of arms or icons. Preserve genuine RGBA ALPHA TRANSPARENCY in the huge upper art opening and outside the frame; never draw checkerboard, white or black background. Avoid overdecorating; edge engraving is finely restrained. PLANTAGENET: English Gothic goldsmithing, slender pointed architectural tracery and broom sprigs along the OUTER border, burnished antique gold and rich oxblood enamel. No interlace. All data-field interiors near-black warm charcoal with exceptionally subtle fine grain.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-f9aea9fc-f437-43d3-b3bc-ab61bff91ab9.png"
+    },
+    {
+      "house": "plantagenet",
+      "face": "full",
+      "pass": "alpha-",
+      "prompt": "Background extraction / transparent asset conversion. Return this EXACT frame as a genuine RGBA TRANSPARENT PNG. Remove the checkerboard completely from the large upper portrait opening and from outside the perimeter; these regions must have ALPHA ZERO, not a drawn transparency grid and not white/black opaque pixels. Preserve all metalwork, blank dark circular sockets and blank dark lower text panel. Remove any faint ghost shapes in the portrait opening as well. Do not redesign, move, resize or invent any detail. Output the transparent frame asset only.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-aa0861ab-a12a-45d6-84c5-706b3608747b.png"
+    },
+    {
+      "house": "plantagenet",
+      "face": "full",
+      "pass": "final-",
+      "prompt": "TRANSPARENT BACKGROUND PNG cutout asset. Extract the ornamental card frame in this image onto transparent background. The large central picture window must be completely transparent. Delete ALL gray and white checker squares: they are unwanted background pixels. Keep the opaque black lower information panels and both opaque dark circular sockets. Keep the original frame geometry and its details exactly. Transparent background, alpha channel, isolated frame cutout. No checkerboard, no background color, no text.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-7d65f60a-67ef-4596-8127-d8315b4512fb.png"
+    },
+    {
+      "house": "plantagenet",
+      "face": "board",
+      "pass": "generation",
+      "prompt": "Background extraction and card-frame variation. Output a GENUINE TRANSPARENT RGBA PNG asset. Remove every checkerboard pixel from the large upper portrait opening AND outside the outer perimeter, replacing with ALPHA ZERO, not a fake transparency grid. Preserve the exact supplied family frame and all its fine workmanship. Make ONLY this geometric change: move the broad lower information panel's TOP edge DOWN to y74% of the canvas height, extending the alpha portrait opening to that new edge. Keep its bottom edge near87.5% and the full panel width unchanged. This makes a shallow full-width blank name-and-role strip. Side rails must extend naturally to the new edge. Keep the cost circle, combat-stat compartment, bottom-center blank icon socket and footer in EXACT original positions and sizes. No text, no numbers, no icon, no empty new frames or dividers. Absolutely no ornaments inside the clear dark field. No background scene. True alpha transparency mandatory.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-cd72f6eb-ec45-4733-bb11-682b369e216e.png"
+    },
+    {
+      "house": "plantagenet",
+      "face": "board",
+      "pass": "final-",
+      "prompt": "TRANSPARENT BACKGROUND PNG cutout asset. Extract the ornamental card frame in this image onto transparent background. The large central picture window must be completely transparent. Delete ALL gray and white checker squares: they are unwanted background pixels. Keep the opaque black lower information panels and both opaque dark circular sockets. Keep the original frame geometry and its details exactly. Transparent background, alpha channel, isolated frame cutout. No checkerboard, no background color, no text.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-ac554cad-78c6-48c8-a2da-4a4739637cf8.png"
+    },
+    {
+      "house": "tudor",
+      "face": "full",
+      "pass": "generation",
+      "prompt": "Recreate the supplied transparent card-frame asset in the following family's distinct historical craftsmanship, as a SINGLE coherent high-detail raster illustration. Preserve EXACTLY the reference canvas proportions and geometry: identical circular top-left blank cost socket, identical bottom-left blank combat compartment, identical EMPTY bottom-center circle for a runtime house icon, identical large full-width lower information panel with thin straight edges and generous clear dark interior. These blank functional regions must not move, resize or change usable shape. Replace decorative edge motifs and materials only. Give the cost/stat/socket rims the new family's materials so ALL the fittings flow into the family frame, with the SAME fine pixel/detail density across entire asset. Keep text region x7–93%, y64–86% completely flat, dark and empty: no engravings or bright motifs intrude. Never draw a center divider, medallion or protruding ornament. No text, numbers, portraits, coats of arms or icons. Preserve genuine RGBA ALPHA TRANSPARENCY in the huge upper art opening and outside the frame; never draw checkerboard, white or black background. Avoid overdecorating; edge engraving is finely restrained. TUDOR: English Tudor goldsmithing, slender thorn stems and small red-and-white Tudor roses confined to OUTER corners and edge, aged warm gold with deep garnet enamel. No interlace. All data-field interiors near-black warm charcoal with exceptionally subtle fine grain.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-8d8f4959-16ad-4d9b-9156-9f87c3d76876.png"
+    },
+    {
+      "house": "tudor",
+      "face": "full",
+      "pass": "alpha-",
+      "prompt": "Background extraction / transparent asset conversion. Return this EXACT frame as a genuine RGBA TRANSPARENT PNG. Remove the checkerboard completely from the large upper portrait opening and from outside the perimeter; these regions must have ALPHA ZERO, not a drawn transparency grid and not white/black opaque pixels. Preserve all metalwork, blank dark circular sockets and blank dark lower text panel. Remove any faint ghost shapes in the portrait opening as well. Do not redesign, move, resize or invent any detail. Output the transparent frame asset only.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-0ac5a897-bf2f-4f9f-9cd6-b6a1f028ede2.png"
+    },
+    {
+      "house": "tudor",
+      "face": "full",
+      "pass": "final-",
+      "prompt": "TRANSPARENT BACKGROUND PNG cutout asset. Extract the ornamental card frame in this image onto transparent background. The large central picture window must be completely transparent. Delete ALL gray and white checker squares: they are unwanted background pixels. Keep the opaque black lower information panels and both opaque dark circular sockets. Keep the original frame geometry and its details exactly. Transparent background, alpha channel, isolated frame cutout. No checkerboard, no background color, no text.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-18e40a67-4a4d-4c76-96e8-a9cb7e5b9252.png"
+    },
+    {
+      "house": "tudor",
+      "face": "board",
+      "pass": "generation",
+      "prompt": "Background extraction and card-frame variation. Output a GENUINE TRANSPARENT RGBA PNG asset. Remove every checkerboard pixel from the large upper portrait opening AND outside the outer perimeter, replacing with ALPHA ZERO, not a fake transparency grid. Preserve the exact supplied family frame and all its fine workmanship. Make ONLY this geometric change: move the broad lower information panel's TOP edge DOWN to y74% of the canvas height, extending the alpha portrait opening to that new edge. Keep its bottom edge near87.5% and the full panel width unchanged. This makes a shallow full-width blank name-and-role strip. Side rails must extend naturally to the new edge. Keep the cost circle, combat-stat compartment, bottom-center blank icon socket and footer in EXACT original positions and sizes. No text, no numbers, no icon, no empty new frames or dividers. Absolutely no ornaments inside the clear dark field. No background scene. True alpha transparency mandatory.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-9edde615-4cb3-4240-bd5e-6b235fd67271.png"
+    },
+    {
+      "house": "tudor",
+      "face": "board",
+      "pass": "final-",
+      "prompt": "TRANSPARENT BACKGROUND PNG cutout asset. Extract the ornamental card frame in this image onto transparent background. The large central picture window must be completely transparent. Delete ALL gray and white checker squares: they are unwanted background pixels. Keep the opaque black lower information panels and both opaque dark circular sockets. Keep the original frame geometry and its details exactly. Transparent background, alpha channel, isolated frame cutout. No checkerboard, no background color, no text.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-0afa91b8-3680-4918-987f-13ea7076bc24.png"
+    },
+    {
+      "house": "tudor",
+      "face": "board",
+      "pass": "correction-",
+      "prompt": "Transparent background PNG. Correct the FIRST Tudor card frame to the exact proportions and socket locations of the SECOND silver card frame. The Tudor frame currently ends too high at the bottom. Extend it down so its very bottom border sits at 98.5% of the canvas height. Match the second frame's bottom-left combat well, bottom-center round socket, and bottom-right label well EXACTLY. Top of footer wells at 88.3%, bottom at 96%, center circle at 92% height. Increase the shallow text panel's height to match second frame. Keep Tudor red enamel, gold thorns and roses, not silver Celtic decoration. Preserve transparency in the portrait opening and outside frame. Empty opaque dark information panels and sockets. No text, symbols or numbers. No checkerboard.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-1e12f166-0e01-4e8c-830e-ebee64dd7481.png"
+    },
+    {
+      "house": "tudor",
+      "face": "board",
+      "pass": "reskin-",
+      "prompt": "Create a TRANSPARENT PNG ornamental frame by reskinning this exact frame. KEEP EVERY SHAPE, POSITION AND PROPORTION IDENTICAL. Only change silver Celtic metalwork into Tudor English Renaissance red enamel and gold thorn filigree, small red-and-white Tudor roses on outer edge corners. Same narrow perimeter width. No new elements inside empty panels. The bottom edge MUST stay at the bottom of the canvas, same reference. Preserve the exact positions of bottom-left black stat rectangle, bottom-center black circle, bottom-right black rectangle, upper-left black circle and the broad shallow black name rectangle. Keep the large portrait opening and exterior fully alpha transparent. No checkerboard. No text or numbers. No pictorial crest. This is a color/material/ornament reskin, not a geometry change. Transparent background PNG.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-de6ed42f-f82f-4b62-8b85-3e5636f0fd04.png"
+    },
+    {
+      "house": "tudor",
+      "face": "board",
+      "pass": "approved-",
+      "prompt": "TRANSPARENT BACKGROUND PNG cutout asset. Extract the ornamental card frame in this image onto transparent background. The large central picture window must be completely transparent. Delete ALL gray and white checker squares: they are unwanted background pixels. Keep the opaque black lower information panels and both opaque dark circular sockets. Keep the original frame geometry and its details exactly. Transparent background, alpha channel, isolated frame cutout. No checkerboard, no background color, no text.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-4deeb5fd-4d28-4c04-97cb-cba435f3b1af.png"
+    },
+    {
+      "house": "valois",
+      "face": "full",
+      "pass": "generation",
+      "prompt": "Recreate the supplied transparent card-frame asset in the following family's distinct historical craftsmanship, as a SINGLE coherent high-detail raster illustration. Preserve EXACTLY the reference canvas proportions and geometry: identical circular top-left blank cost socket, identical bottom-left blank combat compartment, identical EMPTY bottom-center circle for a runtime house icon, identical large full-width lower information panel with thin straight edges and generous clear dark interior. These blank functional regions must not move, resize or change usable shape. Replace decorative edge motifs and materials only. Give the cost/stat/socket rims the new family's materials so ALL the fittings flow into the family frame, with the SAME fine pixel/detail density across entire asset. Keep text region x7–93%, y64–86% completely flat, dark and empty: no engravings or bright motifs intrude. Never draw a center divider, medallion or protruding ornament. No text, numbers, portraits, coats of arms or icons. Preserve genuine RGBA ALPHA TRANSPARENCY in the huge upper art opening and outside the frame; never draw checkerboard, white or black background. Avoid overdecorating; edge engraving is finely restrained. VALOIS: French Renaissance Fontainebleau craftsmanship, narrow ivory-enamel and antique-gold strapwork along OUTER edges, tiny lapis accents, no interlace. All data-field interiors near-black charcoal with exceptionally subtle fine grain.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-972e0c16-165f-4053-a3c1-dc23eaccf430.png"
+    },
+    {
+      "house": "valois",
+      "face": "full",
+      "pass": "alpha-",
+      "prompt": "Background extraction. Return the exact supplied card FRAME as a genuine transparent RGBA PNG. The large upper BLACK rectangle is the portrait opening: REMOVE its black pixels completely to true alpha zero. Also remove any opaque pixels outside the outer perimeter. Preserve all narrow ivory/gold/blue frame metalwork, the dark upper-left circular cost socket, dark lower full-width information panel, dark footer compartments and blank center circular icon socket. Do not remove the dark fill in these data areas. No redesign, no geometry change, no new text or symbols. No white, black or checkerboard background in the empty portrait opening. True transparent alpha-zero portrait opening is required.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-dae877fa-419a-4baf-9460-2b9aee1e92c3.png"
+    },
+    {
+      "house": "valois",
+      "face": "board",
+      "pass": "generation",
+      "prompt": "Background extraction and card-frame variation. Output a GENUINE TRANSPARENT RGBA PNG asset. Remove every checkerboard pixel from the large upper portrait opening AND outside the outer perimeter, replacing with ALPHA ZERO, not a fake transparency grid. Preserve the exact supplied family frame and all its fine workmanship. Make ONLY this geometric change: move the broad lower information panel's TOP edge DOWN to y74% of the canvas height, extending the alpha portrait opening to that new edge. Keep its bottom edge near87.5% and the full panel width unchanged. This makes a shallow full-width blank name-and-role strip. Side rails must extend naturally to the new edge. Keep the cost circle, combat-stat compartment, bottom-center blank icon socket and footer in EXACT original positions and sizes. No text, no numbers, no icon, no empty new frames or dividers. Absolutely no ornaments inside the clear dark field. No background scene. True alpha transparency mandatory.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-34fef090-f013-48c3-81a4-c7e7677d65b1.png"
+    },
+    {
+      "house": "valois",
+      "face": "board",
+      "pass": "final-",
+      "prompt": "TRANSPARENT BACKGROUND PNG cutout asset. Extract the ornamental card frame in this image onto transparent background. The large central picture window must be completely transparent. Delete ALL gray and white checker squares: they are unwanted background pixels. Keep the opaque black lower information panels and both opaque dark circular sockets. Keep the original frame geometry and its details exactly. Transparent background, alpha channel, isolated frame cutout. No checkerboard, no background color, no text.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-c869511c-fd83-4ccc-9d69-96bde356210f.png"
+    },
+    {
+      "house": "habsburg",
+      "face": "full",
+      "pass": "generation",
+      "prompt": "Recreate the supplied transparent card-frame asset in the following family's distinct historical craftsmanship, as a SINGLE coherent high-detail raster illustration. Preserve EXACTLY the reference canvas proportions and geometry: identical circular top-left blank cost socket, identical bottom-left blank combat compartment, identical EMPTY bottom-center circle for a runtime house icon, identical large full-width lower information panel with thin straight edges and generous clear dark interior. These blank functional regions must not move, resize or change usable shape. Replace decorative edge motifs and materials only. Give the cost/stat/socket rims the new family's materials so ALL the fittings flow into the family frame, with the SAME fine pixel/detail density across entire asset. Keep text region x7–93%, y64–86% completely flat, dark and empty: no engravings or bright motifs intrude. Never draw a center divider, medallion or protruding ornament. No text, numbers, portraits, coats of arms or icons. Preserve genuine RGBA ALPHA TRANSPARENCY in the huge upper art opening and outside the frame; never draw checkerboard, white or black background. Avoid overdecorating; edge engraving is finely restrained. HABSBURG: Imperial Renaissance armour craftsmanship, blackened steel with fine gold damascening, spare chain links and oak-leaf engraving on OUTER edge, no interlace. All data-field interiors near-black charcoal with exceptionally subtle fine grain.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-f39a67b7-3689-4c5e-b41a-9a2a4606f374.png"
+    },
+    {
+      "house": "habsburg",
+      "face": "full",
+      "pass": "alpha-",
+      "prompt": "Background extraction / transparent asset conversion. Return this EXACT frame as a genuine RGBA TRANSPARENT PNG. Remove the checkerboard completely from the large upper portrait opening and from outside the perimeter; these regions must have ALPHA ZERO, not a drawn transparency grid and not white/black opaque pixels. Preserve all metalwork, blank dark circular sockets and blank dark lower text panel. Remove any faint ghost shapes in the portrait opening as well. Do not redesign, move, resize or invent any detail. Output the transparent frame asset only.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-b58ed126-5b79-403e-904b-6834c1b4b7be.png"
+    },
+    {
+      "house": "habsburg",
+      "face": "full",
+      "pass": "final-",
+      "prompt": "TRANSPARENT BACKGROUND PNG cutout asset. Extract the ornamental card frame in this image onto transparent background. The large central picture window must be completely transparent. Delete ALL gray and white checker squares: they are unwanted background pixels. Keep the opaque black lower information panels and both opaque dark circular sockets. Keep the original frame geometry and its details exactly. Transparent background, alpha channel, isolated frame cutout. No checkerboard, no background color, no text.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-44038a44-0d7d-4142-8cf5-fa9ec234f3e6.png"
+    },
+    {
+      "house": "habsburg",
+      "face": "board",
+      "pass": "generation",
+      "prompt": "Background extraction and card-frame variation. Output a GENUINE TRANSPARENT RGBA PNG asset. Remove every checkerboard pixel from the large upper portrait opening AND outside the outer perimeter, replacing with ALPHA ZERO, not a fake transparency grid. Preserve the exact supplied family frame and all its fine workmanship. Make ONLY this geometric change: move the broad lower information panel's TOP edge DOWN to y74% of the canvas height, extending the alpha portrait opening to that new edge. Keep its bottom edge near87.5% and the full panel width unchanged. This makes a shallow full-width blank name-and-role strip. Side rails must extend naturally to the new edge. Keep the cost circle, combat-stat compartment, bottom-center blank icon socket and footer in EXACT original positions and sizes. No text, no numbers, no icon, no empty new frames or dividers. Absolutely no ornaments inside the clear dark field. No background scene. True alpha transparency mandatory.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-49275096-49d2-44d3-9085-3b941736758a.png"
+    },
+    {
+      "house": "habsburg",
+      "face": "board",
+      "pass": "final-",
+      "prompt": "TRANSPARENT BACKGROUND PNG cutout asset. Extract the ornamental card frame in this image onto transparent background. The large central picture window must be completely transparent. Delete ALL gray and white checker squares: they are unwanted background pixels. Keep the opaque black lower information panels and both opaque dark circular sockets. Keep the original frame geometry and its details exactly. Transparent background, alpha channel, isolated frame cutout. No checkerboard, no background color, no text.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-22dff55c-370b-4d68-bcae-f25517ce288c.png"
+    },
+    {
+      "house": "bourbon",
+      "face": "full",
+      "pass": "generation",
+      "prompt": "Recreate the supplied transparent card-frame asset in the following family's distinct historical craftsmanship, as a SINGLE coherent high-detail raster illustration. Preserve EXACTLY the reference canvas proportions and geometry: identical circular top-left blank cost socket, identical bottom-left blank combat compartment, identical EMPTY bottom-center circle for a runtime house icon, identical large full-width lower information panel with thin straight edges and generous clear dark interior. These blank functional regions must not move, resize or change usable shape. Replace decorative edge motifs and materials only. Give the cost/stat/socket rims the new family's materials so ALL the fittings flow into the family frame, with the SAME fine pixel/detail density across entire asset. Keep text region x7–93%, y64–86% completely flat, dark and empty: no engravings or bright motifs intrude. Never draw a center divider, medallion or protruding ornament. No text, numbers, portraits, coats of arms or icons. Preserve genuine RGBA ALPHA TRANSPARENCY in the huge upper art opening and outside the frame; never draw checkerboard, white or black background. Avoid overdecorating; edge engraving is finely restrained. BOURBON: Versailles royal metalwork, narrow warm gold acanthus and laurel along OUTER edges, deep royal-blue enamel accents, no interlace. All data-field interiors near-black charcoal with exceptionally subtle fine grain.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-a90b6f9a-0257-43f3-8c75-d4c1a9dba368.png"
+    },
+    {
+      "house": "bourbon",
+      "face": "full",
+      "pass": "alpha-",
+      "prompt": "Background extraction / transparent asset conversion. Return this EXACT frame as a genuine RGBA TRANSPARENT PNG. Remove the checkerboard completely from the large upper portrait opening and from outside the perimeter; these regions must have ALPHA ZERO, not a drawn transparency grid and not white/black opaque pixels. Preserve all metalwork, blank dark circular sockets and blank dark lower text panel. Remove any faint ghost shapes in the portrait opening as well. Do not redesign, move, resize or invent any detail. Output the transparent frame asset only.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-66ceaa9a-06cc-43b1-aabe-9ba52ded4582.png"
+    },
+    {
+      "house": "bourbon",
+      "face": "full",
+      "pass": "final-",
+      "prompt": "TRANSPARENT BACKGROUND PNG cutout asset. Extract the ornamental card frame in this image onto transparent background. The large central picture window must be completely transparent. Delete ALL gray and white checker squares: they are unwanted background pixels. Keep the opaque black lower information panels and both opaque dark circular sockets. Keep the original frame geometry and its details exactly. Transparent background, alpha channel, isolated frame cutout. No checkerboard, no background color, no text.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-5ffc36d5-9220-4c81-ba0f-e6f36e209389.png"
+    },
+    {
+      "house": "bourbon",
+      "face": "board",
+      "pass": "generation",
+      "prompt": "Background extraction and card-frame variation. Output a GENUINE TRANSPARENT RGBA PNG asset. Remove every checkerboard pixel from the large upper portrait opening AND outside the outer perimeter, replacing with ALPHA ZERO, not a fake transparency grid. Preserve the exact supplied family frame and all its fine workmanship. Make ONLY this geometric change: move the broad lower information panel's TOP edge DOWN to y74% of the canvas height, extending the alpha portrait opening to that new edge. Keep its bottom edge near87.5% and the full panel width unchanged. This makes a shallow full-width blank name-and-role strip. Side rails must extend naturally to the new edge. Keep the cost circle, combat-stat compartment, bottom-center blank icon socket and footer in EXACT original positions and sizes. No text, no numbers, no icon, no empty new frames or dividers. Absolutely no ornaments inside the clear dark field. No background scene. True alpha transparency mandatory.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-6fed2230-dd3d-4ad3-abd3-978d6c6593ff.png"
+    },
+    {
+      "house": "bourbon",
+      "face": "board",
+      "pass": "final-",
+      "prompt": "TRANSPARENT BACKGROUND PNG cutout asset. Extract the ornamental card frame in this image onto transparent background. The large central picture window must be completely transparent. Delete ALL gray and white checker squares: they are unwanted background pixels. Keep the opaque black lower information panels and both opaque dark circular sockets. Keep the original frame geometry and its details exactly. Transparent background, alpha channel, isolated frame cutout. No checkerboard, no background color, no text.",
+      "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a768-fb67-7b41-a480-e94835d629db\\exec-e42b66c0-115c-4052-b7c5-f276a42f077b.png"
+    }
+  ]
+}

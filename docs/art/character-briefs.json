@@ -1,0 +1,1157 @@
+{
+  "alba-0": {
+    "name": "Kenneth MacAlpin",
+    "era": "d. 858; king in the mid-ninth century",
+    "attire": "Wool tunic, linen underlayer, heavy muted green cloak fastened with an Insular silver penannular brooch; modest gold fillet",
+    "props": "Sheathed early medieval sword, small reliquary",
+    "setting": "Timber royal hall near Dunkeld, carved cross visible in rain beyond",
+    "likeness": "Invented mature face; no reliable life portrait. Royal chronology is evidence, while face and staging are reconstruction. Brooch follows surviving early medieval Scottish material culture, not a personal possession.",
+    "avoid": "Modern clan tartan, kilt, plate armour, Viking horned helmet, treating a later royal portrait as eyewitness evidence",
+    "sources": [
+      "https://www.royal.uk/early-scottish-monarchs",
+      "https://www.royal.uk/kenneth-i-r-843-858?page=1",
+      "https://blog.nms.ac.uk/2016/03/13/glenmorangie-research-project-the-hunterston-brooch/"
+    ],
+    "visualIdentity": "Mid-ninth century; apparent age 50 is an invented casting choice because birth date is uncertain. Broad square face, heavy straight brows, deep-set eyes, coarse dark hair threaded with grey, close full beard; grounded and still. All facial details invented, not a recovered likeness."
+  },
+  "alba-1": {
+    "name": "St Margaret",
+    "era": "c. 1045–1093; Scottish queen from c. 1070",
+    "attire": "Late eleventh-century long wool/silk gown, restrained embroidered mantle, linen head veil and slim circlet",
+    "props": "Small decorated Gospel book held to chest",
+    "setting": "Quiet Romanesque royal chapel interior evoking Dunfermline",
+    "likeness": "Face interpreted, not a verified likeness. Piety and book patronage have textual evidence; Bodleian Gospel association supports the chosen prop. No assertion this imagined gown survives.",
+    "avoid": "Renaissance crown, late Gothic hennin, modern tartan, literal halo mistaken for physical attire",
+    "sources": [
+      "https://www.royal.uk/malcolm-iii-r-1058-1093?page=1",
+      "https://bodleianshop.co.uk/collections/bodleian-publishing-copy/products/st-margarets-gospel-book"
+    ],
+    "visualIdentity": "Circa 1080, about 35. Invented narrow oval face, fine straight brows, long nose and calm closed mouth, brown hair barely visible beneath veil. Distinct from the younger, rounder Matilda; no verified life likeness.",
+    "artDirectionReview": "Reconstruct a modest late-eleventh-century chapel, not the surviving twelfth-century Dunfermline nave or later Edinburgh chapel attributed to David I."
+  },
+  "alba-2": {
+    "name": "Malcolm III",
+    "era": "c. 1031–1093; king 1058–1093",
+    "attire": "Eleventh-century mail shirt over quilted tunic; heavy wool cloak, narrow royal circlet",
+    "props": "Simple straight sword and edge of a kite shield",
+    "setting": "Windy Anglo-Scottish border fort with timber palisade",
+    "likeness": "Mature weathered face is reconstruction. The historical warrior king is distinct from Shakespeare's character; identity and frontier career are sourced.",
+    "avoid": "Shakespeare costume, modern great kilt, full plate, oversized fantasy blade",
+    "sources": [
+      "https://www.royal.uk/malcolm-iii-r-1058-1093?page=1"
+    ],
+    "visualIdentity": "Circa 1080, about 49. Invented large broad head, strong cheek planes, broken-looking but not claimed injured nose, thick dark moustache and short salt-and-pepper beard, receding temples; robust mature build. No verified face."
+  },
+  "alba-3": {
+    "name": "David I",
+    "era": "c. 1084–1153; king 1124–1153",
+    "attire": "Anglo-Norman long tunic, embroidered collar and restrained mantle; low open crown",
+    "props": "Rolled sealed charter, stone architectural plan suggested on desk",
+    "setting": "Romanesque abbey arcade beside an emerging burgh",
+    "likeness": "Interpretive face, based on twelfth-century royal types rather than claiming a life portrait. Abbey and charter staging evokes documented reforms.",
+    "avoid": "Renaissance scholar costume, spectacles, Gothic building completed centuries later",
+    "sources": [
+      "https://www.royal.uk/david-i-r-1124-1153"
+    ],
+    "visualIdentity": "Circa 1140, about 56. Invented lean long face, high forehead, thin lips, swept-back greying hair and clean-shaven chin. Elderly scholarly bearing without spectacles. Facial choices are reconstruction.",
+    "artDirectionReview": "Generic Romanesque masonry is safer than copying later Melrose ruins. The source is biography, not evidence for a surviving garment or this architectural plan."
+  },
+  "alba-4": {
+    "name": "William the Lion",
+    "era": "c. 1142–1214; king 1165–1214",
+    "attire": "Late twelfth-century mail hauberk, plain ochre surcoat and wool mantle; uncovered head with modest circlet",
+    "props": "Upright sheathed sword and small wax seal",
+    "setting": "Stone hall associated with Arbroath, early pointed arch",
+    "likeness": "No assured facial likeness; a deliberately individual adult reconstruction. Royal seal/royal biography supports rulership, not exact face or costume colours.",
+    "avoid": "Lion pelt, full fifteenth-century armour, pretending the nickname proves a personal lion garment",
+    "sources": [
+      "https://www.royal.uk/william-i-r-1165-1214"
+    ],
+    "visualIdentity": "Circa 1195, about 53. Invented broad long face, weathered cheeks, greying sandy hair and short forked beard, steady deep-set gaze. Deliberately older and bearded beside clean-shaven Alexander II and III; no assured likeness or hair colour.",
+    "artDirectionReview": "Arbroath was founded during his reign; show modest late-twelfth-century work, not the fully developed surviving later medieval ruin or modern restoration."
+  },
+  "alba-5": {
+    "name": "Alexander II",
+    "era": "1198–1249; king 1214–1249",
+    "attire": "Thirteenth-century long tunic and fur-lined blue-green mantle; open crown",
+    "props": "Sealed treaty roll held low",
+    "setting": "Border hall with hills beyond, recalling the 1237 Treaty of York",
+    "likeness": "Plausible mature face, not eyewitness portrait. Treaty, identity and dates are documented; setting and garment palette inferred.",
+    "avoid": "Russian imperial uniform or likeness of Tsar Alexander II; modern drawn national borders",
+    "sources": [
+      "https://www.royal.uk/alexander-ii-r1214-1249?page=14"
+    ],
+    "visualIdentity": "At the 1237 Treaty of York, age 38–39. Invented narrow oval face, straight auburn hair ending at jaw, clean-shaven cheeks and chin, long straight nose and slight downward mouth corners. Hair colour and face are artistic choices, not historical facts."
+  },
+  "alba-6": {
+    "name": "Alexander III",
+    "era": "1241–1286; king 1249–1286",
+    "attire": "Rich mid-thirteenth-century tunic, crimson mantle fastened at shoulder, low crown",
+    "props": "Folded parchment and small royal seal",
+    "setting": "Scottish stone chamber opening onto a distant western sea",
+    "likeness": "Face reconstructed. Later manuscript royal imagery is iconographic context, not a photographic likeness; western-sea setting evokes the settlement of 1266.",
+    "avoid": "Tsar Alexander III, nineteenth-century uniforms, oversized modern Scottish regalia",
+    "sources": [
+      "https://www.royal.uk/alexander-iii-r-1249-1286?page=19"
+    ],
+    "visualIdentity": "At the 1266 settlement, about 25. Invented youthful full cheeks, broad short nose, clean-shaven face, thick dark softly wavy ear-length hair, upright relaxed bearing. Clearly younger and rounder than Alexander II; no verified likeness."
+  },
+  "alba-7": {
+    "name": "Robert the Bruce",
+    "era": "1274–1329; king 1306–1329",
+    "attire": "Early fourteenth-century mail with restrained coat of plates beneath surcoat, weathered cloak; head bare",
+    "props": "One-handed battle axe held low; shield edge",
+    "setting": "Bannockburn terrain with distant Stirling silhouette",
+    "likeness": "Interpretive face. Later statues and skull-derived reconstructions do not establish an exact life likeness; use the historical sites for context only.",
+    "avoid": "Blue face paint, kilt, late full plate, actor likeness, gore",
+    "sources": [
+      "https://www.historicenvironment.scot/visit/things-to-see-and-do/robert-the-bruce/"
+    ],
+    "visualIdentity": "Bannockburn period 1314, about 40. Invented angular compact face, close-cropped dark hair, short practical beard, pronounced cheekbones and determined closed mouth. Neither a film actor nor a claim to definitive skull reconstruction.",
+    "artDirectionReview": "Stirling background must be an indistinct medieval stronghold, not the present Renaissance palace, sixteenth-century Great Hall or later foreground defenses."
+  },
+  "alba-8": {
+    "name": "Marjorie Bruce",
+    "era": "c. 1296–1316; daughter of Robert I, mother of Robert II",
+    "attire": "Early fourteenth-century long fitted-sleeve gown, light veil, narrow jeweled fillet; no sovereign crown",
+    "props": "Small folded family letter, simple girdle",
+    "setting": "Quiet western Scottish noble chamber, stone window and subdued tapestry",
+    "likeness": "Young adult reconstruction; no verified life likeness identified. She was a princess, not a reigning queen: Queen is a game role. HES documents her marriage to Walter and their royal son.",
+    "avoid": "Queen regnant regalia, Tudor hood, romanticized childbirth scene, claim that a later tomb effigy is certain",
+    "sources": [
+      "https://www.historicenvironment.scot/visit/things-to-see-and-do/robert-the-bruce/",
+      "https://www.royal.uk/robert-ii-r1371-1390"
+    ],
+    "visualIdentity": "Circa 1315, about 19. Invented youthful heart-shaped face, soft broad cheekbones, straight brows, auburn-brown hair covered by veil. No adult age beyond her short life; individual features are invented."
+  },
+  "alba-9": {
+    "name": "Robert II",
+    "era": "1316–1390; first Stewart king 1371–1390",
+    "attire": "Late fourteenth-century fur-lined mantle over fitted tunic, understated open crown",
+    "props": "Seal matrix and succession parchment",
+    "setting": "Dundonald stone great hall",
+    "likeness": "Older king with silver hair, interpreted facial structure. Written age and succession history support an elderly portrayal; later portraits are not life evidence.",
+    "avoid": "Youthful warrior archetype, Tudor robes, literal sinister caricature from Intriguer role",
+    "sources": [
+      "https://www.royal.uk/robert-ii-r1371-1390",
+      "https://www.historicenvironment.scot/visit/things-to-see-and-do/robert-the-bruce/"
+    ],
+    "visualIdentity": "Circa 1380, about 64. Invented heavy-lidded older face, broad nose, thinning white hair and close white beard, lined cheeks and substantial neck. Age grounded in chronology; not a youthful warrior or known exact likeness.",
+    "artDirectionReview": "Dundonald fourteenth-century hall is period-compatible; reconstruct a lived-in interior, not the modern roofless visitor-site ruin."
+  },
+  "alba-10": {
+    "name": "Duncan I",
+    "era": "d. 1040; king 1034–1040",
+    "attire": "Early eleventh-century wool tunic, simple woven cloak, mail only at neckline",
+    "props": "Spear upright to side, small plain brooch",
+    "setting": "Northern royal timber hall in cool morning light",
+    "likeness": "Adult face invented; chronology supported, exact appearance unknown. Avoid automatically presenting Shakespeare's elderly victim.",
+    "avoid": "Shakespeare elderly stage king, modern Highland uniform, plate armour",
+    "sources": [
+      "https://www.royal.uk/duncan-i-r-1034-1040",
+      "https://www.royal.uk/early-scottish-monarchs"
+    ],
+    "visualIdentity": "Circa 1038; invented apparent age early thirties, not a claim to precise birth date. Long clean-shaven face, strong rounded chin, dark short curls and alert wide eyes. Avoid Shakespeare elderly-victim casting."
+  },
+  "alba-11": {
+    "name": "Donald II",
+    "era": "d. 900; king 889–900",
+    "attire": "Ninth-century dark wool tunic and earth-brown cloak pinned with an Insular brooch",
+    "props": "Simple sword hilt at belt, timber staff",
+    "setting": "Northern timber stronghold, distant coast and rain",
+    "likeness": "Distinct invented face. Thin documentary evidence supports only cautious early medieval reconstruction, not precise costume ownership or eye colour.",
+    "avoid": "Modern tartan, horned helmet, heraldic lion surcoat, castle from later Middle Ages",
+    "sources": [
+      "https://www.royal.uk/donald-ii-r-889-900",
+      "https://blog.nms.ac.uk/2021/01/15/picts-n-mix-complex-identities-in-the-viking-age/"
+    ],
+    "visualIdentity": "Circa 895; invented apparent age mid-forties because birth date is uncertain. Wide cheekbones, narrow chin, long dark moustache with otherwise shaved chin, straight shoulder-length dark hair. Deliberate invented identity, not documented grooming."
+  },
+  "alba-12": {
+    "name": "Constantine II",
+    "era": "d. 952; king 900–943",
+    "attire": "Early tenth-century muted wool robe, mantle and restrained silver brooch",
+    "props": "Small cross and rolled ecclesiastical parchment",
+    "setting": "Royal assembly near a stone cross, low timber buildings",
+    "likeness": "Reconstructed elderly statesman; no contemporary facial likeness established. Source supports reign, while the assembly staging is artistic inference.",
+    "avoid": "Byzantine emperor Constantine, Roman laurel armour, modern kilt, Gothic script rendered as legible fact",
+    "sources": [
+      "https://www.royal.uk/constantine-ii-r-900-943",
+      "https://www.royal.uk/early-scottish-monarchs"
+    ],
+    "visualIdentity": "Late reign circa 935; invented apparent age about 60, since exact birth date is uncertain. Thin triangular face, high domed forehead, sparse grey hair and long narrow silver beard; gentle tired eyes. Not an authenticated likeness."
+  },
+  "alba-13": {
+    "name": "Matilda of Scotland",
+    "era": "c. 1080–1118; Edith, queen of Henry I from 1100",
+    "attire": "Early twelfth-century Anglo-Norman long gown, fine linen veil with narrow circlet, embroidered mantle",
+    "props": "Small devotional manuscript, folded court letter",
+    "setting": "Romanesque Westminster interior",
+    "likeness": "Invented adult likeness. Abbey evidence identifies Edith/Matilda and her marriage/regency; this is not Empress Matilda or Matilda of Flanders.",
+    "avoid": "Conflation with her daughter Empress Matilda, Tudor hood, Gothic hennin",
+    "sources": [
+      "https://www.westminster-abbey.org/history/coronations-at-the-abbey/queens-consort-of-westminster-abbey"
+    ],
+    "visualIdentity": "Circa 1110, about 30. Invented rounder face than Margaret, softly arched brows, small firm chin, dark hair concealed under linen veil, engaged direct gaze. No verified portrait; not Empress Matilda.",
+    "artDirectionReview": "Use the eleventh-century Romanesque Westminster predecessor, not the extant thirteenth-century Gothic abbey or later towers."
+  },
+  "habsburg-0": {
+    "name": "Rudolf I",
+    "era": "1218–1291; Roman-German king from 1273",
+    "attire": "Thirteenth-century long tunic, royal mantle and open crown",
+    "props": "Sceptre and charter",
+    "setting": "Speyer/Rhine Romanesque stone hall",
+    "likeness": "Lean older face inspired cautiously by tomb-image tradition; not a photographic reconstruction. Institution records dates and kingship. Never crowned Holy Roman Emperor.",
+    "avoid": "Rudolf II Renaissance artist-emperor, Austrian imperial crown of 1602, full plate",
+    "sources": [
+      "https://www.habsburger.net/en/persons/habsburg-emperor/rudolf-i"
+    ],
+    "visualIdentity": "Circa 1280, about 62. Tomb-image tradition suggests an older lean long face and strong nose; thinning grey hair and clean-shaven cheeks chosen as reconstruction. Exact living expression and hair uncertain."
+  },
+  "habsburg-1": {
+    "name": "Maria Theresa",
+    "era": "1717–1780; ruler from 1740",
+    "attire": "Mid-eighteenth-century silk court gown, lace sleeve ruffles, jeweled bodice and ermine mantle; modest powdered hair",
+    "props": "Folded state document, crown resting low on table",
+    "setting": "Viennese audience chamber with restrained gilded architecture",
+    "likeness": "Mature round-featured face guided by Meytens portrait tradition; a new interpretation rather than exact copy. She was sovereign of Habsburg lands and empress consort, not elected Holy Roman Emperor.",
+    "avoid": "Marie Antoinette's enormous later coiffure, medieval gown, all crowns merged into invented object",
+    "sources": [
+      "https://artmuseum.princeton.edu/art/collections/objects/41536"
+    ],
+    "visualIdentity": "Choose circa 1750, about 33. Meytens portrait tradition: broad rounded face, arched brows, small mouth, full cheeks, powdered hair dressed low rather than towering. Mature sovereign and substantial figure, not generic elderly empress."
+  },
+  "habsburg-2": {
+    "name": "Maximilian I",
+    "era": "1459–1519; emperor from 1508",
+    "attire": "Black broad soft cap, rich fur-trimmed robe, Golden Fleece collar",
+    "props": "Pomegranate held low, manuscript at side",
+    "setting": "Early Renaissance imperial study with alpine window",
+    "likeness": "Use Dürer-derived long nose, shoulder-length grey hair and mature profile as portrait evidence; environment inferred. KHM explains propaganda and portrait variants.",
+    "avoid": "Giant fantasy armour, powdered wig, identical face to Charles V",
+    "sources": [
+      "https://www.khm.at/de/object/2291/",
+      "https://renaissance-im-norden.khm.at/kaiser-kaufleute-kirche/"
+    ],
+    "visualIdentity": "Circa 1518, about 59. Dürer-derived long hooked nose, pursed lips, strong chin, shoulder-length grey hair and clean-shaven face. Distinctive older emperor, no invented beard."
+  },
+  "habsburg-3": {
+    "name": "Charles V",
+    "era": "1500–1558; Holy Roman Emperor",
+    "attire": "Mid-sixteenth-century etched steel armour, muted red sash, Golden Fleece insignia",
+    "props": "Command baton, helmet low at side",
+    "setting": "Dusk beside military encampment with river and trees",
+    "likeness": "Titian portrait tradition informs reddish beard and long lower face; composition newly interpreted. Physical traits treated respectfully, not as caricature.",
+    "avoid": "Valois Charles V, eighteenth-century wig, exaggerated jaw, modern medals",
+    "sources": [
+      "https://www.museodelprado.es/en/explore-artworks?orden=desc&ordenarPor=gnoss%3Arelevancia&searchObras=1547",
+      "https://www.khm.at/en/object/1849/",
+      "https://www.museodelprado.es/en/the-collection/art-work/emperor-charles-v-at-muhlberg/e7c91aaa-b849-478c-a857-0bb58a6b6729"
+    ],
+    "visualIdentity": "1547–1548, about 47–48. Titian-derived elongated face and lower jaw, short reddish beard, receding closely trimmed hair, serious tired eyes. Preserve recognizable proportions respectfully; avoid exaggerated Habsburg caricature.",
+    "artDirectionReview": "Prado object record now added as specific Titian evidence. Actual portrait uses a half-pike and pistol; a command baton is an optional new composition, not copied evidence. Armour dated mid-1540s."
+  },
+  "habsburg-4": {
+    "name": "Philip I",
+    "era": "1478–1506; Philip the Fair of Castile and Burgundy",
+    "attire": "Cloth-of-gold surcoat, dark fur collar, black soft cap and Golden Fleece",
+    "props": "Leather gloves and folded dynastic letter",
+    "setting": "Burgundian late Gothic court chamber",
+    "likeness": "National Trust c.1495 panel describes fair shoulder-length hair and court dress. Show youthful adult with those traits; exact face remains painted interpretation.",
+    "avoid": "Philip II's ruff and black beard; Rubens later imagined armour treated as from life",
+    "sources": [
+      "https://www.nationaltrustcollections.org.uk/object/446761",
+      "https://www.khm.at/en/object/1849/"
+    ],
+    "visualIdentity": "Choose circa 1495, about 17. National Trust panel supports fair shoulder-length hair and youthful clean-shaven face; slender adolescent-to-young-adult cheeks, not mature bearded Philip II. New expression remains interpretation."
+  },
+  "habsburg-5": {
+    "name": "Ferdinand I",
+    "era": "1503–1564; sixteenth-century Holy Roman Emperor",
+    "attire": "Dark Renaissance robe and small cap, fur trim, short pale collar, Golden Fleece",
+    "props": "Administrative charter with hanging wax seal",
+    "setting": "Vienna Renaissance chancery",
+    "likeness": "Long-nosed mature face from KHM portrait tradition; not Ferdinand I of nineteenth-century Austria. Documented government supports paper prop, not exact reconstruction of a meeting.",
+    "avoid": "Nineteenth-century Austrian uniform, brother Charles V's battlefield composition",
+    "sources": [
+      "https://www.khm.at/kunstwerke/kaiser-ferdinand-i-1503-1564-bildnis-in-halber-figur-2301",
+      "https://www.habsburger.net/de/personen/habsburger-herrscher/ferdinand-i"
+    ],
+    "visualIdentity": "Choose circa 1555, about 52. KHM portrait tradition: long narrow face, prominent straight nose, dark hair greying at temples, close beard and moustache. Keep older statesman bearing distinct from brother Charles V; reconstructed fine details."
+  },
+  "habsburg-6": {
+    "name": "Philip II",
+    "era": "1527–1598; king of Spain",
+    "attire": "Severe black Spanish court doublet, white standing ruff, Golden Fleece chain",
+    "props": "Folded dispatch and rosary held low",
+    "setting": "Austere stone chamber evoking El Escorial",
+    "likeness": "Anguissola 1573 portrait supplies pale mature face and short beard; setting is artistic interpretation. Black dress communicates documented court fashion, not moral villainy.",
+    "avoid": "Victorian black suit, fantasy assassin props, excessive black eyeliner",
+    "sources": [
+      "https://www.museodelprado.es/en/the-collection/art-work/philip-ii/7d7280d6-5603-488a-8521-933acc357d7a/"
+    ],
+    "visualIdentity": "1573, about 46. Anguissola type: pale narrow mature face, receding light-brown hair, short carefully trimmed beard and moustache, heavy-lidded measured gaze. Not a black-bearded villain.",
+    "artDirectionReview": "El Escorial was under construction in 1573: use a plain granite room, no claim that the completed later decorative programme already existed."
+  },
+  "habsburg-7": {
+    "name": "Anna of Austria",
+    "era": "1549–1580; Philip II's fourth wife, queen of Spain",
+    "attire": "1570s Spanish court gown, fitted jeweled bodice, white ruff, neatly arranged light hair with pearls",
+    "props": "Fine gloves held low, small jewel pendant",
+    "setting": "Madrid Alcázar audience chamber, dark restrained backdrop",
+    "likeness": "Explicit identity decision: Prado's Anguissola portrait of Ana (1573), not Anne of France 1601–1666. Portrait guides youthful features and coiffure; room and pose newly invented.",
+    "avoid": "Conflation with Bourbon Anne, seventeenth-century lace collar or wide panniers",
+    "sources": [
+      "https://www.museodelprado.es/coleccion/obra-de-arte/retrato-de-la-reina-ana-de-austria/d6a90a80-a67b-49ad-bb65-08e676c4fe0d"
+    ],
+    "visualIdentity": "1573, about 24. Anguissola type: youthful elongated oval face, broad clear forehead, fine brows, small closed mouth and light dressed hair. No resemblance swap with much older Bourbon Anne regent."
+  },
+  "habsburg-8": {
+    "name": "Margaret of Austria",
+    "era": "1480–1530; regent of the Netherlands",
+    "attire": "Widow's dark square-neck gown over plain chemisette, folded linen cap and beaded necklace",
+    "props": "Petition and small devotional beads",
+    "setting": "Mechelen library with discreet books and cabinet",
+    "likeness": "Conrad Meit's court portrait bust supports adult features and precisely described dress. Regent identity distinguishes her from Margaret 1584–1611, queen of Spain. Setting inferred from court patronage.",
+    "avoid": "Childhood betrothal portrait as adult likeness, Spanish queen on horseback, poison bottle",
+    "sources": [
+      "https://wb.britishmuseum.org/MCN10801",
+      "https://www.metmuseum.org/art/collection/search/459072"
+    ],
+    "visualIdentity": "Choose circa 1520, about 40. Meit bust supports broad oval face, substantial cheeks, small lips and steady gaze within folded linen cap. Mature widow-regent, not Met childhood portrait aged only by adding wrinkles."
+  },
+  "habsburg-9": {
+    "name": "Ferdinand II",
+    "era": "1578–1637; emperor from 1619",
+    "attire": "Blackened early seventeenth-century armour, white lace collar, Golden Fleece",
+    "props": "Command baton and helmet on ledge",
+    "setting": "Imperial chamber with dark curtain and architectural column",
+    "likeness": "KHM Georg Pachmann c.1635 portrait provides mature bearded face and black armour. This is the emperor, not Ferdinand II of Tyrol (1529–1595).",
+    "avoid": "Tyrolean archduke's 1550s slashed silver doublet, fantasy religious villain iconography",
+    "sources": [
+      "https://www.khm.at/en/artworks/kaiser-ferdinand-ii-1578-1637-in-schwarzem-harnisch-in-ganzer-figur-2368-1"
+    ],
+    "visualIdentity": "Circa 1635, about 57. Pachmann portrait tradition: broad mature face, receding dark greying hair, thick moustache and neat pointed beard; lined forehead. Different from the young Tyrolean archduke."
+  },
+  "habsburg-10": {
+    "name": "Leopold I",
+    "era": "1640–1705; emperor from 1658",
+    "attire": "Late seventeenth-century black armour, lace neckcloth, dark curled full-bottom wig and Golden Fleece",
+    "props": "Baton, low sheet of music as secondary detail",
+    "setting": "Viennese Baroque chamber",
+    "likeness": "Benjamin von Block c.1672 portrait guides long face, moustache and wig. Portray distinctive facial structure without mocking exaggeration; music refers to documented interest.",
+    "avoid": "Belgian Leopold I, nineteenth-century uniform, exaggerated genetic caricature",
+    "sources": [
+      "https://www.habsburger.net/en/persons/habsburg-emperor/leopold-i?language=de"
+    ],
+    "visualIdentity": "Circa 1672, about 32. Benjamin von Block type: elongated face, pronounced lower lip/jaw, thin moustache, dark long curled wig. Young mature ruler despite wig; no grotesque exaggeration."
+  },
+  "habsburg-11": {
+    "name": "Charles VI",
+    "era": "1685–1740; emperor from 1711",
+    "attire": "Early eighteenth-century formal coat with rich embroidery, dark curled wig and Golden Fleece insignia",
+    "props": "Sealed succession document evoking Pragmatic Sanction",
+    "setting": "Viennese council room with restrained Baroque column",
+    "likeness": "Institutional c.1720/30 and Auerbach portraits anchor mature facial type. Document prop derives from succession policy; no fabricated readable decree.",
+    "avoid": "French Valois Charles VI, Joseph II military austerity, giant modern eagle emblem",
+    "sources": [
+      "https://www.habsburger.net/en/persons/habsburg-emperor/charles-vi",
+      "https://www.habsburger.net/en/media/emperor-charles-vi-c-172030"
+    ],
+    "visualIdentity": "Choose circa 1730, about 45. Institutional portrait tradition: long mature face, prominent nose and lower lip, dark curled full wig, clean-shaven cheeks. Formal closed mouth, distinct from Joseph II short powdered hairstyle."
+  },
+  "habsburg-12": {
+    "name": "Joseph II",
+    "era": "1741–1790; emperor from 1765",
+    "attire": "Restrained eighteenth-century military uniform coat, waistcoat, white neckcloth, powdered short tied hair",
+    "props": "Unsealed administrative papers and quill",
+    "setting": "Plain working desk in an imperial room, daylight",
+    "likeness": "Portrait tradition guides mature broad forehead and unshowy bearing. Institutional evidence supports admission of uniforms at court and administrative reform; details of this desk are inferred.",
+    "avoid": "Napoleonic medals, oversized Baroque wig, medieval crown worn with uniform",
+    "sources": [
+      "https://www.habsburger.net/en/chapter/joseph-ii-co-regent",
+      "https://www.habsburger.net/en/chapter/who-overseeing-whom-bureaucratic-state-joseph-ii"
+    ],
+    "visualIdentity": "Choose circa 1780, about 39. Portrait-informed broad forehead, receding hairline under short powdered tied hair, full nose, clean-shaven cheeks and firm mouth. Working adult ruler, not elderly general; exact expression inferred."
+  },
+  "habsburg-13": {
+    "name": "Mary of Hungary",
+    "era": "1505–1558; widowed queen and governor of Netherlands",
+    "attire": "Severe mid-sixteenth-century widow's dark gown, close white cap and dark veil",
+    "props": "Folded diplomatic letter and small seal",
+    "setting": "Brussels governmental chamber with a subdued sculptural niche",
+    "likeness": "Leone Leoni's c.1555 bust commissioned within her dynastic portrait programme informs mature face and widow's silhouette. Do not substitute Maria Anna of Spain (1606–1646).",
+    "avoid": "Seventeenth-century Spanish infanta hairstyle, Anne of Austria confusion, generic young queen",
+    "sources": [
+      "https://www.khm.at/en/artworks/queen-mary-of-hungary-as-a-widow-91503"
+    ],
+    "visualIdentity": "Circa 1555, about 50. Leoni bust supports mature elongated face and sharp straight nose framed by close widow headwear, thin lips, restrained gaze. Hair concealed, age visible, not a young Spanish infanta."
+  },
+  "plantagenet-0": {
+    "name": "Henry II",
+    "era": "c.1170, Angevin England and western France",
+    "attire": "Long wool tunic, patterned silk mantle, narrow belt and low open crown.",
+    "props": "Rolled writ and plain sword hilt.",
+    "setting": "Romanesque hall at Chinon, limestone arch.",
+    "likeness": "Fontevraud effigy supplies royal costume context; mature compact face and reddish beard are interpretive, not a proven portrait.",
+    "avoid": "No full plate armour or Renaissance ruff.",
+    "sources": [
+      "https://www.fontevraud.fr/en/the-tombstones-of-fontevraud-plantagenets/"
+    ],
+    "visualIdentity": "Circa 1170, about 37. Compact broad face, heavy neck, short reddish beard and receding reddish hair are reconstruction choices here, not certified by the effigy. Distinct from tall lean Richard.",
+    "artDirectionReview": "Chinon setting is an evocation of a twelfth-century hall, not an exact reconstruction or later château façade."
+  },
+  "plantagenet-1": {
+    "name": "Eleanor of Aquitaine",
+    "era": "c.1180–1200, Aquitaine and Angevin court",
+    "attire": "Long fitted gown, pale veil under crown, rich mantle.",
+    "props": "Open illuminated book, held below chest.",
+    "setting": "Romanesque abbey arcade with warm Aquitaine light.",
+    "likeness": "Reading pose derives from her Fontevraud effigy; facial individuality is reconstructed rather than claimed as a life likeness.",
+    "avoid": "No exposed fantasy corset, hennin or Tudor hood.",
+    "sources": [
+      "https://www.fontevraud.fr/en/the-tombstones-of-fontevraud-plantagenets/"
+    ],
+    "visualIdentity": "Choose circa 1190, about 68. Elderly long oval face with fine wrinkles, firm mouth and grey hair mostly hidden by veil. Effigy guides the reading pose and courtly silhouette, not facial accuracy; do not default to a twenty-year-old queen."
+  },
+  "plantagenet-2": {
+    "name": "Richard I",
+    "era": "c.1190s, Angevin and crusading court",
+    "attire": "Mail hauberk and coif lowered around neck, simple surcoat and mantle.",
+    "props": "Straight sword and shield at lower side.",
+    "setting": "Stone coastal fortress with distant Mediterranean light, an interpretive crusading setting.",
+    "likeness": "Fontevraud effigy is commemorative evidence, not an exact life portrait; use a mature bearded face.",
+    "avoid": "No late-medieval plate harness, horned helmet or modern national flag.",
+    "sources": [
+      "https://www.fontevraud.fr/en/the-tombstones-of-fontevraud-plantagenets/"
+    ],
+    "visualIdentity": "Circa 1192, about 35. Invented long rectangular face, long straight nose, closely trimmed tawny beard and shoulder-length tawny hair; tall upright bearing. Commemorative effigy is not proof of these exact colours/features."
+  },
+  "plantagenet-3": {
+    "name": "John",
+    "era": "c.1215, England",
+    "attire": "Rich long tunic, mantle, small open crown.",
+    "props": "Great seal beside a rolled charter.",
+    "setting": "Timber-and-stone royal chamber.",
+    "likeness": "Worcester preserves an early royal effigy; use its crowned, bearded convention without asserting portrait accuracy.",
+    "avoid": "Show a sealed charter, not John signing Magna Carta with a modern pen.",
+    "sources": [
+      "https://www.worcestercathedral.org.uk/heritage/king-john/"
+    ],
+    "visualIdentity": "Circa 1215, about 48. Rounded middle-aged face, high forehead, short curled beard with a little grey and medium dark wavy hair. These are interpretive variations on effigy convention, not an authenticated living likeness."
+  },
+  "plantagenet-4": {
+    "name": "Henry III",
+    "era": "c.1260s, England",
+    "attire": "Long ceremonial robe with narrow trim, mantle, open crown.",
+    "props": "Small architectural plan on parchment.",
+    "setting": "Westminster Gothic building works suggested through an arch.",
+    "likeness": "Abbey burial and rebuilding are documented; live facial modelling is interpretive, informed by his effigy.",
+    "avoid": "No Tudor rose, full plate armour or completed modern Abbey skyline.",
+    "sources": [
+      "https://www.westminster-abbey.org/abbey-commemorations/royals/henry-iii"
+    ],
+    "visualIdentity": "Circa 1265, about 58. Invented slim older face, slightly asymmetrical brows, straight nose, short greying beard and thin greying hair; attentive architectural-patron bearing. Effigy supplies iconographic context.",
+    "artDirectionReview": "Westminster should be under construction in the 1260s; omit eighteenth-century west towers and nineteenth-century Parliament."
+  },
+  "plantagenet-5": {
+    "name": "Edward I",
+    "era": "c.1290s, England and Welsh campaigns",
+    "attire": "Mail with modest reinforcing plates, crimson mantle; tall restrained silhouette.",
+    "props": "Sword pommel held low.",
+    "setting": "Welsh stone castle courtyard, interpretive.",
+    "likeness": "Abbey account records red-and-gold royal burial dress and crimson mantle; living face is reconstructed.",
+    "avoid": "No Gothic full plate harness or literal war hammer from later epithet.",
+    "sources": [
+      "https://www.westminster-abbey.org/abbey-commemorations/royals/edward-i-and-eleanor-of-castile"
+    ],
+    "visualIdentity": "Circa 1295, about 56. Tall lean silhouette, long face, prominent nose, shoulder-length silver-brown hair and close grey beard. Living face is invented; burial evidence does not certify hair colour or exact facial structure."
+  },
+  "plantagenet-6": {
+    "name": "Edward II",
+    "era": "c.1315–1320, England",
+    "attire": "Long silk robe, mantle and open leaf crown.",
+    "props": "Sceptre held to one side.",
+    "setting": "Quiet early-fourteenth-century palace room.",
+    "likeness": "Gloucester alabaster effigy provides commemorative reference; soft individual facial features are interpretive.",
+    "avoid": "No feminizing caricature or execution imagery.",
+    "sources": [
+      "https://gloucestercathedral.org.uk/cathedral/heritage/architecture"
+    ],
+    "visualIdentity": "Circa 1318, about 34. Invented broad smooth forehead, full lips, strong rounded chin, clean-shaven cheeks and softly waved brown jaw-length hair. Mature adult, not a child or effeminized caricature; effigy-informed convention only."
+  },
+  "plantagenet-7": {
+    "name": "Edward III",
+    "era": "c.1350–1360, England and France",
+    "attire": "Mid-fourteenth-century transitional armour with mail at joints; restrained royal mantle.",
+    "props": "Gauntlet and sword hilt.",
+    "setting": "Windsor courtyard suggested behind him.",
+    "likeness": "Abbey bronze shows long hair and beard; adapt mature features rather than copy the late-life death-mask expression.",
+    "avoid": "No sixteenth-century armour; no three-lily French quartering for this date.",
+    "sources": [
+      "https://www.westminster-abbey.org/abbey-commemorations/royals/edward-iii-and-philippa-of-hainault"
+    ],
+    "visualIdentity": "Choose circa 1355, about 43. Long face and flowing dark hair with substantial pointed beard echo tomb convention; living expression and hair colour reconstructed. Broader shoulders than Richard II, no late-life death-mask look.",
+    "artDirectionReview": "Use generic fourteenth-century Windsor masonry; omit nineteenth-century rebuilt skyline and later St George chapel."
+  },
+  "plantagenet-8": {
+    "name": "Philippa of Hainault",
+    "era": "c.1350–1360, English court, Hainault origins",
+    "attire": "Reticulated headdress, fitted laced bodice, buttoned sleeves and loose mantle.",
+    "props": "One hand on cloak cord; small closed book.",
+    "setting": "Windsor chamber with Flemish woven hanging.",
+    "likeness": "Her Westminster alabaster effigy supplies a full face and substantial figure; mature warmth is an artistic interpretation.",
+    "avoid": "No slim generic maiden, Tudor hood or horned hennin.",
+    "sources": [
+      "https://www.westminster-abbey.org/abbey-commemorations/royals/edward-iii-and-philippa-of-hainault"
+    ],
+    "visualIdentity": "Choose circa 1355, about 41. Full broad face and substantial mature figure following alabaster effigy, small mouth and soft cheeks; hair hidden by veil. Natural mature woman, not a generic slim young queen."
+  },
+  "plantagenet-9": {
+    "name": "Richard II",
+    "era": "c.1395, England",
+    "attire": "Rich patterned robe, fine open crown, white-hart jewel.",
+    "props": "Small devotional diptych.",
+    "setting": "Quiet gilded chapel interior.",
+    "likeness": "Wilton Diptych provides contemporary idealized royal image and white-hart symbolism; preserve slender youthful countenance without treating it as photography.",
+    "avoid": "No battle armour, sinister caricature or later Tudor ornament.",
+    "sources": [
+      "https://www.nationalgallery.org.uk/paintings/english-or-french-the-wilton-diptych"
+    ],
+    "visualIdentity": "Circa 1395, about 28. Contemporary Wilton image supports slender youthful royal type: elongated oval face, fine brows, smooth pale cheeks and auburn hair; light fine facial hair only if following that iconography. Idealized portrait, not photographic certainty."
+  },
+  "plantagenet-10": {
+    "name": "Edward the Black Prince",
+    "era": "c.1360s, England and Aquitaine",
+    "attire": "Fourteenth-century plate elements over mail, short heraldic jupon.",
+    "props": "Bascinet under arm, sword low; feather motif secondary.",
+    "setting": "Aquitaine fortress doorway.",
+    "likeness": "Canterbury funerary armour and Westminster statuette anchor material culture; living facial expression is reconstructed.",
+    "avoid": "Do not present black armour as established origin of his later nickname; no sixteenth-century harness.",
+    "sources": [
+      "https://www.westminster-abbey.org/abbey-commemorations/royals/edward-of-woodstock-the-black-prince",
+      "https://www.londonmuseum.org.uk/collections/v/object-405137/black-prince/"
+    ],
+    "visualIdentity": "Circa 1365, about 35. Invented narrow athletic face, strong straight brow, thick dark hair and a neat short moustache with close chin beard. Armour evidence is firmer than the reconstructed living face. Not black skin or black-painted face derived from epithet."
+  },
+  "plantagenet-11": {
+    "name": "Joan of Kent",
+    "era": "c.1365–1375, Aquitaine and England",
+    "attire": "Silk fitted gown, fine veil and modest jeweled fillet.",
+    "props": "Silver cup held below portrait center.",
+    "setting": "Aquitaine domestic chamber.",
+    "likeness": "IHR records her marriage, Aquitaine household and silver vessels; face, exact dress and room are explicitly plausible reconstruction.",
+    "avoid": "She was Princess of Wales, not a crowned queen; no invented exact likeness or sexualized scandal imagery.",
+    "sources": [
+      "https://archives.history.ac.uk/richardII/joan.html"
+    ],
+    "visualIdentity": "Choose circa 1370, about 42. Invented broad heart-shaped face, long nose, full lips, auburn-brown hair mostly concealed, mature composed gaze. Exact features unknown; avoid generic youthful bride despite marriage role."
+  },
+  "plantagenet-12": {
+    "name": "Geoffrey of Anjou",
+    "era": "c.1140, Anjou and Maine; Geoffrey V, Henry II's father",
+    "attire": "Twelfth-century long tunic and mantle; modest cap.",
+    "props": "Blue shield with gold lion motifs and sword, adapted from enamel; small broom sprig symbolic.",
+    "setting": "Romanesque Le Mans stone arcade.",
+    "likeness": "Le Mans museum's funerary enamel is the reference, a stylized posthumous image; facial realism and broom placement are interpretation.",
+    "avoid": "Do not confuse Geoffrey V with his son Geoffrey of Nantes; no English royal crown or plate armour.",
+    "sources": [
+      "https://archive.lemans.fr/fileadmin/contributeurs/musees/images/carre/expo_faubourgs_dossier.pdf",
+      "https://www.britishmuseum.org/collection/term/BIOG171421"
+    ],
+    "visualIdentity": "Circa 1140, about 27. Slender youthful face, short neat beard, straight brown hair to ears; colouring and realism invented around stylized enamel reference. No middle-aged generic monarch."
+  },
+  "plantagenet-13": {
+    "name": "Isabella of France",
+    "era": "c.1325, Anglo-French royal court",
+    "attire": "Silk gown and fine linen veil, narrow crown; restrained white-and-blue palette.",
+    "props": "Sealed diplomatic letter.",
+    "setting": "Eltham moat-side chamber.",
+    "likeness": "English Heritage documents Eltham patronage and white velvet worn in 1316; adult face and diplomatic scene are reconstruction.",
+    "avoid": "No wolf pelt or villain stereotype; epithet is later hostile rhetoric.",
+    "sources": [
+      "https://www.english-heritage.org.uk/visit/places/eltham-palace-and-gardens/history-and-stories/three-queens-at-eltham/"
+    ],
+    "visualIdentity": "Circa 1325, about 30. Invented sharply oval face, high cheekbones, small straight mouth, dark hair mostly covered, clear steady gaze. Not a snarling villain or literal wolf; precise features not evidenced by contextual source.",
+    "artDirectionReview": "Eltham means medieval royal manor context; no surviving Tudor great hall treated as built in 1325, no twentieth-century Art Deco palace."
+  },
+  "tudor-0": {
+    "name": "Henry VII",
+    "era": "c.1505, England",
+    "attire": "Dark velvet cap, fur-lined gown, patterned doublet, restrained gold chain.",
+    "props": "Red rose held low.",
+    "setting": "Oak-panelled royal chamber.",
+    "likeness": "NPG portrait tradition supplies narrow mature face and reserved mouth; chamber and gesture are interpretive.",
+    "avoid": "No Henry VIII physique, Elizabethan ruff or excessive martial armour.",
+    "sources": [
+      "https://www.npg.org.uk/collections/search/person/mp02144/king-henry-vii"
+    ],
+    "visualIdentity": "Circa 1505, about 48. NPG portrait tradition: narrow long face, high cheekbones, thin firm mouth, long nose, dark greying straight hair under cap, clean-shaven. Reserved middle-aged bearing; setting and micro-expression inferred."
+  },
+  "tudor-1": {
+    "name": "Elizabeth I",
+    "era": "c.1575, England",
+    "attire": "Jeweled gown, lace ruff, pearls and dressed red hair.",
+    "props": "Folded fan in lower hand.",
+    "setting": "Dark Tudor palace chamber with modest globe at edge.",
+    "likeness": "Darnley portrait tradition supplies recognizable long face; generated skin and expression remain interpretation.",
+    "avoid": "Avoid confusing late Elizabethan clothing with early Tudor gable hoods.",
+    "sources": [
+      "https://www.npg.org.uk/assets/files/pdf/collections/pickups/elizabeth_i.pdf"
+    ],
+    "visualIdentity": "Circa 1575, about 42. Darnley portrait tradition: long pale oval face, high forehead, fine arched brows, reddish curled hair, narrow mouth. A mature queen, not teenage beauty; age lines restrained by idealized court portrait conventions."
+  },
+  "tudor-2": {
+    "name": "Henry VIII",
+    "era": "c.1540, England",
+    "attire": "Broad fur-trimmed gown, slashed doublet, jeweled flat bonnet, gold chain.",
+    "props": "Gloved hand and dagger hilt.",
+    "setting": "Hampton Court-style brick and oak interior.",
+    "likeness": "Holbein royal portrait tradition anchors broad stance, rounded face and short reddish beard; setting is reconstructed.",
+    "avoid": "No medieval mail, oversized fantasy crown or execution props.",
+    "sources": [
+      "https://www.rct.uk/collection/stories/royal-portraiture/henry-vii-elizabeth-of-york-henry-viii-and-jane-seymour",
+      "https://www.rct.uk/collection/exhibitions/holbein-at-the-tudor-court/the-queens-gallery-buckingham-palace/henry-viii-1491-1547"
+    ],
+    "visualIdentity": "Circa 1540, about 49. Holbein-derived broad nearly square face, small eyes, compact reddish beard, broad neck and imposing substantial shoulders. Keep unmistakably different from Henry VII; no generic lean warrior.",
+    "artDirectionReview": "Whitehall interior is reconstructed; no seventeenth-century Banqueting House or modern Hampton Court visitor fittings."
+  },
+  "tudor-3": {
+    "name": "Mary I",
+    "era": "1554, England",
+    "attire": "Pearl-edged headdress, patterned gown and purple overgown.",
+    "props": "Red rose and jeweled gloves.",
+    "setting": "Red upholstered royal chair against subdued palace wall.",
+    "likeness": "Anthonis Mor's 1554 portrait is direct lifetime evidence; retain mature narrow face and firm mouth.",
+    "avoid": "Do not confuse with her aunt Mary Tudor of France; no flames or caricature.",
+    "sources": [
+      "https://www.museodelprado.es/en/the-collection/art-work/mary-tudor-queen-of-england/aef6ebc4-081a-44e6-974d-6c24aef95fc4"
+    ],
+    "visualIdentity": "1554, about 38. Mor portrait: narrow mature face, high forehead, firm lips, long nose and light reddish-brown hair largely covered by hood. Composed direct gaze without villainous red lighting."
+  },
+  "tudor-4": {
+    "name": "Edward VI",
+    "era": "c.1550, England; adolescent king",
+    "attire": "High-collared embroidered doublet, short cloak, jeweled cap.",
+    "props": "Small closed book.",
+    "setting": "Royal schoolroom with oak lectern.",
+    "likeness": "Royal Collection portrait tradition supplies youthful facial proportions; use a boy of about thirteen, not an adult lawgiver.",
+    "avoid": "No beard, oversized muscles or later Elizabethan wheel ruff.",
+    "sources": [
+      "https://www.rct.uk/collection/912202/edward-prince-of-wales-1537-1553",
+      "https://www.rct.uk/collection/422368/edward-vi-1537-1553"
+    ],
+    "visualIdentity": "Circa 1550, about 13. Smooth adolescent oval face, small chin, light straight hair and clean-shaven cheeks; slender boy shoulders. Royal portrait evidence supplies youthful proportions; never an adult bearded Lawgiver."
+  },
+  "tudor-5": {
+    "name": "Elizabeth of York",
+    "era": "c.1500, England",
+    "attire": "Early Tudor gable hood, rich square-neck gown, jeweled edging.",
+    "props": "White rose.",
+    "setting": "Quiet royal chamber with restrained union-rose embroidery.",
+    "likeness": "NPG portrait tradition informs pale oval face; reconstruction must acknowledge later copies rather than claim direct observation.",
+    "avoid": "No Elizabeth I ruff or elaborate late-century hair.",
+    "sources": [
+      "https://www.npg.org.uk/collections/search/person/mp01451/elizabeth-of-york"
+    ],
+    "visualIdentity": "Circa 1500, about 34. Later portrait tradition: pale oval face, softly pointed chin, fine brows, small closed lips and hair largely hidden by gable hood. Treat facial specifics as interpretation from copies, not direct sitting."
+  },
+  "tudor-6": {
+    "name": "Margaret Beaufort",
+    "era": "c.1505, England",
+    "attire": "Black vowess gown, white linen wimple and dark hood.",
+    "props": "Open prayer book.",
+    "setting": "Cloth-of-gold hanging with understated portcullis.",
+    "likeness": "Wewyck portrait c.1510 and NPG interpretation anchor vowess dress; elderly facial details are interpreted from posthumous evidence.",
+    "avoid": "Not a nun, witch or seductive intriguer; avoid invented sinister props.",
+    "sources": [
+      "https://www.npg.org.uk/collections/search/person/mp00323/lady-margaret-beaufort-countess-of-richmond-and-derby",
+      "https://www.npg.org.uk/assets/uploads/files/large-print-guides/Room_01_large-print-guide.pdf"
+    ],
+    "visualIdentity": "Circa 1505, about 62. Older narrow lined face, high cheekbones, thin mouth, hair entirely hidden by white vowess headwear. Posthumous portrait tradition supports older devotional silhouette, not photographic precision."
+  },
+  "tudor-7": {
+    "name": "Edmund Tudor",
+    "era": "c.1455, England and southwest Wales; Earl of Richmond",
+    "attire": "Mid-fifteenth-century doublet and fur-edged gown, soft cap.",
+    "props": "Sealed administrative roll.",
+    "setting": "Carmarthen stone chamber, interpretive.",
+    "likeness": "National Library of Wales biography identifies Henry VII's young father, not the later infant namesake; no secure living likeness used, face reconstructed at about twenty-five.",
+    "avoid": "No royal crown, Tudor union rose or sixteenth-century ruff.",
+    "sources": [
+      "https://biography.wales/pdf/s-TUDO-EDM-1430.pdf"
+    ],
+    "visualIdentity": "Circa 1455, about 25. Invented smooth elongated face, strong brow, dark straight jaw-length hair, clean-shaven cheeks and chin, slim shoulders. No secure life portrait; not a later infant Edmund Tudor."
+  },
+  "tudor-8": {
+    "name": "Jasper Tudor",
+    "era": "c.1485, Welsh and Breton exile networks",
+    "attire": "Late-fifteenth-century harness, mail collar, travel mantle.",
+    "props": "Sallet helmet under arm.",
+    "setting": "Pembrokeshire coastline and castle in soft focus.",
+    "likeness": "Welsh Biography establishes campaigns, exile and mentorship; rugged mature face is explicitly invented, not a verified portrait.",
+    "avoid": "No English royal crown or modern Welsh flag design.",
+    "sources": [
+      "https://biography.wales/article/s-TUDO-SIA-1431.html"
+    ],
+    "visualIdentity": "Circa 1485, about 54. Invented broad weathered face, heavy eyelids, pronounced nose, greying brown collar-length hair, clean-shaven face appropriate to chosen late-fifteenth-century court styling. Do not repeat Edmund youthful oval."
+  },
+  "tudor-9": {
+    "name": "Margaret Tudor",
+    "era": "c.1515, Scottish court",
+    "attire": "Early-sixteenth-century royal gown, jeweled hood, rich mantle.",
+    "props": "Folded letter.",
+    "setting": "Scottish palace stone chamber, restrained thistle detail.",
+    "likeness": "Royal Collection Mytens-derived image is later evidence, not a contemporary likeness; facial specificity is cautious reconstruction.",
+    "avoid": "Do not use NPG 1173, now identified as an unknown woman; no tartan clan costume.",
+    "sources": [
+      "https://www.rct.uk/collection/618144/margaret-tudor-queen-of-scotland",
+      "https://www.npg.org.uk/collections/search/portraitConservation/mw04202/Unknown-woman-formerly-known-as-Margaret-Tudor"
+    ],
+    "visualIdentity": "Circa 1515, about 26. Cautious reconstruction: broad oval face, high forehead, soft pointed chin, reddish-brown hair almost hidden by hood. Later portrait evidence cannot certify precise youthful facial details."
+  },
+  "tudor-10": {
+    "name": "Mary Tudor of France",
+    "era": "1514–1515, Anglo-French court; Henry VIII's sister",
+    "attire": "Early French court silk gown, jeweled hood, delicate gold necklace.",
+    "props": "Marriage letter and a single flower.",
+    "setting": "Loire court interior with small fleur-de-lis textile.",
+    "likeness": "RCT documents her French marriage negotiations; exact facial likeness not established here and is interpretive. Keep visually distinct from Mary I.",
+    "avoid": "No Mary I identification, later Elizabethan ruff or unqualified use of disputed Sittow portrait.",
+    "sources": [
+      "https://www.rct.uk/about/press-office/press-releases/major-exhibition-of-holbeins-portraits-from-the-tudor-court-to-go"
+    ],
+    "visualIdentity": "1514–1515, about 18–19. Invented youthful rounded oval face, full lower lip, delicate straight nose and fair reddish hair framed by early hood. Clear age and face distinction from her niece Mary I at 38; exact likeness unestablished here."
+  },
+  "tudor-11": {
+    "name": "Arthur Tudor",
+    "era": "c.1500, England; adolescent Prince of Wales",
+    "attire": "Embroidered early Tudor doublet and modest dark cap.",
+    "props": "Gillyflower held low.",
+    "setting": "Ludlow-style royal chamber.",
+    "likeness": "NPG exhibition records Wewyck portrait made during marriage negotiations and its flower; depict a slight teenage boy.",
+    "avoid": "Never an adult warrior or crowned king; no late-sixteenth-century costume.",
+    "sources": [
+      "https://www.npg.org.uk/assets/uploads/files/six-lives-large-print.pdf"
+    ],
+    "visualIdentity": "Circa 1500, about 14. Wewyck-associated portrait tradition: slight adolescent face, slim nose, small chin, auburn/light brown straight hair under cap, entirely clean-shaven. Boy proportions, not adult warrior prince."
+  },
+  "tudor-12": {
+    "name": "Owen Tudor",
+    "era": "c.1430–1440, Welsh courtier in English royal household",
+    "attire": "Modest wool gown over fitted doublet, soft chaperon.",
+    "props": "Small sealed letter.",
+    "setting": "Shadowed royal household doorway.",
+    "likeness": "National Library of Wales establishes courtier identity and notes obscure early life; face, exact dress and pose are reconstructed.",
+    "avoid": "No Tudor royal crown, union rose, caricatured Celtic warrior or secret-dagger stereotype.",
+    "sources": [
+      "https://www.biography.wales/article/s-OWAI-TUD-1400.html"
+    ],
+    "visualIdentity": "Choose circa 1435; invented apparent age mid-thirties, birth uncertain. Invented compact broad face, slightly rounded nose, thick dark straight hair to ears, clean-shaven chin and strong neck. No claimed life likeness or ethnic facial stereotype."
+  },
+  "tudor-13": {
+    "name": "Catherine of Aragon",
+    "era": "c.1525, English queen of Castilian-Aragonese origins",
+    "attire": "Jeweled gable hood, rich gown with square neckline and fine linen.",
+    "props": "Small prayer book with pomegranate decoration.",
+    "setting": "Eltham royal chamber.",
+    "likeness": "Prefer NPG c.1520 panel and Horenbout miniature tradition; distinguish them from NPG 163, an eighteenth-century copy. Face is interpreted from accepted portrait types.",
+    "avoid": "No exoticized Spanish costume, flamenco mantilla or confusion with Mary Tudor of France.",
+    "sources": [
+      "https://www.npg.org.uk/collections/search/person/mp00801/katherine-of-aragon",
+      "https://www.npg.org.uk/collections/search/portrait/mw01144/Katherine-of-Aragon"
+    ],
+    "visualIdentity": "Circa 1525, about 40. Accepted portrait types: mature oval face, softly full cheeks, small firm mouth and auburn hair mostly concealed by hood. Do not infer black hair from Spanish origin; exact colour and face remain interpreted."
+  },
+  "valois-0": {
+    "name": "Philip VI",
+    "era": "France, reign 1328–1350; depict circa 1340",
+    "attire": "Reconstructed long blue wool/silk royal robe, ermine-edged mantle, low open fleur-de-lis crown; early fourteenth-century silhouette.",
+    "props": "Small sceptre and sealed charter at lower edge.",
+    "setting": "Interpretive Gothic royal chamber with stone lancet window, not Versailles.",
+    "likeness": "The Saint-Denis effigy is documented by the French heritage inventory; use its idealized medieval convention, not a claim to certain facial likeness. Mature face and shoulder-length hair are reconstruction.",
+    "avoid": "Renaissance slashed doublet; late full plate harness; modern three-fleur arms replacing the earlier semy without explanation.",
+    "sources": [
+      "https://pop.culture.gouv.fr/notice/palissy/PM93000153",
+      "https://www.saint-denis-basilique.fr/decouvrir/les-gisants-de-la-basilique"
+    ],
+    "visualIdentity": "Circa 1340, about 47. Invented long narrow face, high forehead, swept-back greying dark hair and a neatly divided medium beard. Effigy is idealized, so no claim to exact facial likeness."
+  },
+  "valois-1": {
+    "name": "Francis I",
+    "era": "France, circa 1530–1540",
+    "attire": "Broad black-and-cream slashed silk doublet, large sleeves, soft dark feathered cap, gold chain; French Renaissance court dress.",
+    "props": "Gloved hand resting on sword pommel below chest.",
+    "setting": "Interpretive Fontainebleau Renaissance pilaster and warm tapestry.",
+    "likeness": "Jean Clouet court portraits support the long nose, narrow eyes and dark short beard. Composition and room are new artistic interpretation.",
+    "avoid": "Louis XIV wig; Tudor Henry VIII's square face; generic medieval crown and mail.",
+    "sources": [
+      "https://chateaudechantilly.fr/categ-collection/peintures/portrait-de-francois-ier/",
+      "https://collections.louvre.fr/ark:/53355/cl020111493"
+    ],
+    "visualIdentity": "Circa 1535, about 41. Clouet-derived long prominent nose, narrow eyes, broad horizontal brows, dark short beard and moustache; wide-shouldered imposing build. Strong facial evidence in court portrait tradition, micro-expression newly painted."
+  },
+  "valois-2": {
+    "name": "Catherine de’ Medici",
+    "era": "France, circa 1565–1575",
+    "attire": "Black widow's gown and pointed black veil, crisp white pleated ruff, restrained jewelry.",
+    "props": "Folded correspondence, not poison.",
+    "setting": "Interpretive Valois cabinet with a small collection of portrait drawings.",
+    "likeness": "The Carnavalet Clouet-workshop portrait circa 1565 documents her widow costume; the Culture Ministry describes the pointed veil and white ruff. Mature broad face interpreted from these portraits.",
+    "avoid": "Witch imagery; poison vial; Italian Renaissance dress from her youth combined with late mourning face.",
+    "sources": [
+      "https://www.parismuseescollections.paris.fr/fr/musee-carnavalet/oeuvres/portrait-de-catherine-de-medicis-1519-1589-reine-de-france",
+      "https://histoiredesarts.culture.gouv.fr/Toutes-les-ressources/L-Histoire-par-l-image/Catherine-de-Medicis-l-histoire-et-sa-legende"
+    ],
+    "visualIdentity": "Choose circa 1570, about 51. Mature broad face, heavy-lidded eyes, short firm mouth, high forehead entirely framed by widow veil. Portrait-informed, neither glamorous young bride nor witch caricature."
+  },
+  "valois-3": {
+    "name": "Charles V",
+    "era": "France, circa 1370",
+    "attire": "Long fitted-sleeve robe, fur-lined mantle and modest open crown; fourteenth-century court silhouette.",
+    "props": "Illuminated bound manuscript held against chest.",
+    "setting": "Reconstructed Louvre library tower, wooden book bench and stone window.",
+    "likeness": "Saint-Denis identifies his lifetime effigy as an individualized portrait. BnF documents the Louvre library from 1368. Thin mature face follows the effigy tradition; colors and pose are interpretation.",
+    "avoid": "Printed modern books; spectacles invented as a personal attribute; Habsburg Charles V armor.",
+    "sources": [
+      "https://www.saint-denis-basilique.fr/decouvrir/les-gisants-de-la-basilique",
+      "https://comitehistoire.bnf.fr/node/187"
+    ],
+    "visualIdentity": "Circa 1370, about 32. Individualized effigy informs thin elongated face, prominent nose, slight pointed beard and composed expression; paint dark straight hair and realistic skin as interpretation. Young mature scholar, not an old sage.",
+    "artDirectionReview": "Louvre library is a medieval keep chamber; omit Renaissance palace façades, modern courtyard and glass pyramid."
+  },
+  "valois-4": {
+    "name": "Charles VII",
+    "era": "France, circa 1450",
+    "attire": "Rich red velvet robe with fur trim and blue soft hat, broad shoulders.",
+    "props": "Hands quietly joined near the lower portrait boundary.",
+    "setting": "Muted drapery and late Gothic window; interpretive royal interior.",
+    "likeness": "Fouquet's circa 1450 portrait, discussed by Musée Condé, provides long nose, heavy-lidded eyes and tired, monumental expression. The new setting is not a historical scene claim.",
+    "avoid": "Beard; sixteenth-century ruff; Joan of Arc's armor transferred to the king.",
+    "sources": [
+      "https://www.musee-conde.fr/fr/notice/pe-570-portrait-de-charles-vii-75f96e1e-68b6-4bb1-9a40-7e8ad7898f24"
+    ],
+    "visualIdentity": "Circa 1450, about 47. Fouquet tradition: long nose, heavy-lidded eyes, downturned mouth, clean-shaven angular cheeks and tired mature expression. Natural brown hair under soft hat, no Renaissance beard.",
+    "artDirectionReview": "Musée Condé source concerns a version of Fouquet portrait tradition; do not imply every institutional copy is the original life painting."
+  },
+  "valois-5": {
+    "name": "Louis XI",
+    "era": "France, circa 1470",
+    "attire": "Restrained dark wool gown, fur edging and close soft cap; devotional hat badge optional.",
+    "props": "Sealed letter held low.",
+    "setting": "Interpretive private chamber at Plessis with small shuttered window.",
+    "likeness": "Louvre holds later representations, including the 1838 Jaley statue; these are reception evidence rather than lifetime proof. Lean mature face and long nose are a cautious reconstruction informed by the familiar portrait tradition.",
+    "avoid": "Literal spiders or webs; sinister fantasy costume; claiming a nineteenth-century image is contemporary.",
+    "sources": [
+      "https://collections.louvre.fr/en/ark:/53355/cl010091426"
+    ],
+    "visualIdentity": "Circa 1470, about 47. Portrait-tradition long pointed nose, thin closed lips, lean cheeks, dark hair mostly hidden by cap; clean-shaven. Wary expression is artistic, not proof of scheming character."
+  },
+  "valois-6": {
+    "name": "Henry II",
+    "era": "France, circa 1555–1559",
+    "attire": "Dark fitted doublet with gold detail, short standing collar and modest white neck frill; alternatively period tournament cuirass beneath a mantle.",
+    "props": "Closed tournament helmet placed low at one side.",
+    "setting": "Interpretive Renaissance courtyard with pale stone arch.",
+    "likeness": "Louvre's Clouet-workshop portrait circa 1559 provides narrow face, cropped dark hair and pointed beard. Armor and courtyard are interpretive and must match the 1550s.",
+    "avoid": "English Henry II medieval costume; injury spectacle; seventeenth-century wig.",
+    "sources": [
+      "https://collections.louvre.fr/ark:/53355/cl010061363"
+    ],
+    "visualIdentity": "Circa 1558, about 39. Clouet-derived narrow oval face, cropped dark hair, short pointed beard and fine moustache; athletic upright neck and restrained gaze. Not English Henry II."
+  },
+  "valois-7": {
+    "name": "Charles IX",
+    "era": "France, 1570, approximately age twenty",
+    "attire": "Luxurious jeweled dark toque, embroidered doublet, white ruff and gold chain.",
+    "props": "Gloves, held below the face.",
+    "setting": "Interpretive quiet Valois portrait cabinet.",
+    "likeness": "Chantilly documents Clouet's 1570 portrait, thin moustache and beard, deliberately matured pale face. Preserve youthful age rather than generating an elderly ruler.",
+    "avoid": "Thick mature beard; gore or massacre props; Louis XIII moustache styling.",
+    "sources": [
+      "https://chateaudechantilly.fr/categ-collection/peintures/portrait-du-roi-charles-ix/"
+    ],
+    "visualIdentity": "1570, about 20. Clouet-derived pale thin youthful face, high forehead, slight moustache and sparse pointed beard, dark hair under jeweled toque. Preserve barely adult proportions."
+  },
+  "valois-8": {
+    "name": "Henry III",
+    "era": "France, circa 1580–1585",
+    "attire": "Black court doublet, high white ruff, jeweled cap, blue Order of the Holy Spirit ribbon.",
+    "props": "Small folded dispatch.",
+    "setting": "Interpretive wood-paneled cabinet with candle glow.",
+    "likeness": "Rouen museum documents a late-sixteenth-century portrait after Decourt or Dumonstier with the blue Holy Spirit ribbon; narrow face and trimmed beard are portrait-tradition interpretation.",
+    "avoid": "Caricature based on sexuality; literal assassin dagger; English medieval Henry III.",
+    "sources": [
+      "https://museelesecqdestournelles.fr/sites/default/files/upload/programme2016-2017_web_0.pdf"
+    ],
+    "visualIdentity": "Choose circa 1582, about 31. Narrow long face, fine nose, groomed short pointed beard and moustache, dark hair beneath cap. Portrait-tradition interpretation with no sexuality-based exaggeration."
+  },
+  "valois-9": {
+    "name": "Marguerite de Valois",
+    "era": "France/Navarre, circa 1575–1585; 1553–1615 queen",
+    "attire": "Pearled dark French court gown, structured bodice, white open ruff and carefully dressed dark hair.",
+    "props": "Closed literary manuscript with plain binding.",
+    "setting": "Interpretive Renaissance chamber with distant carved caryatid detail.",
+    "likeness": "Louvre identifies the 1572 bride of Henri de Navarre, resolving her identity. Facial details, gown colors and literary pose are plausible interpretation, not authenticated likeness from this contextual source.",
+    "avoid": "Confusion with Marguerite of Angoulême or the 1523–1574 Duchess of Savoy; eroticized Queen Margot stereotypes.",
+    "sources": [
+      "https://www.louvre.fr/en/explore/visitor-trails/the-louvre-s-masterpieces/ancient-masterpieces-from-the-royal-collections"
+    ],
+    "visualIdentity": "Choose circa 1580, about 27. Cautiously invented long oval face, softly arched brows, fuller lips, dark centrally dressed hair with pearls. Contextual sources establish identity, not these exact facial details.",
+    "artDirectionReview": "The cited Louvre visitor trail establishes contextual identity; face and exact costume are reconstruction. Seek a dedicated portrait record before claiming portrait-specific facial evidence."
+  },
+  "valois-10": {
+    "name": "Louis XII",
+    "era": "France, circa 1498–1505",
+    "attire": "Gold patterned long robe with rich but restrained collar; late-fifteenth-century cap or uncovered straight shoulder-length hair.",
+    "props": "Small devotional book at lower edge.",
+    "setting": "Interpretive chapel side chamber with blue fleur-de-lis textile.",
+    "likeness": "Getty's Bourdichon Hours of Louis XII, 1498/1499, is contemporary royal imagery and shows the king kneeling. Recompose its courtly silhouette into a bust; natural facial detail remains interpretation.",
+    "avoid": "Later Renaissance ruff; powdered wig; an actual saint standing behind the sitter as historical fact.",
+    "sources": [
+      "https://www.getty.edu/news/acquiring-the-second-half-of-an-Hours-of-Louis-XII-diptych/"
+    ],
+    "visualIdentity": "Choose circa 1500, about 38. Contemporary manuscript royal type: long face, prominent nose, straight brown shoulder-length hair and clean-shaven chin. Facial realism remains interpretation, not an effigy photograph."
+  },
+  "valois-11": {
+    "name": "Claude of France",
+    "era": "France/Brittany, circa 1517, age eighteen",
+    "attire": "Early-sixteenth-century French gown with square neckline, richly woven sleeves, linen underlayer and dark hood.",
+    "props": "Very small illuminated prayer book, approximately palm-sized.",
+    "setting": "Interpretive Loire royal oratory; subtle Breton ermine textile accent.",
+    "likeness": "Morgan documents her tiny 1517 prayer book, marriage and age. Young face is reconstruction rather than a claimed portrait likeness; avoid aging her beyond her death at twenty-four.",
+    "avoid": "Late Elizabethan ruff; elderly queen; giant folio substituted for her documented tiny prayer book.",
+    "sources": [
+      "https://www.themorgan.org/exhibitions/the-prayer-book-of-claude-de-france"
+    ],
+    "visualIdentity": "1517, about 18. Invented young full cheeks, small firm mouth, slightly rounded chin, brown hair mostly concealed by dark hood. Do not age beyond early twenties; prayer-book evidence does not authenticate face."
+  },
+  "valois-12": {
+    "name": "Isabeau of Bavaria",
+    "era": "French court, circa 1410–1414",
+    "attire": "Burgundian-influenced French court gown with high waist, fur-lined open sleeves and period horned headdress with veil.",
+    "props": "Bound presentation manuscript.",
+    "setting": "Interpretive textile-hung royal chamber inspired by the Book of the Queen presentation miniature.",
+    "likeness": "British Library identifies Harley 4431 as made for Isabeau; this is a stylized manuscript representation, not a verified naturalistic likeness. Mature face and gown colors are interpretation.",
+    "avoid": "Oktoberfest/Bavarian folk costume; sexualized regency caricature; late conical fairy-tale hennin.",
+    "sources": [
+      "https://www.bl.uk/medieval-women/medieval-women-exhibition-large-print-guide.pdf/",
+      "https://www.saint-denis-basilique.fr/decouvrir/les-gisants-de-la-basilique"
+    ],
+    "visualIdentity": "Choose circa 1412, about 42. Invented full oval face, high forehead, soft jaw and mature eyes; hair largely concealed by period horned headwear. Manuscript image gives court silhouette, not exact face or colouring."
+  },
+  "valois-13": {
+    "name": "John II",
+    "era": "France, circa 1350–1360",
+    "attire": "Plain close-necked dark robe with contrasting mantle; fourteenth-century royal attire.",
+    "props": "Small sealed document; optional low sword hilt, not prison chains.",
+    "setting": "Interpretive quiet Gothic stone chamber.",
+    "likeness": "BnF documents his 1354 coin and later Fouquet chronicle imagery. The familiar long-nosed profile, reddish hair and short beard may guide interpretation, but this dossier does not authenticate exact facial colors.",
+    "avoid": "Modern prisoner uniform; Renaissance armor; later chronicle imagery represented as eyewitness evidence.",
+    "sources": [
+      "https://essentiels.bnf.fr/fr/image/37e24e08-d515-41f6-8140-d75d254f4a5e-blanc-jean-ii-bon",
+      "https://classes.bnf.fr/fouquet/grand/f039.htm",
+      "https://collections.louvre.fr/ark:/53355/cl010061370"
+    ],
+    "visualIdentity": "Choose circa 1357, about 38. Louvre panel RF 2490 supports the familiar long-nosed profile, reddish hair and short beard; new three-quarter face is a cautious adaptation, not proof of exact colouring or front-view anatomy."
+  },
+  "bourbon-0": {
+    "name": "Henry IV",
+    "era": "France, circa 1605–1610",
+    "attire": "Dark early-seventeenth-century armor, white neck linen and white sash; avoid allegorical Roman armor for literal costume.",
+    "props": "Command baton low across body.",
+    "setting": "Interpretive pale-stone palace terrace and softened landscape.",
+    "likeness": "Pau describes graying hair and beard, fine wrinkles and slight smile in the circa 1605–1606 Mars portrait, and documents lifetime Pourbus portraits. Use these facial cues while treating the Mars costume as allegory.",
+    "avoid": "Literal Roman emperor costume; young Navarre portrait face combined with gray mature beard.",
+    "sources": [
+      "https://chateau-pau.fr/collection/periode/dix-chefs-doeuvre",
+      "https://chateau-pau.fr/salle-marquet-de-vasselot"
+    ],
+    "visualIdentity": "Circa 1606, about 53. Pau portrait tradition: long prominent nose, greying hair, pointed grey beard and moustache, fine wrinkles and slight smile. Age-consistent mature face, not young Navarre prince.",
+    "artDirectionReview": "For 1606 use a generic period terrace, not the nineteenth-century reconstruction of Pau palace details."
+  },
+  "bourbon-1": {
+    "name": "Louis XIV",
+    "era": "France, circa 1701",
+    "attire": "Dark full-bottom curled wig, lace cravat, blue-and-gold mantle with ermine lining; torso-focused royal portrait.",
+    "props": "Sceptre held below shoulder height.",
+    "setting": "Interpretive Versailles marble and gold pilaster, subdued behind head.",
+    "likeness": "Versailles identifies Rigaud's 1701 state portrait and documents the king's palace patronage. Use a mature long face and prominent nose, not a young ballet dancer's face.",
+    "avoid": "Literal sun halo; eighteenth-century powdered side rolls; modern military medals.",
+    "sources": [
+      "https://www.chateauversailles.fr/decouvrir/histoire/grands-personnages/louis-xiv",
+      "https://www.chateauversailles.fr/sites/default/files/ressources-pedagogiques/IMG/pdf/dp_portrait_2_le_portrait_a_versailles.pdf"
+    ],
+    "visualIdentity": "1701, about 63. Rigaud type: long mature face, prominent nose, heavy-lidded eyes and thin lips beneath full dark curls; clean-shaven. Fine age lines despite state-portrait idealization, not youthful ballet Louis."
+  },
+  "bourbon-2": {
+    "name": "Louis XIII",
+    "era": "France, circa 1630–1640",
+    "attire": "Polished cuirass, white falling lace collar, silk sash, natural shoulder-length dark hair.",
+    "props": "Gloved hand and command baton low in composition.",
+    "setting": "Interpretive hunting lodge brick and stone, before Louis XIV's grand Versailles.",
+    "likeness": "NPG's later engraving after Champagne records the established portrait tradition; slender face, fine moustache and pointed beard are interpretation from that tradition, not a new eyewitness likeness.",
+    "avoid": "Louis XIV's enormous late wig; medieval crusader armor; completed Hall of Mirrors.",
+    "sources": [
+      "https://www.npg.org.uk/collections/search/portrait/mw39450/Louis-XIII",
+      "https://www.chateauversailles.fr/decouvrir/histoire"
+    ],
+    "visualIdentity": "Choose circa 1635, about 34. Champaigne-derived slender long face, delicate moustache and pointed chin beard, natural dark hair to shoulders. No giant Louis XIV wig or elderly king features.",
+    "artDirectionReview": "Hunting-lodge Versailles predates the grand palace and Hall of Mirrors; preserve that distinction."
+  },
+  "bourbon-3": {
+    "name": "Anne of Austria",
+    "era": "France, regency circa 1645–1650; 1601–1666",
+    "attire": "Black silk regency gown, broad white lace collar, pearls and dark veil appropriate to widowhood.",
+    "props": "Regency papers held low.",
+    "setting": "Interpretive French palace cabinet rather than Spanish infanta nursery.",
+    "likeness": "Versailles's portrait teaching resource documents the queen regent and her political position. Mature rounded face and brown hair are portrait-informed reconstruction; resolve as Louis XIII's wife, not Anna of Austria wife of Philip II.",
+    "avoid": "Mixing up the two Austria queens in the roster; eighteenth-century panniers; poison imagery.",
+    "sources": [
+      "https://www.chateauversailles.fr/sites/default/files/presse/documents/ressource-pedagogique_commentaire-le_portrait_danne_dautriche_reine_de_france.pdf"
+    ],
+    "visualIdentity": "Choose circa 1647, about 46. Mature rounded face, full cheeks, high forehead and softly arched brows under widow veil; portrait-informed reconstruction. Distinct from young Anna of Spain (24)."
+  },
+  "bourbon-4": {
+    "name": "Louis XV",
+    "era": "France, circa 1763",
+    "attire": "Powdered curled hair, embroidered silk coat, lace cravat and blue royal sash.",
+    "props": "Gloves or folded court paper.",
+    "setting": "Interpretive restrained Versailles private cabinet with delicate gilding.",
+    "likeness": "Versailles documents the 1763 Louis-Michel van Loo portrait. Mature oval face, powdered curls and composed expression follow that portrait tradition; room and pose are new.",
+    "avoid": "Louis XIV dark full-bottom wig; revolutionary dress; medieval crown as everyday wear.",
+    "sources": [
+      "https://en.chateauversailles.fr/discover/history/great-characters/louis-xv",
+      "https://www.chateauversailles.fr/sites/default/files/ressources-pedagogiques/IMG/pdf/dp_portrait_2_le_portrait_a_versailles.pdf"
+    ],
+    "visualIdentity": "1763, about 53. Van Loo portrait tradition: mature oval face, prominent straight nose, firm thin mouth, clean-shaven cheeks and powdered side curls. Do not copy Louis XVI youthful broad cheeks."
+  },
+  "bourbon-5": {
+    "name": "Louis XVI",
+    "era": "France, circa 1779–1788",
+    "attire": "Embroidered late-eighteenth-century coat, white lace and powdered hair tied back; blue order sash.",
+    "props": "Small brass lock mechanism on a table, an interpretive allusion rather than a documented sitting.",
+    "setting": "Interpretive Versailles private study with restrained paneling.",
+    "likeness": "Versailles identifies Callet's 1779 portrait and the king's dates. Broad youthful-to-middle-aged face and stout build follow state portrait tradition; the workshop prop is interpretation.",
+    "avoid": "Guillotine; caricature of stupidity; confusing current card role Lawgiver with actual law-book portrait evidence.",
+    "sources": [
+      "https://www.chateauversailles.fr/decouvrir/histoire/grands-personnages/louis-xvi",
+      "https://www.chateauversailles.fr/sites/default/files/ressources-pedagogiques/IMG/pdf/dp_portrait_2_le_portrait_a_versailles.pdf"
+    ],
+    "visualIdentity": "Choose circa 1783, about 29. Callet-derived broad youthful mature face, full cheeks, substantial neck/build, rounded nose, clean-shaven chin and powdered tied hair. Not an elderly monarch or body-size caricature."
+  },
+  "bourbon-6": {
+    "name": "Marie Antoinette",
+    "era": "France, circa 1783–1785",
+    "attire": "Pale blue silk gown with lace fichu and restrained ribbon trim, powdered dressed hair with modest feather or ribbon.",
+    "props": "Single rose held low.",
+    "setting": "Interpretive Petit Trianon garden doorway.",
+    "likeness": "Versailles documents her private apartments and Petit Trianon association; portrait tradition informs elongated oval face and fair hair. Rose, exact gown and scene are artistic interpretation.",
+    "avoid": "Cake as personality prop; gigantic novelty ship headdress; modern bridal costume; sexualized caricature.",
+    "sources": [
+      "https://en.chateauversailles.fr/discover/history/great-characters/marie-antoinette",
+      "https://www.chateauversailles.fr/actualites/actualites-mecenat/acquisition-portrait-dauphine-marie-antoinette"
+    ],
+    "visualIdentity": "Choose circa 1784, about 29. Portrait tradition: elongated oval face, high forehead, fair powdered hair, arched brows and small composed mouth. Mature adult in modest dressed hair, not a teenage bridal doll."
+  },
+  "bourbon-7": {
+    "name": "Marie de’ Medici",
+    "era": "France, circa 1610–1622",
+    "attire": "Rich dark silk gown, structured bodice, broad lace collar and pearl jewels; early Baroque court silhouette.",
+    "props": "Folded architectural drawing near lower edge.",
+    "setting": "Interpretive Luxembourg Palace gallery with warm marble.",
+    "likeness": "Louvre preserves her portrait and Rubens cycle, evidence for her represented mature face and patronage. The architectural prop and realistic room recompose this evidence; no allegorical deities.",
+    "avoid": "Catherine de' Medici's sixteenth-century widow hood as interchangeable identity; Roman goddess armor treated as daily attire.",
+    "sources": [
+      "https://collections.louvre.fr/en/ark:/53355/cl010057777",
+      "https://www.louvre.fr/en/explore/the-palace/to-the-glory-of-a-queen-of-france"
+    ],
+    "visualIdentity": "Choose circa 1622, about 49. Rubens/Pourbus portrait tradition: broad rounded face, high forehead, dark brows, substantial cheeks, brown hair dressed close beneath ornaments. Mature patron, not Catherine de Medici widow type.",
+    "artDirectionReview": "Chosen 1622 Luxembourg setting should be a recently built/in-progress patronage interior; do not show the completed Rubens cycle installed before 1625 or modern Senate fittings."
+  },
+  "bourbon-8": {
+    "name": "Philippe of Orléans",
+    "era": "France, circa 1670–1680; Monsieur, 1640–1701",
+    "attire": "Elaborately embroidered seventeenth-century coat, fine lace cravat, dark curled wig, jeweled order ornament.",
+    "props": "Gloves held gracefully low.",
+    "setting": "Interpretive Saint-Cloud salon with a garden glimpse.",
+    "likeness": "Versailles explicitly identifies Louis XIV's brother Monsieur and his Saint-Cloud court. Facial rendering is interpretation informed by the period portrait tradition; this is not the later Regent Philippe II (1674–1723).",
+    "avoid": "Regent identity swap; mockery or stereotyped costume based on sexuality; eighteenth-century powdered wig.",
+    "sources": [
+      "https://www.chateauversailles.fr/decouvrir/histoire/grands-personnages/philippe-orleans"
+    ],
+    "visualIdentity": "Choose circa 1675, about 35. Cautious portrait-tradition reconstruction: smooth oval face, dark almond-shaped eyes, prominent straight nose, full lips and dark curled wig. No exact certified likeness from contextual biography; no sexuality-based caricature.",
+    "artDirectionReview": "Saint-Cloud is a reconstructed seventeenth-century salon, not a present-day surviving interior; contextual source supports court association, not exact face."
+  },
+  "bourbon-9": {
+    "name": "Louis II de Condé",
+    "era": "France, circa 1650–1660",
+    "attire": "Seventeenth-century cuirass, white lace collar and red drapery; long natural or lightly dressed dark hair.",
+    "props": "Command baton across lower torso.",
+    "setting": "Interpretive distant campaign plain or Chantilly terrace, not nineteenth-century rebuilt château facade.",
+    "likeness": "Chantilly identifies Juste d'Egmont's portrait of the Grand Condé, with long hair and red drapery. Prominent aquiline nose and lean face are portrait-informed interpretation.",
+    "avoid": "Medieval plate suit; eighteenth-century tricorne; invented trophies of violence.",
+    "sources": [
+      "https://chateaudechantilly.fr/app/uploads/2025/11/DOSSIER-DE-PRESSE-GENERIQUE-2025-BD_compressed.pdf",
+      "https://chateaudechantilly.fr/histoire/les-hommes-qui-ont-marque-chantilly/"
+    ],
+    "visualIdentity": "Choose circa 1655, about 34. Egmont portrait tradition: very prominent aquiline nose, lean long face, intense eyes, fine moustache and long dark hair. Deliberately angular and recognizably different from Louis XIII.",
+    "artDirectionReview": "Chantilly terrace must not use the nineteenth-century rebuilt château façade; generic campaign view is safest."
+  },
+  "bourbon-10": {
+    "name": "Antoine of Bourbon",
+    "era": "Navarre/French court, 1557",
+    "attire": "Refined dark doublet, small white neck frill, soft dark toque and fine gold chain.",
+    "props": "Gloves and low sword hilt.",
+    "setting": "Interpretive Renaissance Pau chamber with mountain light.",
+    "likeness": "Pau's 1557 François Clouet portrait is a contemporary source, described as a three-quarter view with penetrating gaze and refined severe costume. Short beard and facial proportions should follow this model.",
+    "avoid": "Henry IV's gray beard; seventeenth-century lace collar; folk Basque costume imposed on a French court prince.",
+    "sources": [
+      "https://chateau-pau.fr/collection/periode/peintures"
+    ],
+    "visualIdentity": "1557, about 39. Clouet source: narrow mature face, strong nose, penetrating eyes, close dark beard and moustache beneath soft cap. Not son Henry IV older grey-bearded image."
+  },
+  "bourbon-11": {
+    "name": "Jeanne d’Albret",
+    "era": "Navarre/Béarn, circa 1565",
+    "attire": "Restrained dark court gown, white linen neck frill, close dark hood and limited jewelry.",
+    "props": "Small bound French-language religious book with no invented readable scripture.",
+    "setting": "Interpretive Pau cabinet, plain timber table and Pyrenean daylight.",
+    "likeness": "Musée protestant documents her 1560 conversion and independent rule; Pau documents her portrait and enamel collections. Facial details and precise costume are cautious reconstruction, not a verified sitting.",
+    "avoid": "Puritan costume from seventeenth-century New England; nun's habit; poison-glove legend.",
+    "sources": [
+      "https://museeprotestant.org/notice/jeanne-dalbret-1528-1572/",
+      "https://chateau-pau.fr/tresors-princiers"
+    ],
+    "visualIdentity": "Circa 1565, about 37. Cautious reconstruction: long slim face, high forehead, narrow mouth, dark hair concealed by hood and concentrated gaze. Contextual sources do not certify the exact facial details."
+  },
+  "bourbon-12": {
+    "name": "Philip V of Spain",
+    "era": "Spain, 1723",
+    "attire": "Armor beneath embroidered coat, red waist sash, Golden Fleece and blue Saint-Esprit sash; curled wig.",
+    "props": "Ruler's baton with helmet low at side.",
+    "setting": "Interpretive Spanish royal stone terrace, not flamenco or bullfighting scenery.",
+    "likeness": "Prado's Jean Ranc official portrait of 1723 explicitly documents armor, baton, helmet, embroidered coat and both orders. Recompose its mature long face and courtly stance into the card crop.",
+    "avoid": "Philip IV Velázquez moustache/black golilla costume; modern Spanish flag; seventeenth-century Habsburg identity.",
+    "sources": [
+      "https://www.museodelprado.es/en/the-collection/art-work/philip-v-king-of-spain/2e64f6c5-a241-4de9-bb50-3585f557ded1"
+    ],
+    "visualIdentity": "1723, about 40. Ranc portrait type: elongated face, prominent nose, closed lips, clean-shaven jaw, abundant powdered-to-grey curled wig. No Philip IV thin moustache or Habsburg beard.",
+    "artDirectionReview": "1723 Madrid royal backdrop must evoke the old Alcázar or a generic period terrace, not the present Royal Palace built after 1734."
+  },
+  "bourbon-13": {
+    "name": "Louis XVIII",
+    "era": "France, Restoration circa 1815–1820",
+    "attire": "Dark high-collared embroidered coat, white stock, royal sash and period order star; short gray hair.",
+    "props": "Folded charter or dispatch resting on table.",
+    "setting": "Interpretive Restoration palace study, not a claim that he resumed residence at Versailles.",
+    "likeness": "Versailles documents his Restoration and Guérin's 1820 portrait. Elderly broad face and substantial build are portrait-informed; charter pose is interpretation. Versailles also says he abandoned plans to return there.",
+    "avoid": "Louis XIV wig; medieval costume; implying an actual coronation, which never occurred; caricaturing body size.",
+    "sources": [
+      "https://www.chateauversailles.fr/decouvrir/histoire/grands-personnages/louis-xviii",
+      "https://www.chateauversailles.fr/ressources-pedagogiques/rois-reines-versailles/louis-xviii/louis-xviii-roi-france-navarre"
+    ],
+    "visualIdentity": "Choose circa 1818, about 63. Guérin/Restoration portrait tradition: broad elderly face, substantial cheeks and neck, short grey hair, clean-shaven chin and heavy-lidded eyes. Respectful likeness, no caricature.",
+    "artDirectionReview": "Restoration palace study is generic; not a claim Louis XVIII returned to live at Versailles."
+  }
+}

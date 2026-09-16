@@ -1,0 +1,11 @@
+{
+  "base": "Use case: historical-scene. Create ONE bespoke finished character illustration for Overlords & Outlaws, a physically printed historical card game. Portrait canvas 63:88, ideally 1008x1408. Art only, NO frame, border, letters, text, insignia UI, watermark. Rich naturalistic oil-and-engraved collectible illustration, fine etched material detail, believable anatomy, expressive individual face, restrained chiaroscuro, not fantasy armor or photographic cosplay. Composition is critical: entire head and any headwear inside central x=30-70%, y=12-37%; eyes near y=25%; shoulders at y=40%; distinctive small prop/hands within x=25-75%, y=42-57%. Waist-up figure with atmospheric environment extending to all edges and lower third. Quiet dark lower y=62-100% will lie under an existing frame's rules/name ribbons; no essential detail there. No oversized close-up, no cropped crown. Face readable at tiny card size. All attire and architecture belong to THIS person's era, never homogenize a dynasty spanning centuries.  Entirely NEW individual and new composition; do not reuse any previous sitter's face. Never show modern buildings or later additions of historical landmarks. No extra people. ",
+  "palettes": {
+    "alba": "forest green, slate, silver, earthy woven colors; stone/interlace frame",
+    "plantagenet": "oxblood, manuscript gold, warm limestone; Gothic lion/broom frame",
+    "tudor": "ebony, garnet, ivory, aged gold; rose frame",
+    "valois": "lapis, ivory, bronze; French strapwork frame",
+    "habsburg": "black, ivory, old gold, restrained ruby; imperial metalwork frame",
+    "bourbon": "midnight blue, bronze gold, warm ivory; solar Baroque frame"
+  }
+}

@@ -1,6 +1,8 @@
 import { assetUrl } from "./assets";
+import { CHARACTER_ART } from "./character-art";
 import { card, house, type Role } from "./content";
 import { ROLES, spec, cost, active, type Royal, type Court } from "./duel";
+import { cardRules, rulesText, type CardRule } from "./card-rules";
 export const esc = (s: string) =>
   s.replace(
     /[&<>"']/g,
@@ -10,21 +12,7 @@ export const esc = (s: string) =>
       ]!,
   );
 export const portrait = (id: string) => {
-  const special: Record<string, string> = {
-    "plantagenet-2": "richard",
-    "alba-3": "david",
-    "tudor-6": "beaufort",
-    "alba-7": "bruce",
-    "habsburg-3": "charles",
-    "bourbon-9": "conde",
-  };
-  if (card(id).name.includes("Margaret") && card(id).house === "alba")
-    return assetUrl("art/v3-margaret.png");
-  if (special[id]) return assetUrl(`art/v2-${special[id]}.webp`);
-  const c = card(id);
-  if (c.role === "Queen")
-    return assetUrl(`art/${["alba", "valois", "bourbon"].includes(c.house) ? c.house + "-queen" : c.house}.webp`);
-  return assetUrl(`art/${["plantagenet", "tudor", "habsburg"].includes(c.house) ? c.house + "-king" : c.house}.webp`);
+  return assetUrl(CHARACTER_ART[card(id).id]);
 };
 export function crest(id: string) {
   const h = house(card(id).house);
@@ -45,13 +33,49 @@ export function crest(id: string) {
 export function abilityFor(r: Royal, owner?: Court) {
   const role = card(r.card).role,
     controller = owner?.house ?? card(r.card).house;
-  if (controller === "plantagenet" && role === "Warlord")
-    return "Swift · Can attack on the turn it enters.";
-  if (controller === "tudor" && role === "Intriguer")
-    return "In your family: destroy an estate, steal 2 gold. In hand: Ambush 3 damage.";
-  if (controller === "bourbon" && role === "Founder")
-    return "Sun court · From round 2, your crown gains 1 shield at your turn.";
-  return spec(r).ability;
+  return rulesText(cardRules(role, controller));
+}
+export interface CardFaceModel {
+  id: string;
+  house: string;
+  name: string;
+  role: string;
+  ability: string;
+  rules: CardRule[];
+  portrait: string;
+  cost: number;
+  printedCost: number;
+  attack: number;
+  health: number;
+  damaged: boolean;
+  damage: number;
+  counterTurned: boolean;
+  face: "board" | "full";
+}
+export function cardFaceModel(
+  r: Royal,
+  owner?: Court,
+  board = false,
+): CardFaceModel {
+  const c = card(r.card),
+    s = spec(r);
+  return {
+    id: c.id,
+    house: c.house,
+    name: c.name,
+    role: s.title,
+    ability: abilityFor(r, owner),
+    rules: cardRules(c.role, owner?.house ?? c.house),
+    portrait: portrait(r.card),
+    cost: owner ? cost(owner, r, !!r.marriedTo) : s.cost,
+    printedCost: s.cost,
+    attack: s.force,
+    health: r.hp,
+    damaged: r.hp < s.resolve,
+    damage: Math.max(0, s.resolve - r.hp),
+    counterTurned: board && !r.ready,
+    face: board ? "board" : "full",
+  };
 }
 export function cardFace(
   r: Royal,
@@ -68,6 +92,7 @@ export function cardFace(
     s = spec(r),
     ability = abilityFor(r, opts.owner),
     dormant = opts.owner && opts.zone === "court" && !active(opts.owner, r);
-  return `<button class="royal-card house-${h.id} role-${c.role.toLowerCase()} ${opts.zone ?? ""} ${opts.selected ? "selected" : ""} ${opts.target ? "targetable" : ""} ${dormant ? "foreign" : ""} ${opts.zone === "court" && !r.ready ? "exhausted" : ""}" data-royal="${r.uid}" data-card-id="${r.card}" data-face="${opts.zone === "court" ? "board" : "full"}" style="--house:${h.color};--role:${s.color}" aria-pressed="${!!opts.selected}" aria-label="${esc(c.name)}, ${h.name}, ${s.title}, ${opts.owner ? cost(opts.owner, r, !!r.marriedTo) : s.cost} gold, ${s.force} attack, ${r.hp} health. ${esc(ability)}"><div class="card-heading"><span class="coin-gem" title="${opts.owner ? "Current gold cost" : "Printed gold cost"}"><span>${opts.owner ? cost(opts.owner, r, !!r.marriedTo) : s.cost}</span></span><span class="card-name">${esc(c.name)}</span><span class="herald">${crest(r.card)}</span></div><div class="portrait-window"><img src="${portrait(r.card)}" alt="" draggable="false" loading="lazy"><span class="portrait-ornament"></span></div><div class="role-band"><span>${s.icon}</span><strong>${s.title}</strong><small>${h.name}</small></div><div class="card-ability">${abilityFor(r)}</div><div class="card-foot"><span class="force-stat" title="Attack: damage dealt to the other Royal">⚔ <b>${s.force}</b></span><span class="card-set">${h.name.toUpperCase()}</span><span class="resolve-stat ${r.hp < s.resolve ? "damaged" : ""}" title="Health: at zero this Royal leaves the court">♥ <b>${r.hp}</b>${r.hp < s.resolve ? `<small class="printed-health">/${s.resolve}</small>` : ""}</span></div>${opts.zone === "court" && r.hp < s.resolve ? `<span class="damage-counter" aria-label="${s.resolve - r.hp} damage">−${s.resolve - r.hp}</span>` : ""}</button>`;
+  const model = cardFaceModel(r, opts.owner, opts.zone === "court");
+  return `<button class="royal-card house-${h.id} role-${c.role.toLowerCase()} ${opts.zone ?? ""} ${opts.selected ? "selected" : ""} ${opts.target ? "targetable" : ""} ${dormant ? "foreign" : ""} ${opts.zone === "court" && !r.ready ? "exhausted" : ""}" data-royal="${r.uid}" data-card-id="${r.card}" data-face="${model.face}" style="--house:${h.color};--role:${s.color}" title="${opts.owner ? `Current cost: ${model.cost} gold (printed ${model.printedCost})` : `Printed cost: ${model.printedCost} gold`}" aria-pressed="${!!opts.selected}" aria-label="${esc(c.name)}, ${h.name}, ${s.title}, ${model.cost} gold, ${s.force} attack, ${r.hp} remaining health${model.damaged ? ", damaged" : ""}. ${esc(ability)}"><canvas class="card-texture" width="1260" height="1760" data-paint="${esc(JSON.stringify(model))}" aria-hidden="true"></canvas></button>`;
 }
 export const roleName = (role: Role) => ROLES[role].title;

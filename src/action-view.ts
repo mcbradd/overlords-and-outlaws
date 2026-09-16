@@ -2,6 +2,7 @@ import { card, house } from "./content";
 import {
   moves,
   spec,
+  attackForce,
   cost,
   claimCost,
   dynastyCount,
@@ -56,8 +57,6 @@ export function describeAction(g: Duel, a: Move, viewer = g.turn) {
   else if (g.turn !== viewer)
     reason = `${house(g.players[g.turn].house).name} is taking a turn.`;
   else if (g.orders < orders) reason = "No orders left — end your turn.";
-  else if (["deploy", "marry"].includes(a.type) && p.court.length >= 5)
-    reason = "All five court places are full. Return a Royal first.";
   else if (
     a.type === "marry" &&
     !p.court.some(
@@ -77,23 +76,17 @@ export function describeAction(g: Duel, a: Move, viewer = g.turn) {
     reason = `${card(r.card).name} can attack on your next turn.`;
   else if (a.type === "attack")
     reason = "Attack a Guardian first, or choose a highlighted target.";
-  else if (a.type === "estate" && p.estates >= 3)
-    reason = "All three estate places are full.";
-  else if (a.type === "fortify" && p.shield >= 5)
-    reason = "Your crown already has five shields.";
-  else if (a.type === "restore" && p.stability >= 12)
-    reason = "Your crown is already at full stability.";
   let effect =
     a.type === "end"
       ? g.orders === 0
         ? "Your two orders are spent. Pass to the next House."
         : `Keep your ${p.gold} gold. Unused orders do not carry over.`
       : a.type === "estate"
-        ? `Income ${income(p)} → ${income(p) + 2} gold each turn. Pays from your next turn; rivals can raid it.`
+        ? `Income ${income(p)} → ${income(p) + 2} gold during your Readying phase. Pays from your next turn; rivals can raid it.`
         : a.type === "fortify"
-          ? `Crown shields ${p.shield} → ${Math.min(5, p.shield + 3)}. Shields protect the crown, not Royals.`
+          ? `Crown shields ${p.shield} → ${p.shield + 3}. Shields protect the crown, not Royals.`
           : a.type === "restore"
-            ? `Crown stability ${p.stability} → ${Math.min(12, p.stability + 3)}. At zero, your claim breaks.`
+            ? `Crown stability ${p.stability} → ${p.stability + 3}. At zero, your claim breaks.`
             : a.type === "claim"
               ? `Pay ${gold} gold to the bank. Keep at least three family Royals while ${g.players
                   .filter((q) => q.id !== viewer)
@@ -102,11 +95,11 @@ export function describeAction(g: Duel, a: Move, viewer = g.turn) {
               : a.type === "recruit"
                 ? `Discard your ${p.hand.length} concealed cards, then draw five replacements. Give up saved Ambush and marriage options.`
                 : a.type === "recall"
-                  ? `${p.hand.length >= 7 ? "Your hand is full: this Royal goes to your discard pile" : "Return this Royal to your hand at full health"}. It leaves your family in play and breaks its marriage.`
+                  ? "Return this Noble to your hand at full health. It leaves your court and breaks its marriage."
                   : a.type === "marry"
                     ? `Pair with ${p.court.find((q) => card(q.card).role === "Queen" && active(p, q) && !p.court.some((s) => s.marriedTo === q.uid)) ? card(p.court.find((q) => card(q.card).role === "Queen" && active(p, q) && !p.court.some((s) => s.marriedTo === q.uid))!.card).name : "an unmarried Queen"}. Counts as family while that Queen remains supported in play.`
                     : a.type === "deploy" && r
-                      ? `${card(r.card).house === p.house ? "Joins your family." : "Foreign Royal: does not count as family without a marriage."} ${card(r.card).role === "Lawgiver" ? (card(r.card).house === p.house ? "Enters upright and protects your court. Attacking gives up protection." : "Enters upright but does not protect your court without family support.") : p.house === "plantagenet" && card(r.card).role === "Warlord" ? "Can attack immediately." : "Turns upright next turn. Can defend immediately; a Guardian protects other pieces only while upright."}`
+                      ? `${card(r.card).house === p.house ? "Joins your family." : "Foreign Noble: does not count as family without a marriage."} ${card(r.card).role === "Lawgiver" ? (card(r.card).house === p.house ? "Enters Ready. Protects your entire court while Ready or Spent." : "Enters Ready but does not protect your court without family support.") : p.house === "plantagenet" && card(r.card).role === "Warlord" ? "Enters Ready and can attack immediately." : "Enters Spent. Can defend immediately; becomes Ready during your next Readying phase."}`
                       : "";
   let response = "";
   if (a.type === "attack" && r) {
@@ -118,15 +111,15 @@ export function describeAction(g: Duel, a: Move, viewer = g.turn) {
     );
     const t = q?.court.find((t) => t.uid === a.target);
     if (t)
-      effect = `${card(r.card).name}: ${r.hp} → ${Math.max(0, r.hp - spec(t).force)} health. ${card(t.card).name}: ${t.hp} → ${Math.max(0, t.hp - spec(r).force)} health before a response.`;
+      effect = `${card(r.card).name}: ${r.hp} → ${Math.max(0, r.hp - spec(t).force)} health. ${card(t.card).name}: ${t.hp} → ${Math.max(0, t.hp - attackForce(p, r))} health before a response.`;
     else if (q)
       effect = a.target?.startsWith("estate")
         ? `Destroy one ${house(q.house).name} estate and take up to 2 gold if damage gets through.`
-        : `Deal ${spec(r).force} damage to ${house(q.house).name}’s crown: shields first, then stability.`;
+        : `Deal ${attackForce(p, r)} damage to ${house(q.house).name}’s crown: shields first, then stability.`;
     response =
-      q?.response && q.gold >= 2
-        ? "Defender may pay 2 gold to block 2 damage, or 2 gold + a concealed Conspirator to deal 3 damage first."
-        : "No paid response is available. The public result is certain.";
+      q && q.gold >= 2
+        ? "Defender may repeatedly pay 2 gold to block 2 damage, or pay 2 gold and discard a Conspirator from hand to deal 3 damage before combat."
+        : "Defender cannot afford Brace or Ambush. The public result is certain.";
   }
   return {
     allowed,

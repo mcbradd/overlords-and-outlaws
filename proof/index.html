@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Overlords &amp; Outlaws — live card proofs</title>
+<style>
+body{margin:0!important;background:#101b20!important;color:#f4e4c8;font:16px/1.4 Georgia,serif!important;overflow:auto!important}
+header{padding:24px 32px;background:#15242c;position:relative!important;top:auto!important;z-index:2;border-bottom:1px solid #756543}h1{font-size:26px!important;margin:0 0 14px!important}label{display:inline-block;margin:6px 18px 6px 0;font:14px Arial}select{font:inherit;background:#101b20;color:inherit;padding:8px;border:1px solid #756543;border-radius:4px}#proof-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,310px));gap:28px;justify-content:center;padding:32px}figure{margin:0}figure .royal-card{width:100%!important;height:auto!important;transform:none!important}figcaption{padding-top:10px;text-align:center;font-size:15px}small{display:block;color:#b5b7ac;font:12px/1.6 Arial}
+.proof-inspection{padding:14px;background:#101b20;border:1px solid #756543;max-height:96vh;overflow:auto;color:#f4e4c8}.proof-inspection::backdrop{background:#000c}.proof-inspection canvas{display:block;width:min(80vw,calc(78vh * 63 / 88),630px);height:auto}.proof-close{display:block;margin:0 0 10px auto;color:inherit;background:#243038;padding:8px 14px;border:1px solid #756543}</style>
+<header><h1>Overlords &amp; Outlaws · Live texture proofs</h1>
+<label>House <select id="house"></select></label>
+<label>Face <select id="format"><option value="full">Full rules</option><option value="board">Battlefield</option></select></label>
+<label><input id="damage" type="checkbox"> Show damaged health</label>
+<small>84 individual portraits across six Houses. These are the same print textures used on the 3D cards.</small></header>
+<main id="proof-cards"></main><script type="module" src="/src/proof-gallery.ts"></script></html>

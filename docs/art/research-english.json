@@ -1,0 +1,344 @@
+{
+  "plantagenet-0": {
+    "name": "Henry II",
+    "era": "c.1170, Angevin England and western France",
+    "attire": "Long wool tunic, patterned silk mantle, narrow belt and low open crown.",
+    "props": "Rolled writ and plain sword hilt.",
+    "setting": "Romanesque hall at Chinon, limestone arch.",
+    "likeness": "Fontevraud effigy supplies royal costume context; mature compact face and reddish beard are interpretive, not a proven portrait.",
+    "avoid": "No full plate armour or Renaissance ruff.",
+    "sources": [
+      "https://www.fontevraud.fr/en/the-tombstones-of-fontevraud-plantagenets/"
+    ]
+  },
+  "plantagenet-1": {
+    "name": "Eleanor of Aquitaine",
+    "era": "c.1180–1200, Aquitaine and Angevin court",
+    "attire": "Long fitted gown, pale veil under crown, rich mantle.",
+    "props": "Open illuminated book, held below chest.",
+    "setting": "Romanesque abbey arcade with warm Aquitaine light.",
+    "likeness": "Reading pose derives from her Fontevraud effigy; facial individuality is reconstructed rather than claimed as a life likeness.",
+    "avoid": "No exposed fantasy corset, hennin or Tudor hood.",
+    "sources": [
+      "https://www.fontevraud.fr/en/the-tombstones-of-fontevraud-plantagenets/"
+    ]
+  },
+  "plantagenet-2": {
+    "name": "Richard I",
+    "era": "c.1190s, Angevin and crusading court",
+    "attire": "Mail hauberk and coif lowered around neck, simple surcoat and mantle.",
+    "props": "Straight sword and shield at lower side.",
+    "setting": "Stone coastal fortress with distant Mediterranean light, an interpretive crusading setting.",
+    "likeness": "Fontevraud effigy is commemorative evidence, not an exact life portrait; use a mature bearded face.",
+    "avoid": "No late-medieval plate harness, horned helmet or modern national flag.",
+    "sources": [
+      "https://www.fontevraud.fr/en/the-tombstones-of-fontevraud-plantagenets/"
+    ]
+  },
+  "plantagenet-3": {
+    "name": "John",
+    "era": "c.1215, England",
+    "attire": "Rich long tunic, mantle, small open crown.",
+    "props": "Great seal beside a rolled charter.",
+    "setting": "Timber-and-stone royal chamber.",
+    "likeness": "Worcester preserves an early royal effigy; use its crowned, bearded convention without asserting portrait accuracy.",
+    "avoid": "Show a sealed charter, not John signing Magna Carta with a modern pen.",
+    "sources": [
+      "https://www.worcestercathedral.org.uk/heritage/king-john/"
+    ]
+  },
+  "plantagenet-4": {
+    "name": "Henry III",
+    "era": "c.1260s, England",
+    "attire": "Long ceremonial robe with narrow trim, mantle, open crown.",
+    "props": "Small architectural plan on parchment.",
+    "setting": "Westminster Gothic building works suggested through an arch.",
+    "likeness": "Abbey burial and rebuilding are documented; live facial modelling is interpretive, informed by his effigy.",
+    "avoid": "No Tudor rose, full plate armour or completed modern Abbey skyline.",
+    "sources": [
+      "https://www.westminster-abbey.org/abbey-commemorations/royals/henry-iii"
+    ]
+  },
+  "plantagenet-5": {
+    "name": "Edward I",
+    "era": "c.1290s, England and Welsh campaigns",
+    "attire": "Mail with modest reinforcing plates, crimson mantle; tall restrained silhouette.",
+    "props": "Sword pommel held low.",
+    "setting": "Welsh stone castle courtyard, interpretive.",
+    "likeness": "Abbey account records red-and-gold royal burial dress and crimson mantle; living face is reconstructed.",
+    "avoid": "No Gothic full plate harness or literal war hammer from later epithet.",
+    "sources": [
+      "https://www.westminster-abbey.org/abbey-commemorations/royals/edward-i-and-eleanor-of-castile"
+    ]
+  },
+  "plantagenet-6": {
+    "name": "Edward II",
+    "era": "c.1315–1320, England",
+    "attire": "Long silk robe, mantle and open leaf crown.",
+    "props": "Sceptre held to one side.",
+    "setting": "Quiet early-fourteenth-century palace room.",
+    "likeness": "Gloucester alabaster effigy provides commemorative reference; soft individual facial features are interpretive.",
+    "avoid": "No feminizing caricature or execution imagery.",
+    "sources": [
+      "https://gloucestercathedral.org.uk/cathedral/heritage/architecture"
+    ]
+  },
+  "plantagenet-7": {
+    "name": "Edward III",
+    "era": "c.1350–1360, England and France",
+    "attire": "Mid-fourteenth-century transitional armour with mail at joints; restrained royal mantle.",
+    "props": "Gauntlet and sword hilt.",
+    "setting": "Windsor courtyard suggested behind him.",
+    "likeness": "Abbey bronze shows long hair and beard; adapt mature features rather than copy the late-life death-mask expression.",
+    "avoid": "No sixteenth-century armour; no three-lily French quartering for this date.",
+    "sources": [
+      "https://www.westminster-abbey.org/abbey-commemorations/royals/edward-iii-and-philippa-of-hainault"
+    ]
+  },
+  "plantagenet-8": {
+    "name": "Philippa of Hainault",
+    "era": "c.1350–1360, English court, Hainault origins",
+    "attire": "Reticulated headdress, fitted laced bodice, buttoned sleeves and loose mantle.",
+    "props": "One hand on cloak cord; small closed book.",
+    "setting": "Windsor chamber with Flemish woven hanging.",
+    "likeness": "Her Westminster alabaster effigy supplies a full face and substantial figure; mature warmth is an artistic interpretation.",
+    "avoid": "No slim generic maiden, Tudor hood or horned hennin.",
+    "sources": [
+      "https://www.westminster-abbey.org/abbey-commemorations/royals/edward-iii-and-philippa-of-hainault"
+    ]
+  },
+  "plantagenet-9": {
+    "name": "Richard II",
+    "era": "c.1395, England",
+    "attire": "Rich patterned robe, fine open crown, white-hart jewel.",
+    "props": "Small devotional diptych.",
+    "setting": "Quiet gilded chapel interior.",
+    "likeness": "Wilton Diptych provides contemporary idealized royal image and white-hart symbolism; preserve slender youthful countenance without treating it as photography.",
+    "avoid": "No battle armour, sinister caricature or later Tudor ornament.",
+    "sources": [
+      "https://www.nationalgallery.org.uk/paintings/english-or-french-the-wilton-diptych"
+    ]
+  },
+  "plantagenet-10": {
+    "name": "Edward the Black Prince",
+    "era": "c.1360s, England and Aquitaine",
+    "attire": "Fourteenth-century plate elements over mail, short heraldic jupon.",
+    "props": "Bascinet under arm, sword low; feather motif secondary.",
+    "setting": "Aquitaine fortress doorway.",
+    "likeness": "Canterbury funerary armour and Westminster statuette anchor material culture; living facial expression is reconstructed.",
+    "avoid": "Do not present black armour as established origin of his later nickname; no sixteenth-century harness.",
+    "sources": [
+      "https://www.westminster-abbey.org/abbey-commemorations/royals/edward-of-woodstock-the-black-prince",
+      "https://www.londonmuseum.org.uk/collections/v/object-405137/black-prince/"
+    ]
+  },
+  "plantagenet-11": {
+    "name": "Joan of Kent",
+    "era": "c.1365–1375, Aquitaine and England",
+    "attire": "Silk fitted gown, fine veil and modest jeweled fillet.",
+    "props": "Silver cup held below portrait center.",
+    "setting": "Aquitaine domestic chamber.",
+    "likeness": "IHR records her marriage, Aquitaine household and silver vessels; face, exact dress and room are explicitly plausible reconstruction.",
+    "avoid": "She was Princess of Wales, not a crowned queen; no invented exact likeness or sexualized scandal imagery.",
+    "sources": [
+      "https://archives.history.ac.uk/richardII/joan.html"
+    ]
+  },
+  "plantagenet-12": {
+    "name": "Geoffrey of Anjou",
+    "era": "c.1140, Anjou and Maine; Geoffrey V, Henry II's father",
+    "attire": "Twelfth-century long tunic and mantle; modest cap.",
+    "props": "Blue shield with gold lion motifs and sword, adapted from enamel; small broom sprig symbolic.",
+    "setting": "Romanesque Le Mans stone arcade.",
+    "likeness": "Le Mans museum's funerary enamel is the reference, a stylized posthumous image; facial realism and broom placement are interpretation.",
+    "avoid": "Do not confuse Geoffrey V with his son Geoffrey of Nantes; no English royal crown or plate armour.",
+    "sources": [
+      "https://archive.lemans.fr/fileadmin/contributeurs/musees/images/carre/expo_faubourgs_dossier.pdf",
+      "https://www.britishmuseum.org/collection/term/BIOG171421"
+    ]
+  },
+  "plantagenet-13": {
+    "name": "Isabella of France",
+    "era": "c.1325, Anglo-French royal court",
+    "attire": "Silk gown and fine linen veil, narrow crown; restrained white-and-blue palette.",
+    "props": "Sealed diplomatic letter.",
+    "setting": "Eltham moat-side chamber.",
+    "likeness": "English Heritage documents Eltham patronage and white velvet worn in 1316; adult face and diplomatic scene are reconstruction.",
+    "avoid": "No wolf pelt or villain stereotype; epithet is later hostile rhetoric.",
+    "sources": [
+      "https://www.english-heritage.org.uk/visit/places/eltham-palace-and-gardens/history-and-stories/three-queens-at-eltham/"
+    ]
+  },
+  "tudor-0": {
+    "name": "Henry VII",
+    "era": "c.1505, England",
+    "attire": "Dark velvet cap, fur-lined gown, patterned doublet, restrained gold chain.",
+    "props": "Red rose held low.",
+    "setting": "Oak-panelled royal chamber.",
+    "likeness": "NPG portrait tradition supplies narrow mature face and reserved mouth; chamber and gesture are interpretive.",
+    "avoid": "No Henry VIII physique, Elizabethan ruff or excessive martial armour.",
+    "sources": [
+      "https://www.npg.org.uk/collections/search/person/mp02144/king-henry-vii"
+    ]
+  },
+  "tudor-1": {
+    "name": "Elizabeth I",
+    "era": "c.1575, England",
+    "attire": "Jeweled gown, lace ruff, pearls and dressed red hair.",
+    "props": "Folded fan in lower hand.",
+    "setting": "Dark Tudor palace chamber with modest globe at edge.",
+    "likeness": "Darnley portrait tradition supplies recognizable long face; generated skin and expression remain interpretation.",
+    "avoid": "Avoid confusing late Elizabethan clothing with early Tudor gable hoods.",
+    "sources": [
+      "https://www.npg.org.uk/assets/files/pdf/collections/pickups/elizabeth_i.pdf"
+    ]
+  },
+  "tudor-2": {
+    "name": "Henry VIII",
+    "era": "c.1540, England",
+    "attire": "Broad fur-trimmed gown, slashed doublet, jeweled flat bonnet, gold chain.",
+    "props": "Gloved hand and dagger hilt.",
+    "setting": "Hampton Court-style brick and oak interior.",
+    "likeness": "Holbein royal portrait tradition anchors broad stance, rounded face and short reddish beard; setting is reconstructed.",
+    "avoid": "No medieval mail, oversized fantasy crown or execution props.",
+    "sources": [
+      "https://www.rct.uk/collection/stories/royal-portraiture/henry-vii-elizabeth-of-york-henry-viii-and-jane-seymour"
+    ]
+  },
+  "tudor-3": {
+    "name": "Mary I",
+    "era": "1554, England",
+    "attire": "Pearl-edged headdress, patterned gown and purple overgown.",
+    "props": "Red rose and jeweled gloves.",
+    "setting": "Red upholstered royal chair against subdued palace wall.",
+    "likeness": "Anthonis Mor's 1554 portrait is direct lifetime evidence; retain mature narrow face and firm mouth.",
+    "avoid": "Do not confuse with her aunt Mary Tudor of France; no flames or caricature.",
+    "sources": [
+      "https://www.museodelprado.es/en/the-collection/art-work/mary-tudor-queen-of-england/aef6ebc4-081a-44e6-974d-6c24aef95fc4"
+    ]
+  },
+  "tudor-4": {
+    "name": "Edward VI",
+    "era": "c.1550, England; adolescent king",
+    "attire": "High-collared embroidered doublet, short cloak, jeweled cap.",
+    "props": "Small closed book.",
+    "setting": "Royal schoolroom with oak lectern.",
+    "likeness": "Royal Collection portrait tradition supplies youthful facial proportions; use a boy of about thirteen, not an adult lawgiver.",
+    "avoid": "No beard, oversized muscles or later Elizabethan wheel ruff.",
+    "sources": [
+      "https://www.rct.uk/collection/912202/edward-prince-of-wales-1537-1553",
+      "https://www.rct.uk/collection/422368/edward-vi-1537-1553"
+    ]
+  },
+  "tudor-5": {
+    "name": "Elizabeth of York",
+    "era": "c.1500, England",
+    "attire": "Early Tudor gable hood, rich square-neck gown, jeweled edging.",
+    "props": "White rose.",
+    "setting": "Quiet royal chamber with restrained union-rose embroidery.",
+    "likeness": "NPG portrait tradition informs pale oval face; reconstruction must acknowledge later copies rather than claim direct observation.",
+    "avoid": "No Elizabeth I ruff or elaborate late-century hair.",
+    "sources": [
+      "https://www.npg.org.uk/collections/search/person/mp01451/elizabeth-of-york"
+    ]
+  },
+  "tudor-6": {
+    "name": "Margaret Beaufort",
+    "era": "c.1505, England",
+    "attire": "Black vowess gown, white linen wimple and dark hood.",
+    "props": "Open prayer book.",
+    "setting": "Cloth-of-gold hanging with understated portcullis.",
+    "likeness": "Wewyck portrait c.1510 and NPG interpretation anchor vowess dress; elderly facial details are interpreted from posthumous evidence.",
+    "avoid": "Not a nun, witch or seductive intriguer; avoid invented sinister props.",
+    "sources": [
+      "https://www.npg.org.uk/collections/search/person/mp00323/lady-margaret-beaufort-countess-of-richmond-and-derby",
+      "https://www.npg.org.uk/assets/uploads/files/large-print-guides/Room_01_large-print-guide.pdf"
+    ]
+  },
+  "tudor-7": {
+    "name": "Edmund Tudor",
+    "era": "c.1455, England and southwest Wales; Earl of Richmond",
+    "attire": "Mid-fifteenth-century doublet and fur-edged gown, soft cap.",
+    "props": "Sealed administrative roll.",
+    "setting": "Carmarthen stone chamber, interpretive.",
+    "likeness": "National Library of Wales biography identifies Henry VII's young father, not the later infant namesake; no secure living likeness used, face reconstructed at about twenty-five.",
+    "avoid": "No royal crown, Tudor union rose or sixteenth-century ruff.",
+    "sources": [
+      "https://biography.wales/pdf/s-TUDO-EDM-1430.pdf"
+    ]
+  },
+  "tudor-8": {
+    "name": "Jasper Tudor",
+    "era": "c.1485, Welsh and Breton exile networks",
+    "attire": "Late-fifteenth-century harness, mail collar, travel mantle.",
+    "props": "Sallet helmet under arm.",
+    "setting": "Pembrokeshire coastline and castle in soft focus.",
+    "likeness": "Welsh Biography establishes campaigns, exile and mentorship; rugged mature face is explicitly invented, not a verified portrait.",
+    "avoid": "No English royal crown or modern Welsh flag design.",
+    "sources": [
+      "https://biography.wales/article/s-TUDO-SIA-1431.html"
+    ]
+  },
+  "tudor-9": {
+    "name": "Margaret Tudor",
+    "era": "c.1515, Scottish court",
+    "attire": "Early-sixteenth-century royal gown, jeweled hood, rich mantle.",
+    "props": "Folded letter.",
+    "setting": "Scottish palace stone chamber, restrained thistle detail.",
+    "likeness": "Royal Collection Mytens-derived image is later evidence, not a contemporary likeness; facial specificity is cautious reconstruction.",
+    "avoid": "Do not use NPG 1173, now identified as an unknown woman; no tartan clan costume.",
+    "sources": [
+      "https://www.rct.uk/collection/618144/margaret-tudor-queen-of-scotland",
+      "https://www.npg.org.uk/collections/search/portraitConservation/mw04202/Unknown-woman-formerly-known-as-Margaret-Tudor"
+    ]
+  },
+  "tudor-10": {
+    "name": "Mary Tudor of France",
+    "era": "1514–1515, Anglo-French court; Henry VIII's sister",
+    "attire": "Early French court silk gown, jeweled hood, delicate gold necklace.",
+    "props": "Marriage letter and a single flower.",
+    "setting": "Loire court interior with small fleur-de-lis textile.",
+    "likeness": "RCT documents her French marriage negotiations; exact facial likeness not established here and is interpretive. Keep visually distinct from Mary I.",
+    "avoid": "No Mary I identification, later Elizabethan ruff or unqualified use of disputed Sittow portrait.",
+    "sources": [
+      "https://www.rct.uk/about/press-office/press-releases/major-exhibition-of-holbeins-portraits-from-the-tudor-court-to-go"
+    ]
+  },
+  "tudor-11": {
+    "name": "Arthur Tudor",
+    "era": "c.1500, England; adolescent Prince of Wales",
+    "attire": "Embroidered early Tudor doublet and modest dark cap.",
+    "props": "Gillyflower held low.",
+    "setting": "Ludlow-style royal chamber.",
+    "likeness": "NPG exhibition records Wewyck portrait made during marriage negotiations and its flower; depict a slight teenage boy.",
+    "avoid": "Never an adult warrior or crowned king; no late-sixteenth-century costume.",
+    "sources": [
+      "https://www.npg.org.uk/assets/uploads/files/six-lives-large-print.pdf"
+    ]
+  },
+  "tudor-12": {
+    "name": "Owen Tudor",
+    "era": "c.1430–1440, Welsh courtier in English royal household",
+    "attire": "Modest wool gown over fitted doublet, soft chaperon.",
+    "props": "Small sealed letter.",
+    "setting": "Shadowed royal household doorway.",
+    "likeness": "National Library of Wales establishes courtier identity and notes obscure early life; face, exact dress and pose are reconstructed.",
+    "avoid": "No Tudor royal crown, union rose, caricatured Celtic warrior or secret-dagger stereotype.",
+    "sources": [
+      "https://www.biography.wales/article/s-OWAI-TUD-1400.html"
+    ]
+  },
+  "tudor-13": {
+    "name": "Catherine of Aragon",
+    "era": "c.1525, English queen of Castilian-Aragonese origins",
+    "attire": "Jeweled gable hood, rich gown with square neckline and fine linen.",
+    "props": "Small prayer book with pomegranate decoration.",
+    "setting": "Eltham royal chamber.",
+    "likeness": "Prefer NPG c.1520 panel and Horenbout miniature tradition; distinguish them from NPG 163, an eighteenth-century copy. Face is interpreted from accepted portrait types.",
+    "avoid": "No exoticized Spanish costume, flamenco mantilla or confusion with Mary Tudor of France.",
+    "sources": [
+      "https://www.npg.org.uk/collections/search/person/mp00801/katherine-of-aragon",
+      "https://www.npg.org.uk/collections/search/portrait/mw01144/Katherine-of-Aragon"
+    ]
+  }
+}

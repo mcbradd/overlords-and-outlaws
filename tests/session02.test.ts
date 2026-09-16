@@ -15,7 +15,10 @@ import { describeAction } from "../src/action-view";
 
 test("one guided match reaches every milestone through legal actions, preserving state between steps", () => {
   const g = createLesson();
-  assert.deepEqual(g.players.slice(1).map((p) => p.hand.length), [5, 5]);
+  assert.deepEqual(
+    g.players.slice(1).map((p) => p.hand.length),
+    [5, 5],
+  );
   const cards = () =>
     g.players
       .flatMap((p) => p.court.concat(p.hand, p.deck, p.discard))
@@ -26,7 +29,11 @@ test("one guided match reaches every milestone through legal actions, preserving
     assert.equal(g.lesson, i);
     for (let step = 0; step < 60 && !lessonComplete(g); step++) {
       assert.ok(validateDuel(g), `valid stage ${i}`);
-      if (g.pending) respond(g, g.pending.defender === 0 ? "brace" : "accept");
+      if (g.pending)
+        respond(
+          g,
+          g.pending.defender === 0 && !g.pending.blocked ? "brace" : "accept",
+        );
       else {
         const a = g.turn === 0 ? lessonMove(g) : lessonOpponent(g);
         assert.ok(a, `stage ${i} has a next action`);
@@ -49,7 +56,7 @@ test("one guided match reaches every milestone through legal actions, preserving
   assert.ok(g.events.filter((e) => e.kind === "brace").length >= 3);
 });
 
-test("action explanations distinguish gold, orders and court capacity", () => {
+test("action explanations distinguish gold and orders without limiting court size", () => {
   const g = createDuel({ seed: 42, house: "alba" });
   const p = g.players[0];
   p.gold = 30;
@@ -58,7 +65,7 @@ test("action explanations distinguish gold, orders and court capacity", () => {
   assert.match(describeAction(g, a).reason, /No orders/);
   g.orders = 2;
   p.court.push(...p.hand.splice(1, 4));
-  assert.match(describeAction(g, a).reason, /five court places/);
+  assert.equal(describeAction(g, a).allowed, true);
 });
 
 test("an unsupported foreign Guardian preview does not promise protection", () => {
@@ -75,15 +82,16 @@ test("an unsupported foreign Guardian preview does not promise protection", () =
   assert.equal(guards(p).length, 0);
 });
 
-test("a full-hand return preview identifies the actual discard destination", () => {
+test("returning a Noble adds it to an already large hand", () => {
   const g = createDuel({ seed: 91, house: "alba" });
   const p = g.players[0];
   p.hand.push(...p.deck.splice(0, 2));
   const uid = p.court[0].uid;
   const move = { type: "recall" as const, uid };
-  assert.match(describeAction(g, move).effect, /discard/);
+  assert.match(describeAction(g, move).effect, /hand/);
   act(g, move);
-  assert.ok(p.discard.some((r) => r.uid === uid));
+  assert.ok(p.hand.some((r) => r.uid === uid));
+  assert.equal(p.hand.length, 8);
 });
 
 test("a full foreign hand can be renewed without creating or losing cards", () => {
@@ -123,7 +131,7 @@ test("survivors recover health and turn upright when their House acts again", ()
   assert.equal(r.ready, true);
 });
 
-test("a Guardian gives up protection when it attacks", () => {
+test("a Guardian retains protection when Spent", () => {
   const g = createDuel({ seed: 10, house: "alba", seats: 2 });
   const p = g.players[0],
     guard = p.hand.find(
@@ -140,7 +148,9 @@ test("a Guardian gives up protection when it attacks", () => {
   );
   guard.ready = false;
   assert.ok(
-    moves(g).some((a) => a.type === "attack" && a.target === `crown-0`),
+    moves(g)
+      .filter((a) => a.type === "attack")
+      .every((a) => a.type === "attack" && a.target === guard.uid),
   );
 });
 

@@ -2,6 +2,7 @@ import { CARDS, card, type HouseId, type Role } from "./content";
 import {
   createDuel,
   spec,
+  attackForce,
   claimCost,
   cost,
   income,
@@ -25,7 +26,7 @@ export const LESSONS = [
   },
   {
     title: "Answer the challenge",
-    text: "End your turn. Plantagenet will attack David I. Spend 2 gold to Brace and block 2 damage. Your response can be used once per rival turn.",
+    text: "End your turn. Plantagenet will attack David I. Pay 2 gold to Brace and block 2 damage, then resolve combat. You may Brace again whenever you can pay its cost.",
     types: ["end"],
   },
   {
@@ -210,11 +211,13 @@ export function lessonMove(g: Duel): Move | null {
 export function lessonText(g: Duel): string {
   const p = g.players[0];
   if (g.pending?.defender === 0) {
+    if (g.pending.blocked)
+      return `Brace blocks ${g.pending.blocked} damage from this attack. Resolve combat now to save your remaining gold.`;
     const attacker = g.players[g.pending.actor].court.find(
       (r) => r.uid === g.pending!.attacker,
     )!;
     const defender = p.court.find((r) => r.uid === g.pending!.target)!;
-    const damage = spec(attacker).force;
+    const damage = attackForce(g.players[g.turn], attacker);
     return `${card(attacker.card).name} attacks ${card(defender.card).name} for ${damage}. David has ${defender.hp} health. Brace costs 2 gold and blocks 2 damage, leaving ${Math.max(0, defender.hp - Math.max(0, damage - 2))} health. Choose Brace below.`;
   }
   if (g.lesson === 7)

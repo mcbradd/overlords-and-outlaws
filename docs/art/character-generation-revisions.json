@@ -1,0 +1,44 @@
+{
+  "alba-5": {
+    "prompt": "Edit the depicted person's face, hair and grooming to make this a distinct individual, using this exact characterization: At the 1237 Treaty of York, age 38–39. Invented narrow oval face, straight auburn hair ending at jaw, clean-shaven cheeks and chin, long straight nose and slight downward mouth corners. Hair colour and face are artistic choices, not historical facts.. The face must be visibly different from the current brown-bearded archetype. Maintain all historical attire, pose, prop, composition, lighting, frame-safe head position and image dimensions. Preserve the painterly style and background except remove any anachronistic modern saltire flags (replace with plain fabric). This is Alexander II, 1198–1249; king 1214–1249. Do not add a frame or text.",
+    "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a8c6-420a-7ce1-938d-170d71467841\\exec-57f45b4b-3111-4e67-ba45-069c0a2c3a43.png",
+    "reference": "C:/Projects/Carlin/OandO/public/art/characters/alba-5-v1.png",
+    "asset": "art/characters/alba-5-v2.png",
+    "method": "built-in image_gen edit"
+  },
+  "alba-6": {
+    "prompt": "Edit the depicted person's face, hair and grooming to make this a distinct individual, using this exact characterization: At the 1266 settlement, about 25. Invented youthful full cheeks, broad short nose, clean-shaven face, thick dark softly wavy ear-length hair, upright relaxed bearing. Clearly younger and rounder than Alexander II; no verified likeness.. The face must be visibly different from the current brown-bearded archetype. Maintain all historical attire, pose, prop, composition, lighting, frame-safe head position and image dimensions. Preserve the painterly style and background except remove any anachronistic modern saltire flags (replace with plain fabric). This is Alexander III, 1241–1286; king 1249–1286. Do not add a frame or text.",
+    "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a8c6-420a-7ce1-938d-170d71467841\\exec-d024efe7-5788-48d2-83b3-6e12439397d3.png",
+    "reference": "C:/Projects/Carlin/OandO/public/art/characters/alba-6-v1.png",
+    "asset": "art/characters/alba-6-v2.png",
+    "method": "built-in image_gen edit"
+  },
+  "alba-10": {
+    "prompt": "Edit the depicted person's face, hair and grooming to make this a distinct individual, using this exact characterization: Circa 1038; invented apparent age early thirties, not a claim to precise birth date. Long clean-shaven face, strong rounded chin, dark short curls and alert wide eyes. Avoid Shakespeare elderly-victim casting.. The face must be visibly different from the current brown-bearded archetype. Maintain all historical attire, pose, prop, composition, lighting, frame-safe head position and image dimensions. Preserve the painterly style and background except remove any anachronistic modern saltire flags (replace with plain fabric). This is Duncan I, d. 1040; king 1034–1040. Do not add a frame or text.",
+    "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a8c6-420a-7ce1-938d-170d71467841\\exec-08af0e05-63a0-44fb-bd23-9dc3888031e0.png",
+    "reference": "C:/Projects/Carlin/OandO/public/art/characters/alba-10-v1.png",
+    "asset": "art/characters/alba-10-v2.png",
+    "method": "built-in image_gen edit"
+  },
+  "alba-2": {
+    "prompt": "Edit the depicted person's face, hair and grooming to make this a distinct individual, using this exact characterization: Circa 1080, about 49. Invented large broad head, strong cheek planes, broken-looking but not claimed injured nose, thick dark moustache and short salt-and-pepper beard, receding temples; robust mature build. No verified face.. The face must be visibly different from the current brown-bearded archetype. Maintain all historical attire, pose, prop, composition, lighting, frame-safe head position and image dimensions. Preserve the painterly style and background except remove any anachronistic modern saltire flags (replace with plain fabric). This is Malcolm III, c. 1031–1093; king 1058–1093. Do not add a frame or text.",
+    "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a8c6-420a-7ce1-938d-170d71467841\\exec-bf63fdd1-63d7-4591-b649-8cadac957305.png",
+    "reference": "C:/Projects/Carlin/OandO/public/art/characters/alba-2-v1.png",
+    "asset": "art/characters/alba-2-v2.png",
+    "method": "built-in image_gen edit"
+  },
+  "alba-3": {
+    "prompt": "Edit the depicted person's face, hair and grooming to make this a distinct individual, using this exact characterization: Circa 1140, about 56. Invented lean long face, high forehead, thin lips, swept-back greying hair and clean-shaven chin. Elderly scholarly bearing without spectacles. Facial choices are reconstruction.. The face must be visibly different from the current brown-bearded archetype. Maintain all historical attire, pose, prop, composition, lighting, frame-safe head position and image dimensions. Preserve the painterly style and background except remove any anachronistic modern saltire flags (replace with plain fabric). This is David I, c. 1084–1153; king 1124–1153. Do not add a frame or text.",
+    "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a8c6-420a-7ce1-938d-170d71467841\\exec-3d91319c-79a6-46f6-bd0b-b0a2469672b1.png",
+    "reference": "C:/Projects/Carlin/OandO/public/art/characters/alba-3-v1.png",
+    "asset": "art/characters/alba-3-v2.png",
+    "method": "built-in image_gen edit"
+  },
+  "tudor-0": {
+    "prompt": "Edit only the distant architecture visible through the window in this Henry VII portrait. Remove the entire anachronistic nineteenth-century Westminster tower and skyline. Replace it with a quiet early-sixteenth-century riverside view: grey Thames water, low timber roofs, willow trees in mist, no monumental tower. Preserve the king's face, black bonnet, rose, hands, costume, pose, interior, composition, dimensions, painterly detail and colors exactly. No other changes. No text.",
+    "source": "C:\\Users\\McBra\\.codex\\generated_images\\01a0a8c6-420a-7ce1-938d-170d71467841\\exec-3a14c3de-8e4e-4b4c-a2d1-9e0f4b53f03b.png",
+    "reference": "C:/Projects/Carlin/OandO/public/art/characters/tudor-0-v1.png",
+    "asset": "art/characters/tudor-0-v2.png",
+    "method": "built-in image_gen edit"
+  }
+}

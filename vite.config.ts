@@ -3,6 +3,7 @@ export default defineConfig({
   base: process.env.PAGES_BASE_PATH || "/",
   build: {
     rollupOptions: {
+      input: { game: "index.html", proof: "proof/index.html" },
       output: {
         manualChunks(id) {
           if (id.includes("node_modules/three/"))

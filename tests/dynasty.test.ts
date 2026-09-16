@@ -148,9 +148,11 @@ test("Brace spends gold and blocks pressure", () => {
   assert.ok(reactions(g).includes("brace"));
   const gold = g.players[1].gold;
   respond(g, "brace");
+  assert.ok(g.pending);
+  respond(g, "accept");
   assert.equal(victim.hp, 1);
   assert.equal(g.players[1].gold, gold - 2);
-  assert.equal(g.players[1].response, false);
+  assert.ok(reactions(g).length === 0);
   assert.ok(validateDuel(g));
 });
 test("Ambush spends a concealed Conspirator and can stop the attack before damage", () => {
@@ -236,12 +238,12 @@ test("seizing a native Royal breaks a declared dynasty, with a specific cause", 
   target.hp = 1;
   act(g, { type: "claim" });
   act(g, { type: "end" });
-  g.players[0].response = false;
   act(g, {
     type: "attack",
     uid: g.players[1].court[0].uid,
     target: target.uid,
   });
+  if (g.pending) respond(g, "accept");
   assert.equal(g.players[0].claim, 0);
   assert.equal(nativeCount(g.players[0]), 2);
   assert.ok(

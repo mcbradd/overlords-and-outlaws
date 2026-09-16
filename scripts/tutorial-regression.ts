@@ -13,9 +13,12 @@ const health = await p.evaluate(async () => {
   r.hp = 3;
   const el = document.createElement("div");
   el.innerHTML = cardFace(r, { zone: "court", owner: g.players[0] });
+  const { paintCard } = await import(/* @vite-ignore */ String("/src/card-texture.ts"));
+  const model = JSON.parse(el.querySelector("canvas")!.getAttribute("data-paint")!);
+  const painted = await paintCard(model);
   return {
     actual: r.hp,
-    visible: Number(el.querySelector(".resolve-stat b")?.textContent),
+    visible: Number(painted.fields.find((f: {label: string}) => f.label === "health")?.text),
   };
 });
 if (health.actual !== health.visible)
