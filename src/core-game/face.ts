@@ -61,8 +61,8 @@ const RULE_AID_TOPICS = [
   {
     title: "Trade",
     paragraphs: [
-      "Offer a hand card to a rival with at least one card. Request an exact Dynasty/rank. Declare whether the received card will Recruit. One offer per recipient each round.",
-      "They may decline without proving they have it. Keep your offer; this counts as Pass.",
+      "Offer a hand card for one face-up card in a rival’s Played pile. Never request a hand or Court card. Declare whether the received card will Recruit. One offer per recipient each round.",
+      "They may decline and keep their Played card. Keep your offer; this counts as Pass.",
       "On acceptance, both cards go to new owners' Played. A declared Recruit instead puts your received native card in Court only if lower than your offer. With no ruler, it becomes ruler. This never claims the Crown.",
       "You cannot retract an accepted offer.",
     ],
@@ -131,7 +131,7 @@ export const RULE_AIDS = RULE_AID_TOPICS.flatMap((aid, index) => {
 const REFERENCE_INDEX = [
   "Native: Recruit or name an heir.",
   "Same suit: Recall or Defend.",
-  "Any hand card: offer a Trade.",
+  "Trade for a rival’s Played card.",
   "Foreign heir: match a native Queen.",
   "Complete procedures: shared rule aids 1–8.",
 ];

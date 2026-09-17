@@ -1,3 +1,5 @@
+> **Superseded rules candidate:** This frozen inventory remains unchanged evidence for the rejected any-card Add/no-marriage proposal. It is not the acceptance inventory for the current succession-game correction. See [current scope and regression tasks](reviews/BUILD-5-PLAYER-FOLLOWUP-2026-09-17.md). No unexecuted row has been marked passed or removed.
+
 # Build 6 frozen visual inventory
 
 The [JSON inventory](BUILD-6-VISUAL-INVENTORY.json) is planning data, not a screenshot generator or an inspection report. It contains **240 literal states**, **5,040 baseline state/viewport rows**, **1,239 supplemental rows**, and **168 intrinsic asset reviews**. Total required screen/profile rows: **6,279**. Every row is unexecuted and uninspected at the handoff.

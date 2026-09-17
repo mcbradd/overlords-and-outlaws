@@ -1,3 +1,5 @@
+> **Superseded candidate - player correction, 17 September 2026:** The user rejected unrestricted Court entry: foreign cards must enter through marriage. Trade may request only a rival's face-up Played/Resting cards. The any-card Add / no-marriage candidate below is historical planning evidence and must not be implemented as written. See [the current correction and regression tasks](reviews/BUILD-5-PLAYER-FOLLOWUP-2026-09-17.md). Its dependent tutorial, state and acceptance package requires redesign before implementation.
+
 # Build 6 public state and transition boundary
 
 Planning contract, 17 September 2026. This fixes the implementation seams before code. [Binding rules](SUIT-AND-RANK-DESIGN.md) govern behavior; this document defines representation without adding rules.

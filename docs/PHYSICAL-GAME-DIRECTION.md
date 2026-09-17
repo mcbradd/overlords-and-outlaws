@@ -1,3 +1,5 @@
+> **Current correction, 17 September 2026:** Retain marriage and its physical links; foreign cards cannot freely enter Court. Trade targets only rival Played/Resting cards. The Build 6 no-marriage/mixed-Court candidate below is superseded by [the player correction](reviews/BUILD-5-PLAYER-FOLLOWUP-2026-09-17.md).
+
 # Physical game — current creative direction
 
 ## Build 6 presentation authority — 17 September 2026

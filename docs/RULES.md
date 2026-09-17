@@ -1,3 +1,5 @@
+> **Current correction, 17 September 2026:** Use the succession core with marriage-only foreign Court entry and Trade targets restricted to rival Played piles. The unrestricted Add/no-marriage replacement was rejected. See [current scope](reviews/BUILD-5-PLAYER-FOLLOWUP-2026-09-17.md); the historical rules below remain reference evidence.
+
 # Current rules and historical archive
 
 The currently published Build 5 core uses [archived succession rules](reviews/SUIT-AND-RANK-BUILD-5-SUPERSEDED.md). The next implementation is defined in [binding Build 6 suit/rank rules](SUIT-AND-RANK-DESIGN.md) and its [production package](BUILD-6-PRODUCTION-PLAN.md); it is not implemented yet. The older rules below apply only to the preserved `?archive=history-v4` runtime. Their seals, inheritance draft, History and paintings are not part of either core. See the [Build 5 evidence log](reviews/BUILD-5-EXECUTION-LOG.md) for the actual published status.

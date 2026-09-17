@@ -1,3 +1,5 @@
+> **Superseded candidate - player correction, 17 September 2026:** The user rejected unrestricted Court entry: foreign cards must enter through marriage. Trade may request only a rival's face-up Played/Resting cards. The any-card Add / no-marriage candidate below is historical planning evidence and must not be implemented as written. See [the current correction and regression tasks](reviews/BUILD-5-PLAYER-FOLLOWUP-2026-09-17.md). Its dependent tutorial, state and acceptance package requires redesign before implementation.
+
 # Build 6 production plan
 
 17 September 2026. **Frozen for the next implementation phase; no Build 6 implementation performed.** This plan, complete rules, state boundary, explicit test contract, literal visual inventory, tutorial contract and normative-document cascade are the preimplementation package. The user has requested stopping at this boundary and leaving [a knowledge-base handoff](knowledge-base/build-6-handoff/README.md). A later resumed implementation uses the existing autonomous/Prod authorization without asking for it again.

@@ -72,7 +72,7 @@ function score(view: CoreView, action: CoreAction, policy: CorePolicy): [number,
     }
     case 'decline':
       return [0, view.phase === 'recall' ? 'Let this person go and preserve the remaining concealed answers.' :
-        'Keep the offered-for card; declining does not disclose whether it is held.'];
+        'Keep the requested card in your Played pile.'];
     case 'accept': {
       const trade = view.pending!;
       const gain = handValue(view, seat, trade.card) - handValue(view, seat, trade.request!);
@@ -123,14 +123,12 @@ function score(view: CoreView, action: CoreAction, policy: CorePolicy): [number,
             'Price the exact person given in exchange against the captured person and the rival’s public threat.'];
     }
     case 'trade': {
-      const known = view.knownHands[action.other!]?.includes(action.request!);
       const gain = handValue(view, seat, action.request!) - handValue(view, seat, action.card!);
       const useful = usefulDevelopment(view, seat, action.request!);
-      return [gain * (known ? 0.7 : 0.15) + (action.recruit ? useful ? known ? 9 : 3 : -7 : -1) -
+      return [gain * 0.7 + (action.recruit ? useful ? 9 : -7 : -1) -
         (crown?.seat === seat ? 15 : 0),
         action.recruit ? 'Offer the higher card for exact lower native development; acceptance is voluntary.' :
-          known ? 'Seek a publicly remembered card that has greater use in this family.' :
-            'Make a bounded request for a useful exact card without assuming the recipient holds it.'];
+          'Seek a face-up Played card that has greater use in this family.'];
     }
     case 'pass':
       return [crown?.seat === seat ? 8 : policy === 'conserver' ? 2 : 0,

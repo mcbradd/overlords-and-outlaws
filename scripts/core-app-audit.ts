@@ -35,7 +35,7 @@ async function teach(page: Page): Promise<void> {
 }
 async function savedProgress(page: Page) {
   return page.evaluate(() => {
-    const key = Object.keys(localStorage).find(item => item.endsWith('oando-v5-core'));
+    const key = Object.keys(localStorage).find(item => item.endsWith('oando-v5-played-trades'));
     if (!key) throw new Error('Expected generated test save');
     const save = JSON.parse(localStorage.getItem(key)!);
     return { revision: save.game.revision as number, phase: save.game.phase as string,

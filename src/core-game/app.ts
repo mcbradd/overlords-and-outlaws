@@ -209,16 +209,16 @@ function describe(action: CoreAction): string {
     case "name-heir":
       return `${card} becomes your heir; ${nameOf(action.supporter!)} is the named supporter. Keep the ruler, heir and supporter until next round. Then keep the new ruler and supporter for that whole round.`;
     case "marry-heir":
-      return `${card} marries ${nameOf(action.supporter!)} and becomes your heir. Their equal or neighbouring ranks permit this match. Keep the linked pair throughout the succession.`;
+      return `${card} marries ${nameOf(action.supporter!)} and becomes your heir. Keep the linked pair throughout the succession.`;
     case "trade":
-      return `Offer ${card} to ${names[action.other!] ?? "the rival"} for ${nameOf(action.request!)}. They may refuse without revealing their hand.${action.recruit ? " If accepted, recruit the lower native card immediately." : " If accepted, both cards enter their new owners’ Played areas until next round."}`;
+      return `Offer ${card} to ${names[action.other!] ?? "the rival"} for ${nameOf(action.request!)}. Choose from their face-up Played pile; they may accept or refuse.${action.recruit ? " If accepted, recruit the lower native card immediately." : " If accepted, both cards enter their new owners’ Played areas until next round."}`;
     case "accept":
       return game?.pending
         ? `Give ${nameOf(game.pending.request!)} and receive ${nameOf(game.pending.card)}. The cards move to Played until next round${game.pending.recruit ? ", except the rival recruits your lower card immediately" : ""}. This completes the binding exchange.`
         : "The offer has ended.";
     case "decline":
       return game?.phase === "trade"
-        ? "Decline without revealing your hand. The offer counts as a Pass."
+        ? "Keep your Played card. The offer counts as a Pass."
         : `Let the threatened person go and receive ${nameOf(game!.pending!.card)} in exchange. Both cards enter their new owners’ Played areas until next round. Required Crown or marriage relationships break immediately.`;
     default:
       return "Keep your remaining cards. You may act later if another player plays a card. Everyone passing consecutively ends the round.";
@@ -234,8 +234,8 @@ function objective(): string {
   if (!crown)
     return "Build a ruler and supporter, then play an heir to claim the Crown.";
   if (crown.stage === "notice")
-    return `${names[crown.seat]} claims the Crown. ${nameOf(crown.heir)} succeeds next round; ${nameOf(crown.supporter)} must remain.`;
-  return `${names[crown.seat]} wins at this round’s end if ${nameOf(crown.heir)} and ${nameOf(crown.supporter)} both remain.`;
+    return `Crown claimed by ${names[crown.seat]}. ${nameOf(crown.heir)} succeeds next round; ${nameOf(crown.supporter)} must remain.`;
+  return `${names[crown.seat]} ${names[crown.seat] === "You" ? "win" : "wins"} at this round’s end if ${nameOf(crown.heir)} and ${nameOf(crown.supporter)} both remain.`;
 }
 async function render() {
   if (!game || busy) return;
@@ -265,7 +265,7 @@ async function render() {
   const generic = available.filter((a) => !a.card);
   const pendingDescription = game.pending
     ? game.pending.type === "trade"
-      ? `${names[game.pending.seat]} offers ${nameOf(game.pending.card)} (${BY_ID[game.pending.card].rank} ${dynastyName(BY_ID[game.pending.card].dynasty)}) to ${names[game.pending.other]} in exchange for ${nameOf(game.pending.request!)}.${viewer === game.pending.other ? (player.hand.includes(game.pending.request!) ? " Accept or decline without revealing your other cards." : " You do not hold the requested person. Decline without revealing your hand.") : " The recipient may accept or refuse; their hand remains private."}${game.pending.recruit ? " If accepted, the offering player recruits the lower native card immediately." : " Received cards become available next round."}`
+      ? `Offer from ${names[game.pending.seat]}: ${nameOf(game.pending.card)} for ${nameOf(game.pending.request!)} in ${names[game.pending.other]}’s Played pile.${game.pending.recruit ? " On acceptance, the lower native card joins the rival’s Court." : " Accept to exchange them in Played until next round."}`
       : `${names[game.pending.seat]} uses ${nameOf(game.pending.card)} (rank ${BY_ID[game.pending.card].rank}) to Recall ${nameOf(game.pending.target!)}. Defend with a higher card of that Dynasty, or an Ace against J, Q or K. Let the person go to receive the attacking card in exchange next round.`
     : "";
   const currentGuide = lesson
@@ -282,11 +282,11 @@ async function render() {
   const tableHost = root.querySelector<HTMLElement>("#core-table");
   const retained = tableHost?.parentElement ? tableHost : null;
   if (retained) retained.remove();
-  root.innerHTML = `<main class="c-game"><header><div><p class="c-kicker">${lesson ? "LEARNING AT THE TABLE" : "CORE SUCCESSION PROTOTYPE"}</p><strong>Round ${game.round} of 12</strong></div><p class="c-objective">${esc(objective())}</p>${lesson ? btn("Exit tutorial", "exit") : btn("Table menu", "menu")}</header><section class="c-board-wrap" aria-label="Physical game table"><div class="c-table-nav">${lesson ? `<span>${esc(names[actor])}${game.result ? "" : " · current opportunity"}</span>` : `${btn("Whole table", "focus-all")}${game.players.map((p) => btn(esc(names[p.seat]), "focus", `data-seat="${p.seat}"`)).join("")}`}</div><div id="core-table"></div></section><section class="c-table-edge ${game.phase === "trade" ? "c-trade-response" : ""}"><section class="c-hand" aria-label="Your private hand"><div class="c-hand-heading"><h2>${esc(names[viewer])} · ${esc(dynastyName(player.dynasty))}</h2><span>${hand.length} cards in hand</span></div><div class="c-hand-cards">${
+  root.innerHTML = `<main class="c-game"><header><div><p class="c-kicker">${lesson ? "LEARNING AT THE TABLE" : "CORE SUCCESSION PROTOTYPE"}</p><strong>Round ${game.round} of 12</strong></div><p class="c-objective">${esc(objective())}</p>${lesson ? btn("Exit tutorial", "exit") : btn("Table menu", "menu")}</header><section class="c-board-wrap" aria-label="Physical game table"><div class="c-table-nav">${lesson ? `<span>${esc(names[actor])}${game.result ? "" : " · current opportunity"}</span>` : `${btn("Whole table", "focus-all")}${game.players.map((p) => btn(esc(names[p.seat]), "focus", `data-seat="${p.seat}"`)).join("")}`}</div><div id="core-table"></div></section><section class="c-table-edge ${game.phase === "trade" ? "c-trade-response" : ""}"><section class="c-hand" aria-label="Your private hand"><div class="c-hand-heading"><h2>${esc(names[viewer])} · ${esc(dynastyName(player.dynasty))}</h2><span>${hand.length} ${hand.length === 1 ? "card" : "cards"} in hand</span></div><div class="c-hand-cards">${
     hand
       .map((id) => {
         const enabled = humanTurn && available.some((a) => a.card === id);
-        return `<div class="c-held-card ${selected === id ? "selected" : ""} ${lesson && enabled ? "next-interaction" : ""}"><button class="c-card-pick" data-do="select" data-card="${id}" ${!enabled ? "disabled" : ""} aria-label="Select ${esc(nameOf(id))}, ${BY_ID[id].rank} ${esc(dynastyName(BY_ID[id].dynasty))}">${faceHTML(id)}</button><div class="c-card-caption">${enabled ? [...new Set(available.filter((a) => a.card === id).map((a) => label[a.type]))].slice(0, 2).join(" · ") : "Keep in hand"}${!lesson ? btn("Inspect", "inspect", `data-card="${id}"`) : ""}</div></div>`;
+        return `<div class="c-held-card ${selected === id ? "selected" : ""} ${lesson && enabled ? "next-interaction" : ""}"><button class="c-card-pick" data-do="select" data-card="${id}" ${!enabled ? "disabled" : ""} aria-label="Select ${esc(nameOf(id))}, ${BY_ID[id].rank} ${esc(dynastyName(BY_ID[id].dynasty))}">${faceHTML(id)}</button><div class="c-card-caption">${enabled ? [...new Set(available.filter((a) => a.card === id).map((a) => label[a.type]))].slice(0, 2).join(" · ") : game!.result ? "Game ended" : humanTurn ? "No valid play now" : "Wait for your turn"}${!lesson ? btn("Inspect", "inspect", `data-card="${id}"`) : ""}</div></div>`;
       })
       .join("") ||
     '<p class="c-empty">Your hand is empty. Played cards return next round.</p>'
@@ -345,7 +345,9 @@ function renderChoices(list: CoreAction[]): string {
       const subset = list.filter((a) => a.type === type);
       if (subset.length === 1)
         return btn(
-          label[type],
+          type === "marry-heir"
+            ? `Marry ${nameOf(subset[0].supporter!)}`
+            : label[type],
           "choice",
           `data-index="${list.indexOf(subset[0])}" class="${lesson ? "next-interaction" : ""}"`,
         );
@@ -410,9 +412,62 @@ function modal(html: string) {
     }
   });
 }
+function marriageHint(id: string): string {
+  if (
+    !game ||
+    !game.players[viewer].hand.includes(id) ||
+    BY_ID[id].dynasty === game.players[viewer].dynasty
+  )
+    return "";
+  const player = game.players[viewer];
+  let hint: string;
+  if (game.result) hint = "The game has ended.";
+  else if (game.phase !== "action" || game.active !== viewer)
+    hint = "Marriage is available on your turn.";
+  else if (game.crown) hint = "Marriage needs an unclaimed Crown.";
+  else if (!player.ruler || BY_ID[player.ruler].dynasty !== player.dynasty)
+    hint = "Marriage needs a ruler from your Dynasty.";
+  else {
+    const queens = player.court.filter(
+      (queen) =>
+        queen !== player.ruler &&
+        BY_ID[queen].dynasty === player.dynasty &&
+        BY_ID[queen].queen &&
+        !game!.marriages.some(
+          (link) => link.queen === queen || link.spouse === queen,
+        ),
+    );
+    const matches = queens.filter(
+      (queen) => Math.abs(BY_ID[queen].rank - BY_ID[id].rank) <= 1,
+    );
+    hint = matches.length
+      ? `Can marry ${matches.map(nameOf).join(" or ")} and become your heir.`
+      : queens.length
+        ? `Needs a Queen of your Dynasty with rank ${[
+            BY_ID[id].rank - 1,
+            BY_ID[id].rank,
+            BY_ID[id].rank + 1,
+          ]
+            .filter((rank) => rank >= 1 && rank <= 13)
+            .map((rank) =>
+              rank === 1
+                ? "A"
+                : rank === 11
+                  ? "J"
+                  : rank === 12
+                    ? "Q"
+                    : rank === 13
+                      ? "K"
+                      : rank,
+            )
+            .join(", ")}.`
+        : "First recruit an unpaired Queen of your Dynasty beside your ruler.";
+  }
+  return `<p class="c-marriage-hint">Foreign cards enter Court through marriage. ${esc(hint)}</p>`;
+}
 function inspect(id: string) {
   modal(
-    `<h2>${esc(nameOf(id))}</h2><div class="c-inspection-card">${faceHTML(id, { reference: true })}</div><p>Printed rank ${BY_ID[id].rank} · ${esc(dynastyName(BY_ID[id].dynasty))}${BY_ID[id].queen ? " · Queen role" : ""}</p><p>A native card can join your Court or become an heir. Recall matches the target’s Dynasty; defense compares lead and answer. An undefended Recall exchanges the lead for the target. Both go to their new owners’ Played areas until next round.</p>${btn("Reference rules", "rules")}`,
+    `<h2>${esc(nameOf(id))}</h2>${marriageHint(id)}<div class="c-inspection-card">${faceHTML(id, { reference: true })}</div><p>Printed rank ${BY_ID[id].rank} · ${esc(dynastyName(BY_ID[id].dynasty))}${BY_ID[id].queen ? " · Queen role" : ""}</p><p>A native card can join your Court or become an heir. Recall matches the target’s Dynasty; defense compares lead and answer. An undefended Recall exchanges the lead for the target. Both go to their new owners’ Played areas until next round.</p>${btn("Reference rules", "rules")}`,
   );
 }
 function rules() {
@@ -422,7 +477,7 @@ function rules() {
 }
 function menu() {
   modal(
-    `<h2>Your table</h2><p>${esc(objective())}</p><p>Play cards to develop your Court, Recall a rival’s person or propose an exact-card Trade. A played card is unavailable until next round. Defend with a higher same-Dynasty card; an Ace also answers J, Q or K.</p><p>Claim with a ruler, an existing native supporter and a new native heir. Or marry a matching-rank foreign heir to an existing native Queen. Keep the required people through transfer and the entire following round.</p><p>Everyone passing consecutively ends a round. Played cards return, then each player draws one new card. No deck reshuffle. The prototype ends as a draw after 12 rounds without a winner.</p>${btn("Reference rules", "rules")}${btn(motion ? "Reduce motion" : "Enable motion", "motion")}${btn("Export private save", "export")}${btn("Return to title", "home")}<p class="c-subtle">Private saves include all hands. Share only with people allowed to see them.</p>`,
+    `<h2>Your table</h2><p>${esc(objective())}</p><p>Play cards to develop your Court, Recall a rival’s person or offer a Trade for a rival’s face-up Played card. A played card is unavailable until next round. Defend with a higher same-Dynasty card; an Ace also answers J, Q or K.</p><p>Claim with a ruler, an existing native supporter and a new native heir. Or marry a equal- or neighboring-rank foreign heir to an existing native Queen. Keep the required people through transfer and the entire following round.</p><p>Everyone passing consecutively ends a round. Played cards return, then each player draws one new card. No deck reshuffle. The prototype ends as a draw after 12 rounds without a winner.</p>${btn("Reference rules", "rules")}${btn(motion ? "Reduce motion" : "Enable motion", "motion")}${btn("Export private save", "export")}${btn("Return to title", "home")}<p class="c-subtle">Private saves include all hands. Share only with people allowed to see them.</p>`,
   );
 }
 function bind(scope: ParentNode = root) {

@@ -55,15 +55,19 @@ export interface CoreSave {
   names: string[];
   motion: boolean;
 }
-export const saveKey = (namespace = "") => `${namespace}oando-v5-core`;
+export const saveKey = (namespace = "") => `${namespace}oando-v5-played-trades`;
 export function encodeSave(save: CoreSave): string {
-  return JSON.stringify({ version: 5, ruleset: "rank-core-v1", ...save });
+  return JSON.stringify({
+    version: 5,
+    ruleset: "rank-core-played-trades-v2",
+    ...save,
+  });
 }
 export function decodeSave(text: string): CoreSave {
   const value = JSON.parse(text);
-  if (value?.version !== 5 || value.ruleset !== "rank-core-v1")
+  if (value?.version !== 5 || value.ruleset !== "rank-core-played-trades-v2")
     throw new Error(
-      "This save belongs to another game version. Your original save is preserved.",
+      "This save uses different rules. Your original save is preserved; start a new table for Played-pile trades.",
     );
   assertInvariants(value.game);
   if (
@@ -100,7 +104,13 @@ export function readSave(
 ): { save: CoreSave | null; error: string | null } {
   try {
     const bytes = storage.getItem(saveKey(namespace));
-    return { save: bytes ? decodeSave(bytes) : null, error: null };
+    return {
+      save: bytes ? decodeSave(bytes) : null,
+      error:
+        !bytes && storage.getItem(`${namespace}oando-v5-core`)
+          ? "Your older table is preserved. Start a new table to use Played-pile trades."
+          : null,
+    };
   } catch (error) {
     return {
       save: null,

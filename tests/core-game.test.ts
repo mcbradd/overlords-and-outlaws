@@ -281,10 +281,11 @@ test('U27/U34: hidden hand/deck permutations produce identical seat observations
 function tradePosition() {
   const s = fixture();
   s.players[0].hand = [a(8)];
-  s.players[1].hand = [a(2),p(2)];
+  s.players[1].hand = [p(2)];
+  s.players[1].played = [a(2)];
   return conserve(s);
 }
-test('U35/U36/U37/U39: exact Trade binds once, hides ownership, commits both and rejects forgery', () => {
+test('U35/U36/U37/U39: Played Trade binds once, commits both and rejects forgery', () => {
   const s = tradePosition();
   rejected(s,{type:'trade',seat:0,card:a(8),other:1,request:p(1)});
   rejected(s,{type:'trade',seat:0,card:a(8),other:0,request:a(2)});
@@ -308,11 +309,10 @@ test('U35/U36/U37/U39: exact Trade binds once, hides ownership, commits both and
   const absent = tradePosition();
   absent.players[1].hand = [a(3),p(2)];
   conserve(absent);
-  const unavailable = act(absent,{type:'trade',seat:0,card:a(8),other:1,request:a(2)});
-  rejected(unavailable,{type:'accept',seat:1});
-  const refusedUnavailable = act(unavailable,{type:'decline',seat:1});
-  const refusedAvailable = act(pending,{type:'decline',seat:1});
-  assert.deepEqual(viewForSeat(refusedAvailable,0),viewForSeat(refusedUnavailable,0));
+  absent.players[1].played = [];
+  conserve(absent);
+  rejected(absent,{type:'trade',seat:0,card:a(8),other:1,request:a(2)});
+
 });
 
 test('U38: binding lower-native Trade recruitment is optional and cannot claim', () => {
@@ -325,7 +325,7 @@ test('U38: binding lower-native Trade recruitment is optional and cannot claim',
   for (const [offer,request] of [[a(2),a(8)],[a(8),p(8)],[a(8),p(2)]]) {
     const invalid = fixture();
     invalid.players[0].hand = [offer];
-    invalid.players[1].hand = [request];
+    invalid.players[1].played = [request];
     conserve(invalid);
     rejected(invalid,{type:'trade',seat:0,card:offer,other:1,request,recruit:true});
   }
@@ -591,7 +591,7 @@ test('A07: AI retains ranked answers instead of needless extra native deployment
   assert.equal(defend.action.card,a(6),'smaller non-Queen answer preserves 10');
 });
 
-test('EMPTY-01/02/03: Trade excludes publicly empty hands without inspecting nonempty hidden identities', () => {
+test('EMPTY-01/02/03: Trade excludes empty Played piles without inspecting hidden hands', () => {
   const empty = fixture();
   empty.players[0].hand = [a(8)];
   conserve(empty);
@@ -606,11 +606,12 @@ test('EMPTY-01/02/03: Trade excludes publicly empty hands without inspecting non
   const occupied = fixture();
   occupied.players[0].hand = [a(8)];
   occupied.players[1].hand = [p(2)];
+  occupied.players[1].played = [a(2)];
   conserve(occupied);
   const occupiedView = viewForSeat(occupied, 0);
   assert.ok(legalActions(occupiedView, 0).some(action => action.type === 'trade' && action.other === 1 && action.request === a(2)));
   const requested = act(occupied, { type: 'trade', seat: 0, card: a(8), other: 1, request: a(2) });
-  rejected(requested, { type: 'accept', seat: 1 });
+  assert.ok(act(requested, { type: 'accept', seat: 1 }).players[0].played.includes(a(2)));
 
   const permuted = structuredClone(occupied);
   permuted.players[1].hand = [p(3)];

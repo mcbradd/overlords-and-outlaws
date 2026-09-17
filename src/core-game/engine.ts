@@ -80,11 +80,6 @@ function supported(view: CoreView | CoreState, seat: number, id: string | null):
       player.court.includes(link.queen) && native(link.queen, player.dynasty) && BY_ID[link.queen].queen));
 }
 
-function publiclyOutside(view: CoreView, recipient: number, id: string): boolean {
-  return view.players.some(player => player.court.includes(id) || player.played.includes(id) ||
-    (player.seat !== recipient && (player.hand?.includes(id) || view.knownHands[player.seat]?.includes(id))));
-}
-
 /** Candidate generation never receives an opponent's private hand or deck order. */
 export function legalActions(view: CoreView, seat: number): CoreAction[] {
   const player = view.players[seat];
@@ -96,7 +91,7 @@ export function legalActions(view: CoreView, seat: number): CoreAction[] {
     add({ type: 'decline' });
     if (view.phase === 'recall') {
       for (const id of player.hand) if (canDefend(view.pending.card, id)) add({ type: 'defend', card: id });
-    } else if (view.phase === 'trade' && player.hand.includes(view.pending.request!)) add({ type: 'accept' });
+    } else if (view.phase === 'trade' && player.played.includes(view.pending.request!)) add({ type: 'accept' });
     return actions;
   }
   if (view.phase !== 'action' || view.active !== seat) return [];
@@ -118,9 +113,9 @@ export function legalActions(view: CoreView, seat: number): CoreAction[] {
     for (const rival of view.players) if (rival.seat !== seat) {
       for (const target of rival.court) if (BY_ID[target].dynasty === card.dynasty &&
         !view.attempts[seat]?.includes(target)) add({ type: 'recall', card: id, target });
-      if (rival.handCount === 0 || view.offers[seat]?.includes(rival.seat)) continue;
-      for (const requested of CARDS) if (view.dynasties.includes(requested.dynasty) &&
-        !publiclyOutside(view, rival.seat, requested.id)) {
+      if (view.offers[seat]?.includes(rival.seat)) continue;
+      for (const requestedId of rival.played) {
+        const requested = BY_ID[requestedId];
         add({ type: 'trade', card: id, other: rival.seat, request: requested.id });
         if (requested.dynasty === player.dynasty && requested.rank < card.rank)
           add({ type: 'trade', card: id, other: rival.seat, request: requested.id, recruit: true });
@@ -265,7 +260,8 @@ export function applyAction(state: CoreState, action: CoreAction): CoreState {
     case 'accept': {
       const pending = s.pending!;
       removeFromHand(s, pending.seat, pending.card);
-      removeFromHand(s, pending.other, pending.request!);
+      const source = s.players[pending.other].played;
+      source.splice(source.indexOf(pending.request!), 1);
       s.players[pending.other].played.push(pending.card);
       if (pending.recruit) recruit(s, pending.seat, pending.request!);
       else s.players[pending.seat].played.push(pending.request!);
@@ -360,6 +356,7 @@ export function assertInvariants(s: CoreState): void {
       !!pending.target && s.players[pending.other].court.includes(pending.target) &&
       BY_ID[pending.card].dynasty === BY_ID[pending.target].dynasty && s.attempts[pending.seat]?.includes(pending.target), 'Recall evidence');
     else require(s.players[pending.seat].hand.includes(pending.card) && !!pending.request && !!BY_ID[pending.request] &&
+      s.players[pending.other].played.includes(pending.request) &&
       s.offers[pending.seat]?.includes(pending.other) && (!pending.recruit ||
       native(pending.request, s.players[pending.seat].dynasty) && BY_ID[pending.request].rank < BY_ID[pending.card].rank), 'Trade evidence');
   } else require(s.phase === 'action' || s.phase === 'terminal', 'missing response');

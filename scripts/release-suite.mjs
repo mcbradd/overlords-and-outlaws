@@ -11,7 +11,8 @@ const script = (file, ...args) => [
   ...args,
 ];
 const checks = [
-  ["core-rules-and-storage", ["--import", "tsx", "--test", "tests/core-game.test.ts", "tests/core-storage.test.ts"]],
+  ["core-rules-and-storage", ["--import", "tsx", "--test", "tests/core-game.test.ts", "tests/core-storage.test.ts", "tests/core-player-feedback.test.ts"]],
+  ["core-player-feedback", script("core-player-feedback.ts")],
   ["core-policy-simulation", script("core-simulate.ts", "8")],
   ["core-browser", script("core-browser.ts")],
   ["core-browser-extended", script("core-browser-extended.ts")],

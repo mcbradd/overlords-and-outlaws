@@ -1,3 +1,5 @@
+> **Superseded candidate - player correction, 17 September 2026:** The user rejected unrestricted Court entry: foreign cards must enter through marriage. Trade may request only a rival's face-up Played/Resting cards. The any-card Add / no-marriage candidate below is historical planning evidence and must not be implemented as written. See [the current correction and regression tasks](reviews/BUILD-5-PLAYER-FOLLOWUP-2026-09-17.md). Its dependent tutorial, state and acceptance package requires redesign before implementation.
+
 # Suit and rank — Build 6 binding evaluation rules
 
 17 September 2026. **Selected for implementation planning and adversarial evaluation; not a claim of proven enjoyment.** This is the consolidated D-open/refill-to-two candidate with mandatory card play. The production plan, test contract, tutorial contract and frozen visual inventory must be committed before implementation. Previous Build 5 rules are archived in reviews/SUIT-AND-RANK-BUILD-5-SUPERSEDED.md. The panel's abandoned alternatives remain evidence in the review record, not optional rules.

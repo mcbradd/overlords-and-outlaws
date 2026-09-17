@@ -30,6 +30,7 @@ test("APP06 first taught play names its actual printed person", () => {
 });
 test("U28/U30 current save restores exact state and preserves historical keys", () => {
   const values = new Map([
+    ["prod:oando-v5-core", "untouched-v5"],
     ["prod:oando-v4-history", "untouched-v4"],
     ["prod:oando-v3", "untouched-v3"],
   ]);
@@ -53,7 +54,8 @@ test("U28/U30 current save restores exact state and preserves historical keys", 
   );
   assert.equal(values.get("prod:oando-v4-history"), "untouched-v4");
   assert.equal(values.get("prod:oando-v3"), "untouched-v3");
-  assert.equal(saveKey("prod:"), "prod:oando-v5-core");
+  assert.equal(values.get("prod:oando-v5-core"), "untouched-v5");
+  assert.equal(saveKey("prod:"), "prod:oando-v5-played-trades");
 });
 test("R01 tutorial saves accept every reached boundary and reject mismatched progress", () => {
   let game = createTutorial();
@@ -116,6 +118,23 @@ test("U29 corrupt and unknown saves fail without rewriting stored bytes", () => 
   assert.ok(readSave(storage).error);
   assert.throws(() => decodeSave('{"version":99}'));
   assert.equal(storage.getItem(), bytes);
+});
+
+test("Played-pile rules reject old hand-trade saves without modifying their bytes", () => {
+  const original = JSON.stringify({
+    version: 5,
+    ruleset: "rank-core-v1",
+    game: createTutorial(),
+  });
+  assert.throws(() => decodeSave(original), /different rules/);
+  const values = new Map([["prod:oando-v5-core", original]]);
+  const loaded = readSave(
+    { getItem: (key) => values.get(key) ?? null },
+    "prod:",
+  );
+  assert.equal(loaded.save, null);
+  assert.match(loaded.error!, /older table is preserved/);
+  assert.equal(values.get("prod:oando-v5-core"), original);
 });
 test("U29 invalid tutorial cursor and duplicate card state are rejected", () => {
   const saved = {

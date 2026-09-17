@@ -47,7 +47,7 @@ export function coverageFixtures():Map<string,CoreState>{
   let notice=baseFixture();notice.players[0].court.push(a(2));notice.players[0].hand=[a(4),a(8)];notice.players[1].hand=[a(7)];conserve(notice);notice=perform(notice,{type:'name-heir',seat:0,card:a(4),supporter:a(2)});fixtures.set('native-notice',notice);fixtures.set('native-reign',nextRound(notice));
   let failed=perform(notice,{type:'recall',seat:1,card:a(7),target:a(2)});fixtures.set('incoming-recall',failed);fixtures.set('recall-decline',failed);failed=perform(failed,{type:'decline',seat:0});fixtures.set('failed-claim',failed);
   let marriage=baseFixture();marriage.players[0].court.push(a(12));marriage.players[0].hand=[p(11)];conserve(marriage);marriage=perform(marriage,{type:'marry-heir',seat:0,card:p(11),supporter:a(12)});fixtures.set('marriage-notice',marriage);fixtures.set('foreign-reign',nextRound(marriage));
-  let trade=baseFixture();trade.players[0].hand=[a(8)];trade.players[1].hand=[a(2)];conserve(trade);trade=perform(trade,{type:'trade',seat:0,card:a(8),other:1,request:a(2),recruit:true});fixtures.set('trade-offer',trade);fixtures.set('trade-decline',trade);
+  let trade=baseFixture();trade.players[0].hand=[a(8)];trade.players[1].played=[a(2)];conserve(trade);trade=perform(trade,{type:'trade',seat:0,card:a(8),other:1,request:a(2),recruit:true});fixtures.set('trade-offer',trade);fixtures.set('trade-decline',trade);
   const cap=baseFixture();cap.round=12;fixtures.set('cap-draw',nextRound(cap));
   for(const state of fixtures.values())assertInvariants(state);return fixtures;
 }

@@ -2,16 +2,16 @@
 
 A digital prototype of Malachy Murray's physical card-and-board game. Expose people to build a family, or keep their ranks concealed to answer rivals. Claim the Crown, pass it to an heir, then keep the new ruler and named supporter through a full round.
 
-The default application is the **Build 5 core succession prototype**. It begins with one ruler and two hand cards. Cards fund actions; there are no seals. Recruit, Recall, Defend, exact-card Trade, Name heir and Marry & name heir share the same four thirteen-rank Dynasty suits. Pass ends a round only when everyone passes consecutively. Advanced History, Eudoxia and separate institutional Laws are deferred while the core is evaluated.
+The default application is the **core succession prototype with Played-pile trades**. It begins with one ruler and two hand cards. Cards fund actions; there are no seals. Recruit, Recall, Defend, Trade for a rival’s face-up Played card, Name heir and Marry & name heir share the same four thirteen-rank Dynasty suits. Pass ends a round only when everyone passes consecutively. Advanced History, Eudoxia and separate institutional Laws are deferred while the core is evaluated.
 
 - **Learn at the table:** one guide, one taught interaction, legal actions and a controlled example. The learner chooses when to watch rival moves. Continue changes only the teaching cursor.
 - **Play the core game:** two to four seats, selectable Dynasty, reproducible deal, computer rivals or private shared-device handoffs.
 - **Physical table:** Three.js cards and components, Court cameras, Crown and marriage links; inspectable character references and shared printable rule aids. Public cards and concealed hand counts remain distinct.
 - **Recovery:** separate versioned core saves; old History and combat saves preserved. Private exports explicitly contain every hand. The historical History runtime is at `?archive=history-v4`; combat is at `?legacy=1`. Neither is the current ruleset.
 
-[Published Build 5 rules](docs/reviews/SUIT-AND-RANK-BUILD-5-SUPERSEDED.md) · [Next Build 6 rules](docs/SUIT-AND-RANK-DESIGN.md) · [Build 6 production plan](docs/BUILD-6-PRODUCTION-PLAN.md) · [Executed evidence and open gates](docs/reviews/BUILD-5-EXECUTION-LOG.md) · [Design session](docs/reviews/SUIT-RANK-DESIGN-SESSION-2026-09-17.md) · [Physical direction](docs/PHYSICAL-GAME-DIRECTION.md)
+[Published Build 5 rules](docs/reviews/SUIT-AND-RANK-BUILD-5-SUPERSEDED.md) · [Superseded Build 6 candidate](docs/SUIT-AND-RANK-DESIGN.md) · [Build 6 production plan](docs/BUILD-6-PRODUCTION-PLAN.md) · [Executed evidence and open gates](docs/reviews/BUILD-5-EXECUTION-LOG.md) · [Design session](docs/reviews/SUIT-RANK-DESIGN-SESSION-2026-09-17.md) · [Physical direction](docs/PHYSICAL-GAME-DIRECTION.md)
 
-Build 6 is planned, not implemented. The user requested stopping at the next implementation boundary and leaving a knowledge-base handoff. Do not confuse the binding next-phase specification with the game currently served on Prod.
+The user resumed iteration and rejected unrestricted Court entry: foreign cards require marriage. The frozen Build 6 replacement must be redesigned. The current correction restricts Trade to rival Played piles, clarifies marriage, and dims unavailable hand cards. See [current scope and evidence](docs/reviews/BUILD-5-PLAYER-FOLLOWUP-2026-09-17.md).
 
 [Resume from the Build 6 knowledge-base handoff](docs/knowledge-base/build-6-handoff/README.md).
 

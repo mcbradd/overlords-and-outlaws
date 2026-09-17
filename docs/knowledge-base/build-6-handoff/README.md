@@ -1,3 +1,5 @@
+> **Resume update - 17 September 2026:** The user has resumed iteration and rejected the unrestricted Add/no-marriage premise in this frozen package. Foreign Court entry must require marriage. Trade requests must target only a rival's face-up Played/Resting pile. See [the current player correction](../../reviews/BUILD-5-PLAYER-FOLLOWUP-2026-09-17.md). Preserve this handoff as evidence; do not execute its superseded replacement rules.
+
 # Build 6 implementation handoff
 
 17 September 2026. **Stop point: planning complete; implementation has not begun.** The user requested: “Work until you are ready to begin the next implementation phase, then stop, write all your current knowledge to the knowledge base, for another agent to resume later.” This task pauses at that boundary. A later agent receiving a resume/implementation instruction can execute the frozen package without asking for the same permission again.

@@ -1,3 +1,5 @@
+> **Current correction, 17 September 2026:** The planned Build 6 unrestricted Add tutorial is superseded. Keep the legal succession teaching route while the replacement is redesigned around marriage-only foreign Court entry and Played-pile Trade. See [the correction](reviews/BUILD-5-PLAYER-FOLLOWUP-2026-09-17.md).
+
 # Guided play and card presentation
 
 **Family-game teaching gate:** [Family-game design gate](FAMILY-GAME-DESIGN-GATE.md) is binding. Use sixth-grade language, minimal text and visible examples. A mechanic that needs multiple sentences to clarify ordinary gameplay must be simplified; splitting its paragraph across more tutorial cursors does not pass. The existing sequence below is a candidate to revise, while legal-action continuity and one-guide interaction remain required.
