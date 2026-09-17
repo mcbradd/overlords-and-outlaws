@@ -169,7 +169,7 @@ async function composeCard(id: string, compact: boolean) {
   ctx.imageSmoothingQuality = "high";
   ctx.fontKerning = "normal";
   ctx.beginPath();
-  ctx.roundRect(0, 0, 630, 880, 12);
+  ctx.roundRect(0, 0, 630, 880, 30);
   ctx.clip();
   ctx.fillStyle = "#101c24";
   ctx.fillRect(0, 0, 630, 880);
@@ -195,6 +195,14 @@ async function composeCard(id: string, compact: boolean) {
   }
   // One authored frame at native proportions, with the portrait underneath its aperture.
   if (frame) ctx.drawImage(frame, 0, 0, 630, 880);
+  // Printed title cartouche: the same fixed ink geometry on hand and table faces.
+  ctx.fillStyle = '#101c24';
+  ctx.strokeStyle = '#b4a17b';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.roundRect(64, 42, 502, 114, 16);
+  ctx.fill();
+  ctx.stroke();
   function singleLine(
     label: "name" | "role",
     text: string,

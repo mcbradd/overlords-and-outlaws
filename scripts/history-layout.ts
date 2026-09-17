@@ -41,7 +41,7 @@ for (const maximum of [false, true])
     assert.equal(await page.locator(".h-card-face").count(), 0);
     await page.locator('[data-ui="unlock"]').click();
     await page.waitForFunction(
-      (count) => document.querySelectorAll(".h-world-card").length === count,
+      (count) => document.querySelectorAll('.h-world-card:not([data-seat="-1"])').length === count,
       maximum ? 52 : 24,
     );
     await page.evaluate(
@@ -54,7 +54,11 @@ for (const maximum of [false, true])
       path: `artifacts/history/${maximum ? "maximum" : "dense"}-${width}.png`,
       fullPage: false,
     });
+    await page.locator('[data-ui="focus-all"]').click();
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    await page.screenshot({path: `artifacts/history/${maximum ? 'maximum' : 'dense'}-whole-${width}.png`});
     await page.locator('[data-ui="focus-0"]').click();
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
     await page.screenshot({
       path: `artifacts/history/${maximum ? "maximum" : "dense"}-court-${width}.png`,
       fullPage: false,

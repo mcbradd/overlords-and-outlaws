@@ -13,8 +13,8 @@ export function createTutorial(): GameState {
     modules: ["alba", "plantagenet", "tudor"],
     players: [
       { name: "You", ai: false },
-      { name: "Henry II · Plantagenet", ai: true },
-      { name: "Henry VII · Tudor", ai: true },
+      { name: "Henry II", ai: true },
+      { name: "Henry VII", ai: true },
     ],
     seed: 160926,
   });
@@ -325,21 +325,21 @@ export const TUTORIAL_CHAPTERS = [
   { start: 49, title: "Pass the Crown" },
 ] as const;
 const SHORT_PROMPTS: Record<number, string> = {
-  15: "Your three face-up Nobles form your Court; your hand stays private. Three seals pay for actions or defense. Select Robert II in your hand, then offer him to Henry II: a foreign Noble could marry Margaret.",
-  17: "Both players must agree before seeing the offers. Agree to inspect, then compare the actual cards before deciding whether to trade.",
-  19: "Richard gives you a foreign spouse for Margaret. Robert is useful for Alba’s defense. Accept this exchange to follow the example, or decline and continue freely.",
-  22: "Henry is trying to take Margaret. Block by lending an Alba hand card and spending one seal. Your lent card returns next round.",
-  24: "Marry Margaret and Richard. Richard joins your Bloodline through Margaret, but remains Plantagenet. Losing Margaret would remove that support.",
-  27: "Pass to keep your remaining seals. The round ends only after everyone passes in a row; another action resets that count.",
-  32: "Both rivals helped stop Contested Recognition. Lend Alexander III to finish it. Removing this Crisis permits Crown claims; it costs one seal.",
-  35: "Alba needs heirs from two family branches. Recruit Robert the Bruce: his branch differs from Margaret’s and David’s. You will have one seal left.",
-  38: "Claiming now would spend your last seal. Pass to keep protection. Everyone’s seals refill when this round ends; then you can claim safely.",
-  40: "Five Alba pieces are uncovered. A sixth would end the game. Cover one now, spending a seal and permanently discarding Malcolm; the cover lasts until round 5.",
-  43: "Claim with Margaret and Robert as heirs. Kenneth remains Ruler until succession. This costs one seal and leaves one seal to protect your claim.",
-  45: "Henry threatens Kenneth, your Ruler. Use the defense you saved: any matching Alba hand card can Block. Your Crown claim survives if Kenneth stays.",
-  47: "Pass with the claim intact. The round marker shows who still has an opportunity before your heir takes over.",
-  49: "Choose Robert as successor. Kenneth moves permanently to The Past. Keep Robert in your Bloodline through this round to win.",
-  50: "Pass when ready. The Crown records the remaining hold period; the result follows only after the actual round closes.",
+  15: "You get 3 actions each round, counted by the gold seals. Using one to trade can give you a foreign card for marriage or for taking a rival’s Noble. Offering Robert II gives up an Alba card you could recruit or use to block. Select him to try a trade, or choose another action below.",
+  17: "Henry has made a hidden offer. Agree to look to reveal both cards to each other. This is not agreement to swap: you can still refuse after seeing his offer, at no cost.",
+  19: "Henry offers Richard I, a Plantagenet Noble—not a Queen. Margaret is already your Queen. Richard could marry her or help you take a Plantagenet Noble. Robert II could instead join your Alba Court or defend it. Compare the cards, then accept or decline.",
+  22: "Henry is trying to take Margaret into his hand. Keeping her preserves a possible Alba heir and your marriage option. A Block costs 1 action and lends an Alba hand card until next round. Either listed card stops the same threat; choose which card you can spare for now, or let Margaret go.",
+  24: "Marriage puts Richard into your Court and makes him part of your Bloodline. He can help challenge Crises, but he cannot fill an Alba-only heir slot. This is an optional investment, not a requirement for your win. Marry him to try it, or save the action for a different plan.",
+  27: "You have spent all 3 actions this round. Pass to let the next player act. Once everyone passes consecutively, the round ends and everyone gets 3 actions again. Any action breaks that chain of passes. The unresolved warning will also become active.",
+  32: "Contested Recognition now prevents anyone from claiming the Crown. Both rivals have helped; your contribution will remove it. Choose Help to lend Alexander III until next round and spend 1 action. You could wait, but no one can claim while this Crisis remains active.",
+  35: "Your fastest Crown route needs two Alba heirs from different family branches. Margaret and David share Dunkeld; Robert the Bruce adds Bruce–Stewart. Recruiting him gives you the missing branch. Keeping him in hand would preserve a card for defense instead.",
+  38: "Claim the Crown starts your attempt to win; it costs 1 action. You have 1 left, so claiming now leaves no action to Block a rival taking your ruler. Passing preserves that defense. If everyone passes, all players refill to 3—you can then claim with 2 left, though rivals can act too.",
+  40: "History reveals 3 cards each round. Some are painting pieces: any painting with all 6 uncovered makes everyone lose. Alba already has 5. Cover one to buy time, paying 1 action and permanently discarding Malcolm. Waiting keeps Malcolm but risks losing to the next piece.",
+  43: "Claiming starts your race to win. Choose Margaret and Robert as your two Alba heirs from different branches; Kenneth stays ruler until next round. Then one heir takes over and must stay ruler for a full round. Regency needs only one heir, but takes 2 full rounds. Either claim costs 1 action.",
+  45: "Henry is trying to take Kenneth. Losing your ruler now would end this Crown claim. Spend your saved action and lend an Alba hand card to Block. Both cards shown can stop him; the one you lend is unavailable until next round.",
+  47: "Your claim is intact and you have no actions left. Pass. When everyone passes, the new round begins and you choose which heir replaces Kenneth. Your claim still needs to survive that transition.",
+  49: "Choose your next ruler. Kenneth retires permanently; either Margaret or Robert is a legal successor here. Robert leaves Margaret available for her marriage. Whoever you choose must remain ruler through this full round to win.",
+  50: "Your heir now wears the Crown. You win when this round ends if that ruler stays in your Bloodline. Passing keeps all your actions available to Block threats. You can also act, but that spends protection and breaks the chain of passes.",
 };
 export function tutorialProgress(cursor: number) {
   let chapter = 0;
@@ -347,7 +347,7 @@ export function tutorialProgress(cursor: number) {
   const playerSteps = LESSONS.slice(PREPARED_TUTORIAL_CURSOR).filter(item => item.action.seat === 0).length;
   const completed = LESSONS.slice(PREPARED_TUTORIAL_CURSOR, cursor).filter(item => item.action.seat === 0).length;
   return { chapter: chapter + 1, chapters: TUTORIAL_CHAPTERS.length, title: TUTORIAL_CHAPTERS[chapter].title,
-    completed, playerSteps, prompt: SHORT_PROMPTS[cursor] ?? "Watch the named source and destination. Rival actions continue automatically; your decisions always wait for you." };
+    completed, playerSteps, prompt: SHORT_PROMPTS[cursor] ?? "Watch the highlighted pieces. Hover over the announcement to keep it open, or choose Continue now when ready." };
 }
 export function validateTutorial(): GameState {
   let s = createTutorial();

@@ -7,6 +7,7 @@ export interface Preferences {
   effects: number;
   music: number;
   largeText: boolean;
+  guidance?: boolean;
 }
 export interface SavedGame {
   version: 4;

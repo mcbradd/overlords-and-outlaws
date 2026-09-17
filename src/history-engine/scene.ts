@@ -3,7 +3,6 @@ import {
   CSS3DObject,
   CSS3DRenderer,
 } from "three/examples/jsm/renderers/CSS3DRenderer.js";
-import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { assetUrl } from "../assets";
 import { nameOf, PAINTING_NAMES } from "./content";
 import { cardCanvas, escapeHTML, loadImage, SEAT_SIGNS } from "./face";
@@ -38,6 +37,7 @@ export class HistoryTable {
   private frame = 0;
   private focus: number | null = null;
   private view: GameView | null = null;
+  private wideLayout = false;
   private width = 1400;
   private height = 1050;
   private textures: THREE.Texture[] = [];
@@ -54,10 +54,10 @@ export class HistoryTable {
     this.renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: preferences.quality !== "compact",
-      powerPreference: "low-power",
+      powerPreference: "high-performance",
     });
     this.renderer.setPixelRatio(
-      Math.min(devicePixelRatio, preferences.quality === "high" ? 2 : 1.5),
+      Math.min(Math.max(devicePixelRatio, preferences.quality === 'compact' ? 1 : 1.5), preferences.quality === "high" ? 3 : 2),
     );
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -199,15 +199,27 @@ export class HistoryTable {
     rotated: boolean,
     generation: number,
     seat: number,
+    width?: number,
   ) {
-    const w = this.view?.players.length === 2 ? 200 : 156,
+    const w = width ?? (this.view?.players.length === 2 ? 200 : 156),
       h = (w * 88) / 63;
     const turn = rotated ? -Math.PI / 2 : 0;
+    const radius = w * 30 / 630;
+    const outline = new THREE.Shape();
+    outline.moveTo(-w/2 + radius, -h/2);
+    outline.lineTo(w/2 - radius, -h/2);
+    outline.quadraticCurveTo(w/2, -h/2, w/2, -h/2 + radius);
+    outline.lineTo(w/2, h/2 - radius);
+    outline.quadraticCurveTo(w/2, h/2, w/2 - radius, h/2);
+    outline.lineTo(-w/2 + radius, h/2);
+    outline.quadraticCurveTo(-w/2, h/2, -w/2, h/2 - radius);
+    outline.lineTo(-w/2, -h/2 + radius);
+    outline.quadraticCurveTo(-w/2, -h/2, -w/2 + radius, -h/2);
     const body = new THREE.Mesh(
-      new RoundedBoxGeometry(w, h, 3, 2, 0.8),
+      new THREE.ExtrudeGeometry(outline, { depth: 3, bevelEnabled: false, curveSegments: 8 }),
       new THREE.MeshStandardMaterial({ color: 0xc8bfa9, roughness: 0.84 }),
     );
-    body.position.set(x, y, 11.8);
+    body.position.set(x, y, 10);
     body.rotation.z = turn;
     body.castShadow = true;
     body.receiveShadow = true;
@@ -223,10 +235,9 @@ export class HistoryTable {
     this.textures.push(texture);
     const face = new THREE.Mesh(
       new THREE.PlaneGeometry(w - 0.5, h - 0.5),
-      new THREE.MeshStandardMaterial({
+      new THREE.MeshBasicMaterial({
         map: texture,
-        roughness: 0.76,
-        metalness: 0,
+        toneMapped: false,
         transparent: true,
         alphaTest: 0.5,
         polygonOffset: true,
@@ -257,9 +268,8 @@ export class HistoryTable {
     obj.rotation.z = turn;
     this.faceGroup.add(obj);
     button.onclick = () => this.inspect(id);
-    if (markers.length)
-      this.label(
-        markers.map(escapeHTML).join(" · "),
+    this.label(
+        `<strong>${escapeHTML(nameOf(id))}</strong>${markers.length ? `<br>${markers.map(escapeHTML).join(" · ")}` : ''}`,
         x,
         y - (rotated ? w : h) / 2 - 13,
         16,
@@ -270,6 +280,7 @@ export class HistoryTable {
   }
   setFocus(seat: number | null) {
     this.focus = seat;
+    this.host.dataset.focus = seat === null ? "all" : String(seat);
     this.resize();
   }
   private resize() {
@@ -298,7 +309,7 @@ export class HistoryTable {
     const center =
       this.focus === null ? { x: 0, y: 0 } : this.courtAnchor(this.focus);
     const court = this.focus === null ? null : this.view?.players[this.focus];
-    const columns = this.view?.players.length === 2 ? 4 : 3;
+    const columns = this.view?.players.length === 2 || (this.view?.players.length === 3 && this.focus === 0) ? 4 : 3;
     const rows = court
       ? Math.max(1, Math.ceil(court.court.length / columns))
       : 1;
@@ -313,7 +324,7 @@ export class HistoryTable {
     const widestCard = court?.rotated.length ? cardHeight : cardWidth;
     const focusWidth =
       (shownColumns - 1) * (twoPlayers ? 303 : 242) + widestCard + 40;
-    const focusHeight = (rows - 1) * rowPitch + cardHeight + 54;
+    const focusHeight = (rows - 1) * rowPitch + cardHeight + 100;
     // A Court close-up fits actual Royals and their attached markers. Shared
     // Crown, decks and resource trays remain in the explicit Whole table view.
     if (this.focus !== null) center.y += twoPlayers ? -7.5 : -17.5;
@@ -338,6 +349,12 @@ export class HistoryTable {
   }
   private courtAnchor(seat: number) {
     const n = this.view?.players.length ?? 3;
+    if (this.wideLayout && this.view) {
+      const columns = n === 3 && seat === 0 ? 4 : 3;
+      const rows = Math.max(1, Math.ceil(this.view.players[seat].court.length / columns));
+      const position = n === 3 ? [0, -950, 950][seat] : (seat - 1.5) * 840;
+      return { x: position, y: this.height / 2 - (rows * 250 + 115) / 2 - 30 };
+    }
     const rowHeight = (this.height - 250) / 2;
     return n === 2
       ? { x: 0, y: seat === 0 ? -rowHeight / 2 - 125 : rowHeight / 2 + 125 }
@@ -351,6 +368,7 @@ export class HistoryTable {
   }
   render(v: GameView) {
     this.view = v;
+    this.wideLayout = v.players.length >= 3 && this.host.clientWidth > this.host.clientHeight * 2;
     this.generation++;
     const generation = this.generation;
     this.host.dataset.sceneReady = "false";
@@ -360,13 +378,17 @@ export class HistoryTable {
     const columns = v.players.length === 2 ? 4 : 3;
     const maxRows = Math.max(
       1,
-      ...v.players.map((p) => Math.ceil(p.court.length / columns)),
+      ...v.players.map((p) => Math.ceil(p.court.length / (v.players.length === 3 && p.seat === 0 ? 4 : columns))),
     );
     this.height = Math.max(
       1100,
       620 + maxRows * (v.players.length === 2 ? 604 : 500),
     );
     this.width = 1800;
+    if (this.wideLayout) {
+      this.width = v.players.length === 3 ? 2780 : 3400;
+      this.height = Math.max(730, 390 + maxRows * 250);
+    }
     this.box(this.width + 50, this.height + 50, 42, 0x302013, 0, 0, -24);
     this.box(
       this.width + 12,
@@ -408,20 +430,26 @@ export class HistoryTable {
       this.box(2, this.height - 44, 1, 0x897445, x, 0, 7, 0.5, 0.4);
     for (const y of [-this.height / 2 + 22, this.height / 2 - 22])
       this.box(this.width - 44, 2, 1, 0x897445, 0, y, 7, 0.5, 0.4);
-    this.label("OVERLORDS &amp; OUTLAWS", 0, 140, 10, 580, "h-table-engraving");
+    const trayY = this.wideLayout ? -this.height / 2 + 110 : 0;
+    this.label("OVERLORDS &amp; OUTLAWS", 0, trayY + 140, 10, 580, "h-table-engraving");
     const crownX = -this.width / 2 + 145;
-    this.crown(crownX, 25);
+    // Shared Crises are physical cards alongside the paintings, with real
+    // inspection and action anchors instead of an opaque HUD over a Court.
+    v.history.slice(0, 3).forEach((event, index) => {
+      components.push(this.card(event.id, -490 - index * 150, trayY + 25,
+        [event.status === 'active' ? 'ACTIVE' : 'WARNING'], false, generation, -1, 112));
+    });
+    this.crown(crownX, trayY + 25);
     this.label(
       v.crown
         ? `${escapeHTML(v.players[v.crown.seat].name)} · ${v.crown.route === "regency" ? "Regency" : escapeHTML(nameOf(`law-${v.players[v.crown.seat].dynasty}`))}<br>${escapeHTML(crownProgress(v))}`
         : "THE CROWN IS VACANT",
       crownX,
-      -53,
+      trayY - 53,
       15,
       230,
       "h-crown-label",
     );
-    const trayY = 0;
     const paintingArt: Record<string, string> = {
       alba: "art/court.webp",
       plantagenet: "art/wolves.webp",
@@ -453,9 +481,10 @@ export class HistoryTable {
       );
     });
     for (const p of v.players) {
+      const columns = v.players.length === 2 || (v.players.length === 3 && p.seat === 0) ? 4 : 3;
       const anchor = this.courtAnchor(p.seat);
       const rows = Math.max(1, Math.ceil(p.court.length / columns));
-      const matWidth = v.players.length === 2 ? 1300 : 790;
+      const matWidth = v.players.length === 2 ? 1300 : columns === 4 ? 1030 : 790;
       const rowPitch = v.players.length === 2 ? 302 : 250;
       const matHeight = rows * rowPitch + 115;
       const mat = this.box(
@@ -481,7 +510,7 @@ export class HistoryTable {
           0.7,
           0.2,
         );
-      this.label(
+      const seatLabel = this.label(
         `${SEAT_SIGNS[p.seat]} ${escapeHTML(p.name)} <span>${escapeHTML(p.dynasty ?? "Inheritance")}</span>`,
         anchor.x,
         anchor.y + matHeight / 2 - 28,
@@ -489,6 +518,7 @@ export class HistoryTable {
         matWidth - 30,
         "h-seat-label",
       );
+      seatLabel.dataset.seatAnchor = String(p.seat);
       for (let i = 0; i < 3; i++)
         this.token(
           anchor.x + matWidth / 2 - 48 - i * 44,
@@ -552,7 +582,7 @@ export class HistoryTable {
       [0, "DYNASTY", v.dynastyCount],
       [1, "HISTORY", v.historyCount],
     ] as const) {
-      const y = 30 - i * 155;
+      const y = trayY + 30 - i * 105;
       for (let n = 0; n < Math.min(count, 8); n++)
         this.box(72, 100, 2, 0x15232b, pileX, y, 14 + n * 2);
       this.label(`${label}<br>${count}`, pileX, y, 35, 70, "h-pile-label");

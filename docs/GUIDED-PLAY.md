@@ -1,5 +1,11 @@
 # Guided play and card presentation
 
+## Latest playthrough correction — September 16
+
+[Playthrough 03 recovery](PLAYTHROUGH-03-RECOVERY.md) supersedes the interaction and presentation details below. Costs and consequences precede a single commitment click. Teaching uses the normal bottom action dock, with explanations of purpose and tradeoffs. Rival previews have a visible countdown, hover/focus pause and optional immediate advance. Real defensive threats remain marked on the table. Legal alternatives keep the match and position-based guidance; they do not silently turn guidance off. Chapter/decision counts are removed from the player's introduction. The demonstrated sequence still contains fifteen player actions, but that is test evidence, not the player's task list.
+
+Hands are fanned physical cards with stationary inspection targets. Warning cards occupy the board rather than a panel over a court. Refer to the recovery record for verification and remaining limits.
+
 ## September 16 History Engine recovery contract
 
 The current active application is the History Engine. The creator's latest playtest and [recovery plan](PLAYTEST-RECOVERY-PLAN.md) supersede the scrolling and mandatory opponent acknowledgments described in the historical combat-game record below.

@@ -160,7 +160,7 @@ export async function startTeaching(page: Page) {
   );
   assert.match(
     await page.locator(".h-progress").innerText(),
-    /Chapter 1 \/ 10.*0\/15/,
+    /AT YOUR TABLE/,
   );
 }
 export async function driveTeaching(
@@ -223,11 +223,7 @@ export async function driveTeaching(
         );
       }
       clicks++;
-      await clickReachable(
-        page.locator('[data-ui="commit"]'),
-        `confirm decision ${cursor}`,
-      );
-      clicks++;
+      assert.equal(await page.locator('[data-ui="commit"]').count(), 0, "No second confirmation");
     } else {
       automaticActions++;
       assert.equal(
@@ -243,6 +239,7 @@ export async function driveTeaching(
           "uninspected offer remains concealed",
         );
     }
+    if (action.seat !== 0) await page.locator('[data-ui="advance-ai"]').click();
     expected = applyAction(expected, action);
     try {
       await page.waitForFunction(
@@ -269,7 +266,7 @@ export async function driveTeaching(
   assert.equal(expected.result?.winner, 0);
   assert.equal(humanDecisions, 15);
   assert.equal(automaticActions, 23);
-  assert.equal(clicks, 31);
+  assert.equal(clicks, 16);
   return {
     humanDecisions,
     automaticActions,

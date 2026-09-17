@@ -406,7 +406,7 @@ test("possible painting completion is a draw risk, not a prediction from hidden 
   const before = passConsequences(viewForSpectator(state));
   assert.match(
     before.warning,
-    /alba could complete during 2 unknown History draws/,
+    /Next round reveals 2 History cards.*alba painting, everyone loses/,
   );
   state.historyDeck.reverse();
   assert.deepEqual(passConsequences(viewForSpectator(state)), before);

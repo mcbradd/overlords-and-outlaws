@@ -266,12 +266,12 @@ function me(e, t = "src/history-engine/content.ts") {
     text: s,
     suggestion: d
   }), l = (n, s, g, d, b) => {
-    const p = Number(n);
-    return (!Number.isInteger(p) || p < s || p > g) && a(
+    const y = Number(n);
+    return (!Number.isInteger(y) || y < s || y > g) && a(
       "CT004",
       d + " must be an integer from " + s + " to " + g + ".",
       b
-    ), p;
+    ), y;
   };
   for (const n of e.reminderRefs)
     fe[n] || a("CT012", "Unknown reminder: " + n);
@@ -307,7 +307,7 @@ function me(e, t = "src/history-engine/content.ts") {
     }), (!n || !o.abilities.length) && a("CT006", "A Noble needs the action cost and at least one action."), (typeof e.printed.queen != "boolean" || typeof e.printed.founder != "boolean" || e.printed.dynasty === "alba" && !e.printed.branch) && a("CT015", "Missing printed role or branch.");
   } else if (e.kind === "law") {
     const n = {};
-    let s = !1, g = !1, d = !1, b = !1, p;
+    let s = !1, g = !1, d = !1, b = !1, y;
     if (i.forEach((h, m) => {
       const u = m + 1;
       let f;
@@ -338,7 +338,7 @@ function me(e, t = "src/history-engine/content.ts") {
         h
       )) && n.successionAfter === void 0 ? (n.successionAfter = ae.indexOf(f[1]) + 1, d = !!f[2]) : (f = /^Win: Keep (your new Ruler in your Bloodline|your new Ruler and Witness in your Bloodline|your new Ruler in your Bloodline and the same marriage intact) for (\d+) full rounds?\.$/.exec(
         h
-      )) && n.reignRounds === void 0 ? (n.reignRounds = l(f[2], 1, 3, "Reign rounds", u), p = f[1].includes("Witness") ? "native" : f[1].includes("marriage") ? "marriage" : null) : (h === N || h === N + " Return any hidden heir face up to your hand.") && !g ? (g = !0, b = h !== N) : a("CT001", "Unknown or repeated Law clause: " + h, u));
+      )) && n.reignRounds === void 0 ? (n.reignRounds = l(f[2], 1, 3, "Reign rounds", u), y = f[1].includes("Witness") ? "native" : f[1].includes("marriage") ? "marriage" : null) : (h === N || h === N + " Return any hidden heir face up to your hand.") && !g ? (g = !0, b = h !== N) : a("CT001", "Unknown or repeated Law clause: " + h, u));
     }), !n.heir || n.entryNatives === void 0 || !n.keep || n.successionAfter === void 0 || n.reignRounds === void 0 || !g)
       a(
         "CT006",
@@ -352,7 +352,7 @@ function me(e, t = "src/history-engine/content.ts") {
         charter: "heir-witness",
         kindreds: "any-heir"
       };
-      (n.keep !== m[h] || p !== n.witness || d !== (n.heir.zone === "hand") || b !== (n.heir.zone === "hand") || s && n.heir.zone !== "court" || h === "charter" && (n.heir.count !== 1 || n.heir.differentBranches) || h === "kindreds" && !n.heir.differentBranches) && a(
+      (n.keep !== m[h] || y !== n.witness || d !== (n.heir.zone === "hand") || b !== (n.heir.zone === "hand") || s && n.heir.zone !== "court" || h === "charter" && (n.heir.count !== 1 || n.heir.differentBranches) || h === "kindreds" && !n.heir.differentBranches) && a(
         "CT008",
         "Heir, maintenance, Witness, reveal and victory clauses must agree."
       ), o.law = n, o.route = h;
@@ -368,7 +368,7 @@ function me(e, t = "src/history-engine/content.ts") {
   } else {
     let n = !1;
     i.forEach((s, g) => {
-      const d = g + 1, b = x(B).find(([, u]) => s === "Prevent: " + u), p = x(W).find(
+      const d = g + 1, b = x(B).find(([, u]) => s === "Prevent: " + u), y = x(W).find(
         ([, u]) => s === "While active: " + u
       ), h = x(M).find(
         ([, u]) => s === "When this starts: " + u || s === "At round start: " + u
@@ -396,8 +396,8 @@ function me(e, t = "src/history-engine/content.ts") {
           d
         );
       else if (s === j && !n) n = !0;
-      else if (p && !o.restrictions.includes(p[0]))
-        o.restrictions.push(p[0]);
+      else if (y && !o.restrictions.includes(y[0]))
+        o.restrictions.push(y[0]);
       else if (h) {
         const u = s.startsWith("When this starts") ? "activation" : "start";
         o.instructions.some((f) => f.timing === u) ? a(
@@ -441,7 +441,7 @@ function me(e, t = "src/history-engine/content.ts") {
     reminderRefs: [...e.reminderRefs]
   };
 }
-const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ new Set([
+const ne = ["alba", "plantagenet", "tudor", "habsburg"], ye = /* @__PURE__ */ new Set([
   "alba-11",
   "plantagenet-12",
   "tudor-10",
@@ -451,8 +451,8 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
   plantagenet: [1, 8, 11, 13],
   tudor: [1, 3, 5, 9, 13],
   habsburg: [1, 7, 8, 13]
-}, ye = (e) => [0, 12].includes(e) ? "Alpin" : [7, 8, 9].includes(e) ? "Bruce–Stewart" : "Dunkeld", we = ne.flatMap(
-  (e) => de.filter((t) => t.house === e && !pe.has(t.id)).map(
+}, pe = (e) => [0, 12].includes(e) ? "Alpin" : [7, 8, 9].includes(e) ? "Bruce–Stewart" : "Dunkeld", we = ne.flatMap(
+  (e) => de.filter((t) => t.house === e && !ye.has(t.id)).map(
     (t, r) => {
       const a = Number(t.id.split("-")[1]);
       return {
@@ -464,7 +464,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
           dynasty: e,
           queen: X[e].includes(a),
           founder: a === 0,
-          branch: e === "alba" ? ye(a) : void 0,
+          branch: e === "alba" ? pe(a) : void 0,
           collector: r + 1
         },
         cardText: [
@@ -487,7 +487,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
       };
     }
   )
-), y = (e, t, r, a, l, c = []) => ({
+), p = (e, t, r, a, l, c = []) => ({
   id: e,
   revision: 3,
   kind: a,
@@ -498,7 +498,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
   evidenceRefs: ["docs/HISTORY-ENGINE-IMPLEMENTATION-SPEC.md"],
   artRef: ""
 }), ve = [
-  y(
+  p(
     "law-alba",
     "alba",
     "Recognition of the Kindreds",
@@ -514,7 +514,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
 `),
     ["crown"]
   ),
-  y(
+  p(
     "law-plantagenet",
     "plantagenet",
     "The Charter",
@@ -531,7 +531,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
 `),
     ["crown"]
   ),
-  y(
+  p(
     "law-tudor",
     "tudor",
     "The Act of Succession",
@@ -547,7 +547,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
 `),
     ["crown"]
   ),
-  y(
+  p(
     "law-habsburg",
     "habsburg",
     "The Marriage Settlement",
@@ -564,7 +564,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
     ["crown", "marriage"]
   )
 ], v = "Ends at round end, after 1 more round.", w = "Starts at round end unless prevented.", A = "Earlier help still counts.", S = "End early: Complete the Prevent condition.", E = "Prevent: Together, Challenge with 2 different ready Court Nobles in your Bloodline, one per action.", Ce = [
-  y(
+  p(
     "A1",
     "alba",
     "Contested Recognition",
@@ -580,7 +580,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
 `),
     ["commit"]
   ),
-  y(
+  p(
     "A2",
     "alba",
     "Border Rising",
@@ -594,7 +594,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
 `),
     ["attack"]
   ),
-  y(
+  p(
     "A3",
     "alba",
     "A Broken Recognition",
@@ -607,7 +607,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
     ].join(`
 `)
   ),
-  y(
+  p(
     "P1",
     "plantagenet",
     "The Barons’ Terms",
@@ -620,7 +620,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
     ].join(`
 `)
   ),
-  y(
+  p(
     "P2",
     "plantagenet",
     "A Disputed Charter",
@@ -634,7 +634,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
 `),
     ["attack"]
   ),
-  y(
+  p(
     "P3",
     "plantagenet",
     "Closed Roads",
@@ -650,7 +650,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
 `),
     ["commit"]
   ),
-  y(
+  p(
     "T1",
     "tudor",
     "The Unsettled Church",
@@ -664,7 +664,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
 `),
     ["commit"]
   ),
-  y(
+  p(
     "T2",
     "tudor",
     "A Rival Proclamation",
@@ -678,7 +678,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
 `),
     ["attack"]
   ),
-  y(
+  p(
     "T3",
     "tudor",
     "The Open Record",
@@ -691,7 +691,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
     ].join(`
 `)
   ),
-  y(
+  p(
     "H1",
     "habsburg",
     "The Divided Inheritance",
@@ -705,7 +705,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
 `),
     ["commit"]
   ),
-  y(
+  p(
     "H2",
     "habsburg",
     "War of the Succession",
@@ -721,7 +721,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
 `),
     ["attack"]
   ),
-  y(
+  p(
     "H3",
     "habsburg",
     "The Imperial Settlement",
@@ -749,7 +749,7 @@ const ne = ["alba", "plantagenet", "tudor", "habsburg"], pe = /* @__PURE__ */ ne
   habsburg: "art/last-witness.webp"
 }, Re = ne.flatMap(
   (e) => Array.from({ length: 6 }, (t, r) => ({
-    ...y(
+    ...p(
       "painting-" + e + "-" + (r + 1),
       e,
       Y[e] + " · " + (r + 1),
@@ -859,7 +859,7 @@ async function Ee(e, t) {
   ]), c = document.createElement("canvas");
   c.width = C.width, c.height = C.height;
   const i = c.getContext("2d"), o = [];
-  if (i.imageSmoothingQuality = "high", i.fontKerning = "normal", i.beginPath(), i.roundRect(0, 0, 630, 880, 12), i.clip(), i.fillStyle = "#101c24", i.fillRect(0, 0, 630, 880), a) {
+  if (i.imageSmoothingQuality = "high", i.fontKerning = "normal", i.beginPath(), i.roundRect(0, 0, 630, 880, 30), i.clip(), i.fillStyle = "#101c24", i.fillRect(0, 0, 630, 880), a) {
     const n = C.portrait, s = t ? n.compactHeight : n.referenceHeight, g = t ? n.width : 160, d = Math.max(g / a.width, s / a.height);
     i.save(), i.beginPath(), i.rect((630 - g) / 2, n.y, g, s), i.clip(), i.drawImage(
       a,
@@ -869,9 +869,9 @@ async function Ee(e, t) {
       a.height * d
     ), i.restore();
   }
-  l && i.drawImage(l, 0, 0, 630, 880);
+  l && i.drawImage(l, 0, 0, 630, 880), i.fillStyle = "#101c24", i.strokeStyle = "#b4a17b", i.lineWidth = 1.5, i.beginPath(), i.roundRect(64, 42, 502, 114, 16), i.fill(), i.stroke();
   function T(n, s, g, d, b) {
-    const p = C[n];
+    const y = C[n];
     let h = g;
     const m = () => {
       i.font = `${n === "name" ? 700 : 600} ${h}px ${d}`;
@@ -879,15 +879,15 @@ async function Ee(e, t) {
     for (m(); h > 20 && Math.max(
       i.measureText(s).width,
       i.measureText(s).actualBoundingBoxLeft + i.measureText(s).actualBoundingBoxRight
-    ) > p.width; )
+    ) > y.width; )
       h -= 0.25, m();
-    i.textAlign = "center", i.textBaseline = "alphabetic", i.fillStyle = b, i.fillText(s, 315, p.baseline);
+    i.textAlign = "center", i.textBaseline = "alphabetic", i.fillStyle = b, i.fillText(s, 315, y.baseline);
     const u = i.measureText(s);
     o.push({
       label: n,
       text: s,
       x: 315 - u.actualBoundingBoxLeft,
-      y: p.baseline - u.actualBoundingBoxAscent,
+      y: y.baseline - u.actualBoundingBoxAscent,
       width: u.actualBoundingBoxLeft + u.actualBoundingBoxRight,
       height: u.actualBoundingBoxAscent + u.actualBoundingBoxDescent,
       font: h
@@ -916,8 +916,8 @@ async function Ee(e, t) {
       );
       if (b.length <= n.maxLines && h) break;
     }
-    const p = b.length > n.maxLines || b.length * d * 1.13 > n.height || d < 25;
-    c.dataset.textOverflow = String(p), c.dataset.bodyFont = String(d), c.dataset.ruleLines = String(b.length), i.textAlign = "left", i.fillStyle = "#efe4ce", b.forEach((h, m) => {
+    const y = b.length > n.maxLines || b.length * d * 1.13 > n.height || d < 25;
+    c.dataset.textOverflow = String(y), c.dataset.bodyFont = String(d), c.dataset.ruleLines = String(b.length), i.textAlign = "left", i.fillStyle = "#efe4ce", b.forEach((h, m) => {
       const u = n.y + d + m * d * 1.13;
       i.fillText(h, n.x, u);
       const f = i.measureText(h);

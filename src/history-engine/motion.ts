@@ -46,24 +46,11 @@ export function animateEvents(
   let playing = 0;
   for (const e of motions.slice(-6))
     for (const id of e.cards.slice(0, 2)) {
-      const from =
-        before.get(id) ??
-        new DOMRect(
-          table.x + table.width / 2 - 35,
-          table.y + table.height - 100,
-          70,
-          98,
-        );
-      const target =
-        after.get(id) ??
-        new DOMRect(
-          e.to === "noble-past" ? table.x + 25 : (hand?.x ?? table.x),
-          e.to === "noble-past"
-            ? table.y + table.height / 2
-            : (hand?.y ?? table.bottom - 100),
-          70,
-          98,
-        );
+      const from = before.get(id);
+      const target = after.get(id);
+      // A travel animation must connect actual visible components. Never invent
+      // an offscreen hand or pile destination for a private or loaned card.
+      if (!from || !target) continue;
       if (
         target.y > innerHeight ||
         target.x > innerWidth ||

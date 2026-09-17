@@ -42,6 +42,7 @@ const checks = [
     ],
   ],
   ["history-browser", script("history-browser.ts")],
+  ["playthrough-recovery", script("playthrough-recovery.ts")],
   ["history-browser-landscape", script("history-browser.ts")],
   ["history-browser-compact", script("history-browser.ts")],
   ["tutorial-usability", script("tutorial-usability.ts")],

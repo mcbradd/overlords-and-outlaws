@@ -28,6 +28,8 @@ The logical endpoint is disciplined craft, not ever-increasing ornament or effec
 
 ## Design contract
 
+Latest September 16 correction: [Playthrough 03 recovery](PLAYTHROUGH-03-RECOVERY.md) supersedes the earlier separate-hand and right-column presentation. The board uses the available width, hands fan and lift for reading, and shared controls sit at the table edge. Card stock and printed faces have matching rounded corners; text occupies a fixed printed title cartouche. Actual warning cards and persistent source/target cues connect announcements to the table. Earlier verification records below remain historical evidence, not approval of the rejected experience.
+
 - The board owns the scene; controls occupy its edges. Keep the centre usable instead of filling it with opaque explanatory panels.
 - Cards use a provisional 63:88 aspect ratio. Manufacturing/reference faces retain full rules. The user explicitly permits simplified battlefield faces (name, art, role, current stats) with full inspection. This is a prototype dimension, not a certified production dieline.
 - Current health is the prominent live number; when damaged, show current/maximum and physical damage counters. Resting uses rotation. Marriage uses a linked pair/token. Coins, action tokens, deck/discard, crown and estates have physical counterparts.

@@ -266,7 +266,7 @@ function projectRoundBoundary(view: GameView): PassConsequences {
     );
   else if (atRisk.length)
     summaries.push(
-      `If play continues, ${atRisk.join("/")} could complete during ${draws} unknown History draws.`,
+      `Next round reveals ${draws} History cards. If they complete the ${atRisk.join("/")} painting, everyone loses.`,
     );
   if (
     !lethal.length &&

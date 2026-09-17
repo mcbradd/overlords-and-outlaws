@@ -173,6 +173,7 @@ export function previewAction(
           : `Choose ${names(a.cards)} to pass clockwise. They stay in your hand until everyone has chosen, then all selected cards pass together.`;
       break;
     case "choice":
+      title = v.choices?.effect === 'succession' ? `Make ${names(a.cards)} your ruler` : `Choose ${names(a.cards) || 'no cards'}`;
       effect =
         v.choices?.effect === "succession"
           ? `${names(a.cards)} becomes your new Ruler. Your old Ruler goes permanently to The Past.`

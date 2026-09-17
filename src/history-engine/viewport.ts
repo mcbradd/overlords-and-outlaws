@@ -58,24 +58,33 @@ function fitHand() {
     resizeObserver.observe(hand);
     observedHand = hand;
   }
+  const perPage = row.clientWidth < 450 ? 3 : row.clientWidth < 900 ? 5 : 8;
   const cards = [...row.querySelectorAll<HTMLElement>('.h-hand-card')];
   const signature = cards.map(card => card.querySelector<HTMLElement>('[data-select]')?.dataset.select).join('|');
   if (signature !== lastHand) {
     // Newly arrived cards stay discoverable; page count always accounts for every held card.
-    handPage = Math.min(handPage, Math.max(0, Math.ceil(cards.length / 8) - 1));
+    handPage = Math.min(handPage, Math.max(0, Math.ceil(cards.length / perPage) - 1));
+    const guided = cards.findIndex(card => !!card.querySelector('.h-teaching-target'));
+    if (guided >= 0) handPage = Math.floor(guided / perPage);
     lastHand = signature;
   }
-  const pages = Math.ceil(cards.length / 8);
-  const start = handPage * 8;
-  cards.forEach((card, index) => card.hidden = index < start || index >= start + 8);
+  const pages = Math.ceil(cards.length / perPage);
+  const start = handPage * perPage;
+  cards.forEach((card, index) => card.hidden = index < start || index >= start + perPage);
   const visible = cards.filter(card => !card.hidden);
   const space = row.getBoundingClientRect();
   const inspectHeight = visible[0]?.querySelector('.h-inspect-small')?.getBoundingClientRect().height ?? 28;
   const heightWidth = Math.max(42, (space.height - inspectHeight - 12) * 63 / 88);
-  const cardWidth = Math.min(heightWidth, 250, (space.width - 16) / Math.max(1, visible.length) * 1.16);
+  const cardWidth = Math.min(heightWidth, 270, (space.width - 32) / Math.max(1, visible.length) * 1.35);
   const spread = cardWidth * visible.length;
-  const overlap = visible.length > 1 ? Math.min(0, (space.width - 16 - spread) / (visible.length - 1)) : 0;
-  const gap = spread < space.width - 16 && visible.length > 1 ? Math.min(10, (space.width - 16 - spread) / (visible.length - 1)) : 0;
+  const overlap = visible.length > 1 ? Math.min(-cardWidth * .20, (space.width - 32 - spread) / (visible.length - 1)) : 0;
+  const gap = 0;
+  visible.forEach((card, index) => {
+    const offset = index - (visible.length - 1) / 2;
+    card.style.setProperty('--fan-angle', `${offset * 4}deg`);
+    card.style.setProperty('--fan-rise', `${Math.abs(offset) * 5}px`);
+    card.style.setProperty('--fan-layer', `${index + 1}`);
+  });
   row.style.setProperty('--hand-card-width', `${cardWidth}px`);
   row.style.setProperty('--hand-overlap', `${overlap}px`);
   row.style.setProperty('--hand-gap', `${gap}px`);
@@ -87,7 +96,7 @@ function fitHand() {
       pagination.setAttribute('aria-label', 'Cards in your hand');
       row.append(pagination);
     }
-    const label = `${start + 1}–${Math.min(start + 8, cards.length)} of ${cards.length}`;
+    const label = `${start + 1}–${Math.min(start + perPage, cards.length)} of ${cards.length}`;
     if (pagination.dataset.label !== label) {
       pagination.dataset.label = label;
       pagination.innerHTML = `<button type="button" aria-label="Previous hand cards" ${handPage === 0 ? 'disabled' : ''}>‹</button><span>${label}</span><button type="button" aria-label="Next hand cards" ${handPage === pages - 1 ? 'disabled' : ''}>›</button>`;
@@ -105,7 +114,8 @@ document.addEventListener('keydown', event => {
   const choices = [...document.querySelectorAll<HTMLButtonElement>('.h-hand [data-select]')];
   const index = choices.indexOf(target as HTMLButtonElement);
   const next = (index + (event.key === 'ArrowRight' ? 1 : -1) + choices.length) % choices.length;
-  handPage = Math.floor(next / 8);
+  const perPage = document.querySelector<HTMLElement>('.h-hand .h-card-row')!.clientWidth < 450 ? 3 : document.querySelector<HTMLElement>('.h-hand .h-card-row')!.clientWidth < 900 ? 5 : 8;
+  handPage = Math.floor(next / perPage);
   fitHand();
   choices[next].focus({ preventScroll: true });
   event.preventDefault();
