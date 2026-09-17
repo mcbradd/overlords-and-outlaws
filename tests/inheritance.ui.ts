@@ -47,7 +47,7 @@ test("a won chronicle grants one heirloom and carries it into the next court", a
   document.body.innerHTML =
     '<div id="app"></div><div id="overlay"></div><div id="announcer"></div>';
   localStorage.setItem("oando-v3", JSON.stringify(profile));
-  await import("../src/main");
+  await import("../src/legacy-main");
   click("[data-resume]");
   // Coaching leaves the final contest announcement visible for 3.2 seconds.
   await vi.advanceTimersByTimeAsync(5000);

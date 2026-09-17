@@ -43,7 +43,7 @@ try {
         ),
       g,
     );
-    await page.goto("http://localhost:5173");
+    await page.goto("http://localhost:5173/?legacy=1");
     await page.locator("[data-resume]").click();
     const move = lessonMove(g)!;
     if (!("uid" in move)) throw Error("Expected card action");

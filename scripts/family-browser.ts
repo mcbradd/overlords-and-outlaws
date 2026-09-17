@@ -37,7 +37,7 @@ try {
         }),
       );
   }, initial);
-  await page.goto("http://localhost:5173");
+  await page.goto("http://localhost:5173/?legacy=1");
   await page.locator("[data-resume]").click();
   await expect(page.locator(".hand-cards [data-royal]")).toHaveCount(0);
   await page.locator("[data-ready]").click();

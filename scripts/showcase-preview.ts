@@ -12,7 +12,7 @@ try {
       viewport: { width, height },
       reducedMotion: "reduce",
     });
-    await page.goto(process.env.BASE_URL ?? "http://localhost:5176");
+    await page.goto(new URL('?legacy=1', process.env.BASE_URL ?? "http://localhost:5176").href);
     await page.locator('[data-start="lesson"]').click();
     await expect(page.locator(".crown-card")).toHaveCount(3);
     await page.waitForFunction(

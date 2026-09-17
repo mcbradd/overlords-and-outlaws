@@ -29,7 +29,7 @@ try {
         ),
       g,
     );
-    await page.goto("http://localhost:5173");
+    await page.goto("http://localhost:5173/?legacy=1");
     await page.locator("[data-resume]").click();
     for (const [w, h] of [
       [3840, 2160],

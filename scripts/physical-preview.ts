@@ -8,7 +8,7 @@ for (const [width, height] of [
   [390, 844],
 ]) {
   const p = await b.newPage({ viewport: { width, height } });
-  await p.goto("http://localhost:5173");
+  await p.goto("http://localhost:5173/?legacy=1");
   await p.screenshot({ path: `artifacts/physical/final-home-${width}.png` });
   await p.locator('[data-start="lesson"]').click();
   await p.waitForTimeout(800);

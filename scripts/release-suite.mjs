@@ -11,6 +11,16 @@ const script = (file, ...args) => [
   ...args,
 ];
 const checks = [
+  ["history-card-compile", script("history-cards.ts", "compile")],
+  ["history-card-lint", script("history-cards.ts", "lint")],
+  ["history-card-manifest", script("history-cards.ts", "manifest")],
+  ["history-card-proofs", script("history-cards.ts", "proof")],
+  ["history-semantics", ["--import", "tsx", "--test", "tests/history-card-semantics.test.ts"]],
+  ["history-reminder-invariance", ["--import", "tsx", "--test", "--test-name-pattern=reminder", "tests/history-card-semantics.test.ts"]],
+  ["history-browser", script("history-browser.ts")],
+  ["history-layout", script("history-layout.ts")],
+  ["history-simulation", script("history-simulate.ts")],
+  ["history-print-fit", script("history-proof-check.mjs")],
   ["build", ["node_modules/typescript/bin/tsc", "--noEmit"]],
   ["bundle", ["node_modules/vite/bin/vite.js", "build"]],
   ["unit", ["--import", "tsx", "--test", "tests/*.test.ts"]],
@@ -91,6 +101,7 @@ async function run(name, args) {
         PAGES_BASE_PATH: base,
         VITE_SAVE_NAMESPACE: name === "bundle" ? "prod:" : "",
         SAVE_NAMESPACE: name === "pages-smoke" ? "prod:" : "",
+        HISTORY_BASE_URL: "http://localhost:5176",
         BASE_URL:
           name === "pages-smoke"
             ? `http://localhost:4176${base}`

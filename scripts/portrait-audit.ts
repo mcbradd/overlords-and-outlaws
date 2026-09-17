@@ -9,7 +9,7 @@ try {
     viewport: { width: 1680, height: 1600 },
     reducedMotion: "reduce",
   });
-  await page.goto(process.env.BASE_URL ?? "http://localhost:5173");
+  await page.goto(new URL('?legacy=1', process.env.BASE_URL ?? "http://localhost:5173").href);
   const report = await page.evaluate(async () => {
     // @ts-expect-error Vite serves source modules in the browser.
     const { CARDS, HOUSES } = await import("/src/content.ts");

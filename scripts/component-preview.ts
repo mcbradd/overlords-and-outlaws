@@ -12,7 +12,7 @@ try {
       viewport: { width, height },
       reducedMotion: "reduce",
     });
-    await page.goto("http://localhost:5175");
+    await page.goto("http://localhost:5175/?legacy=1");
     await page.locator('[data-start="lesson"]').click();
     await expect(page.locator(".crown-card")).toHaveCount(3);
     await page.screenshot({

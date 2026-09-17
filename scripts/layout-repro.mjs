@@ -2,7 +2,7 @@
 import {chromium} from '@playwright/test';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 const page=await browser.newPage({viewport:{width:1024,height:600}});
-await page.goto('http://localhost:5173');
+await page.goto('http://localhost:5173/?legacy=1');
 await page.evaluate(()=>{const raw=localStorage.getItem('oando-witness-v1');if(raw)localStorage.removeItem('oando-witness-v1');});
 await page.reload();
 await page.locator('[data-start="tutorial"]').click();

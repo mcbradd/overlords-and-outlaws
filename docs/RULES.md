@@ -1,96 +1,75 @@
-# Revision 3 — the visible rules of the table
+# History engine v4 — current prototype rules
 
-This is the executable digital adaptation of Malachy Murray's provisional concept. Original wording and conflicts remain in the [knowledge base](knowledge-base/README.md). The [designer correspondence](knowledge-base/designer-intent.md) prioritizes family play, historical identity and the vulnerability of growing power.
+The complete rules authority is the [R3 specification](HISTORY-ENGINE-IMPLEMENTATION-SPEC.md), [content inventory](HISTORY-ENGINE-CONTENT-AND-COMPONENTS.md), and [delivery contracts](HISTORY-ENGINE-IMPLEMENTATION-CONTRACTS.md). The [v3 rulebook](legacy/RULES-V3.md) is historical; some of its old capacity claims were already superseded before this overhaul.
 
-## Table and victory
+## Inheritance
 
-Two to four Houses take turns clockwise. Solo supports one human and one to three AI Houses. Family mode supports two to four humans choosing distinct Houses and passing one device privately. People must look away during private handoffs; there is no online multiplayer.
+Choose N different modules for N players, N = 2–4, from Alba, Plantagenet, Tudor and Habsburg. Modules belong to the shared pool, not individual seats. Each supplies 13 Nobles, three Interregna and six painting fragments. Shuffle Dynasty and History decks separately. Deal eight Nobles each.
 
-**Gather at least three family Royals, pay to claim the crown, then keep that family intact through one full turn from every other House.** Native Royals count automatically. A foreign Royal counts while married through a Queen connected to your native family. An unsupported foreigner may attack, but does not count toward the family or gain active role abilities.
+Everyone locks three Nobles privately; pass packets clockwise simultaneously. Repeat with two, then one. Received cards may be passed. Lock and simultaneously reveal three matching-Dynasty Nobles to declare. Duplicate declarations are legal. Appoint a Ruler and retain five Outlaws.
 
-Claiming spends one order and gold equal to the sum of the play costs of **all** your exposed Royals, including House discounts. The family panel lists each contributor. A larger court costs more to crown. Gold remains spent if the claim breaks.
+Only a four-player 2/2/2/2 hand can lack a trio. Reveal failed hands. In first-seat order take the top Dynasty card publicly, place one different-Dynasty card in a public repair packet, and declare the resulting trio. After all repairs, shuffle repair packets into the remaining deck. Successful declarations remain untouched.
 
-The claim lists each actual rival House still entitled to contest. Falling below three family Royals or suffering succession collapse breaks it immediately. Surviving every named rival's complete turn wins. No score threshold or fixed survival-round quota replaces these conditions.
+## People and relationships
 
-At a round boundary, History resolves first, surviving claims second, and Eudoxia's deadline third. A valid claim therefore wins a simultaneous deadline if History did not break it.
+A Noble in hand is an **Outlaw**; in Court, an **Overlord**. Printed Dynasty never changes. Your Bloodline contains native Overlords and foreign Overlords married to a native Queen in your Court. No transitive chains exist. Queen is an explicit game marriage tag, not a claim about historical titles or relationships.
 
-## Turn, gold and physical state
+Each person has at most one spouse. Losing either breaks both marriage halves. A foreign survivor stays in Court unsupported: no Ruler, heir, Witness or Bloodline action. Remarrying through an eligible native Queen can restore support.
 
-- Begin with one native Founder, five gold and five concealed hand cards. Each House has 18 unique cards: 14 native archive figures and four foreigners from Houses not participating at the table. Historical identities are not duplicated within a game.
-- At the start of your turn, surviving Royals recover full health and turn upright. Damage persists through all intervening rival turns.
-- Opening treasuries are funded already. Income begins in round two: **4 base + 2 per estate + 1 per supported Steward − upkeep**. Upkeep can reduce the treasury; the resulting treasury stays between zero and 30 gold.
-- Upkeep is 1 for each exposed Royal beyond three, plus 1 per supported foreign marriage.
-- Draw toward five cards at the start of a turn. Maximum hand seven, maximum court five. Empty decks recycle discard piles. Card identities are conserved.
-- Each turn supplies two orders. Every action below except End turn spends one. Unused orders expire; unspent gold stays. A spent response token refreshes for each new rival turn.
-- Upright cards can attack. Attacking turns a card sideways. Sideways cards still retaliate when attacked, but a sideways Guardian does not guard other pieces.
-- Cards, damage counters, gold, order/response tokens, estates, crown shields/stability, marriage links, claim markers and painting fragments represent persistent state. The Founder is a Royal card; the crown is a separate House component.
+When a Ruler leaves or loses support, finish the causing effect, then choose a remaining native interim Ruler. With none, there is no Ruler; a subsequent native Build may appoint its new Noble. Ordinary succession never wins. Hands and Courts have no capacity ceiling.
 
-## Roles
+## Seals and actions
 
-| Card label  | Source role | Gold | Attack | Health | Ability while supported                                     |
-| ----------- | ----------- | ---: | -----: | -----: | ----------------------------------------------------------- |
-| Founder     | Founder     |    5 |      4 |      6 | Strong attack and endurance                                 |
-| Queen       | Queen       |    3 |      2 |      4 | Supports one foreign spouse                                 |
-| Commander   | Warlord     |    2 |      3 |      3 | Efficient attacking Royal                                   |
-| Guardian    | Lawgiver    |    3 |      2 |      5 | Enters upright; guards while upright                        |
-| Conspirator | Intriguer   |    2 |      2 |      2 | Sabotages on play; can instead be spent from hand on Ambush |
-| Steward     | Royal       |    2 |      1 |      3 | Adds one recurring gold                                     |
+Each round supplies three seals per player. Every ordinary action and Counterclaim spends one from this same supply. No mid-round refresh, banking or transfer. Pass, bargaining consent and forced choices are free. Clockwise take one action or Pass. A committed action clears consecutive passes, even when countered. A passer can act later. All players passing consecutively ends the round immediately.
 
-The figure's historical name identifies the collectible; these fictional abilities do not describe documented conduct. Internal names such as force and resolve remain for source compatibility; the player sees **attack** and **health**.
+| Action                | Procedure                                                                                                                                                                                                                                                               |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Build                 | Put one native Outlaw into Court, ready.                                                                                                                                                                                                                                |
+| Withdraw              | Return your Overlord to hand; break relationships/offices and check succession.                                                                                                                                                                                         |
+| Petition              | Draw one Noble if available and restrictions permit.                                                                                                                                                                                                                    |
+| Barter                | Lock one or two Outlaws each. Both authorize inspection, privately inspect locked packets, then lock accept/decline independently. Two accepts exchange simultaneously and charge only the initiator's seal. Refusal spends nothing; learned information remains known. |
+| Marry                 | Pair an unmarried native Queen already in Court with an unpaired foreign Outlaw or unsupported foreign Overlord you control.                                                                                                                                            |
+| Press a Claim         | Commit a matching printed-Dynasty Outlaw; target an unpetitioned rival Overlord. If not Counterclaimed, transfer the person to your hand. Register the target ID even when countered.                                                                                   |
+| Counterclaim          | Target controller spends a seal and Commits a matching printed-Dynasty Outlaw. Cancel the transfer. No nested response. Active restrictions may require rotation too.                                                                                                   |
+| Address               | Follow the pending contribution or explicitly permitted active End procedure.                                                                                                                                                                                           |
+| Attack an Interregnum | Rotate one ready supported Overlord to fill Muster or Secure. The two retained contributor IDs must differ. Both spaces Avert a pending event; active Attack requires explicit End permission.                                                                          |
+| Veil                  | Discard an Outlaw permanently; conceal one never-veiled fragment until start R+2. One active Veil per initiator, once ever per fragment.                                                                                                                                |
+| Proclaim              | Name the complete primary Law or Regency arrangement.                                                                                                                                                                                                                   |
 
-## Actions and responses
+Commitments remain public in seat-labeled Leverage until the next round start. Event registers retain evidence after cards return. Validate costs atomically. Invalid or stale previews spend nothing. Simultaneous mandatory choices use one snapshot, lock privately and execute together; never automatically pick the first eligible person.
 
-**Play Royal:** pay its gold cost into a free court place. Most enter sideways and attack on their next own turn. Guardians enter upright; Plantagenet Commanders also enter upright. Unsupported foreign Guardians may attack immediately but cannot guard until supported.
+## The Crown
 
-**Arrange marriage:** play a foreign hand card through an unmarried Queen in your active family. Each Queen supports one spouse. The UI selects an eligible Queen and identifies the link. Supported foreign Queens can themselves support a spouse; severing an upstream connection disables dependent family membership and abilities. Losing the supporting Queen breaks her direct link. Foreign marriage adds upkeep.
+There is one Crown. Primary Laws require a native Ruler and three native Overlords at entry only, plus their arrangement:
 
-**Attack:** select an upright Royal, then a legal rival target. Upright active Guardians must be attacked before any other piece in their House. Other Houses are unaffected by that protection. The preview shows damage and retaliation plus conditional hidden responses.
+| Route                             | Required continuity                                                                                                                                                                         |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Alba: Recognition of the Kindreds | Two native heirs from different printed branches. Keep the old Ruler and at least one candidate before transfer. Choose a remaining candidate; afterward maintain that supported successor. |
+| Plantagenet: The Charter          | Native heir and distinct native Charter Witness, both different from the Ruler. Keep the same Witness through settlement.                                                                   |
+| Tudor: The Act of Succession      | Seal a native Outlaw as heir. It is unavailable for any other use. Reveal/verify at transfer and admit into Court. Invalid identity forfeits without substitution.                          |
+| Habsburg: The Marriage Settlement | Foreign heir married to a native Queen who is not the departing Ruler. Maintain that exact supporting marriage through settlement.                                                          |
+| Regency: any Dynasty              | A native Ruler and one other native Overlord as heir suffice, but the successor must survive two full rounds.                                                                               |
 
-- Royal versus Royal deals simultaneous damage. A surviving attacker captures a defender reduced to zero health into its hand. If that hand is full, the defender goes to its defender's discard instead. In mutual defeat, both go to their respective discards. No card is silently deleted.
-- Any unblocked damage to an estate destroys one estate and steals up to two gold.
-- Against a crown, shields absorb damage before stability. At zero stability, succession collapses: lose the newest non-Founder Royal (or the Founder when alone), one estate, marriages and any claim, then recover to eight stability. Collapse disrupts a dynasty; it is not a separate direct victory.
-
-**Respond:** Accept costs nothing and preserves your response. Brace costs **2 gold** to block 2 incoming damage. Ambush costs **2 gold plus one concealed Conspirator**, dealing 3 damage before combat; a defeated attacker never lands its hit. One paid response is allowed per rival turn. Reserving it for a second attack or saving gold for the next House can matter. Production AI cannot inspect rival hands and no longer spends Brace when it cannot save the same doomed defender.
-
-**Build estate:** 3 gold, maximum three estates. Each earns 2 from the next income turn onward and can be raided or sabotaged. Its second surviving payout exceeds its purchase cost.
-
-**Fortify crown:** 2 gold adds 3 shields, capped at five. Shields protect only the crown.
-
-**Restore stability:** 2 gold restores 3 stability, capped at twelve.
-
-**Renew hand:** 2 gold (Valois: 1), discard your **entire hand**, then draw five. This remains available with a full seven-card hand, preventing captured foreigners from permanently blocking native draws. Recycled discards can be drawn again if the deck runs out.
-
-**Return to hand:** withdraw a Royal, fully healed, to your hand, or to discard if the hand is full. Its marriages break. Playing it again costs gold. The order and temporary family loss are the cost of repositioning.
-
-A supported Conspirator sabotages an estate of the rival with the most estates; gold, then seat order, break ties. Tudor also steals up to two gold. Keeping the card concealed preserves the Ambush option.
-
-## House identities
-
-- **Alba:** Guardians cost one less.
-- **Plantagenet:** Commanders enter upright and may attack that turn.
-- **Tudor:** supported Conspirators steal up to two gold on play.
-- **Valois:** Renew hand costs one gold.
-- **Habsburg:** married foreigners cost one less.
-- **Bourbon:** gains one crown shield at the start of its turns from round two while its Founder remains, subject to the shield cap.
-
-House color and crest identify lineage; the colored role band and icon identify function. Those identities remain distinct when a foreign Royal changes controller.
+Proclamation's remaining round is notice; no victory then. At next start, verify permission, Retire the old Ruler to The Past, break its links, install the lawful successor and recheck support. A blocked precheck forfeits without retiring the old Ruler. The successor governs through a full public round, including refreshed rivals and History. After end effects/expiries a valid primary Law settles; Regency requires its second full reign round. Failed maintenance forfeits immediately; later repair never restores that attempt.
 
 ## History and Eudoxia
 
-Every fourth completed round resolves the publicly forecast History event, cycling through: pay two gold or lose one stability; suffer one stability damage per Royal beyond three; pay two per marriage or break it; recover two stability. Shields can absorb historical stability damage.
+History draws are public. Pending Interregna initialize frozen obligations and check immediate completion before the next reveal. Contributions persist. At all-pass, recheck each pending condition in reveal order: Avert completed conditions; otherwise Activate and execute the printed initial effect. Active restrictions stack. Completing the old warning condition ends an active card only where End text explicitly permits it. The baseline's ongoing/recurring events expire at end of the following round. Inspect each of the twelve cards for exact text.
 
-Each completed round places one fragment, cycling among three paintings. A painting is a visible 3×3 grid: **nine fragments complete it**. The first completion is the 25th fragment, when the three paintings contain nine, eight and eight. If no House has secured a dynasty, Eudoxia wins and every House loses. This is turn-based pressure, never a real-time timer.
+P2 selects only supported non-Ruler Crown dependencies: before succession, Alba candidates; Charter heir/Witness; Habsburg heir/sponsor; Regency heir. Never the sealed Tudor heir. After succession, only the same Charter Witness or Habsburg sponsor remains eligible.
 
-## Learning and replay
+Each selected module has one six-fragment painting. **When any painting has all six fragments unveiled, Eudoxia wins immediately and all players lose.** No ownership or score applies. A due Veil unveils in place before all other start operations. Nobody rescues an already completed painting. Crown controllers may pay the same Veil cost as everyone else.
 
-Ten short fixed lessons teach: playing, attacking, Brace, capture, marriage, estate income, a broken claim, a defended claim, hand renewal, and History/Eudoxia. Scripted opponents use legal engine actions; they can and do attack the learner. History and Eudoxia are explicitly paused in lessons 1–9 and enabled in lesson 10. Lessons have restartable setups and state-based completion conditions, not artificial victory timers.
+## Exact boundary order
 
-Skirmish, daily, chronicle and family modes use the full rules. Chronicles contain three branching courts and two heirloom choices. Daily tables use a fixed UTC-day seed, House and three seats.
+At start: advance round and first seat (except initial round one); unveil due fragments in stable order with immediate loss checks; return ordinary commitments; clear petitioned IDs; refresh seals/ready Overlords; conduct scheduled succession; resolve active recurring effects oldest first; reveal N History cards sequentially; in first-seat order draw one Noble for each hand below five, if available. Five is a draw threshold, not a holding limit.
 
-Saves are browser-local under oando-v3. Existing V2 collection/progression/settings migrate; incompatible in-progress V2 tables do not resume. The old save remains stored.
+At end: close actions; recheck/activate pending cards in reveal order; resolve end effects and expiries; check Crown settlement after Eudoxia; start the next round if no outcome. Empty decks never reshuffle. No card returns from either public Past pile. Forced historical Retire cannot reduce a Court below two native Overlords; voluntary departures and scheduled retirement are exceptions.
 
-## Adaptation and limits
+## Physical evidence and privacy
 
-Three-Royal declaration, concealed/exposed states, Houses, marriage, seizure, Interregna, Eudoxia and nine-fragment paintings originate in the source. Gold, orders, combat values, recovery, upkeep, exact claim procedure and event cadence remain explicit prototype tuning choices. They have gameplay rationales, not historical authority. Original passing drafts and unimplemented expansions remain in the knowledge base.
+Use numbered matching marriage halves, reversible seals, distinct Crown/Ruler/heir markers, a Pass strip, event registers, petitioned IDs and absolute Veil expiry markers. Inspect The Past without changing order. Private cards/packets never carry identifying reminder markers.
 
-See [V3 quality report](QUALITY-REPORT-V3.md) for the measured improvements and unresolved competitive-balance and human-comprehension limits.
+The browser projects information before rendering and AI decisions. Handoff, blur and reload restore a curtain. Public exports omit hidden hands, deck order, reconstructible seeds and sealed identities. **Private full game save** deliberately includes the full local game. Device owners can inspect saves/devtools; this is ordinary shared-device privacy, not tournament anti-cheat.
+
+Print at 100% from `/history-proof.html` or `output/pdf/history-engine-print-and-play.pdf`. These are prototype proofs, not supplier-certified files. The user deferred the early human paper-play gate for digital implementation. Actual-size handling, independent human adjudication and strategic viability remain unverified.

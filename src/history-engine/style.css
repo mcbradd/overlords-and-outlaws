@@ -1,0 +1,1130 @@
+:root {
+  font-family: Manrope, Arial, sans-serif;
+  color: #efe7d5;
+  background: #0a1517;
+  font-synthesis: none;
+  color-scheme: dark;
+  font-size: 14px;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button,
+a,
+input,
+select {
+  touch-action: manipulation;
+}
+button {
+  min-height: 44px;
+  padding: 11px 15px;
+  border: 1px solid #5a6158;
+  background: #15262b;
+  color: #eee5d0;
+  cursor: pointer;
+  border-radius: 3px;
+}
+button:hover {
+  background: #243b3f;
+  border-color: #c4a66b;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #f6cf72;
+  outline-offset: 3px;
+}
+button.primary {
+  background: #c8a666;
+  color: #14252a;
+  border-color: #ebca88;
+  font-weight: 800;
+}
+a {
+  color: #e3c485;
+}
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+h1,
+h2,
+h3 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 600;
+}
+h1 {
+  font-size: clamp(48px, 6vw, 100px);
+  line-height: 0.93;
+  letter-spacing: -0.035em;
+}
+h2 {
+  font-size: 30px;
+  line-height: 1.06;
+}
+h3 {
+  font-size: 24px;
+}
+p {
+  line-height: 1.65;
+}
+.h-eyebrow {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: #d1b37b;
+  text-transform: uppercase;
+}
+.h-small {
+  font-size: 12px;
+  color: #c2c8bc;
+}
+.h-error {
+  color: #ffe7e1;
+  border-left: 3px solid #d68972;
+  padding: 12px;
+  background: #442a27;
+}
+.h-warning {
+  color: #ecd29f;
+  border-left: 2px solid #b39355;
+  padding-left: 12px;
+}
+.h-cost {
+  color: #efd29a;
+}
+.h-title {
+  min-height: 100vh;
+  position: relative;
+  padding: 34px 6vw 30px;
+  overflow: hidden;
+  background: #081619;
+}
+.h-title-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, #081619 6%, #081619ea 42%, #08161955),
+    url("/art/v3-chamber.png") center/cover;
+  opacity: 0.8;
+}
+.h-title-nav {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+.h-title-copy {
+  position: relative;
+  z-index: 1;
+  margin-top: 12vh;
+  max-width: 680px;
+}
+.h-title-copy h1 {
+  margin: 20px 0 26px;
+  color: #e9dcc0;
+  text-shadow: 0 3px 25px #0008;
+}
+.h-lead {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 27px;
+  line-height: 1.35;
+  color: #c6d3c9;
+}
+.h-title-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 34px;
+}
+.h-title-note {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #aabbb2;
+  margin-top: 24px;
+}
+.h-title-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 20px;
+}
+.h-title-links button {
+  border: 0;
+  background: transparent;
+  padding-left: 0;
+  font-size: 11px;
+  text-decoration: underline;
+  color: #d6bd90;
+}
+.h-title footer {
+  position: relative;
+  margin-top: 10vh;
+  font-size: 10px;
+  color: #94a79e;
+}
+.h-title-portraits {
+  position: absolute;
+  right: -4%;
+  top: 26%;
+  width: 49%;
+  height: 65%;
+  display: flex;
+  align-items: center;
+  perspective: 1000px;
+  pointer-events: none;
+}
+.h-title-portraits > div {
+  width: 36%;
+  flex-shrink: 0;
+  transform: rotateY(-10deg) rotate(-5deg);
+  box-shadow: 8px 25px 60px #000b;
+}
+.h-title-portraits > div:nth-child(2) {
+  transform: translateY(-40px) rotate(4deg);
+  margin-left: -8%;
+  z-index: 2;
+}
+.h-title-portraits > div:nth-child(3) {
+  margin-left: -8%;
+  transform: rotate(12deg);
+}
+.h-notice {
+  font-size: 12px;
+  padding: 14px;
+  border-left: 2px solid #ad925b;
+  background: #192a2a;
+  max-width: 530px;
+}
+.h-curtain {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 24px;
+  background: radial-gradient(ellipse at 50% 40%, #193333, #081619 70%);
+}
+.h-curtain h1 {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+.h-curtain p {
+  max-width: 470px;
+  color: #ced2c5;
+}
+.h-curtain button {
+  margin: 8px;
+}
+.h-seal-large {
+  font-size: 70px;
+  color: #c5a264;
+  margin: 20px;
+}
+.h-game {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at center, #19302c, #071316);
+  padding: 0 18px 18px;
+}
+.h-game-header {
+  min-height: 73px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border-bottom: 1px solid #8b734744;
+}
+.h-brand {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 27px;
+  letter-spacing: 0.05em;
+  border: 0;
+  background: none;
+  padding-left: 0;
+}
+.h-brand span {
+  font-family: Manrope, Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  margin-left: 16px;
+  color: #bac7bc;
+}
+.h-game-header nav {
+  margin-left: auto;
+  display: flex;
+  gap: 7px;
+}
+.h-game-header nav button {
+  border: 0;
+  font-size: 11px;
+  background: transparent;
+}
+.h-round {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 23px;
+  color: #e6ce9a;
+}
+.h-round small {
+  font-family: Manrope, Arial, sans-serif;
+  display: block;
+  font-size: 9px;
+  color: #b5c5b8;
+}
+.h-game-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  grid-template-rows: minmax(520px, calc(100vh - 315px)) auto;
+  gap: 14px;
+  padding-top: 12px;
+}
+.h-table-panel {
+  position: relative;
+  min-width: 0;
+  background: radial-gradient(ellipse at center, #3a493428, #05111350);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.h-table {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 420px;
+  isolation: isolate;
+  overflow: hidden;
+}
+.h-webgl,
+.h-css3d {
+  position: absolute !important;
+  inset: 0;
+}
+.h-css3d {
+  pointer-events: none;
+}
+.h-css3d button {
+  pointer-events: auto;
+}
+.h-cameras {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  position: relative;
+  z-index: 2;
+  padding: 0 6px;
+}
+.h-cameras button {
+  min-height: 36px;
+  font-size: 10px;
+  padding: 7px 12px;
+  background: #091a1ccc;
+  border-color: #6f80524a;
+}
+.h-record {
+  padding: 10px 18px;
+  color: #e3d4b4;
+  font-size: 12px;
+  line-height: 1.5;
+  min-height: 52px;
+  text-align: center;
+  background: #08191ec9;
+}
+.h-decision {
+  background: #101f2c;
+  border: 1px solid #b698594c;
+  border-top: 2px solid #b69859;
+  padding: 23px 20px;
+  overflow: auto;
+  position: relative;
+  scrollbar-width: thin;
+}
+.h-decision h2 {
+  font-size: 31px;
+  margin-bottom: 15px;
+}
+.h-decision p {
+  font-size: 12px;
+}
+.h-decision > button {
+  width: 100%;
+  margin: 6px 0;
+}
+.h-preview,
+.h-outcome {
+  padding: 14px 0;
+  font-size: 12px;
+  line-height: 1.7;
+  border-block: 1px solid #a6956544;
+  margin: 14px 0;
+}
+.h-progress {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  font-size: 9px;
+  color: #c9b389;
+}
+.h-guide > .h-eyebrow {
+  padding-right: 45px;
+}
+.h-next {
+  box-shadow:
+    0 0 0 2px #d8b26e44,
+    0 0 19px #daa95b2b;
+}
+.h-action-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.h-action-tabs button {
+  min-height: 38px;
+  padding: 7px 10px;
+  font-size: 10px;
+}
+.h-action-tabs button[aria-pressed="true"] {
+  background: #bba06c;
+  color: #101f2c;
+}
+.h-action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 330px;
+  overflow: auto;
+}
+.h-action-list button {
+  text-align: left;
+  padding: 10px 12px;
+  min-height: 52px;
+}
+.h-action-list strong {
+  display: block;
+  color: #e0c893;
+  font-size: 11px;
+  margin-bottom: 3px;
+}
+.h-action-list span {
+  display: block;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.h-subtle {
+  border: 0;
+  background: transparent;
+  font-size: 10px;
+  color: #cbb583;
+}
+.h-toggle {
+  display: block;
+  font-size: 11px;
+  margin-top: 18px;
+}
+.h-hand {
+  min-width: 0;
+  padding: 12px 18px 16px;
+  background: #0b1e20;
+  border-top: 1px solid #b6995555;
+  border-radius: 3px;
+}
+.h-hand header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.h-hand h2 {
+  font-size: 22px;
+  margin: 0;
+}
+.h-hand header > span {
+  font-size: 10px;
+  color: #abbcad;
+}
+.h-card-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 9px 4px 15px;
+  scrollbar-width: thin;
+}
+.h-hand-card {
+  flex: 0 0 113px;
+  position: relative;
+}
+.h-hand-card > button:first-child {
+  padding: 0;
+  border: 0;
+  background: none;
+  width: 100%;
+  display: block;
+  box-shadow: 3px 7px 10px #0006;
+  border-radius: 2px;
+}
+.h-hand-card.selected > button:first-child {
+  outline: 3px solid #f0ce81;
+  outline-offset: 3px;
+  transform: translateY(-4px);
+}
+.h-inspect-small {
+  min-height: 32px;
+  font-size: 10px;
+  padding: 5px;
+  width: 100%;
+  background: transparent;
+  border: 0;
+  color: #d0bd93;
+}
+.h-card-face {
+  aspect-ratio: 63/88;
+  width: 100%;
+  background: #101d29;
+  border: 1px solid var(--dynasty, #b39a68);
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 3px #101d29,
+    inset 0 0 0 4px #b3a27055;
+  color: #eee3cb;
+  text-align: center;
+}
+.h-card-face > img {
+  width: 100%;
+  height: 65%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+.h-card-ink {
+  padding: 8% 6% 4%;
+}
+.noble .h-card-ink {
+  padding: 3% 4% 2%;
+}
+.h-card-ink h3 {
+  font-size: clamp(12px, 1.1vw, 19px);
+  line-height: 1.08;
+  margin: 3% 0 5%;
+}
+.h-card-ink .h-eyebrow {
+  font-size: 8px;
+  letter-spacing: 0.07em;
+  color: var(--dynasty);
+}
+.h-card-ink p {
+  font-size: 8px;
+  line-height: 1.35;
+  margin-bottom: 5%;
+}
+.h-card-ink small {
+  font-size: 7px;
+  color: #b4b9aa;
+}
+.h-card-ink .h-reminder {
+  font-size: 9px;
+  opacity: 0.8;
+}
+.h-operative {
+  white-space: normal;
+}
+.h-history-panel {
+  min-width: 0;
+  background: #111f24;
+  padding: 14px 16px;
+}
+.h-history-rail header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.h-history-rail h2 {
+  font-size: 23px;
+  margin-bottom: 8px;
+}
+.h-history-rail header > span {
+  font-size: 9px;
+  color: #acb8a8;
+}
+.h-history-rail > p {
+  font-size: 11px;
+  color: #b8c5b8;
+}
+.h-event {
+  display: block;
+  text-align: left;
+  width: 100%;
+  padding: 10px;
+  margin-top: 7px;
+  border-left: 3px solid #b39150;
+}
+.h-event.active {
+  border-left-color: #d59077;
+}
+.h-event strong {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 19px;
+  font-weight: 600;
+  margin: 4px 0;
+}
+.h-event > span:last-child {
+  font-size: 9px;
+  color: #c5cbbb;
+}
+.h-event .h-eyebrow {
+  font-size: 8px;
+  letter-spacing: 0.08em;
+}
+.h-world-label {
+  /* Keep transformed ink on its own compositor layer; otherwise Chromium can
+     clip the lower-right Court while its DOM bounds remain correct. */
+  will-change: transform;
+  backface-visibility: hidden;
+  text-align: center;
+  color: #e7d7b8;
+  font-size: 16px;
+  line-height: 1.35;
+  pointer-events: none;
+  text-shadow: 0 1px 2px #0005;
+}
+.h-world-card {
+  will-change: transform;
+  backface-visibility: hidden;
+  padding: 0;
+  border: 0;
+  min-height: 0;
+  border-radius: 2px;
+  background: #111d29;
+  overflow: hidden;
+  box-shadow: 1px 2px 2px #0006;
+}
+.h-world-card:hover {
+  outline: 2px solid #d8bd7e;
+}
+.h-world-card canvas {
+  display: block;
+  transform: translateZ(1px);
+}
+.h-seat-label {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 28px;
+  text-align: left;
+  color: #edd9b5;
+}
+.h-seat-label span {
+  font-family: Manrope;
+  font-size: 13px;
+  text-transform: uppercase;
+  margin-left: 18px;
+  color: #b8c8b6;
+}
+.h-count-label {
+  font-size: 12px;
+  text-align: left;
+  color: #b8c3ac;
+}
+.h-card-markers {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: #e1c585;
+  font-weight: 700;
+}
+.h-world-token {
+  font-size: 18px;
+  color: #1f271d;
+  text-shadow: none;
+  font-weight: 800;
+}
+.h-crown-label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.h-table-engraving {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 26px;
+  letter-spacing: 0.12em;
+  color: #bca46c;
+}
+.h-pile-label {
+  font-size: 12px;
+  letter-spacing: 0.05em;
+}
+.h-leverage-label {
+  font-size: 9px;
+  color: #d0c092;
+}
+.h-painting-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+.h-painting-grid .h-fragment {
+  aspect-ratio: 63/88;
+  background: #142726;
+  border: 1px solid #8d79524a;
+  min-height: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-size: 18px;
+  color: #c8b98a;
+  background-size: 300% 200%;
+  border-radius: 0;
+}
+.h-fragment.present {
+  background-color: #75623c;
+  color: #faf1d3;
+}
+.h-fragment.veiled {
+  background: #14212e;
+  color: #d2ae68;
+}
+.h-fragment i {
+  position: absolute;
+  bottom: 1px;
+  right: 2px;
+  font-size: 10px;
+}
+.h-painting strong {
+  display: block;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 10px;
+  margin-top: 5px;
+}
+.h-painting .h-painting-grid {
+  width: 142px;
+  margin: auto;
+}
+.h-dialog {
+  background: #12252b;
+  color: #f0e5ce;
+  border: 1px solid #b69b66;
+  box-shadow: 0 24px 100px #000d;
+  max-width: min(850px, 94vw);
+  max-height: 90vh;
+  padding: 26px;
+  overflow: auto;
+}
+.h-dialog::backdrop {
+  background: #040d13de;
+  backdrop-filter: blur(8px);
+}
+.h-dialog > div {
+  padding-top: 32px;
+}
+.h-close {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  background: transparent;
+  border: 0;
+}
+.h-dialog p,
+.h-dialog li {
+  font-size: 13px;
+  line-height: 1.75;
+}
+.h-dialog li {
+  margin-bottom: 12px;
+}
+.h-dialog label {
+  display: block;
+  margin: 14px 0;
+}
+.h-dialog input,
+.h-dialog select {
+  margin-left: 12px;
+  min-height: 38px;
+  max-width: 100%;
+  background: #0c1c22;
+  border: 1px solid #788169;
+  padding: 6px 10px;
+  color: #f2e5cd;
+}
+.h-dialog input[type="checkbox"] {
+  min-height: 18px;
+}
+.h-dialog fieldset {
+  margin: 20px 0;
+  border: 1px solid #72816a;
+}
+.h-dialog fieldset label {
+  display: inline-block;
+  margin-right: 16px;
+}
+.h-inspection {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 30px;
+}
+.h-inspection .h-card-face {
+  height: auto;
+  align-self: start;
+}
+.h-inspection .h-card-ink h3 {
+  font-size: 29px;
+}
+.h-inspection .h-card-ink p {
+  font-size: 13px;
+  line-height: 1.4;
+}
+.h-inspection .h-card-ink small {
+  font-size: 10px;
+}
+.h-inspection .h-card-ink .h-eyebrow {
+  font-size: 12px;
+}
+.h-inspection .h-card-face:not(.noble) {
+  min-height: 391px;
+  aspect-ratio: auto;
+}
+.h-inspection .noble .h-reminder {
+  display: none;
+}
+.h-archive details {
+  margin-bottom: 13px;
+}
+.h-archive .h-card-face {
+  width: 280px;
+  min-height: 391px;
+  aspect-ratio: auto;
+  margin: 20px 0;
+}
+.h-archive .h-card-ink h3 {
+  font-size: 26px;
+}
+.h-archive .h-card-ink p {
+  font-size: 12px;
+}
+.h-semantic-table {
+  padding: 20px;
+  overflow: auto;
+  height: 100%;
+}
+.h-table.semantic {
+  overflow: auto;
+  max-height: 660px;
+}
+.h-semantic-center {
+  text-align: center;
+}
+.h-semantic-paintings {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+.h-semantic-paintings article {
+  width: 120px;
+}
+.h-semantic-court {
+  margin: 30px 0;
+  padding: 15px;
+  border: 1px solid #ab96684f;
+  background: #193830;
+}
+.h-card-button {
+  padding: 0;
+  width: 120px;
+  flex-shrink: 0;
+}
+.h-card-button > span {
+  font-size: 10px;
+  display: block;
+  padding: 8px;
+}
+.large-text {
+  font-size: 17px;
+}
+.large-text .h-decision p,
+.large-text .h-action-list span {
+  font-size: 15px;
+}
+@media (min-width: 1900px) {
+  .h-game-grid {
+    grid-template-columns: minmax(0, 1fr) 350px;
+    grid-template-rows: minmax(620px, calc(100vh - 365px)) auto;
+  }
+  .h-hand-card {
+    flex-basis: 140px;
+  }
+  .h-card-ink h3 {
+    font-size: 21px;
+  }
+  .h-decision {
+    padding: 30px;
+  }
+  .h-decision p {
+    font-size: 15px;
+  }
+  .h-action-list span {
+    font-size: 14px;
+  }
+  .h-action-list strong {
+    font-size: 13px;
+  }
+  .h-title-copy {
+    max-width: 800px;
+  }
+  .h-title-portraits {
+    right: 0;
+    max-width: 1100px;
+  }
+}
+@media (max-width: 1050px) {
+  .h-game-grid {
+    grid-template-columns: minmax(0, 1fr) 270px;
+  }
+  .h-brand span {
+    display: none;
+  }
+  .h-game-header {
+    gap: 15px;
+  }
+  .h-game-header nav button {
+    padding: 8px;
+  }
+  .h-decision {
+    padding: 19px 15px;
+  }
+}
+@media (max-width: 700px) {
+  .h-title {
+    padding: 24px;
+  }
+  .h-title-nav {
+    font-size: 8px;
+    letter-spacing: 0.08em;
+  }
+  .h-title-copy {
+    margin-top: 10vh;
+  }
+  .h-title-copy h1 {
+    font-size: 61px;
+  }
+  .h-lead {
+    font-size: 23px;
+  }
+  .h-title-portraits {
+    display: none;
+  }
+  .h-title footer {
+    margin-top: 50px;
+    line-height: 1.8;
+  }
+  .h-game {
+    padding: 0 8px 10px;
+  }
+  .h-game-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 8px;
+  }
+  .h-game-header nav {
+    width: 100%;
+    justify-content: space-between;
+    border-top: 1px solid #67704733;
+  }
+  .h-brand {
+    font-size: 24px;
+  }
+  .h-round {
+    margin-left: auto;
+    font-size: 21px;
+  }
+  .h-game-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .h-table-panel {
+    height: 400px;
+    flex-shrink: 0;
+  }
+  .h-table {
+    min-height: 300px;
+  }
+  .h-cameras {
+    flex-wrap: wrap;
+  }
+  .h-cameras button {
+    font-size: 9px;
+    padding: 7px 9px;
+    min-height: 40px;
+  }
+  .h-record {
+    font-size: 10px;
+    padding: 9px;
+    min-height: 43px;
+  }
+  .h-decision {
+    max-height: none;
+    padding: 20px;
+    order: 1;
+  }
+  .h-decision h2 {
+    font-size: 31px;
+  }
+  .h-hand {
+    order: 2;
+    padding: 14px 10px;
+  }
+  .h-history-panel {
+    order: 3;
+  }
+  .h-hand header {
+    align-items: start;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .h-hand-card {
+    flex-basis: 117px;
+  }
+  .h-card-ink h3 {
+    font-size: 15px;
+  }
+  .h-dialog {
+    padding: 18px;
+    max-width: 96vw;
+  }
+  .h-inspection {
+    grid-template-columns: 1fr;
+  }
+  .h-inspection > .h-card-face {
+    width: 260px;
+    justify-self: center;
+  }
+  .h-semantic-table {
+    padding: 10px;
+  }
+  .h-semantic-paintings {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .h-action-list {
+    max-height: 280px;
+  }
+  .h-title-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .h-title-actions button {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+/* Fixed compact faces: portrait, name, role and affiliation never compete for the same space. */
+.h-hand-card .h-card-face,
+.h-title-portraits .h-card-face {
+  display: flex;
+  flex-direction: column;
+}
+.h-hand-card .h-card-face > img {
+  height: 55%;
+  flex: 0 0 55%;
+}
+.h-hand-card .h-card-ink {
+  padding: 3px 4px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.h-hand-card .h-card-ink h3 {
+  font-size: 14px;
+  line-height: 1.03;
+  margin: 3px 0;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.h-hand-card .h-card-ink .h-eyebrow {
+  font-size: 7px;
+}
+.h-hand-card .h-card-ink p {
+  font-size: 7px;
+  line-height: 1.2;
+  margin: 0;
+}
+.h-hand-card .h-card-ink small {
+  display: none;
+}
+.h-title-portraits .h-card-face > img {
+  height: 62%;
+  flex: 0 0 62%;
+}
+.h-title-portraits .h-card-ink h3 {
+  font-size: clamp(19px, 1.55vw, 35px);
+}
+.h-title-portraits .h-card-ink p {
+  font-size: clamp(8px, 0.7vw, 15px);
+}
+.h-motion-card {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 80;
+  pointer-events: none;
+  background: #132d35;
+  color: #e5c98d;
+  border: 2px solid #d0b579;
+  border-radius: 3px;
+  box-shadow: 8px 16px 24px #0009;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 7px;
+  font:
+    600 14px "Cormorant Garamond",
+    Georgia,
+    serif;
+}
+.h-skip-motion {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  z-index: 81;
+  background: #172936;
+  color: #efd9ab;
+}
+.h-card-face[data-art="unavailable"]::before {
+  content: "Portrait unavailable";
+  position: absolute;
+  inset: 20% 5% auto;
+  font-size: 9px;
+  color: #c2c8bc;
+  text-align: center;
+}

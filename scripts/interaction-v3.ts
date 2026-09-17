@@ -29,7 +29,7 @@ try {
       ),
     game,
   );
-  await p.goto("http://localhost:5173");
+  await p.goto("http://localhost:5173/?legacy=1");
   await p.locator("[data-resume]").click();
   await expect(p.locator(".hand-card")).toHaveCount(7);
   await p.locator(".hand-card").last().hover();

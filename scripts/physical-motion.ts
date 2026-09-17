@@ -3,7 +3,7 @@ const b = await chromium.launch({ channel: "chrome", headless: true });
 const p = await b.newPage({ viewport: { width: 1600, height: 1000 } });
 const errors: string[] = [];
 p.on("pageerror", (e) => errors.push(e.message));
-await p.goto("http://localhost:5173");
+await p.goto("http://localhost:5173/?legacy=1");
 await p.locator('[data-start="lesson"]').click();
 await p.waitForTimeout(600);
 await p.locator(".hand-card").click();

@@ -22,7 +22,7 @@ try {
   const page = await browser.newPage({
     viewport: { width: 1440, height: 1000 },
   });
-  await page.goto("http://localhost:5176");
+  await page.goto("http://localhost:5176/?legacy=1");
   const metrics = await page.evaluate(
     async ({ modulePath, available }) => {
       const { paintCard } = await import(modulePath);

@@ -12,7 +12,7 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 900 } }),
   errors: string[] = [];
 page.on("pageerror", (e) => errors.push(e.message));
 try {
-  await page.goto("http://localhost:5173");
+  await page.goto("http://localhost:5173/?legacy=1");
   if (process.argv[2] === "normal") {
     const game = createDuel({ seed: 1306, house: "alba", seats: 4 });
     await page.addInitScript(

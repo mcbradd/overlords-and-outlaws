@@ -44,7 +44,7 @@ try {
         ),
       g,
     );
-    await page.goto("http://localhost:5174");
+    await page.goto("http://localhost:5174/?legacy=1");
     await page.locator("[data-resume]").click();
     await expect(page.locator(".physical-card")).toHaveCount(4);
     await page.screenshot({
@@ -105,7 +105,7 @@ try {
       ),
     game,
   );
-  await page.goto("http://localhost:5174");
+  await page.goto("http://localhost:5174/?legacy=1");
   await page.locator("[data-resume]").click();
   await expect(page.locator(".physical-card")).toHaveCount(20);
   await page.waitForTimeout(200);

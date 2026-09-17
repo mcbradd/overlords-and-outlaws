@@ -44,7 +44,7 @@ try {
           ),
         game,
       );
-      await page.goto("http://localhost:5173");
+      await page.goto("http://localhost:5173/?legacy=1");
       await page.locator("[data-resume]").click();
       await page.locator(".arena [data-royal]").first().waitFor();
       const summariesFit = await page.locator("#scoreboard").evaluate((el) => {

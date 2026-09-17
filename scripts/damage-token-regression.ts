@@ -12,7 +12,7 @@ try {
       viewport: { width, height },
       reducedMotion: "reduce",
     });
-    await page.goto("http://localhost:5173");
+    await page.goto("http://localhost:5173/?legacy=1");
     await page.locator('[data-start="lesson"]').click();
     await expect(page.locator(".physical-card")).toHaveCount(4);
     await page.waitForTimeout(300);

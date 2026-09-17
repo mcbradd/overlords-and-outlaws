@@ -1,55 +1,44 @@
-> **Current product direction:** This is a digital prototype of a physically manufactured card-and-board game, presented on a real 3D board. See [current creative direction](/docs/PHYSICAL-GAME-DIRECTION.md). The flat September 15 lane presentation was rejected and is superseded; historical discussion below records its context, not current acceptance.
-
 # Overlords & Outlaws — The Weight of the Crown
 
-A **digital prototype of a physical card-and-board game intended for manufacture**, based on **Malachy Murray's** concept. Gather a family by blood or marriage, pay for coronation, and withstand every rival House's challenge. Growing power creates upkeep, vulnerable estates and dependent marriages.
+A digital prototype of Malachy Murray's physical card-and-board game. Draft a Dynasty from a shared inheritance, keep Nobles concealed for bargaining and Claims, and establish a government that survives a lawful succession before Eudoxia completes a painting.
+
+The default application now runs **history-engine-v4**, implementing the R3 History Engine rules. The old combat game and its saves remain available through **Legacy game** (`?legacy=1`). The original six-Dynasty archive remains intact. The new core contains the specified 52 Nobles in Alba, Plantagenet, Tudor and Habsburg.
 
 ## Play
 
-- **Ten short lessons:** fixed practice positions teach actions, capture, marriage, income, broken and defended claims, hand renewal, and Eudoxia. Opponents use real legal attacks.
-- **Skirmish:** one human with one to three AI Houses.
-- **Family table:** two to four human players, choosing distinct Houses and passing a shared device privately.
-- **Chronicle:** three branching courts with inherited rewards.
-- **Daily table:** a fixed UTC-day seed and House.
-- **Archive:** 84 named historical Royals across six Houses.
+- **Learn at the table:** one continuous 59-action guided match, from simultaneous 3–2–1 Inheritance to contested succession. Continue changes only the guide. Rivals legally defeat the learner's first Crown.
+- **Set a new table:** two to four seats, selected shared modules, reproducible deal, solo AI or private hot-seat handoffs.
+- **Five-minute preset demo:** a labeled public position using ordinary rules and real choices; no guaranteed win.
+- **Archive and inspector:** canonical operative text, separate reminders, immutable printed Dynasty and current relationships.
+- **Physical table:** shared-camera Three.js board and faces, Court cameras, Crown, seals, numbered marriages, Leverage, History and all selected paintings. Semantic mode supports the same game without WebGL.
+- **Private saves:** environment-prefixed v4 storage, incompatible-save recovery/export, curtain on blur/reload/handoff, and untouched legacy bytes.
 
-[Play the prototype on GitHub Pages](https://mcbradd.github.io/overlords-and-outlaws/) · [GitHub repository](https://github.com/mcbradd/overlords-and-outlaws)
+Use click/tap or keyboard selection, review the cost and consequence, then Commit. Inspection is passive. No action requires dragging. Public registers expose retained evidence. Local privacy protects ordinary shared-device play; a device owner can inspect full saves/devtools.
 
-Click or tap a card and use the contextual action panel. Desktop cards have a stable side inspector; on phones, selecting a card brings its actions into view. Mouse-drag a hand card to the table to play it, or drag a Ready Royal toward a target to preview an attack before committing. Touch scrolling never commits a drag action. Hover, touch-hold, or use Inspect card for detail. Click family, gold, crown, estates or forecast to explain their state. Keyboard controls use Tab, Enter and Escape. Sound, motion and coaching can be adjusted.
-
-The game plays on a real Three.js board with shared camera geometry for its printed card faces. Cards have a fixed 63:88 prototype ratio, live battlefield stats and inspectable full rules, cardstock thickness and contact shadows. Crowns, coins, estates, action counters, damage and marriage links occupy the board. Resting cards rotate. Camera buttons move closer to individual courts; narrow screens can pan across the board. The hand and contextual actions remain accessible outside the 3D scene. See [current physical-game direction](docs/PHYSICAL-GAME-DIRECTION.md) and [project memory](MEMORY.md).
-
-Research and verification: [16-game UI/UX study](docs/knowledge-base/digital-card-game-ux-research.md) · [redesign report](docs/UI-UX-REDESIGN.md). The study includes three model passes, scoped competitor scores, discrepancies, and outliers. These are qualitative judgments, not measured satisfaction rankings.
+[Current rules](docs/RULES.md) · [Implementation and evidence](docs/HISTORY-ENGINE-IMPLEMENTATION-REPORT.md) · [R3 specification](docs/HISTORY-ENGINE-IMPLEMENTATION-SPEC.md) · [Physical direction](docs/PHYSICAL-GAME-DIRECTION.md)
 
 ## Run and verify
 
-Node.js 22.12+ or a compatible newer version:
+Use Node 22.12+ and Chrome for browser checks.
 
 ```sh
 npm ci
-npm run dev
+npm run dev -- --port 5178
 npm run build
 npm test
 npm run test:ui
-npm run test:simulate
-npm run test:audit
-npm run test:physical
-npm run test:cards
+npm run test:history
+npm run test:history:browser
+npm run test:history:layout
+npm run test:history:simulate
+npm run test:history:print
 ```
 
-With the dev server running on port 5173 and Chrome installed:
+History browser probes default to port 5178; override with `HISTORY_BASE_URL`. `cards:compile`, `lint:card-text`, `cards:manifest` and `cards:proof` consume the same authored manifest. Build runs compilation, lint and print-kit generation. Open `/history-proof.html` for 92 canonical faces and physical references. `node scripts/history-export-pdf.mjs` exports the PDF from a running server.
 
-```sh
-npm run test:browser
-npx tsx scripts/session02-browser.ts
-npx tsx scripts/interaction-v3.ts
-npx tsx scripts/playthrough.ts normal
-npx tsx scripts/playthrough.ts normal --motion
-npx tsx scripts/family-browser.ts
-npx tsx scripts/family-browser.ts --compact --four --estate
-```
+Retained v3 audit/simulation/browser scripts explicitly exercise the legacy game. Their combat assertions do not validate the history engine. The release inventory runs both sets. Reports/screenshots are under ignored `artifacts/history/`.
 
-`test:audit` performs 200 complete games plus counterfactual terminal rollouts. It is a diagnostic of choices, not a human enjoyment score. V3 reports and screenshots use ignored `artifacts/v3/`; some retained family scripts use `artifacts/v2/`. Checked-in audit evidence is under `docs/testing/`.
+The user deferred M1b's early human paper-play gate to enable the full digital prototype. Software checks do not establish human balance, historical clearance, accessibility certification or manufacturing readiness. No deployment or promotion is implied by implementation.
 
 ## GitHub Pages deployment
 

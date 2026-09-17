@@ -42,7 +42,7 @@ try {
           ),
         game,
       );
-      await page.goto("http://localhost:5173");
+      await page.goto("http://localhost:5173/?legacy=1");
       await page.locator("[data-resume]").click();
       await expect(page.locator(".physical-card")).toHaveCount(seats * 5);
       await expect(page.locator(".hand-card")).toHaveCount(7);

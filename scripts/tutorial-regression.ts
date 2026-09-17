@@ -2,7 +2,7 @@ import { chromium } from "@playwright/test";
 const b = await chromium.launch({ channel: "chrome", headless: true });
 const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
 const failures: string[] = [];
-await p.goto("http://localhost:5173");
+await p.goto("http://localhost:5173/?legacy=1");
 const health = await p.evaluate(async () => {
   const { createLesson } = await import(
     /* @vite-ignore */ String("/src/lessons.ts")

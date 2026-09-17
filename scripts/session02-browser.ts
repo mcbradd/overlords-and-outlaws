@@ -33,7 +33,7 @@ try {
         }),
       ),
     );
-    await page.goto(process.env.BASE_URL ?? "http://localhost:5176");
+    await page.goto(new URL('?legacy=1', process.env.BASE_URL ?? "http://localhost:5176").href);
     await page.locator('[data-start="lesson"]').click();
     let actions = 0;
     while (actions++ < 90) {

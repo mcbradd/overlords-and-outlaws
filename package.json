@@ -1,11 +1,11 @@
 {
   "name": "overlords-and-outlaws",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "tsc --noEmit && vite build",
+    "build": "npm run cards:compile && npm run lint:card-text && npm run cards:proof && tsc --noEmit && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "test": "tsx --test tests/*.test.ts",
     "test:simulate": "tsx scripts/simulate.ts",
@@ -15,7 +15,18 @@
     "test:layout": "tsx scripts/ux-layout.ts",
     "test:cards": "node scripts/ux-cardfaces.mjs",
     "test:physical": "tsx scripts/physical-verify.ts",
-    "test:release": "node scripts/release-suite.mjs"
+    "test:release": "node scripts/release-suite.mjs",
+    "cards:compile": "tsx scripts/history-cards.ts compile",
+    "lint:card-text": "tsx scripts/history-cards.ts lint",
+    "cards:manifest": "tsx scripts/history-cards.ts manifest",
+    "cards:proof": "tsx scripts/history-cards.ts proof",
+    "test:card-semantics": "tsx --test tests/history-card-semantics.test.ts",
+    "test:reminder-invariance": "tsx --test --test-name-pattern=\"reminder\" tests/history-card-semantics.test.ts",
+    "test:history": "tsx --test tests/history-*.test.ts",
+    "test:history:browser": "tsx scripts/history-browser.ts",
+    "test:history:layout": "tsx scripts/history-layout.ts",
+    "test:history:simulate": "tsx scripts/history-simulate.ts",
+    "test:history:print": "node scripts/history-proof-check.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",

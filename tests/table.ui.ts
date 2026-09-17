@@ -23,7 +23,7 @@ test("family privacy, inspection, save/resume, and campaign inheritance through 
   p.motion = false;
   p.sound = false;
   localStorage.setItem("oando-v3", JSON.stringify(p));
-  await import("../src/main");
+  await import("../src/legacy-main");
   const click = (s: string) => {
     const b = document.querySelector<HTMLButtonElement>(s);
     expect(b, s).toBeTruthy();

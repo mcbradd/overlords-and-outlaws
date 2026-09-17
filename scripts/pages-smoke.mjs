@@ -19,12 +19,10 @@ try {
     if (r.status() >= 400) failed.push(`${r.status()} ${r.url()}`);
   });
   await page.goto(base);
-  await page.locator('[data-start="lesson"]').click();
-  await page.waitForFunction(
-    () =>
-      document.querySelectorAll('.physical-card[data-texture-ready="true"]')
-        .length === 4,
-  );
+  await page.locator('[data-ui="teach"]').click();
+  await page.locator('[data-ui="unlock"]').click();
+  await expect(page.locator(".h-guide")).toBeVisible();
+  await page.locator('[data-ui="lesson-action"]').click();
   if (namespace) {
     expect(await page.evaluate(() => localStorage.getItem("oando-v3"))).toBe(
       "live-save-sentinel",
@@ -32,11 +30,21 @@ try {
     expect(
       await page.evaluate(
         (prefix) =>
-          JSON.parse(localStorage.getItem(`${prefix}oando-v3`)).game !== null,
+          JSON.parse(localStorage.getItem(`${prefix}oando-v4-history`)).game !==
+          null,
         namespace,
       ),
     ).toBe(true);
   }
+  await page.goto(new URL("history-proof.html", base).href);
+  await expect(page.locator(".card[data-card]")).toHaveCount(92);
+  await page.goto(new URL("?legacy=1", base).href);
+  await page.locator('[data-start="lesson"]').click();
+  await page.waitForFunction(
+    () =>
+      document.querySelectorAll('.physical-card[data-texture-ready="true"]')
+        .length === 4,
+  );
   await page.goto(new URL("proof/", base).href);
   for (const house of [
     "alba",

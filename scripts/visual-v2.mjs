@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 await fs.mkdir('artifacts/v2',{recursive:true});
 const browser=await chromium.launch({channel:'chrome',headless:true});
 const page=await browser.newPage({viewport:{width:1440,height:900}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
-await page.goto('http://localhost:5173');await page.screenshot({path:'artifacts/v2/home.png'});
+await page.goto('http://localhost:5173/?legacy=1');await page.screenshot({path:'artifacts/v2/home.png'});
 await page.locator('[data-start="lesson"]').click();await page.locator('.modal .primary[data-close]').click();
 await page.waitForTimeout(800);await page.screenshot({path:'artifacts/v2/board-1440.png'});
 await page.locator('.hand-cards .royal-card').first().click();await page.screenshot({path:'artifacts/v2/selected-1440.png'});
