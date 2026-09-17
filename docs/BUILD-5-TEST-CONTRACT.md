@@ -16,7 +16,7 @@ Written before implementation, 17 September 2026. This is the acceptance scenari
 | U08 | Defend with same suit strictly higher rank | Both lead and answer committed until boundary; target remains; turn returns to next ordinary player |
 | U09 | Defend with equal/lower rank or wrong suit | Reject atomically; response remains pending |
 | U10 | Ace versus J/Q/K, versus 2–10; 2 versus Ace | Ace succeeds only for face leads; 2 answers Ace; enumerate all rank/suit pairs |
-| U11 | Decline valid Recall | Target moves to attacker's face-up committed area and stays unavailable this round; dependent offices fail immediately |
+| U11 | Decline valid Recall | Target moves to attacker's face-up Played area; attacking lead transfers to defender's Played; both unavailable until next start and return to their new owners; dependent offices fail immediately |
 | U12 | Duplicate response, ordinary action or pass during response | Reject; no duplicated cost/round transition |
 | U13 | All players pass consecutively | End once; resolve victory before next start; return committed cards to correct holders; replenish and transfer in specified order |
 | U14 | Pass / pass / legal action with three seats | Pass count reset; first passer can later act; no boundary |
@@ -90,3 +90,30 @@ O02: Observe ten complete ordinary UI games on the exact candidate, logging each
 O03: Antagonistic policy review seeks always-recruit races, compulsory defense, always-largest leads, no-use lower cards, refused trade, permanent lockout and repeat capped draws. Each actual failure becomes the next iteration's written goal/task/test before a fix.
 
 O04: Audit every changed module and every admitted asset. Report what passed, failed or was unavailable; never equate full line coverage with absence of bugs, visual correctness or player enjoyment.
+
+## Approved attrition amendment — A01–A10
+
+Approved by parent production review after the actual first 24-game policy run (six wins, eighteen cap draws). Written before correction code. The complete findings, rejected alternatives and exact criteria are in [BUILD-5-ATTRITION-REVIEW.md](reviews/BUILD-5-ATTRITION-REVIEW.md).
+
+| ID | Required correction test |
+|---|---|
+| A01 | Normative Recall, production tasks and this contract agree on success-only lead/target exchange before code edits |
+| A02 | Successful Recall transfers exact target to attacker Played and exact lead to defender Played; no immediate hand gain, duplicate cost or mutable input |
+| A03 | Native ruler capture with empty hand/deck gives defender a native lead at next boundary; only later legal Recruit restores ruler; no office/claim inheritance |
+| A04 | Queen/foreign spouse capture exchanges lead once, breaks exact support once, and preserves correct ownership; exchanged lead creates no marriage |
+| A05 | Successful Defend and exact tutorial unchanged; per-attacker marks do not immunize against other rivals |
+| A06 | AI prices high-for-low exchange and constructive alternatives, but changes priorities for a real Crown threat; a weaker sufficient answer may preserve a stronger one |
+| A07 | AI considers retained native response when choosing an heir; no gratuitous extra native recruitment while enough development exists; hidden permutations remain indistinguishable |
+| A08 | Re-run original 24-game seat/seed/policy set, then all-balanced and rotated seats/suits; report all outcomes and action/response/claim/trade counts |
+| A09 | Predominant cap draws, absent defense and automatic recruitment remain failures; no cap extension or rival pass charity to manufacture results |
+| A10 | Visually inspect both Recall outcomes and exchanged-card destinations; explain exchange in screen-only tests; ten actual UI games remain separate |
+
+No tests for unchanged blocked commitment, first-seat rotation, Crown timing or round cap are weakened by this amendment. Further rules changes require another written amendment.
+
+## APP-05 public-empty Trade amendment
+
+Written before correction tests/code following the independent app audit. A recipient with public hand count zero has no possible requested card, so no formal Trade may target that recipient. This is a public-information legality correction, not permission to inspect nonempty hidden hands.
+
+- EMPTY-01: an active player holding an offer card sees no legal Trade to a zero-card recipient, and submitting such a payload rejects atomically without consuming a recipient mark or revealing the offer.
+- EMPTY-02: the same recipient with one unknown card may be asked for an exact card they do not hold, provided it is not publicly known elsewhere; no hidden identity determines offer legality.
+- EMPTY-03: permuting a nonempty recipient's hidden identity with the deck leaves public observations and generated initiating actions identical. Existing available/unavailable request rejection privacy tests remain required.

@@ -11,6 +11,12 @@ const script = (file, ...args) => [
   ...args,
 ];
 const checks = [
+  ["core-rules-and-storage", ["--import", "tsx", "--test", "tests/core-game.test.ts", "tests/core-storage.test.ts"]],
+  ["core-policy-simulation", script("core-simulate.ts", "8")],
+  ["core-browser", script("core-browser.ts")],
+  ["core-browser-extended", script("core-browser-extended.ts")],
+  ["core-app-audit", script("core-app-audit.ts")],
+  ["core-layout", script("core-layout.ts")],
   ["history-card-compile", script("history-cards.ts", "compile")],
   ["history-card-lint", script("history-cards.ts", "lint")],
   ["history-card-manifest", script("history-cards.ts", "manifest")],
@@ -91,6 +97,7 @@ const checks = [
   ["layout-probe", script("layout-repro.mjs")],
   ["retained-visual-probe", script("visual-v2.mjs")],
   ["pages-smoke", script("pages-smoke.mjs")],
+  ["core-pages-smoke", script("core-pages-smoke.ts")],
 ];
 
 if (process.argv.includes("--list")) {
@@ -123,6 +130,14 @@ const save = () => {
 };
 const servers = [];
 let previewServer;
+// Only these checks navigate the History application directly. Proof scripts
+// append paths to HISTORY_BASE_URL, so their base must remain query-free.
+const historyAppChecks = new Set([
+  "history-browser", "history-browser-landscape", "history-browser-compact",
+  "playthrough-recovery", "playtest-recovery", "tutorial-usability",
+  "tutorial-preview-fit", "history-reading", "history-layout",
+  "history-face-geometry", "history-scene-inspection", "card-language-ui",
+]);
 async function run(name, args) {
   const started = Date.now();
   const log = createWriteStream(`${output}/${name}.log`);
@@ -135,10 +150,14 @@ async function run(name, args) {
         PAGES_BASE_PATH: base,
         VITE_SAVE_NAMESPACE: name === "bundle" ? "prod:" : "",
         SAVE_NAMESPACE: name === "pages-smoke" ? "prod:" : "",
-        HISTORY_BASE_URL: "http://localhost:5176",
+        HISTORY_BASE_URL: historyAppChecks.has(name)
+          ? "http://localhost:5176/?archive=history-v4"
+          : "http://localhost:5176",
         HISTORY_VIEWPORT: name === "history-reading" ? "" : name === "history-browser-landscape" ? "844x390" : ["history-browser-compact", "tutorial-preview-fit"].includes(name) ? "667x375" : "1440x900",
         BASE_URL:
           name === "pages-smoke"
+            ? `http://localhost:4176${base}?archive=history-v4`
+            : name === "core-pages-smoke"
             ? `http://localhost:4176${base}`
             : "http://localhost:5176",
       },
@@ -156,7 +175,9 @@ async function run(name, args) {
           });
         } else child.kill("SIGKILL");
       },
-      (name === "decision-audit"
+      (name === "core-layout"
+        ? 40
+        : name === "decision-audit"
         ? 60
         : name.startsWith("playthrough")
           ? 10

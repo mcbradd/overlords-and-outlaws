@@ -1,0 +1,13 @@
+# Short landscape opening correction
+
+Written before CSS correction, 17 September 2026. Parent opened `artifacts/core/extended-revision2/safe-area-landscape-00-FAILED.png`: at844×390 almost the entire first viewport contains only the logo while the right half is empty. This is a presentation failure even though page scrolling is possible.
+
+L01: Arrange the landscape opening with artwork on the left and proposition/actions on the right. Preserve16px readable prose and44px buttons, apply horizontal safe areas, keep Learn visible for a new visitor without scrolling, allow the showcase and secondary details below. Actual inspection at844×390 with44px side cutouts, plus ordinary landscape1280×720, must show no logo/text collision. Existing portrait layout must remain unchanged.
+
+L02: Setup remains a deliberately scrollable form on an open software keyboard. The focused name/deal field and label must remain comfortably visible; submission and close can be reached through explicit reader scrolling or keyboard navigation. The initial synthetic screenshot does not establish a product failure merely because the offscreen submit is below other form fields. Keep that failed initial harness result and validate the written input criterion in a separate rerun; do not relabel it retrospectively.
+
+L03: A subsequent deliberate-scroll rerun found that starting the table retained the introduction's document scroll and placed Exit tutorial above the viewport. Reset scroll on title/intro/new-table navigation and after first table render, while preserving deliberate scrolling during an existing game's ordinary actions. Test a scrolled landscape introduction → Take your seat → visible table header/Exit and first taught target.
+
+L04: The parent opened the dense empty-hand fixture and found the guide still said to choose a hand card. When no outcome/response is being shown and the hand is empty, explain Pass and the conditional next-round draw instead. Acceptance: import a valid empty-hand state; no instruction to choose an absent card, Pass remains available, no implied card draw from an empty deck.
+
+L05: Short landscape cannot retain a300px board above hand and guide inside390px height. Use a compact left board/hand column with the single guide on the right. Keep16px explanation text and44px required controls, retain visible hand card ranks and taught target, no overlay over cards, no extra tutorial controls. Test every22teaching step and response at844×390 with cutouts, plus ordinary Trade/Recall and explicit camera focus. This is a separate compact layout; ordinary portrait and desktop geometry remain governed by their existing gates.

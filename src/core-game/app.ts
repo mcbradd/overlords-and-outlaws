@@ -1,0 +1,633 @@
+import "../fonts.css";
+import "./style.css";
+import { assetUrl } from "../assets";
+import {
+  createGame,
+  createTutorial,
+  applyAction,
+  legalActions,
+  viewForSeat,
+  type CoreState,
+  type CoreAction,
+} from "./engine";
+import { CARDS, BY_ID } from "./content";
+import { chooseAction } from "./ai";
+import { CoreTable } from "./scene";
+import {
+  faceHTML,
+  preloadCards,
+  referenceAidsHTML,
+  escapeHTML as esc,
+} from "./face";
+import { TEACHING, isTeachingAction } from "./tutorial";
+import {
+  readSave,
+  writeSave,
+  decodeSave,
+  encodeSave,
+  type CoreSave,
+} from "./storage";
+
+const root = document.querySelector<HTMLDivElement>("#app")!;
+const namespace = import.meta.env?.VITE_SAVE_NAMESPACE ?? "";
+// Resolve the browser property inside readSave's guarded call: even the getter
+// can throw when the browser disallows storage.
+const loaded = readSave(
+  { getItem: (key) => window.localStorage.getItem(key) },
+  namespace,
+);
+let saved = loaded.save;
+let game: CoreState | null = null;
+let mode: CoreSave["mode"] = "solo";
+let names = ["You", "Rival"];
+let lesson: CoreSave["lesson"] = null;
+let motion = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+let viewer = 0;
+let privateLocked = false;
+let selected: string | null = null;
+let chosen: CoreAction | null = null;
+let table: CoreTable | null = null;
+let timer: ReturnType<typeof setTimeout> | null = null;
+let generation = 0;
+let renderSequence = 0;
+let busy = false;
+let notice = loaded.error ?? "";
+let outcome = "";
+const dynastyName = (name: string) => name[0].toUpperCase() + name.slice(1);
+const nameOf = (id: string) => BY_ID[id]?.name ?? id;
+const label: Record<string, string> = {
+  recruit: "Recruit",
+  recall: "Recall",
+  defend: "Defend",
+  trade: "Trade",
+  "name-heir": "Name heir",
+  "marry-heir": "Marry & name heir",
+  accept: "Accept trade",
+  decline: "Let it happen",
+  pass: "Pass",
+};
+const btn = (text: string, action: string, extra = "") =>
+  `<button type="button" data-do="${action}" ${extra}>${text}</button>`;
+function stopTimer() {
+  if (timer) clearTimeout(timer);
+  timer = null;
+}
+function dispose() {
+  generation++;
+  stopTimer();
+  table?.dispose();
+  table = null;
+  document.querySelector("dialog")?.remove();
+}
+function persist() {
+  if (!game) return;
+  saved = { game, lesson, mode, names, motion };
+  try {
+    writeSave(localStorage, saved, namespace);
+  } catch {
+    notice =
+      "Your browser could not save progress. Keep this page open, or export your game from the table menu.";
+  }
+}
+function logo() {
+  return `<h1 class="c-wordmark"><img src="${assetUrl("art/core-wordmark-v1.png")}" alt="Overlords & Outlaws" width="1536" height="1024"></h1>`;
+}
+async function home() {
+  dispose();
+  window.scrollTo(0, 0);
+  game = null;
+  lesson = null;
+  chosen = null;
+  selected = null;
+  root.innerHTML = `<main class="c-opening"><section>${logo()}<p class="c-kicker">THE WEIGHT OF THE CROWN</p><p class="c-opening-lead">A family can claim power.<br>Can it keep the succession?</p><p>Play historical people as visible allies or keep them hidden to answer a rival. The same card cannot do both.</p><div class="c-opening-actions">${btn("Learn at the table", "intro", 'class="primary"')}${btn("Play the core game", "setup")}${saved ? btn("Resume your table", "resume") : ""}</div><p class="c-subtle">Core succession prototype · 2–4 players<br>Physical cards. A shared table. Private intentions.</p>${notice ? `<p role="alert">${esc(notice)}</p>` : ""}</section><div class="c-showcase" aria-label="Collectible Dynasty cards"><p>Preparing the cards…</p></div><footer>Original concept © 2025 Malachy Murray</footer></main>`;
+  bind();
+  const current = generation;
+  try {
+    await preloadCards(["alba-0", "plantagenet-1", "tudor-1"]);
+    if (current !== generation) return;
+    root.querySelector(".c-showcase")!.innerHTML = [
+      "alba-0",
+      "plantagenet-1",
+      "tudor-1",
+    ]
+      .map((id) => `<div class="c-showcase-card">${faceHTML(id)}</div>`)
+      .join("");
+  } catch {
+    if (current === generation)
+      root.querySelector(".c-showcase")!.innerHTML =
+        "<p>Card artwork could not load. Reload to retry.</p>";
+  }
+}
+function intro() {
+  window.scrollTo(0, 0);
+  dispose();
+  root.innerHTML = `<main class="c-intro"><section class="c-guide"><p class="c-kicker">LEARN AT THE TABLE</p><h1>Keep the Crown in your family.</h1><p class="c-intro-goal">Claim the Crown, pass it to an heir, then keep your new ruler and their supporter on the table for one full round.</p><p>We’ll teach each move at the table. A supporter is another person in your family’s Court—the cards you can all see.</p><p>You lead the Alba Dynasty with Kenneth MacAlpin. You begin with just two cards in your hand. Your rival has a ruler and a hidden hand too.</p><p>First, we’ll show one useful move and explain why it helps. Playing a card uses it for this round; keeping it may let you answer a rival.</p>${btn("Take your seat", "teach", 'class="primary"')}${btn("Return to title", "home")}</section></main>`;
+  bind();
+  void preloadCards([
+    "alba-0",
+    "alba-2",
+    "alba-3",
+    "alba-4",
+    "alba-5",
+    "alba-6",
+    "plantagenet-0",
+    "plantagenet-2",
+    "plantagenet-3",
+    "plantagenet-4",
+  ]).catch(() => {});
+}
+function setup() {
+  modal(
+    `<h2>Set a core table</h2><p>Build a family, claim the Crown and protect the succession. This prototype ends after 12 rounds if no succession wins.</p><label>Players<select id="players"><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label><label>Table<select id="mode"><option value="solo">You and computer rivals</option><option value="local">Shared device · private handoffs</option></select></label><label>Your Dynasty<select id="dynasty"><option value="alba">Alba</option><option value="plantagenet">Plantagenet</option><option value="tudor">Tudor</option><option value="habsburg">Habsburg</option></select></label><label>Your name<input id="player-name" autocomplete="off" maxlength="40" value="You"></label><label>Deal number<input id="seed" type="number" inputmode="numeric" min="1" max="999999" value="${Math.floor(Date.now() % 999999) + 1}"></label><p>Each seat uses a different Dynasty from the four-suit core set. Each player starts with one ruler and two cards.</p>${btn("Begin game", "begin", 'class="primary"')}<label class="c-file">Import a core save<input type="file" id="save-file" accept="application/json,.json"></label>`,
+  );
+}
+async function start(
+  state: CoreState,
+  nextMode: CoreSave["mode"],
+  nextLesson: CoreSave["lesson"] = null,
+) {
+  dispose();
+  game = state;
+  mode = nextMode;
+  lesson = nextLesson;
+  selected = null;
+  chosen = null;
+  outcome = "";
+  privateLocked = mode === "local";
+  viewer = 0;
+  const token = generation;
+  root.innerHTML = `<main class="c-intro"><section class="c-guide" aria-live="polite"><h1>Preparing your table</h1><p>Placing the cards and letting the ink dry…</p></section></main>`;
+  busy = true;
+  window.scrollTo(0, 0);
+  try {
+    await preloadCards(
+      CARDS.filter((c) => state.dynasties.includes(c.dynasty)).map((c) => c.id),
+    );
+    if (token !== generation) return;
+    busy = false;
+    persist();
+    await render();
+    if (token === generation) window.scrollTo(0, 0);
+  } catch {
+    if (token !== generation) return;
+    busy = false;
+    notice =
+      "The card artwork could not load. Check your connection and try again.";
+    root.innerHTML = `<main class="c-intro"><section class="c-guide"><h1>The table is not ready yet</h1><p>${esc(notice)}</p>${btn("Retry loading", "retry")}${btn("Return to title", "home")}</section></main>`;
+    bind();
+  }
+}
+function actingSeat() {
+  if (!game) return 0;
+  if (lesson && !lesson.done) return TEACHING[lesson.cursor].seat;
+  if (game.phase === "recall" || game.phase === "trade") {
+    return (
+      game.players.find(
+        (p) => legalActions(viewForSeat(game!, p.seat), p.seat).length > 0,
+      )?.seat ?? game.active
+    );
+  }
+  return game.active;
+}
+function actions(): CoreAction[] {
+  if (!game || privateLocked || lesson?.done) return [];
+  const available = legalActions(viewForSeat(game, viewer), viewer);
+  return lesson
+    ? available.filter((action) => isTeachingAction(action, lesson!.cursor))
+    : available;
+}
+function describe(action: CoreAction): string {
+  const card = action.card ? nameOf(action.card) : "";
+  const target = action.target ? nameOf(action.target) : "";
+  switch (action.type) {
+    case "recruit":
+      return `${card} leaves your hand and joins your Court. You cannot use this person as a hidden answer while they are on the table.`;
+    case "recall":
+      return `Play ${card} to take ${target}. Its controller may answer with a higher same-Dynasty card, or an Ace against J, Q or K. If undefended, you gain ${target} and give them ${card}. Both enter their new owners’ Played areas until next round.`;
+    case "defend":
+      return `Commit ${card} to Played until next round. The threatened person stays on the table.`;
+    case "name-heir":
+      return `${card} becomes your heir; ${nameOf(action.supporter!)} is the named supporter. Keep the ruler, heir and supporter until next round. Then keep the new ruler and supporter for that whole round.`;
+    case "marry-heir":
+      return `${card} marries ${nameOf(action.supporter!)} and becomes your heir. Their equal or neighbouring ranks permit this match. Keep the linked pair throughout the succession.`;
+    case "trade":
+      return `Offer ${card} to ${names[action.other!] ?? "the rival"} for ${nameOf(action.request!)}. They may refuse without revealing their hand.${action.recruit ? " If accepted, recruit the lower native card immediately." : " If accepted, both cards enter their new owners’ Played areas until next round."}`;
+    case "accept":
+      return game?.pending
+        ? `Give ${nameOf(game.pending.request!)} and receive ${nameOf(game.pending.card)}. The cards move to Played until next round${game.pending.recruit ? ", except the rival recruits your lower card immediately" : ""}. This completes the binding exchange.`
+        : "The offer has ended.";
+    case "decline":
+      return game?.phase === "trade"
+        ? "Decline without revealing your hand. The offer counts as a Pass."
+        : `Let the threatened person go and receive ${nameOf(game!.pending!.card)} in exchange. Both cards enter their new owners’ Played areas until next round. Required Crown or marriage relationships break immediately.`;
+    default:
+      return "Keep your remaining cards. You may act later if another player plays a card. Everyone passing consecutively ends the round.";
+  }
+}
+function objective(): string {
+  if (!game) return "";
+  if (game.result)
+    return game.result.winner === null
+      ? "No succession secured the Crown within 12 rounds."
+      : `${names[game.result.winner]} kept the new ruler and supporter through a full round.`;
+  const crown = game.crown;
+  if (!crown)
+    return "Build a ruler and supporter, then play an heir to claim the Crown.";
+  if (crown.stage === "notice")
+    return `${names[crown.seat]} claims the Crown. ${nameOf(crown.heir)} succeeds next round; ${nameOf(crown.supporter)} must remain.`;
+  return `${names[crown.seat]} wins at this round’s end if ${nameOf(crown.heir)} and ${nameOf(crown.supporter)} both remain.`;
+}
+async function render() {
+  if (!game || busy) return;
+  const renderToken = ++renderSequence;
+  const loadToken = generation;
+  stopTimer();
+  chosen = chosen && chosen.revision === game.revision ? chosen : null;
+  const actor = actingSeat();
+  if (mode === "local" && privateLocked && !game.result) {
+    table?.dispose();
+    table = null;
+    root.innerHTML = `<main class="c-intro"><section class="c-guide"><p class="c-kicker">PRIVATE HANDOFF</p><h1>Pass the device to ${esc(names[actor])}</h1><p>Only that player should uncover their hand.</p>${btn("I am ready · reveal my hand", "unlock", 'class="primary"')}</section></main>`;
+    bind();
+    return;
+  }
+  if (mode !== "local") viewer = 0;
+  const available = actions();
+  const player = game.players[viewer];
+  const taught = lesson ? TEACHING[lesson.cursor] : null;
+  const humanTurn =
+    actor === viewer && (!lesson || taught?.seat === viewer) && !game.result;
+  const seatView = viewForSeat(game, viewer);
+  const hand = player.hand;
+  const selectedActions = available.filter(
+    (a) => a.card === selected && a.type !== "pass",
+  );
+  const generic = available.filter((a) => !a.card);
+  const pendingDescription = game.pending
+    ? game.pending.type === "trade"
+      ? `${names[game.pending.seat]} offers ${nameOf(game.pending.card)} (${BY_ID[game.pending.card].rank} ${dynastyName(BY_ID[game.pending.card].dynasty)}) to ${names[game.pending.other]} in exchange for ${nameOf(game.pending.request!)}.${viewer === game.pending.other ? (player.hand.includes(game.pending.request!) ? " Accept or decline without revealing your other cards." : " You do not hold the requested person. Decline without revealing your hand.") : " The recipient may accept or refuse; their hand remains private."}${game.pending.recruit ? " If accepted, the offering player recruits the lower native card immediately." : " Received cards become available next round."}`
+      : `${names[game.pending.seat]} uses ${nameOf(game.pending.card)} (rank ${BY_ID[game.pending.card].rank}) to Recall ${nameOf(game.pending.target!)}. Defend with a higher card of that Dynasty, or an Ace against J, Q or K. Let the person go to receive the attacking card in exchange next round.`
+    : "";
+  const currentGuide = lesson
+    ? lesson.done
+      ? taught!.outcome
+      : taught!.explanation
+    : chosen
+      ? describe(chosen)
+      : pendingDescription ||
+        outcome ||
+        (hand.length
+          ? "Choose a card from your hand to see what that person can do. Keep a useful rank hidden if you expect to defend."
+          : `Your hand is empty. Pass to give the next player an opportunity. Played cards return next round.${game.deck.length ? " Each player then draws one card while the deck has cards." : " The draw pile is empty; no new cards will be drawn."}`);
+  const tableHost = root.querySelector<HTMLElement>("#core-table");
+  const retained = tableHost?.parentElement ? tableHost : null;
+  if (retained) retained.remove();
+  root.innerHTML = `<main class="c-game"><header><div><p class="c-kicker">${lesson ? "LEARNING AT THE TABLE" : "CORE SUCCESSION PROTOTYPE"}</p><strong>Round ${game.round} of 12</strong></div><p class="c-objective">${esc(objective())}</p>${lesson ? btn("Exit tutorial", "exit") : btn("Table menu", "menu")}</header><section class="c-board-wrap" aria-label="Physical game table"><div class="c-table-nav">${lesson ? `<span>${esc(names[actor])}${game.result ? "" : " · current opportunity"}</span>` : `${btn("Whole table", "focus-all")}${game.players.map((p) => btn(esc(names[p.seat]), "focus", `data-seat="${p.seat}"`)).join("")}`}</div><div id="core-table"></div></section><section class="c-table-edge ${game.phase === "trade" ? "c-trade-response" : ""}"><section class="c-hand" aria-label="Your private hand"><div class="c-hand-heading"><h2>${esc(names[viewer])} · ${esc(dynastyName(player.dynasty))}</h2><span>${hand.length} cards in hand</span></div><div class="c-hand-cards">${
+    hand
+      .map((id) => {
+        const enabled = humanTurn && available.some((a) => a.card === id);
+        return `<div class="c-held-card ${selected === id ? "selected" : ""} ${lesson && enabled ? "next-interaction" : ""}"><button class="c-card-pick" data-do="select" data-card="${id}" ${!enabled ? "disabled" : ""} aria-label="Select ${esc(nameOf(id))}, ${BY_ID[id].rank} ${esc(dynastyName(BY_ID[id].dynasty))}">${faceHTML(id)}</button><div class="c-card-caption">${enabled ? [...new Set(available.filter((a) => a.card === id).map((a) => label[a.type]))].slice(0, 2).join(" · ") : "Keep in hand"}${!lesson ? btn("Inspect", "inspect", `data-card="${id}"`) : ""}</div></div>`;
+      })
+      .join("") ||
+    '<p class="c-empty">Your hand is empty. Played cards return next round.</p>'
+  }</div></section><section class="c-guide" aria-label="Action and outcome"><p class="c-kicker">${lesson ? "ONE MOVE AT A TIME" : humanTurn ? "YOUR OPPORTUNITY" : "AT THE TABLE"}</p><h2>${esc(lesson ? taught!.title : chosen ? label[chosen.type] : game.result ? "The game has ended" : humanTurn ? (selected ? nameOf(selected) : "Your cards, your choices") : `${names[actor]} is considering a move`)}</h2><p>${esc(currentGuide)}</p>${notice ? `<p class="c-error" role="alert">${esc(notice)}</p>` : ""}<div class="c-action-area">${lesson?.done && lesson.cursor === TEACHING.length - 1 ? btn("Finish lesson", "finish", 'class="primary"') : ""}${lesson?.done && lesson.cursor < TEACHING.length - 1 ? btn("Continue", "continue", 'class="primary"') : ""}${lesson && !lesson.done && taught!.seat !== viewer ? btn("Watch the rival move", "watch", 'class="primary next-interaction"') : ""}${!lesson?.done && humanTurn ? (chosen ? `${btn(`Confirm ${label[chosen.type]}`, "commit", 'class="primary next-interaction"')}${btn("Cancel", "cancel")}` : `${renderChoices(selectedActions)}${generic.map((a, i) => btn(a.type === "decline" && game!.phase === "trade" ? "Decline trade" : label[a.type], "generic", `data-index="${i}" class="${lesson ? "next-interaction" : ""}"`)).join("")}`) : ""}${game.result && !lesson ? btn("Play another game", "setup", 'class="primary"') : ""}</div></section></section></main>`;
+  const freshHost = root.querySelector<HTMLElement>("#core-table")!;
+  if (retained && table) freshHost.replaceWith(retained);
+  else {
+    table?.dispose();
+    try {
+      table = new CoreTable(freshHost, (id) => {
+        if (!lesson) inspect(id);
+      });
+    } catch {
+      table = null;
+    }
+  }
+  if (table) {
+    table.setReducedMotion(!motion);
+    await table.update({
+      ...seatView,
+      players: seatView.players.map((p) => ({ ...p, name: names[p.seat] })),
+    });
+    if (loadToken !== generation || renderToken !== renderSequence) return;
+    table.setInteractive(!lesson);
+    if (lesson && innerWidth < 600) {
+      table.focus(viewer);
+      const rival = seatView.players.find((p) => p.seat !== viewer)!;
+      root.querySelector(".c-table-nav")!.innerHTML =
+        `<span>${esc(dynastyName(rival.dynasty))}: ${rival.handCount} hidden cards · ${actor === viewer ? "Your turn" : "Rival’s turn"}</span>`;
+    }
+  } else {
+    freshHost.className = "c-basic-table";
+    freshHost.innerHTML = `<p>Basic table view · 3D is unavailable on this browser</p>${seatView.players.map((p) => `<section><h2>${esc(names[p.seat])}</h2><p>${p.handCount} concealed cards · Played: ${p.played.map(nameOf).map(esc).join(", ") || "none"} · returns next round</p><div>${p.court.map((id) => `<figure>${faceHTML(id)}<figcaption>${esc(nameOf(id))}${id === p.ruler ? " · ruler" : ""}${game!.crown?.heir === id ? " · heir" : ""}${game!.crown?.supporter === id ? " · supporter" : ""}</figcaption></figure>`).join("")}</div></section>`).join("")}`;
+    root.querySelector(".c-table-nav")!.innerHTML = "";
+  }
+  bind();
+  if (!game.result && !lesson && mode !== "local" && actor !== viewer) {
+    const revision = game.revision;
+    timer = setTimeout(() => {
+      if (!game || game.revision !== revision || busy) return;
+      const action = chooseAction(viewForSeat(game, actor), actor).action;
+      if (!action) {
+        notice = "The next move could not be prepared. Your game is saved.";
+        void render();
+        return;
+      }
+      void commit(action);
+    }, 1300);
+  }
+}
+function renderChoices(list: CoreAction[]): string {
+  if (!list.length) return "";
+  const groups = [...new Set(list.map((a) => a.type))];
+  return groups
+    .map((type) => {
+      const subset = list.filter((a) => a.type === type);
+      if (subset.length === 1)
+        return btn(
+          label[type],
+          "choice",
+          `data-index="${list.indexOf(subset[0])}" class="${lesson ? "next-interaction" : ""}"`,
+        );
+      return `<label>${label[type]}<select data-choice-type="${type}"><option value="">Choose ${type === "trade" ? "a bargain" : "a person"}</option>${subset.map((a) => `<option value="${list.indexOf(a)}">${esc(type === "trade" ? `${names[a.other!]}: ${nameOf(a.request!)}${a.recruit ? " · recruit now" : ""}` : nameOf(a.target ?? a.supporter!))}</option>`).join("")}</select></label>`;
+    })
+    .join("");
+}
+async function commit(action: CoreAction) {
+  if (
+    !game ||
+    busy ||
+    (lesson && (!isTeachingAction(action, lesson.cursor) || lesson.done))
+  )
+    return;
+  try {
+    game = applyAction(game, action);
+    notice = "";
+    chosen = null;
+    selected = null;
+    outcome = game.events.at(-1) ?? describe(action);
+    if (lesson) lesson = { ...lesson, done: true };
+    if (mode === "local") privateLocked = true;
+    persist();
+    await render();
+  } catch (error) {
+    notice =
+      error instanceof Error
+        ? error.message
+        : "That move is no longer available.";
+    chosen = null;
+    await render();
+  }
+}
+function modal(html: string) {
+  stopTimer();
+  const token = generation;
+  document.querySelector("dialog")?.remove();
+  const dialog = document.createElement("dialog");
+  dialog.className = "c-modal";
+  dialog.innerHTML = `${btn("Close", "close", 'class="c-close"')}${html}`;
+  document.body.append(dialog);
+  dialog.showModal();
+  dialog.addEventListener("close", () => {
+    const wasConnected = dialog.isConnected;
+    dialog.remove();
+    if (wasConnected && game && !busy && token === generation) void render();
+  });
+  bind(dialog);
+  const file = dialog.querySelector<HTMLInputElement>("#save-file");
+  file?.addEventListener("change", async () => {
+    try {
+      const incoming = decodeSave(await file.files![0].text());
+      names = incoming.names;
+      motion = incoming.motion;
+      dialog.remove();
+      await start(incoming.game, incoming.mode, incoming.lesson);
+    } catch (error) {
+      dialog.insertAdjacentHTML(
+        "beforeend",
+        `<p role="alert">${esc(error instanceof Error ? error.message : "Could not read this file.")}</p>`,
+      );
+    }
+  });
+}
+function inspect(id: string) {
+  modal(
+    `<h2>${esc(nameOf(id))}</h2><div class="c-inspection-card">${faceHTML(id, { reference: true })}</div><p>Printed rank ${BY_ID[id].rank} · ${esc(dynastyName(BY_ID[id].dynasty))}${BY_ID[id].queen ? " · Queen role" : ""}</p><p>A native card can join your Court or become an heir. Recall matches the target’s Dynasty; defense compares lead and answer. An undefended Recall exchanges the lead for the target. Both go to their new owners’ Played areas until next round.</p>${btn("Reference rules", "rules")}`,
+  );
+}
+function rules() {
+  modal(
+    `<h2>Core reference rules</h2><p>These shared rule cards accompany the character faces. Each topic has a numbered reference; longer topics continue on a second card.</p>${referenceAidsHTML()}`,
+  );
+}
+function menu() {
+  modal(
+    `<h2>Your table</h2><p>${esc(objective())}</p><p>Play cards to develop your Court, Recall a rival’s person or propose an exact-card Trade. A played card is unavailable until next round. Defend with a higher same-Dynasty card; an Ace also answers J, Q or K.</p><p>Claim with a ruler, an existing native supporter and a new native heir. Or marry a matching-rank foreign heir to an existing native Queen. Keep the required people through transfer and the entire following round.</p><p>Everyone passing consecutively ends a round. Played cards return, then each player draws one new card. No deck reshuffle. The prototype ends as a draw after 12 rounds without a winner.</p>${btn("Reference rules", "rules")}${btn(motion ? "Reduce motion" : "Enable motion", "motion")}${btn("Export private save", "export")}${btn("Return to title", "home")}<p class="c-subtle">Private saves include all hands. Share only with people allowed to see them.</p>`,
+  );
+}
+function bind(scope: ParentNode = root) {
+  scope.querySelectorAll<HTMLButtonElement>("[data-do]").forEach(
+    (el) =>
+      (el.onclick = async () => {
+        const action = el.dataset.do!;
+        if (action === "home") {
+          await home();
+          return;
+        }
+        if (action === "intro") {
+          intro();
+          return;
+        }
+        if (action === "setup") {
+          setup();
+          return;
+        }
+        if (action === "close") {
+          el.closest("dialog")?.close();
+          return;
+        }
+        if (action === "exit") {
+          persist();
+          await home();
+          return;
+        }
+        if (action === "teach") {
+          names = ["You", "Plantagenet rival"];
+          await start(createTutorial(), "tutorial", { cursor: 0, done: false });
+          return;
+        }
+        if (action === "retry" && game) {
+          await start(game, mode, lesson);
+          return;
+        }
+        if (action === "resume" && saved) {
+          names = saved.names;
+          motion = saved.motion;
+          await start(saved.game, saved.mode, saved.lesson);
+          return;
+        }
+        if (action === "begin") {
+          const count = Number(
+            document.querySelector<HTMLSelectElement>("#players")!.value,
+          );
+          const seed = Number(
+            document.querySelector<HTMLInputElement>("#seed")!.value,
+          );
+          const nextMode = document.querySelector<HTMLSelectElement>("#mode")!
+            .value as "solo" | "local";
+          const ownDynasty = document.querySelector<HTMLSelectElement>(
+            "#dynasty",
+          )!.value as CoreState["dynasties"][number];
+          const dynasties = [
+            ownDynasty,
+            ...(
+              [
+                "alba",
+                "plantagenet",
+                "tudor",
+                "habsburg",
+              ] as CoreState["dynasties"]
+            ).filter((d) => d !== ownDynasty),
+          ].slice(0, count);
+          names = [
+            document
+              .querySelector<HTMLInputElement>("#player-name")!
+              .value.trim() || "You",
+            ...dynasties.slice(1).map((d) => `${dynastyName(d)} rival`),
+          ].slice(0, count);
+          if (!Number.isInteger(seed) || seed < 1 || seed > 999999) {
+            document.querySelector<HTMLInputElement>("#seed")!.reportValidity();
+            return;
+          }
+          await start(
+            createGame({
+              seed,
+              dynasties,
+            }),
+            nextMode,
+          );
+          return;
+        }
+        if (!game) return;
+        if (action === "unlock") {
+          viewer = actingSeat();
+          privateLocked = false;
+          await render();
+          return;
+        }
+        if (action === "continue" && lesson?.done) {
+          lesson = { cursor: lesson.cursor + 1, done: false };
+          outcome = "";
+          persist();
+          await render();
+          return;
+        }
+        if (
+          action === "watch" &&
+          lesson &&
+          !lesson.done &&
+          TEACHING[lesson.cursor].seat !== viewer
+        ) {
+          const seat = TEACHING[lesson.cursor].seat;
+          const taughtAction = legalActions(viewForSeat(game, seat), seat).find(
+            (a) => isTeachingAction(a, lesson!.cursor),
+          );
+          if (taughtAction) await commit(taughtAction);
+          return;
+        }
+        if (action === "finish") {
+          modal(
+            `<h2>What do you think this game is about?</h2><p>Before starting a new game, try saying how you win, what ends a round and why you might keep a card instead of playing it.</p><p>The next game uses an ordinary deal and computer rivals. You choose your own moves.</p>${btn("Start an ordinary game", "setup", 'class="primary"')}${btn("Return to title", "home")}`,
+          );
+          return;
+        }
+        if (action === "focus-all") {
+          table?.focus(null);
+          return;
+        }
+        if (action === "focus") {
+          table?.focus(Number(el.dataset.seat));
+          return;
+        }
+        if (action === "menu") {
+          menu();
+          return;
+        }
+        if (action === "rules") {
+          rules();
+          return;
+        }
+        if (action === "inspect") {
+          inspect(el.dataset.card!);
+          return;
+        }
+        if (action === "motion") {
+          motion = !motion;
+          persist();
+          el.closest("dialog")?.close();
+          return;
+        }
+        if (action === "export" && saved) {
+          const url = URL.createObjectURL(
+            new Blob([encodeSave(saved)], { type: "application/json" }),
+          );
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "overlords-outlaws-core-private-save.json";
+          a.click();
+          URL.revokeObjectURL(url);
+          return;
+        }
+        if (action === "select") {
+          selected = el.dataset.card!;
+          chosen = null;
+          await render();
+          return;
+        }
+        if (action === "cancel") {
+          chosen = null;
+          await render();
+          return;
+        }
+        if (action === "choice")
+          chosen = actions().filter(
+            (a) => a.card === selected && a.type !== "pass",
+          )[Number(el.dataset.index)];
+        if (action === "generic")
+          chosen = actions().filter((a) => !a.card)[Number(el.dataset.index)];
+        if (action === "commit" && chosen) {
+          await commit(chosen);
+          return;
+        }
+        await render();
+      }),
+  );
+  scope.querySelectorAll<HTMLSelectElement>("[data-choice-type]").forEach(
+    (el) =>
+      (el.onchange = () => {
+        if (el.value === "") return;
+        chosen = actions().filter(
+          (a) => a.card === selected && a.type !== "pass",
+        )[Number(el.value)];
+        void render();
+      }),
+  );
+}
+
+function updateViewport() {
+  const viewport = window.visualViewport;
+  document.documentElement.style.setProperty(
+    "--core-viewport-height",
+    `${viewport?.height ?? innerHeight}px`,
+  );
+  const focused = document.activeElement;
+  if (
+    focused instanceof HTMLInputElement ||
+    focused instanceof HTMLSelectElement
+  )
+    focused.scrollIntoView({ block: "nearest" });
+}
+window.visualViewport?.addEventListener("resize", updateViewport);
+window.addEventListener("resize", updateViewport);
+updateViewport();
+void home();

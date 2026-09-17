@@ -1,3 +1,9 @@
+# Current rules and historical archive
+
+Build 5 core succession rules are defined in [Suit and rank](SUIT-AND-RANK-DESIGN.md). That document governs the default application. The older rules below apply only to the preserved `?archive=history-v4` runtime. Their seals, inheritance draft, History and paintings are not part of the current core. See the [Build 5 evidence log](reviews/BUILD-5-EXECUTION-LOG.md) for implementation and verification status.
+
+---
+
 # History engine v4 — current prototype rules
 
 **Design/runtime distinction (17 September 2026):** the [master design's R4 suit-and-rank candidate](SUIT-AND-RANK-DESIGN.md) proposes the next revision. It is not implemented by these current prototype rules. The R4 rank comparisons, Trade procedure and settlement durations must not be mixed into an existing game.

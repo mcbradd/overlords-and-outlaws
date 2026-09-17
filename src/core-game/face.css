@@ -1,0 +1,67 @@
+.core-face {
+  display: block;
+  width: 100%;
+  aspect-ratio: 63/88;
+  overflow: hidden;
+  border-radius: 4.1%;
+  background: #eee4cd;
+  color: #22362d;
+  box-shadow:
+    0 1px 0 #fff8 inset,
+    0 3px 2px #0004,
+    0 9px 18px #0004;
+  position: relative;
+}
+.core-face img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  user-select: none;
+}
+.core-face-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  min-height: 100%;
+  font:
+    600 16px/1.5 Manrope,
+    sans-serif;
+  text-align: left;
+}
+.core-card-back {
+  background: repeating-linear-gradient(45deg, #28483c 0 3px, #244234 3px 12px);
+  border: 3px solid #c5a76c;
+  display: grid;
+  place-items: center;
+}
+.core-card-back > span {
+  display: grid;
+  place-items: center;
+  width: 68%;
+  height: 60%;
+  border: 2px solid #d1b77d;
+  border-radius: 50%;
+  background: #203d35;
+  color: #ddc58e;
+  font-size: 64px;
+}
+.core-reference-aids {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 315px), 1fr));
+  gap: 20px;
+  align-items: start;
+}
+.core-reference-aid {
+  margin: 0;
+  width: 100%;
+  max-width: 420px;
+  justify-self: center;
+}
+.core-reference-aid img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4.1%;
+}

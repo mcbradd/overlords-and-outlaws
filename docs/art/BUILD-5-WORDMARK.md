@@ -1,0 +1,7 @@
+# Build 5 title treatment
+
+Created 17 September 2026 with the built-in image-generation tool using the imagegen skill. Selected project asset: `public/art/core-wordmark-v1.png`; source output `C:/Users/McBra/.codex/generated_images/01a0b05e-0344-7a13-95cd-536216438010/exec-f525def7-0d8d-4304-a7e3-074a321079cc.png`. Original source retained.
+
+Prompt: Create a finished historical collectible physical board-game title treatment suitable for a premium printed box and opening-screen wordmark. Exact lettering “Overlords” / “& Outlaws”; bespoke Renaissance engraved Roman serif lettering, ivory and antique gold, integrated crown, discreet interlaced flourish, readable silhouette, restrained ornament, no extra text/people/cards/mockup, full margins, roughly 3:2 composition. Transparent background requested.
+
+Actually inspected the generated image: lettering and crown are correct, but output has an opaque gold-brown/black background, so transparency requirement failed. A targeted background-removal edit also retained an opaque backdrop and was rejected as a transparent master. The original is used as a complete illustrated wordmark with browser screen blending into the dark opening field; it is not reported as an alpha cutout or final print-ready vector. No source character portrait was changed. Editable/vector and actual-size print proof remain future manufacturing gates. Inspect this complete treatment in the opening at all required viewport sizes before acceptance.

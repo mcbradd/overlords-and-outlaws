@@ -1,0 +1,539 @@
+{
+  "method": "Projected-view policy simulation; not browser play or human evidence.",
+  "games": 24,
+  "wins": 22,
+  "capDraws": 2,
+  "cohorts": [
+    {
+      "cohort": "original-mixed",
+      "games": 24,
+      "wins": 22,
+      "capDraws": 2,
+      "recalls": 900,
+      "defenses": 444,
+      "bySeats": [
+        {
+          "seats": 2,
+          "games": 8,
+          "wins": 8
+        },
+        {
+          "seats": 3,
+          "games": 8,
+          "wins": 8
+        },
+        {
+          "seats": 4,
+          "games": 8,
+          "wins": 6
+        }
+      ]
+    }
+  ],
+  "records": [
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet"
+      ],
+      "seats": 2,
+      "seed": 101,
+      "actions": 7,
+      "rounds": 2,
+      "winner": 0,
+      "claims": 1,
+      "marriageClaims": 0,
+      "recalls": 0,
+      "defenses": 0,
+      "trades": 0,
+      "acceptances": 0,
+      "rulerlessOpportunities": 0,
+      "longestRulerlessRounds": 0
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet"
+      ],
+      "seats": 2,
+      "seed": 102,
+      "actions": 41,
+      "rounds": 5,
+      "winner": 1,
+      "claims": 3,
+      "marriageClaims": 0,
+      "recalls": 9,
+      "defenses": 6,
+      "trades": 3,
+      "acceptances": 1,
+      "rulerlessOpportunities": 3,
+      "longestRulerlessRounds": 1
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet"
+      ],
+      "seats": 2,
+      "seed": 103,
+      "actions": 196,
+      "rounds": 12,
+      "winner": 1,
+      "claims": 19,
+      "marriageClaims": 1,
+      "recalls": 52,
+      "defenses": 27,
+      "trades": 6,
+      "acceptances": 2,
+      "rulerlessOpportunities": 37,
+      "longestRulerlessRounds": 3
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet"
+      ],
+      "seats": 2,
+      "seed": 104,
+      "actions": 56,
+      "rounds": 6,
+      "winner": 0,
+      "claims": 5,
+      "marriageClaims": 0,
+      "recalls": 12,
+      "defenses": 7,
+      "trades": 2,
+      "acceptances": 2,
+      "rulerlessOpportunities": 10,
+      "longestRulerlessRounds": 2
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet"
+      ],
+      "seats": 2,
+      "seed": 105,
+      "actions": 97,
+      "rounds": 7,
+      "winner": 0,
+      "claims": 12,
+      "marriageClaims": 2,
+      "recalls": 26,
+      "defenses": 9,
+      "trades": 2,
+      "acceptances": 1,
+      "rulerlessOpportunities": 13,
+      "longestRulerlessRounds": 3
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet"
+      ],
+      "seats": 2,
+      "seed": 106,
+      "actions": 28,
+      "rounds": 4,
+      "winner": 0,
+      "claims": 4,
+      "marriageClaims": 0,
+      "recalls": 5,
+      "defenses": 2,
+      "trades": 1,
+      "acceptances": 0,
+      "rulerlessOpportunities": 5,
+      "longestRulerlessRounds": 1
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet"
+      ],
+      "seats": 2,
+      "seed": 107,
+      "actions": 90,
+      "rounds": 8,
+      "winner": 0,
+      "claims": 8,
+      "marriageClaims": 0,
+      "recalls": 20,
+      "defenses": 11,
+      "trades": 8,
+      "acceptances": 2,
+      "rulerlessOpportunities": 6,
+      "longestRulerlessRounds": 1
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet"
+      ],
+      "seats": 2,
+      "seed": 108,
+      "actions": 97,
+      "rounds": 8,
+      "winner": 1,
+      "claims": 9,
+      "marriageClaims": 0,
+      "recalls": 26,
+      "defenses": 14,
+      "trades": 3,
+      "acceptances": 1,
+      "rulerlessOpportunities": 16,
+      "longestRulerlessRounds": 2
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor"
+      ],
+      "seats": 3,
+      "seed": 101,
+      "actions": 263,
+      "rounds": 10,
+      "winner": 0,
+      "claims": 20,
+      "marriageClaims": 2,
+      "recalls": 69,
+      "defenses": 33,
+      "trades": 18,
+      "acceptances": 6,
+      "rulerlessOpportunities": 54,
+      "longestRulerlessRounds": 6
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor"
+      ],
+      "seats": 3,
+      "seed": 102,
+      "actions": 64,
+      "rounds": 4,
+      "winner": 1,
+      "claims": 1,
+      "marriageClaims": 0,
+      "recalls": 12,
+      "defenses": 7,
+      "trades": 8,
+      "acceptances": 4,
+      "rulerlessOpportunities": 8,
+      "longestRulerlessRounds": 2
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor"
+      ],
+      "seats": 3,
+      "seed": 103,
+      "actions": 149,
+      "rounds": 7,
+      "winner": 1,
+      "claims": 9,
+      "marriageClaims": 2,
+      "recalls": 34,
+      "defenses": 17,
+      "trades": 12,
+      "acceptances": 3,
+      "rulerlessOpportunities": 24,
+      "longestRulerlessRounds": 2
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor"
+      ],
+      "seats": 3,
+      "seed": 104,
+      "actions": 240,
+      "rounds": 10,
+      "winner": 2,
+      "claims": 20,
+      "marriageClaims": 0,
+      "recalls": 61,
+      "defenses": 29,
+      "trades": 17,
+      "acceptances": 8,
+      "rulerlessOpportunities": 43,
+      "longestRulerlessRounds": 2
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor"
+      ],
+      "seats": 3,
+      "seed": 105,
+      "actions": 102,
+      "rounds": 6,
+      "winner": 0,
+      "claims": 6,
+      "marriageClaims": 0,
+      "recalls": 24,
+      "defenses": 10,
+      "trades": 7,
+      "acceptances": 6,
+      "rulerlessOpportunities": 20,
+      "longestRulerlessRounds": 3
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor"
+      ],
+      "seats": 3,
+      "seed": 106,
+      "actions": 92,
+      "rounds": 6,
+      "winner": 1,
+      "claims": 4,
+      "marriageClaims": 0,
+      "recalls": 20,
+      "defenses": 10,
+      "trades": 8,
+      "acceptances": 4,
+      "rulerlessOpportunities": 19,
+      "longestRulerlessRounds": 4
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor"
+      ],
+      "seats": 3,
+      "seed": 107,
+      "actions": 238,
+      "rounds": 10,
+      "winner": 0,
+      "claims": 17,
+      "marriageClaims": 1,
+      "recalls": 67,
+      "defenses": 38,
+      "trades": 8,
+      "acceptances": 4,
+      "rulerlessOpportunities": 33,
+      "longestRulerlessRounds": 3
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor"
+      ],
+      "seats": 3,
+      "seed": 108,
+      "actions": 135,
+      "rounds": 7,
+      "winner": 0,
+      "claims": 8,
+      "marriageClaims": 2,
+      "recalls": 32,
+      "defenses": 15,
+      "trades": 6,
+      "acceptances": 3,
+      "rulerlessOpportunities": 26,
+      "longestRulerlessRounds": 1
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor",
+        "habsburg"
+      ],
+      "seats": 4,
+      "seed": 101,
+      "actions": 122,
+      "rounds": 5,
+      "winner": 3,
+      "claims": 5,
+      "marriageClaims": 2,
+      "recalls": 23,
+      "defenses": 6,
+      "trades": 18,
+      "acceptances": 5,
+      "rulerlessOpportunities": 22,
+      "longestRulerlessRounds": 2
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor",
+        "habsburg"
+      ],
+      "seats": 4,
+      "seed": 102,
+      "actions": 77,
+      "rounds": 4,
+      "winner": 2,
+      "claims": 4,
+      "marriageClaims": 1,
+      "recalls": 16,
+      "defenses": 10,
+      "trades": 6,
+      "acceptances": 2,
+      "rulerlessOpportunities": 7,
+      "longestRulerlessRounds": 1
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor",
+        "habsburg"
+      ],
+      "seats": 4,
+      "seed": 103,
+      "actions": 73,
+      "rounds": 4,
+      "winner": 3,
+      "claims": 2,
+      "marriageClaims": 0,
+      "recalls": 15,
+      "defenses": 10,
+      "trades": 6,
+      "acceptances": 3,
+      "rulerlessOpportunities": 4,
+      "longestRulerlessRounds": 1
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor",
+        "habsburg"
+      ],
+      "seats": 4,
+      "seed": 104,
+      "actions": 433,
+      "rounds": 12,
+      "winner": null,
+      "claims": 47,
+      "marriageClaims": 13,
+      "recalls": 113,
+      "defenses": 38,
+      "trades": 26,
+      "acceptances": 15,
+      "rulerlessOpportunities": 116,
+      "longestRulerlessRounds": 6
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor",
+        "habsburg"
+      ],
+      "seats": 4,
+      "seed": 105,
+      "actions": 154,
+      "rounds": 6,
+      "winner": 1,
+      "claims": 5,
+      "marriageClaims": 0,
+      "recalls": 35,
+      "defenses": 21,
+      "trades": 14,
+      "acceptances": 6,
+      "rulerlessOpportunities": 28,
+      "longestRulerlessRounds": 3
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor",
+        "habsburg"
+      ],
+      "seats": 4,
+      "seed": 106,
+      "actions": 418,
+      "rounds": 12,
+      "winner": null,
+      "claims": 32,
+      "marriageClaims": 5,
+      "recalls": 120,
+      "defenses": 72,
+      "trades": 19,
+      "acceptances": 10,
+      "rulerlessOpportunities": 71,
+      "longestRulerlessRounds": 4
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor",
+        "habsburg"
+      ],
+      "seats": 4,
+      "seed": 107,
+      "actions": 338,
+      "rounds": 10,
+      "winner": 3,
+      "claims": 17,
+      "marriageClaims": 1,
+      "recalls": 86,
+      "defenses": 44,
+      "trades": 31,
+      "acceptances": 9,
+      "rulerlessOpportunities": 79,
+      "longestRulerlessRounds": 7
+    },
+    {
+      "cohort": "original-mixed",
+      "dynasties": [
+        "alba",
+        "plantagenet",
+        "tudor",
+        "habsburg"
+      ],
+      "seats": 4,
+      "seed": 108,
+      "actions": 115,
+      "rounds": 5,
+      "winner": 1,
+      "claims": 7,
+      "marriageClaims": 1,
+      "recalls": 23,
+      "defenses": 8,
+      "trades": 12,
+      "acceptances": 4,
+      "rulerlessOpportunities": 19,
+      "longestRulerlessRounds": 1
+    }
+  ]
+}

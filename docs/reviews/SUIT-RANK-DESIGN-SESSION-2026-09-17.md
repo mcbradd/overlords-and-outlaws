@@ -41,3 +41,11 @@ All initiative payments, target rules, response windows, native/foreign Crown de
 Final independent written-candidate checks completed: systems found rotation/dealing order ambiguous; rotation now occurs first and deals start at that seat. Experience verified the exact native 2 / attack 3 / answer 4 tutorial and round-2/3 refill/transfer path. Both found no remaining blocking inconsistency within their reviewed scope after that correction. This is procedural closure, not measured enjoyment.
 
 Next: freeze the plan/test commit, implement the complete core, audit and visually inspect, publish Prod, verify deployed SHA/build, observe blind tutorial and ten complete games, collect failures, repeat. Main remains locked. No implementation, Build 5 deployment, blind session, ten-game sample, device validation or finished artwork is claimed by this document.
+
+## Recorded continuation after the planning freeze
+
+The complete plan was committed as `3fbb734` before implementation. Subsequent written amendments and their actual tests are recorded in [the execution log](BUILD-5-EXECUTION-LOG.md).
+
+The first policy gauntlet rejected the original successful Recall: attackers kept their leads while accumulating captured cards, producing18cap draws in24games. The [attrition amendment](BUILD-5-ATTRITION-REVIEW.md) changed an undefended Recall into an exact exchange, with both people unavailable until the next round. Defended ownership stays unchanged. The defender can earn recovery by recruiting the returned native lead, while the attacker must price the rank being surrendered. The same24 experiments improved to21wins/3draws, followed by a separate empty-public-hand Trade correction yielding22wins/2draws. These outcomes justify further testing, not a declaration of strategic success.
+
+Independent application and visual critique reopened storage recovery, loading transitions, tutorial reading control, printed reference completeness, compact Trade responses and dense Court navigation. Every correction has a written task/test amendment before its code. The blind tutorial and ten observed UI games remain distinct open acceptance gates until performed.

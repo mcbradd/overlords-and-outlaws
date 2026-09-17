@@ -1,6 +1,6 @@
 # Build 5 production plan
 
-17 September 2026. Status: complete preimplementation plan awaiting final written-candidate check; implementation has not started. Source baseline `ebca68b`. This is a binding production checklist for the user's Build 4 transcript. A checked task requires its stated evidence, not merely code written or screenshots captured. Normative rules are in `SUIT-AND-RANK-DESIGN.md`; explicit tests U01–U49/B01–B11/O01–O04 in `BUILD-5-TEST-CONTRACT.md` govern the selected core.
+17 September 2026. Status: preimplementation plan frozen in `3fbb734`; implementation and verification in progress. Source baseline `ebca68b`. This is a binding production checklist for the user's Build 4 transcript. A checked task requires its stated evidence, not merely code written or screenshots captured. Normative rules are in `SUIT-AND-RANK-DESIGN.md`; explicit tests U01–U49/B01–B11/O01–O04 in `BUILD-5-TEST-CONTRACT.md` govern the selected core.
 
 ## Ordered goals
 
@@ -57,6 +57,10 @@ Required viewport matrix (CSS pixels): 1280×720, 1366×768, 1440×900, 1920×10
 
 Each inspection record contains candidate SHA/content version, viewport/DPR/browser, state, screenshot path, what reviewer actually saw, pass/fail, linked issue and corrected proof. CSS measurements, contrast checks, screenshot capture and pixel comparisons assist but never replace visual inspection. Any newly reachable screen is added before acceptance.
 
+### Viewport coverage amendment, before expanded matrix
+
+The August 2026 worldwide tables from [Statcounter desktop](https://gs.statcounter.com/screen-resolution-stats/desktop) and [Statcounter mobile](https://gs.statcounter.com/screen-resolution-stats/mobile), retrieved 17 September, additionally identify 1536×864, 1366×1366, 414×896, 393×873, 384×832 and 360×780 among reported leading dimensions. Add all six to the existing matrix, retaining the original boundary sizes. These are reported screen dimensions, not guarantees of available browser viewport or representative physical-device geometry; the unusual desktop classifications are kept as stress coverage without inferring device models. Acceptance remains actual rendered inspection of all defined states at each size, with separate safe-area and keyboard cases.
+
 ## Concrete correctness and regression gates
 
 Unit scenarios must include: exact suit/rank mapping; below/equal/above response; Ace against 10/J/Q/K; wrong suit; no defender card; duplicate/stale response; illegal card zone; recruitment into correct dynasty; unsupported marriage; removal of each Crown dependency; claim/transfer/end timing; failed claim recovery; first player rotation; interrupted pass sequence; empty-hand pass; last deck card; exhausted deck; card conservation over seeded complete games; immutable printed identity; rejected trade does not leak; accepted trade transfers exact cards once; public projection indistinguishability; malformed saves; reload at a response; tutorial cursor nonmutation; unexpected tutorial action rejection; deterministic replay.
@@ -64,3 +68,24 @@ Unit scenarios must include: exact suit/rank mapping; below/equal/above response
 Before implementation starts, P03 will map these scenarios to the final retained rules and name any additional rule-specific tests. A removed rule is explicitly marked out of core scope with its reason, rather than allowing a test to silently disappear.
 
 No finite suite guarantees elimination of every future error. A recurring observed defect requires a regression case at the appropriate layer plus another human-visible inspection of the failed surface. Coverage is tracked by requirement, rule transition, screen/state and asset identity; line coverage alone is not acceptance.
+
+## Approved attrition correction tasks — before correction implementation
+
+The first projected-policy run produced six winners and eighteen round-cap draws across 24 games. The detailed [attrition review](reviews/BUILD-5-ATTRITION-REVIEW.md) and test-contract amendment govern these additional tasks. Parent production review approved A01–A10; no claim of strategic acceptance follows from approval.
+
+| Task | Deliverable | Required tests / completion criteria |
+|---|---|---|
+| A01 | Freeze success-only Recall exchange across rules/copy/tests | Written documents agree before reducer/AI correction; blocked lead/answer unchanged |
+| A02 | Exchange exact lead for target on success | Original input immutable; target attacker-owned, lead defender-owned, both Played; no duplicated cards or immediate re-use |
+| A03 | Make native loss recoverable through an earned action | Empty hand/deck boundary returns native lead to defender; later Recruit needed for ruler; no automatic repair |
+| A04 | Preserve relationship consequences | Queen/spouse capture transfers and unsupported movement each occur once; no relationship inheritance or duplicate ownership |
+| A05 | Preserve successful defense and curriculum | Frozen tutorial still legally wins round 3; Defend keeps existing ownership; per-attacker attempts retained |
+| A06 | Price exact exchanges in public AI | High-for-low noncritical seizure versus constructive alternative; public Crown threat reverses choice; sufficient smaller answer can be preferred |
+| A07 | Reserve useful responses | Claim choice accounts for remaining native answer; unnecessary extra supporters do not automatically beat reservation; projection privacy retained |
+| A08 | Compare same and rotated policy experiments | Original 24 records plus all-balanced and seat/suit rotations; full outcome, action, response, claim, trade and rulerless-period counts |
+| A09 | Apply the strategic rejection gate | Predominant cap draws or missing meaningful responses reopen design; never lengthen cap or hide legal rival threats to improve statistics |
+| A10 | Verify correction on the actual screen | Both ownership paths visibly inspected; screen-only explanation and ten UI games on final candidate; no simulation counted as observed game |
+
+### APP-05 follow-up — knowingly empty Trade recipients
+
+Before implementation, adopt test-contract EMPTY-01–EMPTY-03: remove formal Trade candidates to publicly empty hands and reject direct submissions atomically. Continue allowing exact requests to nonempty unknown hands without checking concealed ownership. Verify the existing offer/accept/decline/privacy tests, then record any policy-simulation effect separately from actual UI evidence. This implements the independent app audit's false-choice finding without adding a new action or private-information permission.

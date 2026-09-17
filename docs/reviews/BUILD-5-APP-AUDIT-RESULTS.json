@@ -1,0 +1,75 @@
+{
+  "method": "Instrumented headless Chrome DOM/runtime tests; not visual or blind-player acceptance.",
+  "base": "http://localhost:5173/",
+  "completedAt": "2026-09-17T18:02:53.238Z",
+  "sourceHashes": {
+    "app": "b6e013f7508b59c21d9db9306f6a77fca147ebff5080d7d40c79236bcb7418cb",
+    "storage": "a5b2eb99bfbf70a5267fe84926772874b1e5b7de6e34ad432b7bae6e3a94b2c9",
+    "tutorial": "0ff4e0e9409fe171f31a142b3f3b08148b3b3d25839a474ea185cbfbdc67cc44",
+    "engine": "241ead5a40610c61b0465029e7f0889a67188be7dafafa0a32b88f85088b6904"
+  },
+  "passed": true,
+  "records": [
+    {
+      "name": "APP-01 storage getter denial",
+      "passed": true,
+      "evidence": {
+        "titleReachable": true,
+        "tutorialReachable": true,
+        "warnings": [
+          "Your browser could not save progress. Keep this page open, or export your game from the table menu."
+        ]
+      }
+    },
+    {
+      "name": "APP-01 storage getItem denial",
+      "passed": true,
+      "evidence": {
+        "titleReachable": true,
+        "tutorialReachable": true,
+        "warnings": [
+          "Storage unavailable"
+        ]
+      }
+    },
+    {
+      "name": "APP-01 storage setItem denial",
+      "passed": true,
+      "evidence": {
+        "titleReachable": true,
+        "tutorialReachable": true,
+        "warnings": [
+          "Your browser could not save progress. Keep this page open, or export your game from the table menu."
+        ]
+      }
+    },
+    {
+      "name": "APP-02 delayed import from title",
+      "passed": true,
+      "evidence": {
+        "preparationHeldAt300ms": true,
+        "placeholdersDuringLoad": 0,
+        "loadedTable": true
+      }
+    },
+    {
+      "name": "APP-02 delayed import from completed game",
+      "passed": true,
+      "evidence": {
+        "preparationHeldAt300ms": true,
+        "placeholdersDuringLoad": 0,
+        "loadedTable": true
+      }
+    },
+    {
+      "name": "APP-03 rival teaching has a reader-controlled legal action",
+      "passed": true,
+      "evidence": {
+        "stableReadingMilliseconds": 4500,
+        "exactlyOneWatchedAction": true,
+        "continueCursorOnly": true,
+        "fullDefenderName": true
+      }
+    }
+  ]
+}

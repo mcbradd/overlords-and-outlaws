@@ -1,0 +1,912 @@
+@import "./face.css";
+@import "./scene.css";
+
+:root {
+  color-scheme: dark;
+  font-family: Manrope, Arial, sans-serif;
+  font-size: 16px;
+  color: #f7eed9;
+  background: #091513;
+  font-synthesis: none;
+  --cream: #f7eed9;
+  --gold: #dcc184;
+  --navy: #102633;
+  --core-viewport-height: 100dvh;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #091513;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button {
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  border: 1px solid #8f8466;
+  border-radius: 8px;
+  background: #173238;
+  color: var(--cream);
+  cursor: pointer;
+  text-align: center;
+}
+button:hover:not(:disabled) {
+  background: #294549;
+}
+button:disabled {
+  cursor: default;
+  opacity: 0.72;
+}
+button.primary {
+  background: var(--gold);
+  color: #152422;
+  border-color: var(--gold);
+  font-weight: 750;
+}
+button.primary:hover:not(:disabled),
+button.primary:active:not(:disabled) {
+  background: #efd39a;
+  color: #152422;
+}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #ffe5a0;
+  outline-offset: 4px;
+}
+button.next-interaction {
+  box-shadow:
+    0 0 0 3px #e3c27d,
+    0 0 24px #edca7650;
+}
+h1,
+h2,
+h3 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 600;
+  margin: 0 0 0.65rem;
+  line-height: 1.05;
+}
+h1 {
+  font-size: clamp(2.2rem, 4vw, 4.2rem);
+}
+h2 {
+  font-size: 1.65rem;
+}
+p {
+  line-height: 1.55;
+  margin: 0.6rem 0 1rem;
+  text-align: left;
+}
+label {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.7rem 0;
+}
+input,
+select {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid #a59775;
+  border-radius: 6px;
+  background: #142c31;
+  color: var(--cream);
+  padding: 0.65rem;
+}
+a {
+  color: var(--gold);
+}
+.c-kicker {
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  font-weight: 750;
+  color: var(--gold);
+  margin: 0 0 0.6rem;
+}
+.c-subtle {
+  color: #d1cbbd;
+  font-size: 1rem;
+}
+.c-error {
+  color: #ffd6b8;
+  border-left: 3px solid #d79a70;
+  padding-left: 0.8rem;
+}
+.c-opening {
+  min-height: var(--core-viewport-height);
+  display: grid;
+  grid-template-columns: minmax(350px, 1fr) minmax(450px, 1.2fr);
+  align-items: center;
+  gap: 2rem;
+  padding: 4vw 5vw 2rem;
+  background:
+    radial-gradient(ellipse at 75% 35%, #2f3a2960, transparent 65%), #0c1d1b;
+}
+.c-opening > section {
+  max-width: 610px;
+}
+.c-opening footer {
+  grid-column: 1/-1;
+  font-size: 0.9rem;
+  color: #b9b8a8;
+}
+.c-opening-lead {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.9rem, 2.5vw, 2.6rem);
+  line-height: 1.2;
+}
+.c-opening-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 0;
+}
+.c-wordmark {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr;
+  justify-items: start;
+  margin: 0 0 1.5rem;
+}
+.c-wordmark h1 {
+  font-size: clamp(3.8rem, 6.8vw, 7rem);
+  font-weight: 600;
+  letter-spacing: -0.065em;
+  line-height: 0.82;
+  text-shadow: 0 2px #000;
+  color: #f4e8c8;
+}
+.c-wordmark h1 span {
+  display: block;
+  color: #ddc28a;
+  margin-top: 0.1em;
+}
+.c-wordmark i {
+  font-size: 0.64em;
+  font-style: italic;
+  margin-right: 0.1em;
+}
+.c-crown-mark {
+  font-size: 2.4rem;
+  color: #d8ba76;
+  line-height: 1;
+  padding-left: 1rem;
+  transform: rotate(-10deg);
+  margin-bottom: 0.4rem;
+}
+.c-logo-rule {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #d0ac61;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+}
+.c-logo-rule:before,
+.c-logo-rule:after {
+  content: "";
+  height: 1px;
+  background: #917e55;
+  flex: 1;
+}
+.c-showcase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0 3rem;
+  gap: 1.2rem;
+  perspective: 1200px;
+}
+.c-showcase-card {
+  width: 30%;
+  max-width: 260px;
+  transform: rotateY(-8deg) rotate(-5deg);
+  filter: drop-shadow(8px 18px 9px #0009);
+}
+.c-showcase-card:nth-child(2) {
+  transform: translateY(-22px) rotateY(-8deg);
+  z-index: 1;
+}
+.c-showcase-card:nth-child(3) {
+  transform: rotateY(-8deg) rotate(5deg);
+}
+.c-intro {
+  min-height: var(--core-viewport-height);
+  display: grid;
+  place-items: center;
+  padding: max(24px, env(safe-area-inset-top))
+    max(20px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom))
+    max(20px, env(safe-area-inset-left));
+  background: radial-gradient(ellipse, #233d35, #0a1918);
+}
+.c-intro > .c-guide {
+  max-width: 760px;
+  padding: clamp(24px, 4vw, 54px);
+}
+.c-intro p {
+  font-size: 1.13rem;
+}
+.c-intro-goal {
+  font-weight: 650;
+}
+.c-guide {
+  background: #102633;
+  border: 1px solid #ad965e;
+  border-radius: 12px;
+  padding: 1.15rem 1.3rem;
+  min-width: 0;
+}
+.c-guide > button {
+  margin-right: 0.65rem;
+  margin-top: 0.5rem;
+}
+.c-game {
+  min-height: var(--core-viewport-height);
+  display: grid;
+  grid-template-rows: auto minmax(280px, 1fr) auto;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+  background: #0b201c;
+}
+.c-game > header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 12px 24px;
+  background: #0b181a;
+}
+.c-game > header strong {
+  font-size: 1.15rem;
+}
+.c-game > header .c-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.2rem;
+}
+.c-objective {
+  font-size: 1rem;
+  line-height: 1.35;
+  max-width: 900px;
+  margin: 0;
+}
+.c-board-wrap {
+  position: relative;
+  min-height: 280px;
+  height: clamp(280px, 44vh, 640px);
+  isolation: isolate;
+}
+.c-table-nav {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  white-space: nowrap;
+}
+.c-table-nav > span {
+  background: #0c201bdd;
+  padding: 0.55rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #85734e;
+}
+.c-table-nav button {
+  min-height: 44px;
+  padding: 0.4rem 0.8rem;
+  background: #122925dd;
+}
+.c-board-wrap > #core-table {
+  height: 100%;
+  width: 100%;
+  min-height: 280px;
+}
+.c-table-edge {
+  display: grid;
+  grid-template-columns: minmax(340px, 1fr) minmax(360px, 1fr);
+  gap: 22px;
+  padding: 14px 24px 24px;
+  background: #0c1a1e;
+  border-top: 1px solid #6b6347;
+  align-items: start;
+}
+.c-hand {
+  min-width: 0;
+}
+.c-hand-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 12px;
+}
+.c-hand-heading h2 {
+  font-size: 1.6rem;
+  margin: 0;
+}
+.c-hand-heading span {
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+.c-hand-cards {
+  display: flex;
+  gap: 18px;
+  padding: 7px 7px 12px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scroll-snap-type: x proximity;
+}
+.c-held-card {
+  flex: 0 0 clamp(135px, 12vw, 184px);
+  scroll-snap-align: start;
+  min-width: 0;
+}
+.c-card-pick {
+  width: 100%;
+  padding: 0;
+  display: block;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  filter: drop-shadow(3px 7px 5px #0009);
+  opacity: 1 !important;
+}
+.c-card-pick:disabled {
+  filter: drop-shadow(3px 7px 5px #0009);
+}
+.c-held-card.selected .c-card-pick,
+.c-held-card.next-interaction .c-card-pick {
+  outline: 3px solid #e2bd6d;
+  outline-offset: 4px;
+}
+.c-card-caption {
+  font-size: 1rem;
+  line-height: 1.25;
+  padding-top: 10px;
+  text-align: center;
+  color: #e1d2b4;
+}
+.c-card-caption button {
+  display: block;
+  margin: 6px auto 0;
+  padding: 0.35rem 0.7rem;
+}
+.c-action-area {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  align-items: start;
+}
+.c-action-area label {
+  width: 100%;
+  margin: 0.1rem 0;
+}
+.c-guide p {
+  font-size: 1rem;
+  line-height: 1.45;
+}
+.c-empty {
+  padding: 1rem;
+  border: 1px dashed #6b785f;
+  border-radius: 8px;
+}
+.c-modal {
+  background: #102633;
+  color: var(--cream);
+  border: 1px solid #bea368;
+  border-radius: 14px;
+  padding: 24px;
+  max-width: min(680px, calc(100vw - 32px));
+  width: 100%;
+  max-height: calc(var(--core-viewport-height) - 32px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.c-modal::backdrop {
+  background: #041110dc;
+}
+.c-close {
+  float: right;
+  margin: 0 0 12px 12px;
+}
+.c-modal > button {
+  margin-right: 0.65rem;
+  margin-bottom: 0.65rem;
+}
+.c-modal h2 {
+  padding-top: 4px;
+}
+.c-inspection-card {
+  width: min(315px, 100%);
+  margin: 1rem auto;
+}
+.c-file {
+  border-top: 1px solid #63716b;
+  padding-top: 1rem;
+}
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+@media (min-width: 1700px) {
+  .c-game > header {
+    padding: 18px 3vw;
+  }
+  .c-table-edge {
+    padding: 22px 3vw 30px;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 3vw;
+  }
+  .c-guide p {
+    font-size: 1.125rem;
+  }
+  .c-held-card {
+    flex-basis: 205px;
+  }
+  .c-board-wrap {
+    height: 48vh;
+  }
+  .c-game .c-guide {
+    padding: 1.5rem 1.75rem;
+  }
+}
+@media (max-width: 900px) {
+  .c-trade-response > .c-guide {
+    order: -1;
+  }
+  .c-opening {
+    grid-template-columns: 1fr;
+    padding: 32px 24px;
+    gap: 1rem;
+  }
+  .c-opening > section {
+    max-width: 680px;
+  }
+  .c-showcase {
+    order: 2;
+    max-width: 680px;
+  }
+  .c-opening footer {
+    order: 3;
+  }
+  .c-wordmark h1 {
+    font-size: clamp(3.9rem, 12vw, 6rem);
+  }
+  .c-game > header {
+    padding: 10px 14px;
+    gap: 12px;
+  }
+  .c-game > header .c-kicker {
+    display: none;
+  }
+  .c-game > header strong {
+    font-size: 1rem;
+  }
+  .c-game > header button {
+    padding: 0.5rem 0.65rem;
+  }
+  .c-table-edge {
+    grid-template-columns: 1fr;
+    padding: 12px 16px 20px;
+    gap: 16px;
+  }
+  .c-board-wrap {
+    height: 320px;
+  }
+  .c-hand-cards {
+    gap: 18px;
+  }
+  .c-held-card {
+    flex-basis: 145px;
+  }
+  .c-hand-heading h2 {
+    font-size: 1.4rem;
+  }
+  .c-guide {
+    padding: 16px;
+  }
+  .c-guide h2 {
+    font-size: 1.55rem;
+  }
+  .c-table-nav {
+    max-width: calc(100% - 16px);
+    overflow-x: auto;
+  }
+  .c-table-nav button {
+    font-size: 0.9rem;
+  }
+  .c-objective {
+    font-size: 0.95rem;
+  }
+  .c-guide p {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 520px) {
+  .c-opening {
+    padding: 28px 20px;
+  }
+  .c-opening-actions {
+    display: grid;
+  }
+  .c-opening footer {
+    font-size: 0.8rem;
+  }
+  .c-game > header {
+    grid-template-columns: 1fr auto;
+    gap: 6px 12px;
+  }
+  .c-objective {
+    grid-column: 1/-1;
+    grid-row: 2;
+    font-size: 1rem;
+  }
+  .c-game > header button {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .c-board-wrap {
+    height: 250px;
+    min-height: 250px;
+  }
+  .c-board-wrap > #core-table {
+    min-height: 250px;
+  }
+  .c-hand-heading span {
+    font-size: 0.85rem;
+  }
+  .c-table-edge {
+    padding: 10px 12px 18px;
+    gap: 10px;
+  }
+  .c-held-card {
+    flex-basis: 135px;
+  }
+  .c-hand-cards {
+    padding-bottom: 8px;
+  }
+  .c-card-caption {
+    font-size: 0.9rem;
+  }
+  .c-guide p {
+    margin-bottom: 0.75rem;
+  }
+  .c-table-nav {
+    top: 4px;
+  }
+  .c-table-nav > span {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+  }
+  .c-showcase {
+    gap: 12px;
+  }
+  .c-showcase-card {
+    width: 31%;
+  }
+  .c-intro > .c-guide {
+    padding: 22px;
+  }
+  .c-intro p {
+    font-size: 1rem;
+  }
+  .c-modal {
+    padding: 18px;
+  }
+  .c-modal label input,
+  .c-modal label select {
+    scroll-margin-block: 24px;
+  }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .c-opening {
+    display: block;
+    padding: 16px max(24px, env(safe-area-inset-right)) 24px
+      max(24px, env(safe-area-inset-left));
+  }
+  .c-opening > section {
+    max-width: none;
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    column-gap: 24px;
+    align-items: start;
+  }
+  .c-opening .c-wordmark {
+    grid-column: 1;
+    grid-row: 1 / span 4;
+    align-self: center;
+  }
+  .c-opening .c-wordmark img {
+    max-height: 250px;
+  }
+  .c-opening > section > :not(.c-wordmark) {
+    grid-column: 2;
+  }
+  .c-opening .c-kicker {
+    margin-bottom: 4px;
+  }
+  .c-opening .c-opening-lead {
+    font-size: 28px;
+    margin: 4px 0;
+  }
+  .c-opening > section > p {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    line-height: 1.35;
+  }
+  .c-opening .c-opening-actions {
+    display: flex;
+    margin: 8px 0;
+    gap: 8px;
+  }
+  .c-opening-actions button {
+    padding: 0.5rem 0.65rem;
+  }
+  .c-opening .c-showcase {
+    max-width: 680px;
+    margin: 24px auto;
+  }
+  .c-game > header {
+    padding: 8px 14px;
+  }
+  .c-board-wrap {
+    height: 300px;
+  }
+  .c-table-edge {
+    grid-template-columns: 1fr 1fr;
+  }
+  .c-intro {
+    align-items: start;
+  }
+  .c-modal {
+    max-height: calc(var(--core-viewport-height) - 16px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.c-basic-table {
+  overflow: auto;
+  padding: 12px 20px;
+  background: #294737;
+}
+.c-basic-table > section > div {
+  display: flex;
+  gap: 16px;
+}
+.c-basic-table figure {
+  margin: 0;
+  flex: 0 0 120px;
+  max-width: 120px;
+  filter: drop-shadow(3px 5px 3px #0008);
+}
+.c-basic-table figcaption {
+  font-size: 16px;
+  line-height: 1.3;
+}
+.c-basic-table h2 {
+  font-size: 22px;
+}
+.c-basic-table > p {
+  font-size: 16px;
+}
+.c-wordmark {
+  display: block;
+  width: min(100%, 480px);
+  margin: 0 0 1rem;
+  line-height: 0;
+}
+.c-wordmark img {
+  width: 100%;
+  height: auto;
+  max-height: 290px;
+  object-fit: contain;
+  object-position: left center;
+  mix-blend-mode: screen;
+}
+.c-opening {
+  padding-top: 24px;
+}
+.c-opening-lead {
+  font-size: clamp(1.8rem, 2.4vw, 2.5rem);
+}
+@media (max-width: 520px) {
+  .c-wordmark img {
+    max-height: 230px;
+  }
+  .c-opening {
+    padding-top: 18px;
+  }
+}
+@media (max-width: 520px) {
+  .c-game {
+    grid-template-rows: auto 180px auto;
+    align-content: start;
+  }
+  .c-board-wrap,
+  .c-board-wrap > #core-table {
+    height: 180px;
+    min-height: 180px;
+  }
+  .c-game .c-guide > .c-kicker {
+    display: none;
+  }
+  .c-table-edge {
+    gap: 8px;
+    padding-top: 8px;
+  }
+  .c-hand-heading {
+    margin-bottom: 7px;
+  }
+  .c-hand-cards {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .c-guide {
+    padding: 12px;
+  }
+  .c-guide h2 {
+    font-size: 1.4rem;
+  }
+  .c-guide p {
+    line-height: 1.4;
+  }
+}
+@media (max-width: 520px) and (max-height: 740px) {
+  .c-table-edge.c-trade-response {
+    grid-template-columns: 1fr;
+  }
+  .c-game {
+    grid-template-rows: auto 145px auto;
+  }
+  .c-board-wrap,
+  .c-board-wrap > #core-table {
+    height: 145px;
+    min-height: 145px;
+  }
+  .c-table-edge {
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    padding: 8px;
+  }
+  .c-hand-heading {
+    display: block;
+  }
+  .c-hand-heading h2 {
+    font-size: 1.15rem;
+  }
+  .c-hand-heading span {
+    font-size: 0.85rem;
+  }
+  .c-hand-cards {
+    flex-direction: column;
+    max-height: 360px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 10px;
+    padding: 5px;
+  }
+  .c-held-card {
+    flex: 0 0 auto;
+    width: 100px;
+  }
+  .c-card-caption {
+    font-size: 0.85rem;
+  }
+  .c-guide h2 {
+    font-size: 1.35rem;
+  }
+  .c-guide p {
+    font-size: 16px;
+    line-height: 1.35;
+  }
+  .c-action-area {
+    gap: 8px;
+  }
+  .c-action-area button {
+    padding: 0.5rem 0.65rem;
+  }
+  .c-card-caption button {
+    padding: 0.3rem;
+  }
+  .c-game .c-guide {
+    padding: 10px;
+  }
+  .c-objective {
+    font-size: 0.9rem;
+  }
+  .c-game > header {
+    padding: 8px;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .c-game {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    grid-template-rows: auto 125px auto;
+    align-content: start;
+    height: auto;
+  }
+  .c-game > header {
+    grid-column: 1 / -1;
+    gap: 12px;
+    padding: 6px 10px;
+  }
+  .c-game > header .c-kicker {
+    display: none;
+  }
+  .c-game > .c-board-wrap,
+  .c-game > .c-board-wrap > #core-table {
+    min-height: 125px;
+    height: 125px;
+  }
+  .c-game > .c-board-wrap {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .c-game .c-table-edge {
+    display: contents;
+  }
+  .c-game .c-hand {
+    grid-column: 1;
+    grid-row: 3;
+    padding: 4px 10px;
+  }
+  .c-game .c-hand-heading {
+    margin-bottom: 2px;
+  }
+  .c-game .c-hand-heading h2 {
+    font-size: 18px;
+  }
+  .c-game .c-hand-heading span {
+    font-size: 14px;
+  }
+  .c-game .c-held-card {
+    flex-basis: 100px;
+  }
+  .c-game .c-hand-cards {
+    gap: 12px;
+    padding: 4px;
+  }
+  .c-game .c-card-caption {
+    padding-top: 5px;
+    font-size: 14px;
+  }
+  .c-game .c-guide {
+    grid-column: 2;
+    grid-row: 2 / 4;
+    margin: 6px 10px 10px 4px;
+    padding: 12px;
+    align-self: start;
+  }
+  .c-game .c-guide > .c-kicker {
+    display: none;
+  }
+  .c-game .c-guide h2 {
+    font-size: 24px;
+  }
+  .c-game .c-guide p {
+    font-size: 16px;
+    line-height: 1.35;
+    margin: 6px 0 10px;
+  }
+}

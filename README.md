@@ -1,25 +1,17 @@
 # Overlords & Outlaws — The Weight of the Crown
 
-A digital prototype of Malachy Murray's physical card-and-board game. Draft a Dynasty from a shared inheritance, keep Nobles concealed for bargaining and Claims, and establish a government that survives a lawful succession before Eudoxia completes a painting.
+A digital prototype of Malachy Murray's physical card-and-board game. Expose people to build a family, or keep their ranks concealed to answer rivals. Claim the Crown, pass it to an heir, then keep the new ruler and named supporter through a full round.
 
-The default application now runs **history-engine-v4**, implementing the R3 History Engine rules. The old combat game and its saves remain available through **Legacy game** (`?legacy=1`). The original six-Dynasty archive remains intact. The new core contains the specified 52 Nobles in Alba, Plantagenet, Tudor and Habsburg.
+The default application is the **Build 5 core succession prototype**. It begins with one ruler and two hand cards. Cards fund actions; there are no seals. Recruit, Recall, Defend, exact-card Trade, Name heir and Marry & name heir share the same four thirteen-rank Dynasty suits. Pass ends a round only when everyone passes consecutively. Advanced History, Eudoxia and separate institutional Laws are deferred while the core is evaluated.
 
-## Play
+- **Learn at the table:** one guide, one taught interaction, legal actions and a controlled example. The learner chooses when to watch rival moves. Continue changes only the teaching cursor.
+- **Play the core game:** two to four seats, selectable Dynasty, reproducible deal, computer rivals or private shared-device handoffs.
+- **Physical table:** Three.js cards and components, Court cameras, Crown and marriage links; inspectable character references and shared printable rule aids. Public cards and concealed hand counts remain distinct.
+- **Recovery:** separate versioned core saves; old History and combat saves preserved. Private exports explicitly contain every hand. The historical History runtime is at `?archive=history-v4`; combat is at `?legacy=1`. Neither is the current ruleset.
 
-- **Learn at the table:** a solo introduction and prepared family table reached through legal Inheritance. Ten chapters use ordinary actions; fifteen player commitments replace the former 59-action click-through. Rivals act automatically and real responses wait for you. Legal alternatives preserve the position and continue in free play.
-- **Set a new table:** two to four seats, selected shared modules, reproducible deal, solo AI or private hot-seat handoffs.
-- **Five-minute preset demo:** a labeled public position using ordinary rules and real choices; no guaranteed win.
-- **Archive and inspector:** canonical operative text, separate reminders, immutable printed Dynasty and current relationships.
-- **Physical table:** shared-camera Three.js board and faces, Court cameras, Crown, seals, numbered marriages, Leverage, History and all selected paintings. Semantic mode supports the same game without WebGL.
-- **Private saves:** environment-prefixed v4 storage, incompatible-save recovery/export, hot-seat curtain on blur/reload/handoff, direct solo resume, and untouched legacy bytes.
+[Binding core rules](docs/SUIT-AND-RANK-DESIGN.md) · [Build 5 production plan](docs/BUILD-5-PRODUCTION-PLAN.md) · [Test contract](docs/BUILD-5-TEST-CONTRACT.md) · [Executed evidence and open gates](docs/reviews/BUILD-5-EXECUTION-LOG.md) · [Design session](docs/reviews/SUIT-RANK-DESIGN-SESSION-2026-09-17.md) · [Physical direction](docs/PHYSICAL-GAME-DIRECTION.md)
 
-The [playtest recovery plan](docs/PLAYTEST-RECOVERY-PLAN.md) governs the current revision. Initial repairs are under evaluation: viewport fit is not proof of mobile readability, and tactical quality, human comprehension and pacing still have explicit open gates. A bottom-left build badge identifies local work and numbered evaluation builds.
-
-Use click/tap or keyboard selection, review the cost and consequence, then Commit. Inspection is passive. No action requires dragging. Public registers expose retained evidence. Local privacy protects ordinary shared-device play; a device owner can inspect full saves/devtools.
-
-[Current rules](docs/RULES.md) · [Implementation and evidence](docs/HISTORY-ENGINE-IMPLEMENTATION-REPORT.md) · [Master design](docs/HISTORY-ENGINE-IMPLEMENTATION-SPEC.md) · [Physical direction](docs/PHYSICAL-GAME-DIRECTION.md)
-
-The [master design now includes the R4 suit-and-rank candidate](docs/HISTORY-ENGINE-IMPLEMENTATION-SPEC.md#master-design-update--suits-and-ranks-r4-17-september-2026): unique Ace–King Dynasty suits, ranked counterplay, exact-card bargaining and institution-specific succession patterns. See the [complete candidate](docs/SUIT-AND-RANK-DESIGN.md) and [iterative simulated design panel](docs/reviews/SUIT-RANK-DESIGN-SESSION-2026-09-17.md). These rules are not yet implemented in the playable prototype.
+The planning freeze preceded implementation. Local code and passing automation do not establish publication, visual acceptance, strategic quality or learner comprehension. The evidence log records what actually ran; screen-only tutorial observation and ten actual UI games are separate from policy simulations. Main remains locked.
 
 ## Run and verify
 
@@ -38,7 +30,9 @@ npm run test:history:simulate
 npm run test:history:print
 ```
 
-History browser probes default to port 5178; override with `HISTORY_BASE_URL`. `cards:compile`, `lint:card-text`, `cards:manifest` and `cards:proof` consume the same authored manifest. Build runs compilation, lint and print-kit generation. Open `/history-proof.html` for 92 canonical faces and physical references. `node scripts/history-export-pdf.mjs` exports the PDF from a running server.
+Current core checks include `npx tsx scripts/core-browser.ts`, `core-browser-extended.ts`, `core-app-audit.ts`, `core-layout.ts` and `core-simulate.ts`. Set `BASE_URL` for the exact preview or deployed site. The release inventory includes core and historical checks; generated screenshots still require actual inspection.
+
+Historical application probes require an explicit archive URL, such as `HISTORY_BASE_URL=http://localhost:5178/?archive=history-v4`. Historical proof probes use a query-free base when appending a file path. `cards:compile`, `lint:card-text`, `cards:manifest` and `cards:proof` retain the archived authored manifest. Open `/history-proof.html` for the old92canonical faces and physical references. `node scripts/history-export-pdf.mjs` exports that historical PDF from a running server.
 
 Retained v3 audit/simulation/browser scripts explicitly exercise the legacy game. Their combat assertions do not validate the history engine. The release inventory runs both sets. Reports/screenshots are under ignored `artifacts/history/`.
 
@@ -66,9 +60,9 @@ npm run preview
 Remove-Item Env:PAGES_BASE_PATH, Env:VITE_SAVE_NAMESPACE
 ```
 
-## Project map
+## Historical project map
 
-Current iteration: [Play Session 02 review](docs/PLAY-SESSION-02-REVIEW.md), [revision 3 plan and delivery status](docs/REVISION-3-PLAN.md), [V3 quality report](docs/QUALITY-REPORT-V3.md), and [V3 decision audit](docs/DECISION-AUDIT-V3.md). The human playthrough exposed comprehension failures that automated checks did not measure. V3 addresses their causes; human comprehension and competitive balance remain unverified.
+Earlier iteration evidence: [Play Session 02 review](docs/PLAY-SESSION-02-REVIEW.md), [revision 3 plan and delivery status](docs/REVISION-3-PLAN.md), [V3 quality report](docs/QUALITY-REPORT-V3.md), and [V3 decision audit](docs/DECISION-AUDIT-V3.md). These records exposed comprehension failures that automated checks did not measure. They do not establish acceptance of the current core.
 
 - `src/duel.ts`: deterministic **2–4-player** rules and AI; the filename is historical.
 - `src/battlefield.ts`: semantic House lanes, rival tabs, scrolling, and brief card feedback.
