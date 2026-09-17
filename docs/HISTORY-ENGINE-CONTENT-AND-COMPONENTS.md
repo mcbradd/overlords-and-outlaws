@@ -4,7 +4,7 @@ Companion to [the implementation spec](HISTORY-ENGINE-IMPLEMENTATION-SPEC.md), 1
 
 ## The 52-person manifest
 
-Every listed card is a Noble with empty unique Card Text in the baseline and the core shared uses defined in the spec. `Queen` below is an explicit **game marriage-eligibility tag**, not a factual assertion of the person's historical title. Founder is a printed identity/concept tag and does not imply immunity or extra resources. All other old combat-role permissions are retired in the new ruleset. Full historical titles and identity sources come from the current portrait research records and require editor verification before print. An original role field is not historical evidence.
+Every listed Noble now has executable Hand and Court instructions; Queens also print their marriage instruction. See the [sixth-grade card-language revision](CARD-LANGUAGE-REVISION.md), which supersedes the original blank-face baseline. `Queen` below is an explicit **game marriage-eligibility tag**, not a factual assertion of the person's historical title. Founder is a printed identity/concept tag and does not imply immunity or extra resources. All other old combat-role permissions are retired in the new ruleset. Full historical titles and identity sources come from the current portrait research records and require editor verification before print. An original role field is not historical evidence.
 
 | ID | Name | Founder | Queen game tag | Alba branch |
 |---|---|---|---|---|
@@ -89,7 +89,7 @@ The dimensions below are initial manufacturable-layout targets, not supplier-cer
 | Action seals | 12 | Three per seat, available/spent sides; no ownership transfer |
 | Pass markers and strip | 4 + 1 | Ordered consecutive passes, cleared by committed action |
 | First-seat marker and round track | 1 each | Round track 1–24; no round count affects score; baseline bound fits |
-| Numbered marriage pairs | 16 pairs / 32 halves | At most 16 initiating Queen cards in the entire 52-card manifest; each pair consumes one sponsor; empty halves in tray |
+| Numbered marriage pairs | 17 pairs / 34 halves | The 52-card manifest contains 17 marriage-eligible Queens; each pair uses one; keep spare halves in the tray |
 | Petitioned ID register + optional Court reminder markers | 1 register + 52 markers | Public register lists targeted Noble instance IDs for the round. Court markers are removed before a card enters a private hand/packet and reapplied if it re-enters Court; never mark a hidden card or reveal a Barter selection. Register preserves eligibility across moves; clear all at round start. |
 | Event register mats | 12, target 100×140 mm | Each has event ID, pending/active side, reveal/activation/expiry round boxes, frozen seat obligations, four printed Dynasty checkboxes, two Attack contributor-ID fields and completion marks. Erase only once event leaves active/pending play. All independent facts fit without reusing proof. |
 | Event association markers | 12 | Match each register to its actual event card; sequenced row is reveal order |

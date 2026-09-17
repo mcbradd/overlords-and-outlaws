@@ -1128,3 +1128,128 @@ p {
   color: #c2c8bc;
   text-align: center;
 }
+/* Full reference faces retain the same physical ratio as the compact pieces.
+   Container units make type scale with the card, not the browser window. */
+.h-card-face.h-reference-face {
+  container-type: inline-size;
+  aspect-ratio: 63 / 88;
+  height: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.h-card-face.h-reference-face > img {
+  height: 20%;
+  flex: 0 0 20%;
+  object-position: center 14%;
+}
+.h-reference-face .h-card-ink {
+  flex: 1;
+  min-height: 0;
+  padding: 5% 6% 4%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.h-reference-face.noble .h-card-ink {
+  padding-top: 3%;
+}
+.h-reference-face .h-card-ink .h-eyebrow {
+  font-size: 3cqw;
+  line-height: 1.2;
+}
+.h-reference-face .h-card-ink h3 {
+  font-size: 7cqw;
+  line-height: 1.02;
+  margin: 2% 0;
+  text-wrap: balance;
+}
+.h-reference-face.noble .h-card-ink h3 {
+  font-size: 6.4cqw;
+}
+.h-reference-face .h-card-ink .h-card-role {
+  font-size: 3.2cqw;
+  line-height: 1.25;
+  margin: 1% 0 4%;
+  color: #c9c9b8;
+}
+.h-reference-face .h-operative {
+  text-align: left;
+  font-family: Manrope, Arial, sans-serif;
+}
+.h-reference-face .h-card-ink .h-rule-line {
+  font-size: 4.4cqw;
+  line-height: 1.22;
+  margin: 0 0 2.2%;
+  overflow-wrap: break-word;
+}
+.h-reference-face .h-rule-line strong {
+  color: #e1c48b;
+  font-weight: 750;
+}
+.h-reference-face .h-card-ink small {
+  margin-top: auto;
+  padding-top: 2%;
+  font-size: 2.6cqw;
+  line-height: 1.2;
+}
+.h-inspection {
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  gap: 24px;
+}
+.h-inspection .h-card-face.h-reference-face,
+.h-archive .h-card-face.h-reference-face {
+  aspect-ratio: 63 / 88;
+  min-height: 0;
+  height: auto;
+}
+.h-archive .h-card-face.h-reference-face {
+  width: min(340px, 100%);
+}
+.h-glossary {
+  margin: 16px 0;
+  display: grid;
+  gap: 0;
+}
+.h-glossary > div {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ac92532e;
+}
+.h-glossary dt {
+  color: #dfc88f;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.55;
+}
+.h-glossary dd {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+}
+.h-card-terms {
+  border-top: 1px solid #b6985944;
+  margin-top: 20px;
+  padding-top: 10px;
+}
+.h-card-terms summary {
+  cursor: pointer;
+  color: #dfc88f;
+  font-size: 13px;
+  padding: 8px 0;
+}
+@media (max-width: 700px) {
+  .h-inspection {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .h-inspection > .h-card-face.h-reference-face {
+    width: min(310px, 100%);
+  }
+  .h-glossary > div {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 10px;
+  }
+}

@@ -10,8 +10,9 @@ import {
 } from "./content";
 import {
   actionError,
-  crownDependencies,
   eventComplete,
+  hasAbility,
+  lawFor,
   nativeIds,
   restricted,
   supported,
@@ -182,7 +183,7 @@ function drawNoble(s: GameState, seat: Seat) {
   emit(
     s,
     "NobleDrawn",
-    `${s.players[seat].name} draws one Outlaw.`,
+    `${s.players[seat].name} draws one Noble in hand.`,
     [],
     "dynasty-deck",
     `hand-${seat}`,
@@ -203,7 +204,7 @@ function commit(s: GameState, seat: Seat, id: string) {
   emit(
     s,
     "NobleCommitted",
-    `${s.players[seat].name} Commits ${nameOf(id)}.`,
+    `${s.players[seat].name} Lends ${nameOf(id)}.`,
     [id],
     `hand-${seat}`,
     `leverage-${seat}`,
@@ -246,15 +247,21 @@ function finish(s: GameState, winner: Seat | "eudoxia", reason: string) {
   );
 }
 function checkPainting(s: GameState) {
-  for (const d of s.modules)
-    if (s.fragments.filter((f) => f.dynasty === d && !f.veil).length === 6) {
+  for (const d of s.modules) {
+    const pieces = s.fragments.filter((f) => f.dynasty === d && !f.veil);
+    // Every revealed fragment carries its own printed completion instruction.
+    const complete = pieces.find(
+      (f) => pieces.length >= program(f.id).fragmentGoal!,
+    );
+    if (complete) {
       finish(
         s,
         "eudoxia",
-        `Eudoxia completes ${d}’s painting. All six fragments are unveiled; all players lose.`,
+        `Eudoxia completes ${d}’s painting. ${program(complete.id).fragmentGoal} fragments are uncovered; all players lose.`,
       );
       return;
     }
+  }
 }
 function forfeit(s: GameState, reason: string) {
   const c = s.crown;
@@ -277,14 +284,15 @@ function crownValid(s: GameState): boolean {
   const c = s.crown;
   if (!c) return true;
   const p = s.players[c.seat];
+  const law = lawFor(s, c.seat, c.route);
   const v = viewForSpectator(s);
   const ok = (id: string | null) => !!id && supported(v, c.seat, id);
   if (c.stage === "reigning")
     return (
       p.ruler === c.successor &&
       ok(c.successor) &&
-      (c.route !== "charter" || ok(c.witness)) &&
-      (c.route !== "marriage" ||
+      (law.keep !== "heir-witness" || ok(c.witness)) &&
+      (law.keep !== "heir-marriage" ||
         s.marriages.some(
           (m) =>
             m.seat === c.seat &&
@@ -293,10 +301,10 @@ function crownValid(s: GameState): boolean {
         ))
     );
   if (p.ruler !== c.oldRuler || !ok(c.oldRuler)) return false;
-  if (c.route === "kindreds") return c.heirs.some(ok);
-  if (c.route === "act") return !!c.sealed && c.heirs[0] === c.sealed;
-  if (c.route === "charter") return ok(c.heirs[0]) && ok(c.witness);
-  if (c.route === "marriage")
+  if (law.keep === "any-heir") return c.heirs.some(ok);
+  if (law.heir.zone === "hand") return !!c.sealed && c.heirs[0] === c.sealed;
+  if (law.keep === "heir-witness") return c.heirs.every(ok) && ok(c.witness);
+  if (law.keep === "heir-marriage")
     return (
       ok(c.heirs[0]) &&
       s.marriages.some(
@@ -304,7 +312,7 @@ function crownValid(s: GameState): boolean {
           m.seat === c.seat && m.queen === c.witness && m.spouse === c.heirs[0],
       )
     );
-  return ok(c.heirs[0]);
+  return c.heirs.every(ok);
 }
 function cleanup(s: GameState) {
   s.marriages = s.marriages.filter((m) => {
@@ -313,7 +321,7 @@ function cleanup(s: GameState) {
       p.court.includes(m.queen) &&
       p.court.includes(m.spouse) &&
       dynastyOf(m.queen) === p.dynasty &&
-      SOURCE[m.queen].printed.queen &&
+      hasAbility(m.queen, "marry") &&
       dynastyOf(m.spouse) !== p.dynasty;
     if (!valid)
       emit(
@@ -372,7 +380,7 @@ function revealHistory(s: GameState) {
     s.fragments.push({
       id,
       dynasty: p.dynasty,
-      slot: p.slot!,
+      slot: program(id).fragment!,
       onceVeiled: false,
       veil: null,
     });
@@ -478,16 +486,11 @@ function runEffect(
   const options = s.players.map((p) => {
     let ids: string[] = [];
     if (effect === "retire-supported" && p.ruler)
-      ids = p.court.filter(
-        (id) =>
-          id !== p.ruler &&
-          supported(v, p.seat, id) &&
-          (dynastyOf(id) !== p.dynasty || nativeIds(v, p.seat).length > 2),
-      );
+      ids = p.court.filter((id) => id !== p.ruler && supported(v, p.seat, id));
     if (effect === "return-native")
       ids = nativeIds(v, p.seat).filter((id) => id !== p.ruler);
     if (effect === "return-dependency" && s.crown?.seat === p.seat)
-      ids = crownDependencies(v);
+      ids = p.court.filter((id) => id !== p.ruler && supported(v, p.seat, id));
     if (effect === "break-marriage")
       ids = s.marriages
         .filter((m) => m.seat === p.seat)
@@ -516,7 +519,8 @@ function transferCrown(s: GameState, heir: string) {
   if (
     !crownValid(s) ||
     restricted(s, "succession") ||
-    (c.route === "act" && (!c.sealed || dynastyOf(c.sealed) !== p.dynasty))
+    (lawFor(s, c.seat, c.route).heir.zone === "hand" &&
+      (!c.sealed || dynastyOf(c.sealed) !== p.dynasty))
   ) {
     forfeit(
       s,
@@ -717,8 +721,8 @@ function resolveClaim(s: GameState, countered: boolean) {
     s,
     "ClaimResolved",
     countered
-      ? "The Counterclaim prevents the transfer. Both commitments remain until next round."
-      : "The dynastic Claim resolves.",
+      ? "The Block prevents the transfer. Both commitments remain until next round."
+      : "The dynastic Recall resolves.",
   );
   completeAction(s);
 }
@@ -750,7 +754,7 @@ function endBarter(s: GameState, accepted: boolean) {
     );
     for (const e of s.history)
       if (
-        e.status === "pending" &&
+        (e.status === "pending" || program(e.id).end === "condition") &&
         program(e.id).condition === "barter-or-veil"
       )
         e.fulfilled = [...new Set([...e.fulfilled, b.initiator, b.recipient])];
@@ -820,7 +824,10 @@ function pump(s: GameState) {
           .filter((e) => e.status === "active")
           .map((e) => e.id);
         const c = s.crown;
-        if (c?.stage === "proclaimed" && c.round < s.round) {
+        if (
+          c?.stage === "proclaimed" &&
+          s.round >= c.round + lawFor(s, c.seat, c.route).successionAfter
+        ) {
           if (restricted(s, "succession") || !crownValid(s)) {
             forfeit(
               s,
@@ -829,14 +836,14 @@ function pump(s: GameState) {
             continue;
           }
           const heirs =
-            c.route === "act"
+            lawFor(s, c.seat, c.route).heir.zone === "hand"
               ? [c.sealed!]
               : c.heirs.filter((id) => supported(s, c.seat, id));
           if (!heirs.length) {
             forfeit(s, "No lawful successor remains.");
             continue;
           }
-          if (c.route === "kindreds" && heirs.length > 1) {
+          if (heirs.length > 1) {
             choose(s, "succession", [{ seat: c.seat, ids: heirs }], "start");
             break;
           }
@@ -894,7 +901,8 @@ function pump(s: GameState) {
           const p = program(id);
           e.status = "active";
           e.activated = s.round;
-          e.expires = p.expiry === "immediate" ? s.round : s.round + 1;
+          e.expires =
+            p.expiry === "immediate" ? s.round : s.round + p.expiryAfter;
           if (!p.carry) {
             e.contributions = [];
             e.attacks = [];
@@ -936,13 +944,14 @@ function pump(s: GameState) {
         if (
           c?.stage === "reigning" &&
           c.reignRound !== null &&
-          s.round >= c.reignRound + (c.route === "regency" ? 1 : 0) &&
+          s.round >=
+            c.reignRound + lawFor(s, c.seat, c.route).reignRounds - 1 &&
           crownValid(s)
         ) {
           finish(
             s,
             c.seat,
-            `${s.players[c.seat].name} settles the Crown under ${c.route === "regency" ? "Regency" : nameOf(`law-${s.players[c.seat].dynasty}`)}. ${nameOf(c.successor!)} survived ${c.route === "regency" ? "two full rounds" : "the full round"} of public rule.`,
+            `${s.players[c.seat].name} wins under ${c.route === "regency" ? "Regency" : nameOf(`law-${s.players[c.seat].dynasty}`)}. ${nameOf(c.successor!)} stayed Ruler for ${lawFor(s, c.seat, c.route).reignRounds} full round(s).`,
           );
           break;
         }
@@ -1056,7 +1065,7 @@ export function applyAction(state: GameState, a: Action): GameState {
     emit(
       s,
       "BarterOffered",
-      `${p.name} offers ${a.cards!.length} Outlaw${a.cards!.length === 1 ? "" : "s"} to ${s.players[a.other!].name}.`,
+      `${p.name} offers ${a.cards!.length} Noble in hand${a.cards!.length === 1 ? "" : "s"} to ${s.players[a.other!].name}.`,
     );
   } else if (a.type === "pass") {
     s.passes.push(a.seat);
@@ -1119,7 +1128,7 @@ export function applyAction(state: GameState, a: Action): GameState {
         );
         for (const e of s.history)
           if (
-            e.status === "pending" &&
+            (e.status === "pending" || program(e.id).end === "condition") &&
             program(e.id).condition === "restore-marriage" &&
             e.restoreIds[a.seat]?.includes(spouse)
           )
@@ -1136,7 +1145,7 @@ export function applyAction(state: GameState, a: Action): GameState {
         emit(
           s,
           "ClaimAnnounced",
-          `${p.name} Presses a Claim on ${nameOf(a.target!)}. ${s.players[defender].name} may Counterclaim.`,
+          `${p.name} Presses a Recall on ${nameOf(a.target!)}. ${s.players[defender].name} may Block.`,
           [card, a.target!],
           `leverage-${a.seat}`,
           `court-${defender}`,
@@ -1164,7 +1173,7 @@ export function applyAction(state: GameState, a: Action): GameState {
         emit(
           s,
           "InterregnumAttacked",
-          `${nameOf(card)} fills ${e.attacks.length === 1 ? "Muster" : "Secure"} on ${nameOf(e.id)}.`,
+          `${nameOf(card)} adds Challenge ${e.attacks.length} of ${program(e.id).requiredContributions} to ${nameOf(e.id)}.`,
           [card, e.id],
           `court-${a.seat}`,
           "history-row",
@@ -1188,21 +1197,22 @@ export function applyAction(state: GameState, a: Action): GameState {
         emit(
           s,
           "FragmentVeiled",
-          `${nameOf(f.id)} is Veiled until the start of round ${s.round + 2}.`,
+          `${nameOf(f.id)} is Covered until the start of round ${s.round + 2}.`,
           [f.id],
           "painting",
           "painting",
         );
         for (const e of s.history)
           if (
-            e.status === "pending" &&
+            (e.status === "pending" || program(e.id).end === "condition") &&
             program(e.id).condition === "barter-or-veil"
           )
             e.fulfilled = [...new Set([...e.fulfilled, a.seat])];
         break;
       }
       case "proclaim": {
-        const sealed = a.route === "act" ? a.heirs![0] : null;
+        const law = lawFor(s, a.seat, a.route!);
+        const sealed = law.heir.zone === "hand" ? a.heirs![0] : null;
         if (sealed) remove(p.hand, sealed);
         s.crown = {
           seat: a.seat,
@@ -1219,7 +1229,7 @@ export function applyAction(state: GameState, a: Action): GameState {
         emit(
           s,
           "CrownProclaimed",
-          `${p.name} Proclaims. Succession is due at the start of round ${s.round + 1}; ${a.route === "regency" ? "two full reign rounds" : "one full reign round"} must follow.`,
+          `${p.name} claims the Crown. Change Ruler at the start of round ${s.round + law.successionAfter}; keep the new Ruler for ${law.reignRounds} full round(s) to win.`,
           [
             p.ruler!,
             ...(sealed ? [] : a.heirs!),
@@ -1337,7 +1347,7 @@ export function assertInvariants(s: GameState): void {
       !p.court.includes(m.queen) ||
       !p.court.includes(m.spouse) ||
       dynastyOf(m.queen) !== p.dynasty ||
-      !SOURCE[m.queen].printed.queen ||
+      !hasAbility(m.queen, "marry") ||
       dynastyOf(m.spouse) === p.dynasty
     )
       fail("invalid marriage");
@@ -1345,14 +1355,14 @@ export function assertInvariants(s: GameState): void {
   for (const e of s.history)
     if (
       new Set(e.attacks.map((a) => a.card)).size !== e.attacks.length ||
-      e.attacks.length > 2
+      e.attacks.length > program(e.id).requiredContributions
     )
-      fail("duplicate Attack proof");
+      fail("duplicate Challenge proof");
   for (const p of s.players)
     if (s.fragments.filter((f) => f.veil?.seat === p.seat).length > 1)
-      fail("multiple Veils per seat");
+      fail("multiple Covers per seat");
   if (s.fragments.some((f) => f.veil && !f.onceVeiled))
-    fail("Veil lacks once-ever proof");
+    fail("Cover lacks once-ever proof");
   if (
     (s.phase === "response" && !s.claim) ||
     (s.phase === "choice" && !s.choices) ||

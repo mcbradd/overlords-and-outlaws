@@ -7,7 +7,43 @@ import type {
   Seat,
   Dynasty,
   Marriage,
+  Route,
+  LawProgram,
 } from "./types";
+
+/** Core actions define verbs; a Noble's printed script grants its permissions. */
+export const hasAbility = (id: string, ability: string): boolean =>
+  !!noble(id) && !!program(id).abilities?.includes(ability);
+
+/** Regency is the shared fallback rule, not an unprinted Dynasty-card effect. */
+export function lawFor(
+  v: { players: { dynasty: Dynasty | null }[] },
+  seat: Seat,
+  route: Route,
+): LawProgram {
+  if (route === "regency")
+    return {
+      entryNatives: 2,
+      heir: { count: 1, zone: "court", native: true, differentBranches: false },
+      witness: null,
+      keep: "heir",
+      successionAfter: 1,
+      reignRounds: 2,
+    };
+  const law = program(`law-${v.players[seat].dynasty}`).law;
+  if (!law)
+    throw Error("The printed Law has no executable succession clauses.");
+  return law;
+}
+
+export function crownProgress(v: GameView): string {
+  const c = v.crown;
+  if (!c) return "The Crown is free";
+  const law = lawFor(v, c.seat, c.route);
+  return c.stage === "proclaimed"
+    ? `Change Ruler at the start of round ${c.round + law.successionAfter}`
+    : `Win after round ${c.reignRound! + law.reignRounds - 1} if the Law still holds`;
+}
 
 export function nativeIds(v: GameView, seat: Seat): string[] {
   const p = v.players[seat];
@@ -31,7 +67,7 @@ export function supported(
           m.spouse === id &&
           p.court.includes(m.queen) &&
           dynastyOf(m.queen) === p.dynasty &&
-          noble(m.queen).printed.queen,
+          hasAbility(m.queen, "marry"),
       ))
   );
 }
@@ -47,12 +83,13 @@ const unique = (ids: string[]) => new Set(ids).size === ids.length;
 export function crownDependencies(v: GameView): string[] {
   const c = v.crown;
   if (!c) return [];
+  const law = lawFor(v, c.seat, c.route);
   const ids =
     c.stage === "proclaimed"
-      ? c.route === "act"
+      ? law.heir.zone === "hand"
         ? []
         : [...c.heirs, ...(c.witness ? [c.witness] : [])]
-      : ["charter", "marriage"].includes(c.route) && c.witness
+      : law.witness && c.witness
         ? [c.witness]
         : [];
   return ids.filter(
@@ -60,11 +97,13 @@ export function crownDependencies(v: GameView): string[] {
   );
 }
 export function eventComplete(e: HistoryEvent): boolean {
-  const c = program(e.id).condition;
+  const script = program(e.id),
+    c = script.condition;
   return c === "attack"
-    ? e.attacks.length === 2
+    ? e.attacks.length >= script.requiredContributions
     : c === "dynasties"
-      ? new Set(e.contributions.map((c) => c.dynasty)).size >= 2
+      ? new Set(e.contributions.map((c) => c.dynasty)).size >=
+        script.requiredContributions
       : e.obligated.every((s) => e.fulfilled.includes(s));
 }
 export function actionError(v: GameView, a: Action): string | null {
@@ -136,7 +175,7 @@ export function actionError(v: GameView, a: Action): string | null {
         ids.length >= 1 &&
         ids.length <= 2 &&
         unique(ids) &&
-        ids.every((id) => hand.includes(id))
+        ids.every((id) => hand.includes(id) && hasAbility(id, "barter"))
         ? null
         : no;
     if (a.type === "barter-inspect")
@@ -160,6 +199,7 @@ export function actionError(v: GameView, a: Action): string | null {
       a.type !== "counterclaim" ||
       p.seals < 1 ||
       !hand.includes(card) ||
+      !hasAbility(card, "counterclaim") ||
       dynastyOf(card) !== dynastyOf(v.claim.target)
     )
       return no;
@@ -167,7 +207,7 @@ export function actionError(v: GameView, a: Action): string | null {
       restricted(v, "counterclaim-rotate") &&
       !readyNatives(v, a.seat).includes(target)
     )
-      return "Counterclaim also requires a ready native Overlord.";
+      return "Block also requires a ready native Court Noble.";
     return null;
   }
   if (v.phase !== "action" || v.active !== a.seat) return no;
@@ -176,21 +216,23 @@ export function actionError(v: GameView, a: Action): string | null {
     return "No action seals remain. Pass still lets you act later if the round continues.";
   switch (a.type) {
     case "build":
-      return hand.includes(card) && dynastyOf(card) === p.dynasty
+      return hand.includes(card) &&
+        hasAbility(card, "build") &&
+        dynastyOf(card) === p.dynasty
         ? null
-        : "Build requires a native Outlaw.";
+        : "Recruit requires a native Noble in hand.";
     case "withdraw":
-      return p.court.includes(card) ? null : no;
+      return p.court.includes(card) && hasAbility(card, "withdraw") ? null : no;
     case "petition":
       return v.dynastyCount > 0 &&
         (!restricted(v, "petition-with-hand") || hand.length === 0)
         ? null
-        : "The Dynasty Deck is empty or Closed Roads prevents Petition.";
+        : "The Dynasty Deck is empty or Closed Roads prevents Draw.";
     case "marry":
       return !restricted(v, "marry") &&
         p.court.includes(card) &&
         dynastyOf(card) === p.dynasty &&
-        noble(card).printed.queen &&
+        hasAbility(card, "marry") &&
         !paired(v, card) &&
         (hand.includes(target) || p.court.includes(target)) &&
         dynastyOf(target) !== p.dynasty &&
@@ -203,20 +245,22 @@ export function actionError(v: GameView, a: Action): string | null {
       );
       return rival &&
         hand.includes(card) &&
+        hasAbility(card, "claim") &&
         dynastyOf(card) === dynastyOf(target) &&
         !v.petitioned.includes(target)
         ? null
-        : "A Claim requires matching printed Dynasty and an unpetitioned rival Overlord.";
+        : "A Recall requires matching printed Dynasty and an unpetitioned rival Court Noble.";
     }
     case "veil": {
       const f = v.fragments.find((f) => f.id === target);
       return hand.includes(card) &&
+        hasAbility(card, "veil") &&
         f &&
         !f.onceVeiled &&
         !f.veil &&
         !v.fragments.some((f) => f.veil?.seat === a.seat)
         ? null
-        : "Veil needs a never-veiled fragment, one Outlaw and no Veil already in progress.";
+        : "Cover needs a never-veiled fragment, one Noble in hand and no Cover already in progress.";
     }
     case "attack": {
       const e = v.history.find((e) => e.id === a.event);
@@ -225,10 +269,11 @@ export function actionError(v: GameView, a: Action): string | null {
           ? program(e.id).condition === "attack"
           : program(e.id).end === "attack") &&
         supported(v, a.seat, card) &&
+        hasAbility(card, "attack") &&
         !p.rotated.includes(card) &&
         !e.attacks.some((c) => c.card === card)
         ? null
-        : "Attack requires a ready Bloodline Overlord who has not contributed to this event.";
+        : "Challenge requires a ready Bloodline Court Noble who has not contributed to this event.";
     }
     case "address": {
       const e = v.history.find((e) => e.id === a.event);
@@ -237,6 +282,7 @@ export function actionError(v: GameView, a: Action): string | null {
       const c = program(e.id).condition;
       if (c === "dynasties")
         return hand.includes(card) &&
+          hasAbility(card, "commit") &&
           !e.contributions.some((c) => c.dynasty === dynastyOf(card))
           ? null
           : no;
@@ -246,6 +292,7 @@ export function actionError(v: GameView, a: Action): string | null {
         return readyNatives(v, a.seat).includes(card) ? null : no;
       if (["seats-native", "seats-any", "married-seats"].includes(c ?? ""))
         return hand.includes(card) &&
+          hasAbility(card, "commit") &&
           (c !== "seats-native" || dynastyOf(card) === p.dynasty)
           ? null
           : no;
@@ -264,42 +311,52 @@ export function actionError(v: GameView, a: Action): string | null {
       const ns = nativeIds(v, a.seat);
       const candidates = ns.filter((id) => id !== p.ruler);
       if (!route || !unique(heirs)) return no;
-      if (route === "regency")
-        return heirs.length === 1 && candidates.includes(heirs[0]) ? null : no;
-      if (route !== program(`law-${p.dynasty}`).route || ns.length < 3)
-        return "Your Law requires three native Overlords at entry.";
-      if (route === "kindreds")
-        return heirs.length === 2 &&
-          heirs.every((id) => candidates.includes(id)) &&
-          noble(heirs[0]).printed.branch !== noble(heirs[1]).printed.branch
-          ? null
-          : no;
-      if (route === "charter")
-        return heirs.length === 1 &&
-          candidates.includes(heirs[0]) &&
-          !!a.witness &&
-          candidates.includes(a.witness) &&
-          a.witness !== heirs[0]
-          ? null
-          : no;
-      if (route === "act")
-        return heirs.length === 1 &&
-          hand.includes(heirs[0]) &&
-          dynastyOf(heirs[0]) === p.dynasty
-          ? null
-          : no;
-      if (route === "marriage")
-        return heirs.length === 1 &&
+      if (route !== "regency" && route !== program(`law-${p.dynasty}`).route)
+        return no;
+      const law = lawFor(v, a.seat, route);
+      if (ns.length < law.entryNatives)
+        return `This succession requires ${law.entryNatives} native Court Nobles, including your Ruler.`;
+      if (heirs.length !== law.heir.count) return no;
+      const pool = law.heir.zone === "hand" ? hand : p.court;
+      if (
+        !heirs.every(
+          (id) =>
+            pool.includes(id) &&
+            id !== p.ruler &&
+            (law.heir.native
+              ? dynastyOf(id) === p.dynasty
+              : dynastyOf(id) !== p.dynasty),
+        )
+      )
+        return no;
+      if (
+        law.heir.differentBranches &&
+        new Set(heirs.map((id) => noble(id).printed.branch)).size !==
+          heirs.length
+      )
+        return no;
+      if (
+        law.witness === "native" &&
+        (!a.witness ||
+          !candidates.includes(a.witness) ||
+          heirs.includes(a.witness))
+      )
+        return no;
+      if (
+        law.witness === "marriage" &&
+        !heirs.every((id) =>
           v.marriages.some(
             (m) =>
               m.seat === a.seat &&
-              m.spouse === heirs[0] &&
+              m.spouse === id &&
               m.queen === a.witness &&
               m.queen !== p.ruler,
-          )
-          ? null
-          : no;
-      return no;
+          ),
+        )
+      )
+        return no;
+      if (!law.witness && a.witness) return no;
+      return null;
     }
     case "barter":
       return typeof a.other === "number" &&
@@ -309,7 +366,7 @@ export function actionError(v: GameView, a: Action): string | null {
         ids.length >= 1 &&
         ids.length <= 2 &&
         unique(ids) &&
-        ids.every((id) => hand.includes(id))
+        ids.every((id) => hand.includes(id) && hasAbility(id, "barter"))
         ? null
         : no;
     default:
@@ -402,18 +459,23 @@ export function legalActions(v: GameView, seat: Seat): Action[] {
     const ns = nativeIds(v, seat).filter((id) => id !== p.ruler);
     for (const id of ns)
       add({ type: "proclaim", route: "regency", heirs: [id] });
-    if (route === "kindreds")
-      for (const heirs of combinations(ns, 2))
-        add({ type: "proclaim", route, heirs });
-    if (route === "charter")
-      for (const id of ns)
+    const law = lawFor(v, seat, route);
+    const pool = (law.heir.zone === "hand" ? hand : p.court).filter(
+      (id) =>
+        id !== p.ruler &&
+        (law.heir.native
+          ? dynastyOf(id) === p.dynasty
+          : dynastyOf(id) !== p.dynasty),
+    );
+    for (const heirs of combinations(pool, law.heir.count)) {
+      if (law.witness === "native")
         for (const witness of ns)
-          add({ type: "proclaim", route, heirs: [id], witness });
-    if (route === "act")
-      for (const id of hand) add({ type: "proclaim", route, heirs: [id] });
-    if (route === "marriage")
-      for (const m of v.marriages.filter((m) => m.seat === seat))
-        add({ type: "proclaim", route, heirs: [m.spouse], witness: m.queen });
+          add({ type: "proclaim", route, heirs, witness });
+      else if (law.witness === "marriage")
+        for (const m of v.marriages.filter((m) => m.seat === seat))
+          add({ type: "proclaim", route, heirs, witness: m.queen });
+      else add({ type: "proclaim", route, heirs });
+    }
   }
   return actions;
 }

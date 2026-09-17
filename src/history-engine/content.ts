@@ -27,7 +27,7 @@ export const NOBLES: CardSource[] = MODULES.flatMap((dynasty) =>
       const n = Number(c.id.split("-")[1]);
       return {
         id: c.id,
-        revision: 1,
+        revision: 2,
         kind: "noble",
         printed: {
           name: c.name,
@@ -37,7 +37,17 @@ export const NOBLES: CardSource[] = MODULES.flatMap((dynasty) =>
           branch: dynasty === "alba" ? branch(n) : undefined,
           collector: index + 1,
         },
-        cardText: "",
+        cardText: [
+          "Actions cost 1 seal.",
+          "Hand: Recruit into your Court if this is your Dynasty; Recall a rival's Court Noble of this Dynasty; Block a Recall against a Noble of this Dynasty.",
+          "Hand: Trade; Lend when a Crisis asks; discard to Cover a painting fragment.",
+          "Court: Withdraw to your hand; Challenge a Crisis if in your Bloodline and ready.",
+          queens[dynasty].includes(n)
+            ? "Marry: Pair this unmarried Queen in your Court with an unpaired foreign Noble in your hand or Court. This Queen must be of your Dynasty."
+            : "",
+        ]
+          .filter(Boolean)
+          .join("\n"),
         reminderRefs: ["bloodline"],
         historicalNote:
           "Game offices and marriages explore counterfactual arrangements; the archive distinguishes documented titles and relationships. Historical titles require editorial verification before print.",
@@ -56,7 +66,7 @@ const record = (
   reminderRefs: string[] = [],
 ): CardSource => ({
   id,
-  revision: 1,
+  revision: 2,
   kind,
   printed: { name, dynasty },
   cardText,
@@ -66,15 +76,21 @@ const record = (
   evidenceRefs: ["docs/HISTORY-ENGINE-IMPLEMENTATION-SPEC.md"],
   artRef: "",
 });
-// Authored operative English is the source. The compiler, never the card ID,
-// selects executable conditions, restrictions and effects.
+// Authored operative English is the source; no card ID selects behavior.
 export const LAW_CARDS: CardSource[] = [
   record(
     "law-alba",
     "alba",
     "Recognition of the Kindreds",
     "law",
-    "At Proclaim, name two native heirs from different printed branches, distinct from your Ruler. Maintain your old Ruler and at least one named heir until succession. At succession, choose a remaining named heir. Retire the old Ruler and install that heir. Maintain the supported successor through settlement.",
+    [
+      "Claim the Crown: Have 3 Court Nobles of your Dynasty, including your Ruler.",
+      "Choose 2 other Court Nobles of your Dynasty from different branches as heirs.",
+      "Keep your Ruler and at least 1 named heir until the Ruler changes.",
+      "In 1 round, at its start: Retire your Ruler. Crown a remaining named heir.",
+      "Win: Keep your new Ruler in your Bloodline for 1 full round.",
+      "Fail: Lose the Crown if a required Noble or marriage is lost.",
+    ].join("\n"),
     ["crown"],
   ),
   record(
@@ -82,7 +98,15 @@ export const LAW_CARDS: CardSource[] = [
     "plantagenet",
     "The Charter",
     "law",
-    "At Proclaim, name a native heir and a different native Charter Witness, both distinct from your Ruler. Maintain your old Ruler, heir and Witness until succession. At succession, Retire the old Ruler and install the heir. Maintain the supported successor and the same native Witness through settlement.",
+    [
+      "Claim the Crown: Have 3 Court Nobles of your Dynasty, including your Ruler.",
+      "Choose 1 other Court Noble of your Dynasty as heir.",
+      "Choose a different Court Noble of your Dynasty, not your Ruler, as Witness.",
+      "Keep your Ruler, heir and Witness until the Ruler changes.",
+      "In 1 round, at its start: Retire your Ruler. Crown a remaining named heir.",
+      "Win: Keep your new Ruler and Witness in your Bloodline for 1 full round.",
+      "Fail: Lose the Crown if a required Noble or marriage is lost.",
+    ].join("\n"),
     ["crown"],
   ),
   record(
@@ -90,7 +114,14 @@ export const LAW_CARDS: CardSource[] = [
     "tudor",
     "The Act of Succession",
     "law",
-    "At Proclaim, seal one native Outlaw as heir, distinct from your Ruler. Maintain your old Ruler and sealed heir until succession. At succession, Reveal the sealed heir, verify its native Dynasty, Retire the old Ruler and place the heir in Court as Ruler. Maintain the supported native successor through settlement.",
+    [
+      "Claim the Crown: Have 3 Court Nobles of your Dynasty, including your Ruler.",
+      "Choose 1 hand Noble of your Dynasty as heir. Set the heir aside face down.",
+      "Keep your Ruler and hidden heir until the Ruler changes.",
+      "In 1 round, at its start: Reveal your heir. Retire your Ruler. Crown a remaining named heir.",
+      "Win: Keep your new Ruler in your Bloodline for 1 full round.",
+      "Fail: Lose the Crown if a required Noble or marriage is lost. Return any hidden heir face up to your hand.",
+    ].join("\n"),
     ["crown"],
   ),
   record(
@@ -98,21 +129,37 @@ export const LAW_CARDS: CardSource[] = [
     "habsburg",
     "The Marriage Settlement",
     "law",
-    "At Proclaim, name a foreign heir married to your native Queen, who is not your Ruler. Maintain your old Ruler, heir and that marriage until succession. At succession, Retire the old Ruler and install the heir. Maintain the supported successor and the same marriage through settlement.",
+    [
+      "Claim the Crown: Have 3 Court Nobles of your Dynasty, including your Ruler.",
+      "Choose 1 foreign Court Noble married to your Queen as heir. The Queen must be of your Dynasty, not your Ruler.",
+      "Keep your Ruler, heir and their marriage until the Ruler changes.",
+      "In 1 round, at its start: Retire your Ruler. Crown a remaining named heir.",
+      "Win: Keep your new Ruler in your Bloodline and the same marriage intact for 1 full round.",
+      "Fail: Lose the Crown if a required Noble or marriage is lost.",
+    ].join("\n"),
     ["crown", "marriage"],
   ),
 ];
-const next = "Expire at the end of the next round after activation.";
-const carry = "Carry pending contributions into active play.";
-const end = "End: Complete this card’s Avert condition through Address.";
-const attack = "Avert: Attack: Muster and Secure with different Noble IDs.";
+const next = "Ends at round end, after 1 more round.";
+const starts = "Starts at round end unless prevented.";
+const carry = "Earlier help still counts.";
+const end = "End early: Complete the Prevent condition.";
+const attack =
+  "Prevent: Together, Challenge with 2 different ready Court Nobles in your Bloodline, one per action.";
 export const INTERREGNA: CardSource[] = [
   record(
     "A1",
     "alba",
     "Contested Recognition",
     "interregnum",
-    `Avert: Each player Commits one native Outlaw through Address.\nWhile active: No player may Proclaim.\n${end}\n${carry}\n${next}`,
+    [
+      "Prevent: Each player Lends 1 hand Noble of their Dynasty using Help.",
+      starts,
+      "While active: No player may Claim the Crown.",
+      end,
+      carry,
+      next,
+    ].join("\n"),
     ["commit"],
   ),
   record(
@@ -120,7 +167,12 @@ export const INTERREGNA: CardSource[] = [
     "alba",
     "Border Rising",
     "interregnum",
-    `${attack}\nAt the start of each round: Each player with a Ruler chooses one other supported Overlord, if able. Retire the chosen Overlords simultaneously, preserving at least two native Overlords per player.\n${next}`,
+    [
+      attack,
+      starts,
+      "At round start: Each player with a Ruler chooses 1 other Court Noble in their Bloodline, if able. Retire those Nobles to The Past together.",
+      next,
+    ].join("\n"),
     ["attack"],
   ),
   record(
@@ -128,21 +180,36 @@ export const INTERREGNA: CardSource[] = [
     "alba",
     "A Broken Recognition",
     "interregnum",
-    "Avert: At reveal, freeze players with unsupported foreign Overlords. Each restores a marriage to one of those Overlords through Marry.\nOn activation: Return all unsupported foreign Overlords to their controllers’ hands simultaneously.\nThen Expire.",
+    [
+      "Prevent: At reveal, mark players with foreign Court Nobles outside their Bloodline. Each must Marry one of those Nobles.",
+      starts,
+      "When this starts: Return all foreign Court Nobles outside their Bloodlines to their controllers' hands together.",
+      "Then end this event.",
+    ].join("\n"),
   ),
   record(
     "P1",
     "plantagenet",
     "The Barons’ Terms",
     "interregnum",
-    `Avert: Each player Rotates one ready native Overlord through Address.\nWhile active: Counterclaim also requires rotating one ready native Overlord.\n${next}`,
+    [
+      "Prevent: Each player turns 1 ready Court Noble of their Dynasty sideways using Help.",
+      starts,
+      "While active: To Block, also turn 1 ready Court Noble of your Dynasty sideways.",
+      next,
+    ].join("\n"),
   ),
   record(
     "P2",
     "plantagenet",
     "A Disputed Charter",
     "interregnum",
-    `${attack}\nOn activation: The Crown controller chooses one eligible non-Ruler Crown dependency, if able. Return it to their hand.\nThen Expire.`,
+    [
+      attack,
+      starts,
+      "When this starts: The Crown holder chooses 1 Court Noble in their Bloodline other than their Ruler, if able. Return that Noble to their hand.",
+      "Then end this event.",
+    ].join("\n"),
     ["attack"],
   ),
   record(
@@ -150,7 +217,14 @@ export const INTERREGNA: CardSource[] = [
     "plantagenet",
     "Closed Roads",
     "interregnum",
-    `Avert: Commit Nobles of two different printed Dynasties through Address, one per action.\nWhile active: A player may Petition only with no Outlaws in hand.\n${end}\n${carry}\n${next}`,
+    [
+      "Prevent: Together, Lend 2 hand Nobles of different Dynasties using Help, one per action.",
+      starts,
+      "While active: Use the Draw action only with an empty hand.",
+      end,
+      carry,
+      next,
+    ].join("\n"),
     ["commit"],
   ),
   record(
@@ -158,7 +232,12 @@ export const INTERREGNA: CardSource[] = [
     "tudor",
     "The Unsettled Church",
     "interregnum",
-    `Avert: Each player Commits one Outlaw through Address.\nWhile active: No player may Marry.\n${next}`,
+    [
+      "Prevent: Each player Lends 1 hand Noble using Help.",
+      starts,
+      "While active: No player may Marry.",
+      next,
+    ].join("\n"),
     ["commit"],
   ),
   record(
@@ -166,7 +245,12 @@ export const INTERREGNA: CardSource[] = [
     "tudor",
     "A Rival Proclamation",
     "interregnum",
-    `${attack}\nOn activation: Each player chooses one non-Ruler native Overlord, if able. Return the chosen Overlords simultaneously.\nThen Expire.`,
+    [
+      attack,
+      starts,
+      "When this starts: Each player chooses 1 Court Noble of their Dynasty other than their Ruler, if able. Return those Nobles to their controllers' hands together.",
+      "Then end this event.",
+    ].join("\n"),
     ["attack"],
   ),
   record(
@@ -174,14 +258,24 @@ export const INTERREGNA: CardSource[] = [
     "tudor",
     "The Open Record",
     "interregnum",
-    `Avert: After reveal, each player completes Barter or Veil.\nAt the start of each round: Reveal one additional History card publicly.\n${next}`,
+    [
+      "Prevent: Each player completes Trade or Cover after this is revealed. A Trade counts for both players.",
+      starts,
+      "At round start: Reveal 1 extra History card.",
+      next,
+    ].join("\n"),
   ),
   record(
     "H1",
     "habsburg",
     "The Divided Inheritance",
     "interregnum",
-    "Avert: At reveal, freeze players with marriages. Each Commits one Outlaw through Address.\nOn activation: Each player chooses one marriage they control, if able. Break the chosen marriages simultaneously.\nThen Expire.",
+    [
+      "Prevent: At reveal, mark players with marriages. Each marked player Lends 1 hand Noble using Help.",
+      starts,
+      "When this starts: Each player chooses 1 marriage they control, if able. Break those marriages together.",
+      "Then end this event.",
+    ].join("\n"),
     ["commit"],
   ),
   record(
@@ -189,7 +283,14 @@ export const INTERREGNA: CardSource[] = [
     "habsburg",
     "War of the Succession",
     "interregnum",
-    `${attack}\nWhile active: Scheduled Crown succession is forbidden.\nEnd: Attack: Muster and Secure with different Noble IDs.\n${carry}\n${next}`,
+    [
+      attack,
+      starts,
+      "While active: When a Crown claim must change Ruler, it fails. Lose that Crown claim; keep the current Ruler.",
+      "End early: Together, Challenge with 2 different ready Court Nobles in your Bloodline, one per action.",
+      carry,
+      next,
+    ].join("\n"),
     ["attack"],
   ),
   record(
@@ -197,7 +298,14 @@ export const INTERREGNA: CardSource[] = [
     "habsburg",
     "The Imperial Settlement",
     "interregnum",
-    `Avert: Commit Nobles of two different printed Dynasties through Address, one per action.\nAt the start of each round: Each player with no marriage chooses one Outlaw, if able. Commit the chosen Outlaws simultaneously.\n${end}\n${carry}\n${next}`,
+    [
+      "Prevent: Together, Lend 2 hand Nobles of different Dynasties using Help, one per action.",
+      starts,
+      "At round start: Each player with no marriage chooses 1 hand Noble, if able. Lend those Nobles together. These loans do not count as Help.",
+      end,
+      carry,
+      next,
+    ].join("\n"),
     ["commit"],
   ),
 ];
@@ -216,14 +324,16 @@ export const PAINTING_ART: Record<Dynasty, string> = {
 export const FRAGMENTS: CardSource[] = MODULES.flatMap((dynasty) =>
   Array.from({ length: 6 }, (_, i) => ({
     ...record(
-      `painting-${dynasty}-${i + 1}`,
+      "painting-" + dynasty + "-" + (i + 1),
       dynasty,
-      `${PAINTING_NAMES[dynasty]} · ${i + 1}`,
+      PAINTING_NAMES[dynasty] + " · " + (i + 1),
       "fragment",
-      `Place this fragment in slot ${i + 1} of its painting. If all six fragments are present and unveiled, Eudoxia wins.`,
+      "Reveal: Place this fragment in slot " +
+        (i + 1) +
+        " of its painting.\nIf 6 fragments of this painting are uncovered, Eudoxia wins immediately. All players lose.",
     ),
     printed: {
-      name: `${PAINTING_NAMES[dynasty]} · ${i + 1}`,
+      name: PAINTING_NAMES[dynasty] + " · " + (i + 1),
       dynasty,
       slot: i + 1,
     },
@@ -235,7 +345,8 @@ export const SOURCE = Object.fromEntries(SOURCES.map((s) => [s.id, s]));
 export const MANIFEST = Object.fromEntries(
   SOURCES.map((s) => [s.id, compileCard(s)]),
 );
-export const CONTENT_VERSION = `r3-${hash(SOURCES.map((s) => MANIFEST[s.id].sourceHash))}`;
+export const CONTENT_VERSION =
+  "r4-" + hash(SOURCES.map((s) => MANIFEST[s.id].sourceHash));
 export const noble = (id: string) => SOURCE[id];
 export const dynastyOf = (id: string): Dynasty => SOURCE[id].printed.dynasty;
 export const nameOf = (id: string) => SOURCE[id]?.printed.name ?? id;

@@ -6,7 +6,7 @@ import {
 import { assetUrl } from "../assets";
 import { nameOf, PAINTING_NAMES } from "./content";
 import { cardCanvas, escapeHTML, SEAT_SIGNS } from "./face";
-import { supported } from "./rules";
+import { supported, crownProgress } from "./rules";
 import type { GameView } from "./types";
 import type { Preferences } from "./storage";
 
@@ -280,7 +280,7 @@ export class HistoryTable {
     this.crown(-700, 25);
     this.label(
       v.crown
-        ? `${escapeHTML(v.players[v.crown.seat].name)} · ${escapeHTML(v.crown.stage)}<br>${escapeHTML(v.crown.route)}${v.crown.route === "regency" && v.crown.reignRound ? ` · ${v.round === v.crown.reignRound ? "First" : "Second"} Reign` : ""}`
+        ? `${escapeHTML(v.players[v.crown.seat].name)} · ${v.crown.route === "regency" ? "Regency" : escapeHTML(nameOf(`law-${v.players[v.crown.seat].dynasty}`))}<br>${escapeHTML(crownProgress(v))}`
         : "THE CROWN IS VACANT",
       -700,
       -53,
@@ -302,7 +302,7 @@ export class HistoryTable {
         const f = v.fragments.find(
           (f) => f.dynasty === d && f.slot === slot + 1,
         );
-        return `<button class="h-fragment ${f ? "present" : ""} ${f?.veil ? "veiled" : ""}" data-fragment="${f?.id ?? ""}" aria-label="${escapeHTML(d)} fragment ${slot + 1}: ${f ? (f.veil ? `Veiled until round ${f.veil.until}` : "unveiled") : "not yet revealed"}" style="${f && !f.veil ? `background-image:url('${assetUrl(paintingArt[d])}');background-position:${(slot % 3) * 50}% ${Math.floor(slot / 3) * 100}%;` : ""}"><span>${f?.veil ? "◈" : f ? "" : slot + 1}</span>${f?.onceVeiled ? "<i>○</i>" : ""}</button>`;
+        return `<button class="h-fragment ${f ? "present" : ""} ${f?.veil ? "veiled" : ""}" data-fragment="${f?.id ?? ""}" aria-label="${escapeHTML(d)} fragment ${slot + 1}: ${f ? (f.veil ? `Covered until round ${f.veil.until}` : "unveiled") : "not yet revealed"}" style="${f && !f.veil ? `background-image:url('${assetUrl(paintingArt[d])}');background-position:${(slot % 3) * 50}% ${Math.floor(slot / 3) * 100}%;` : ""}"><span>${f?.veil ? "◈" : f ? "" : slot + 1}</span>${f?.onceVeiled ? "<i>○</i>" : ""}</button>`;
       }).join("");
       const label = this.label(
         `<div class="h-painting-grid">${slots}</div><strong>${escapeHTML(d)} · ${v.fragments.filter((f) => f.dynasty === d && !f.veil).length}/6 unveiled</strong>`,
@@ -341,7 +341,7 @@ export class HistoryTable {
           i < p.seals ? 0xb89752 : 0x413d32,
         );
       this.label(
-        `${p.handCount} Outlaws · ${p.leverage.length} in Leverage`,
+        `${p.handCount} Nobles in hand · ${p.leverage.length} in Loans`,
         anchor.x - matWidth / 2 + 140,
         anchor.y + matHeight / 2 - 66,
         16,
@@ -359,15 +359,15 @@ export class HistoryTable {
         const markers = [
           ...(p.ruler === id ? ["RULER"] : []),
           ...(marriage ? [`PAIR ${marriage.id}`] : []),
-          ...(!supported(v, p.seat, id) ? ["UNSUPPORTED"] : []),
-          ...(p.rotated.includes(id) ? ["ROTATED"] : []),
-          ...(v.petitioned.includes(id) ? ["PETITIONED"] : []),
+          ...(!supported(v, p.seat, id) ? ["OUTSIDE BLOODLINE"] : []),
+          ...(p.rotated.includes(id) ? ["SIDEWAYS"] : []),
+          ...(v.petitioned.includes(id) ? ["RECALLED THIS ROUND"] : []),
         ];
         void this.card(id, x, y, markers, p.rotated.includes(id), generation);
       });
       if (p.leverage.length) {
         this.label(
-          `LEVERAGE · ${p.leverage.map(nameOf).map(escapeHTML).join(" · ")}`,
+          `LOANS · ${p.leverage.map(nameOf).map(escapeHTML).join(" · ")}`,
           anchor.x,
           anchor.y - matHeight / 2 + 18,
           15,

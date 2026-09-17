@@ -1,5 +1,7 @@
 # Overlords & Outlaws — The Weight of the Crown
 
+> **Current playable revision:** [Read the card: sixth-grade language revision](CARD-LANGUAGE-REVISION.md) supersedes the original card wording, blank Noble faces, A2/P2 selectors and compiler architecture below. The remainder preserves the original design proposal and its evidence. The executable roster is in `src/history-engine/content.ts`.
+
 **Final implementation specification · 16 September 2026 · revision R3**
 
 **Document status:** proposed replacement design, not an implemented ruleset or a release authorization. The September 16 decisions cited below are binding inputs; new rules in this document are the proposal requested by Bradd. They must not be backfilled into the questionnaire as answers from the user. Original concept and supplied source work: **Overlords & Outlaws © 2025 Malachy Murray**.

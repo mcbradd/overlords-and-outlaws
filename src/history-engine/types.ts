@@ -49,6 +49,10 @@ export interface CardSource {
   artRef: string;
 }
 export interface Program {
+  abilities?: string[];
+  law?: LawProgram;
+  requiredContributions: number;
+  expiryAfter: number;
   condition?: Condition;
   restrictions: Restriction[];
   instructions: Instruction[];
@@ -57,6 +61,20 @@ export interface Program {
   expiry?: "immediate" | "next-end";
   route?: Route;
   fragment?: number;
+  fragmentGoal?: number;
+}
+export interface LawProgram {
+  entryNatives: number;
+  heir: {
+    count: number;
+    zone: "court" | "hand" | "marriage";
+    native: boolean;
+    differentBranches: boolean;
+  };
+  witness: "native" | "marriage" | null;
+  keep: "any-heir" | "heir" | "heir-witness" | "heir-marriage";
+  successionAfter: number;
+  reignRounds: number;
 }
 export interface CompiledCard {
   sourceId: string;

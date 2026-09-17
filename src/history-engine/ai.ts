@@ -70,10 +70,10 @@ function score(v: GameView, a: Action): [number, string] {
     case "counterclaim":
       return [
         50,
-        "A matching concealed Noble and seal preserve this Overlord.",
+        "A matching concealed Noble and seal preserve this Court Noble.",
       ];
     case "decline":
-      return [0, "No affordable Counterclaim is available."];
+      return [0, "No affordable Block is available."];
     case "barter-packet":
       return [
         -a.cards!.reduce((sum, c) => sum + cardValue(v, a.seat, c), 0),
@@ -106,7 +106,7 @@ function score(v: GameView, a: Action): [number, string] {
     case "proclaim":
       return [
         a.route === "regency" ? 17 : 25,
-        "Expose a lawful succession and begin the full public contest.",
+        "Name your heir and start a Crown claim. Rivals get time to stop you.",
       ];
     case "claim": {
       const c = v.crown;
@@ -117,19 +117,19 @@ function score(v: GameView, a: Action): [number, string] {
       return [
         dependency ? 32 : dynastyOf(a.target!) === p.dynasty ? 12 : 4,
         dependency
-          ? "Disrupt an exact exposed Crown dependency."
-          : "Acquire a person through a matching printed Dynasty.",
+          ? "Take a Noble that the rival needs to keep their Crown claim."
+          : "Use a matching Dynasty to take this rival’s Court Noble into your hand.",
       ];
     }
     case "build":
       return [
         n < 3 ? 16 : n < 5 ? 7 : 2,
-        "Build native support while keeping some relatives concealed.",
+        "Grow your Court with a Noble of your Dynasty. Keep other cards secret for later.",
       ];
     case "marry":
       return [
         p.dynasty === "habsburg" ? 18 : 10,
-        "A native Queen admits a foreign person through a visible dependency.",
+        "Marry this Queen to bring the other Noble into your Bloodline. Keep the pair together.",
       ];
     case "attack":
       return [
@@ -137,12 +137,12 @@ function score(v: GameView, a: Action): [number, string] {
         v.crown?.seat === a.seat
           ? 30
           : 11,
-        "Fill a distinct persistent Attack space before its consequence.",
+        "Turn this Noble sideways to help stop the Crisis.",
       ];
     case "address":
       return [
         9,
-        "Contribute public evidence toward averting or ending this event.",
+        "Follow the Crisis’s Help instruction to work toward stopping it.",
       ];
     case "veil": {
       const f = v.fragments.find((f) => f.id === a.target)!;
@@ -155,7 +155,7 @@ function score(v: GameView, a: Action): [number, string] {
           : pressure >= 4 && v.crown?.seat === a.seat
             ? 20
             : -20,
-        "Sacrifice one specific Outlaw to keep the painting incomplete through the next round.",
+        "Sacrifice one specific Noble in hand to keep the painting incomplete through the next round.",
       ];
     }
     case "petition":
@@ -168,7 +168,7 @@ function score(v: GameView, a: Action): [number, string] {
     case "barter":
       return [
         1 - a.cards!.reduce((sum, c) => sum + cardValue(v, a.seat, c), 0) / 10,
-        "Offer a bounded exchange without assuming the other hand.",
+        "Offer a Trade. The rival decides what they will offer in return.",
       ];
     case "pass":
       return [

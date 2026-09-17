@@ -16,8 +16,16 @@ const failures = await page.locator(".card").evaluateAll((cards) =>
     Array.from(card.querySelectorAll(".ink > *"))
       .filter((el) => {
         const r = el.getBoundingClientRect(),
-          p = card.getBoundingClientRect();
-        return r.bottom > p.bottom - 1 || r.right > p.right || r.left < p.left;
+          p = card.getBoundingClientRect(),
+          footer = card.querySelector("footer")?.getBoundingClientRect();
+        return (
+          r.bottom > p.bottom - 1 ||
+          r.right > p.right ||
+          r.left < p.left ||
+          (el.classList.contains("operative") &&
+            footer &&
+            r.bottom > footer.top - 2)
+        );
       })
       .map((el) => ({
         id: card.getAttribute("data-card"),
