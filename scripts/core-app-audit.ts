@@ -94,7 +94,7 @@ await run('APP-03 rival teaching has a reader-controlled legal action', async pa
   await teach(page);
   await page.locator('[data-do="select"][data-card="alba-2"]').click();
   await page.getByRole('button', { name: 'Recruit', exact: true }).click();
-  await page.getByRole('button', { name: 'Confirm Recruit', exact: true }).click();
+  await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Watch the rival move', exact: true })).toBeVisible();
   const before = await savedProgress(page);

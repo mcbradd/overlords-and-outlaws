@@ -152,7 +152,9 @@ export class CoreTable {
   private labels = new CSS3DRenderer();
   private scene = new THREE.Scene();
   private labelScene = new THREE.Scene();
-  private camera = new THREE.PerspectiveCamera(36, 1, 1, 12000);
+  // The closest permitted view is 350 units away. A 50-unit near plane
+  // preserves depth precision between printed faces and their card stock.
+  private camera = new THREE.PerspectiveCamera(36, 1, 50, 12000);
   private observer: ResizeObserver;
   private content = new THREE.Group();
   private pieces: Piece[] = [];
@@ -671,9 +673,10 @@ export class CoreTable {
           t,
           px + i * 2,
           py - i * 5,
-          9 + i * 1.7,
+          9 + i * 3.6,
           94,
           old.get(id) ?? new THREE.Vector3(cx, cy - seatH / 2 + 20, 18),
+          seat,
         );
       }
       const count = p.handCount ?? p.hand?.length ?? 0;
@@ -690,7 +693,7 @@ export class CoreTable {
     if (deckCount > 0)
       for (let i = 0; i < Math.min(deckCount, 5); i++) {
         const deck = this.stock(backing, 49);
-        deck.position.set(deckX + i * 0.5, deckY, 5 + i * 1.5);
+        deck.position.set(deckX + i * 0.5, deckY, 5 + i * 3.6);
         this.content.add(deck);
       }
     this.label(`Draw · ${deckCount}`, deckX, deckY - 45, 8);
@@ -787,6 +790,7 @@ export class CoreTable {
     z: number,
     w: number,
     from: THREE.Vector3,
+    playedSeat?: number,
   ) {
     const mesh = this.stock(texture, w),
       to = new THREE.Vector3(x, y, z);
@@ -797,9 +801,13 @@ export class CoreTable {
       button = document.createElement("button");
     button.className = "core-table-card";
     button.dataset.tableCard = id;
+    if (playedSeat !== undefined)
+      button.dataset.playedPile = String(playedSeat);
     button.setAttribute(
       "aria-label",
-      `Inspect ${card.name}, ${card.dynasty}, rank ${rankLabel(card.rank)}`,
+      playedSeat === undefined
+        ? `Inspect ${card.name}, ${card.dynasty}, rank ${rankLabel(card.rank)}`
+        : `Fan out ${this.view?.players[playedSeat].name ?? card.dynasty} Played pile`,
     );
     button.style.width = `${w}px`;
     button.style.height = `${(w * 88) / 63}px`;

@@ -113,7 +113,7 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
     await expect(page.locator('.c-game .c-guide')).toHaveCount(1);
     const text=await page.locator('.c-game').innerText();assert.doesNotMatch(text,/\bseals?\b/i);
     assert.equal(await page.locator('.c-game [data-do="menu"],.c-game [data-do="focus"],.c-game [data-do="inspect"]').count(),0);
-    const unwanted=await page.locator('.c-game button:not([disabled]),.c-game select:not([disabled])').evaluateAll(elements=>elements.filter(element=>!element.closest('[inert]')).map(element=>(element as HTMLElement).dataset.do??(element as HTMLElement).dataset.choiceType).filter(action=>!['exit','select','choice','generic','commit','cancel','continue','finish','watch'].includes(action??'')));
+    const unwanted=await page.locator('.c-game button:not([disabled]),.c-game select:not([disabled])').evaluateAll(elements=>elements.filter(element=>!element.closest('[inert]')).map(element=>(element as HTMLElement).dataset.do??(element as HTMLElement).dataset.choiceType).filter(action=>!['exit','select','choice','generic','continue','finish','watch'].includes(action??'')));
     assert.deepEqual(unwanted,[],'tutorial exposes only taught interaction/Exit');
   }
   try{
@@ -128,8 +128,7 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
         if(step.seat===0){
           if(step.card){await clickReachable(page.locator(`[data-do="select"][data-card="${step.card}"]`));await capture(`${prefix}-selected`);await clickReachable(page.locator('[data-do="choice"]'));}
           else await clickReachable(page.locator('[data-do="generic"]'));
-          await expect(page.locator('[data-do="commit"]')).toBeVisible();await capture(`${prefix}-preview`);
-          await clickReachable(page.locator('[data-do="commit"]'));
+          await expect(page.locator('[data-do="commit"],[data-do="cancel"]')).toHaveCount(0);
         }else{
           if(index===1){await page.waitForTimeout(4200);await expect(page.locator('[data-do="continue"]')).toHaveCount(0);await expect(page.locator('.c-guide')).toContainText(step.explanation);await capture(`${prefix}-still-awaiting-watch`);}
           await clickReachable(page.locator('[data-do="watch"]'));
@@ -158,7 +157,7 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
       assert.doesNotMatch(await page.locator('.c-game').innerText(),/\bseals?\b/i);
       if(name==='dense-four-courts') {
         await expect(page.locator('.c-guide')).toContainText('Your hand is empty. Pass');
-        await expect(page.locator('.c-guide')).toContainText('no new cards will be drawn');
+        await expect(page.locator('.c-guide')).toContainText('automatically in 2 seconds');
         await expect(page.locator('[data-do="generic"]')).toHaveText('Pass');
       }
       if(name==='sparse-table'){
@@ -172,7 +171,7 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
           const text=name==='trade-offer'?'Accept trade':name==='trade-decline'?'Decline trade':'Let it happen';
           await clickReachable(page.locator('[data-do="generic"]').filter({hasText:text}));
         }
-        await capture(`${name}-response-preview`);await clickReachable(page.locator('[data-do="commit"]'));
+        await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
         await expect(page.locator('[data-do="unlock"]')).toBeVisible();await capture(`${name}-response-handoff`);await clickReachable(page.locator('[data-do="unlock"]'));await capture(`${name}-resolved`);
       }
     });}

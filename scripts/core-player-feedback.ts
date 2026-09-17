@@ -42,21 +42,19 @@ try {
     async function load(game: CoreState) {
       await page.goto(base);
       await clickReachable(page.locator('[data-do="setup"]'));
-      await page
-        .locator("#save-file")
-        .setInputFiles({
-          name: "response.json",
-          mimeType: "application/json",
-          buffer: Buffer.from(
-            encodeSave({
-              game,
-              mode: "local",
-              names: ["You", "Rival"],
-              lesson: null,
-              motion: false,
-            }),
-          ),
-        });
+      await page.locator("#save-file").setInputFiles({
+        name: "response.json",
+        mimeType: "application/json",
+        buffer: Buffer.from(
+          encodeSave({
+            game,
+            mode: "local",
+            names: ["You", "Rival"],
+            lesson: null,
+            motion: false,
+          }),
+        ),
+      });
       await clickReachable(page.locator('[data-do="unlock"]'));
       await expect(page.locator(".c-card-pick").first()).toBeVisible();
     }
@@ -83,7 +81,7 @@ try {
     // Compact hands deliberately scroll within their own card well. Exercise
     // that real wheel route; never scroll a clipped commitment into view.
     if (viewport.width === 360) {
-      await page.locator('.c-hand-cards').hover();
+      await page.locator(".c-hand-cards").hover();
       await page.mouse.wheel(0, 260);
       await page.waitForTimeout(150);
     }
@@ -93,13 +91,13 @@ try {
     await expect(page.locator("dialog")).toBeVisible();
     await clickReachable(page.locator('[data-do="close"]'));
     if (viewport.width === 360) {
-      await page.locator('.c-hand-cards').hover();
+      await page.locator(".c-hand-cards").hover();
       await page.mouse.wheel(0, -260);
       await page.waitForTimeout(150);
     }
     await clickReachable(valid);
     await clickReachable(page.locator('[data-do="choice"]'));
-    await clickReachable(page.locator('[data-do="commit"]'));
+    await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
     await clickReachable(page.locator('[data-do="unlock"]'));
     await expect(invalid).toBeEnabled();
     assert.equal(
@@ -139,17 +137,17 @@ try {
     await expect(
       page.locator('[data-do="choice"]').filter({ hasText: /^Recruit$/ }),
     ).toHaveCount(0);
+    await expect(page.locator(".c-guide")).toContainText(
+      BY_ID["plantagenet-13"].name,
+    );
+    await expect(page.locator(".c-guide")).toContainText(BY_ID["alba-1"].name);
+    await capture("marriage-choice");
     await clickReachable(
       page
         .locator('[data-do="choice"]')
         .filter({ hasText: `Marry ${BY_ID["alba-1"].name}` }),
     );
-    await expect(page.locator(".c-guide")).toContainText(
-      BY_ID["plantagenet-13"].name,
-    );
-    await expect(page.locator(".c-guide")).toContainText(BY_ID["alba-1"].name);
-    await capture("marriage-preview");
-    await clickReachable(page.locator('[data-do="commit"]'));
+    await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
     await clickReachable(page.locator('[data-do="unlock"]'));
     await expect(
       page.locator('[data-table-card="plantagenet-13"]'),
@@ -204,14 +202,14 @@ try {
         .every((text) => text.includes(BY_ID["alba-2"].name)),
     );
     await page.locator('[data-choice-type="trade"]').selectOption({ index: 1 });
-    await capture("trade-preview");
-    await clickReachable(page.locator('[data-do="commit"]'));
+    await capture("trade-selected-handoff");
+    await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
     await clickReachable(page.locator('[data-do="unlock"]'));
     await capture("trade-response");
     await clickReachable(
       page.locator('[data-do="generic"]').filter({ hasText: "Accept trade" }),
     );
-    await clickReachable(page.locator('[data-do="commit"]'));
+    await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
     await clickReachable(page.locator('[data-do="unlock"]'));
     await capture("trade-complete");
     const exchanged = await page.evaluate(

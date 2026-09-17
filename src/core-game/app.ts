@@ -45,7 +45,6 @@ let motion = !matchMedia("(prefers-reduced-motion: reduce)").matches;
 let viewer = 0;
 let privateLocked = false;
 let selected: string | null = null;
-let chosen: CoreAction | null = null;
 let table: CoreTable | null = null;
 let timer: ReturnType<typeof setTimeout> | null = null;
 let generation = 0;
@@ -97,7 +96,6 @@ async function home() {
   window.scrollTo(0, 0);
   game = null;
   lesson = null;
-  chosen = null;
   selected = null;
   root.innerHTML = `<main class="c-opening"><section>${logo()}<p class="c-kicker">THE WEIGHT OF THE CROWN</p><p class="c-opening-lead">A family can claim power.<br>Can it keep the succession?</p><p>Play historical people as visible allies or keep them hidden to answer a rival. The same card cannot do both.</p><div class="c-opening-actions">${btn("Learn at the table", "intro", 'class="primary"')}${btn("Play the core game", "setup")}${saved ? btn("Resume your table", "resume") : ""}</div><p class="c-subtle">Core succession prototype · 2–4 players<br>Physical cards. A shared table. Private intentions.</p>${notice ? `<p role="alert">${esc(notice)}</p>` : ""}</section><div class="c-showcase" aria-label="Collectible Dynasty cards"><p>Preparing the cards…</p></div><footer>Original concept © 2025 Malachy Murray</footer></main>`;
   bind();
@@ -151,7 +149,6 @@ async function start(
   mode = nextMode;
   lesson = nextLesson;
   selected = null;
-  chosen = null;
   outcome = "";
   privateLocked = mode === "local";
   viewer = 0;
@@ -242,7 +239,6 @@ async function render() {
   const renderToken = ++renderSequence;
   const loadToken = generation;
   stopTimer();
-  chosen = chosen && chosen.revision === game.revision ? chosen : null;
   const actor = actingSeat();
   if (mode === "local" && privateLocked && !game.result) {
     table?.dispose();
@@ -263,6 +259,11 @@ async function render() {
     (a) => a.card === selected && a.type !== "pass",
   );
   const generic = available.filter((a) => !a.card);
+  const autoPass =
+    humanTurn &&
+    hand.length === 0 &&
+    game.phase === "action" &&
+    generic.some((a) => a.type === "pass");
   const pendingDescription = game.pending
     ? game.pending.type === "trade"
       ? `Offer from ${names[game.pending.seat]}: ${nameOf(game.pending.card)} for ${nameOf(game.pending.request!)} in ${names[game.pending.other]}’s Played pile.${game.pending.recruit ? " On acceptance, the lower native card joins the rival’s Court." : " Accept to exchange them in Played until next round."}`
@@ -272,9 +273,12 @@ async function render() {
     ? lesson.done
       ? taught!.outcome
       : taught!.explanation
-    : chosen
-      ? describe(chosen)
-      : pendingDescription ||
+    : selectedActions.length === 1
+      ? describe(selectedActions[0])
+      : (autoPass
+          ? "Your hand is empty. Passing automatically in 2 seconds."
+          : "") ||
+        pendingDescription ||
         outcome ||
         (hand.length
           ? "Choose a card from your hand to see what that person can do. Keep a useful rank hidden if you expect to defend."
@@ -290,14 +294,18 @@ async function render() {
       })
       .join("") ||
     '<p class="c-empty">Your hand is empty. Played cards return next round.</p>'
-  }</div></section><section class="c-guide" aria-label="Action and outcome"><p class="c-kicker">${lesson ? "ONE MOVE AT A TIME" : humanTurn ? "YOUR OPPORTUNITY" : "AT THE TABLE"}</p><h2>${esc(lesson ? taught!.title : chosen ? label[chosen.type] : game.result ? "The game has ended" : humanTurn ? (selected ? nameOf(selected) : "Your cards, your choices") : `${names[actor]} is considering a move`)}</h2><p>${esc(currentGuide)}</p>${notice ? `<p class="c-error" role="alert">${esc(notice)}</p>` : ""}<div class="c-action-area">${lesson?.done && lesson.cursor === TEACHING.length - 1 ? btn("Finish lesson", "finish", 'class="primary"') : ""}${lesson?.done && lesson.cursor < TEACHING.length - 1 ? btn("Continue", "continue", 'class="primary"') : ""}${lesson && !lesson.done && taught!.seat !== viewer ? btn("Watch the rival move", "watch", 'class="primary next-interaction"') : ""}${!lesson?.done && humanTurn ? (chosen ? `${btn(`Confirm ${label[chosen.type]}`, "commit", 'class="primary next-interaction"')}${btn("Cancel", "cancel")}` : `${renderChoices(selectedActions)}${generic.map((a, i) => btn(a.type === "decline" && game!.phase === "trade" ? "Decline trade" : label[a.type], "generic", `data-index="${i}" class="${lesson ? "next-interaction" : ""}"`)).join("")}`) : ""}${game.result && !lesson ? btn("Play another game", "setup", 'class="primary"') : ""}</div></section></section></main>`;
+  }</div></section><section class="c-guide" aria-label="Action and outcome"><p class="c-kicker">${lesson ? "ONE MOVE AT A TIME" : humanTurn ? "YOUR OPPORTUNITY" : "AT THE TABLE"}</p><h2>${esc(lesson ? taught!.title : game.result ? "The game has ended" : humanTurn ? (selected ? nameOf(selected) : "Your cards, your choices") : `${names[actor]} is considering a move`)}</h2><p>${esc(currentGuide)}</p>${notice ? `<p class="c-error" role="alert">${esc(notice)}</p>` : ""}<div class="c-action-area">${lesson?.done && lesson.cursor === TEACHING.length - 1 ? btn("Finish lesson", "finish", 'class="primary"') : ""}${lesson?.done && lesson.cursor < TEACHING.length - 1 ? btn("Continue", "continue", 'class="primary"') : ""}${lesson && !lesson.done && taught!.seat !== viewer ? btn("Watch the rival move", "watch", 'class="primary next-interaction"') : ""}${!lesson?.done && humanTurn ? `${renderChoices(selectedActions)}${generic.map((a, i) => btn(a.type === "decline" && game!.phase === "trade" ? "Decline trade" : a.type === "pass" && autoPass ? "<span>Pass</span>" : label[a.type], "generic", `data-index="${i}" class="${lesson ? "next-interaction" : ""} ${a.type === "pass" && autoPass ? "c-auto-pass" : ""}"`)).join("")}` : ""}${game.result && !lesson ? btn("Play another game", "setup", 'class="primary"') : ""}</div></section></section></main>`;
   const freshHost = root.querySelector<HTMLElement>("#core-table")!;
   if (retained && table) freshHost.replaceWith(retained);
   else {
     table?.dispose();
     try {
       table = new CoreTable(freshHost, (id) => {
-        if (!lesson) inspect(id);
+        if (!lesson) {
+          const seat = game!.players.findIndex((p) => p.played.includes(id));
+          if (seat >= 0) playedPile(seat);
+          else inspect(id);
+        }
       });
     } catch {
       table = null;
@@ -323,6 +331,25 @@ async function render() {
     root.querySelector(".c-table-nav")!.innerHTML = "";
   }
   bind();
+  if (autoPass && !document.hidden && !document.querySelector("dialog[open]")) {
+    const button = root.querySelector<HTMLButtonElement>(".c-auto-pass");
+    const revision = game.revision;
+    button?.classList.toggle("reduced-countdown", !motion);
+    button?.classList.add("is-draining");
+    timer = setTimeout(() => {
+      if (
+        !game ||
+        game.revision !== revision ||
+        busy ||
+        privateLocked ||
+        document.hidden ||
+        document.querySelector("dialog[open]") ||
+        !button?.isConnected
+      )
+        return;
+      button.click();
+    }, 2000);
+  }
   if (!game.result && !lesson && mode !== "local" && actor !== viewer) {
     const revision = game.revision;
     timer = setTimeout(() => {
@@ -349,7 +376,7 @@ function renderChoices(list: CoreAction[]): string {
             ? `Marry ${nameOf(subset[0].supporter!)}`
             : label[type],
           "choice",
-          `data-index="${list.indexOf(subset[0])}" class="${lesson ? "next-interaction" : ""}"`,
+          `data-index="${list.indexOf(subset[0])}" title="${esc(describe(subset[0]))}" class="primary ${lesson ? "next-interaction" : ""}"`,
         );
       return `<label>${label[type]}<select data-choice-type="${type}"><option value="">Choose ${type === "trade" ? "a bargain" : "a person"}</option>${subset.map((a) => `<option value="${list.indexOf(a)}">${esc(type === "trade" ? `${names[a.other!]}: ${nameOf(a.request!)}${a.recruit ? " · recruit now" : ""}` : nameOf(a.target ?? a.supporter!))}</option>`).join("")}</select></label>`;
     })
@@ -365,7 +392,6 @@ async function commit(action: CoreAction) {
   try {
     game = applyAction(game, action);
     notice = "";
-    chosen = null;
     selected = null;
     outcome = game.events.at(-1) ?? describe(action);
     if (lesson) lesson = { ...lesson, done: true };
@@ -377,7 +403,6 @@ async function commit(action: CoreAction) {
       error instanceof Error
         ? error.message
         : "That move is no longer available.";
-    chosen = null;
     await render();
   }
 }
@@ -465,9 +490,20 @@ function marriageHint(id: string): string {
   }
   return `<p class="c-marriage-hint">Foreign cards enter Court through marriage. ${esc(hint)}</p>`;
 }
-function inspect(id: string) {
+function playedPile(seat: number) {
+  const pile = game?.players[seat]?.played;
+  if (!pile) return;
   modal(
-    `<h2>${esc(nameOf(id))}</h2>${marriageHint(id)}<div class="c-inspection-card">${faceHTML(id, { reference: true })}</div><p>Printed rank ${BY_ID[id].rank} · ${esc(dynastyName(BY_ID[id].dynasty))}${BY_ID[id].queen ? " · Queen role" : ""}</p><p>A native card can join your Court or become an heir. Recall matches the target’s Dynasty; defense compares lead and answer. An undefended Recall exchanges the lead for the target. Both go to their new owners’ Played areas until next round.</p>${btn("Reference rules", "rules")}`,
+    `<h2>${esc(names[seat])} · Played pile</h2><p>${pile.length} face-up cards · Returns next round. Select a card to examine it.</p><div class="c-played-fan" aria-label="Played cards">${pile.map((id, i) => `<button data-do="inspect-played" data-card="${id}" data-seat="${seat}" style="--fan-angle:${Math.max(-5, Math.min(5, (i - (pile.length - 1) / 2) * 2))}deg" aria-label="Inspect ${esc(nameOf(id))}">${faceHTML(id, { reference: true })}</button>`).join("")}</div>`,
+  );
+}
+function inspect(id: string, pileSeat?: number) {
+  const back =
+    pileSeat === undefined
+      ? ""
+      : btn("Back to Played pile", "played-pile", `data-seat="${pileSeat}"`);
+  modal(
+    `<h2>${esc(nameOf(id))}</h2>${back}${marriageHint(id)}<div class="c-inspection-card">${faceHTML(id, { reference: true })}</div><p>Printed rank ${BY_ID[id].rank} · ${esc(dynastyName(BY_ID[id].dynasty))}${BY_ID[id].queen ? " · Queen role" : ""}</p><p>A native card can join your Court or become an heir. Recall matches the target’s Dynasty; defense compares lead and answer. An undefended Recall exchanges the lead for the target. Both go to their new owners’ Played areas until next round.</p>${btn("Reference rules", "rules")}`,
   );
 }
 function rules() {
@@ -484,6 +520,7 @@ function bind(scope: ParentNode = root) {
   scope.querySelectorAll<HTMLButtonElement>("[data-do]").forEach(
     (el) =>
       (el.onclick = async () => {
+        if (!el.isConnected) return;
         const action = el.dataset.do!;
         if (action === "home") {
           await home();
@@ -616,6 +653,14 @@ function bind(scope: ParentNode = root) {
           inspect(el.dataset.card!);
           return;
         }
+        if (action === "inspect-played") {
+          inspect(el.dataset.card!, Number(el.dataset.seat));
+          return;
+        }
+        if (action === "played-pile") {
+          playedPile(Number(el.dataset.seat));
+          return;
+        }
         if (action === "motion") {
           motion = !motion;
           persist();
@@ -635,23 +680,17 @@ function bind(scope: ParentNode = root) {
         }
         if (action === "select") {
           selected = el.dataset.card!;
-          chosen = null;
           await render();
           return;
         }
-        if (action === "cancel") {
-          chosen = null;
-          await render();
-          return;
-        }
-        if (action === "choice")
-          chosen = actions().filter(
-            (a) => a.card === selected && a.type !== "pass",
-          )[Number(el.dataset.index)];
-        if (action === "generic")
-          chosen = actions().filter((a) => !a.card)[Number(el.dataset.index)];
-        if (action === "commit" && chosen) {
-          await commit(chosen);
+        if (action === "choice" || action === "generic") {
+          const candidate =
+            action === "choice"
+              ? actions().filter(
+                  (a) => a.card === selected && a.type !== "pass",
+                )[Number(el.dataset.index)]
+              : actions().filter((a) => !a.card)[Number(el.dataset.index)];
+          if (candidate) await commit(candidate);
           return;
         }
         await render();
@@ -660,11 +699,11 @@ function bind(scope: ParentNode = root) {
   scope.querySelectorAll<HTMLSelectElement>("[data-choice-type]").forEach(
     (el) =>
       (el.onchange = () => {
-        if (el.value === "") return;
-        chosen = actions().filter(
+        if (!el.isConnected || el.value === "") return;
+        const candidate = actions().filter(
           (a) => a.card === selected && a.type !== "pass",
         )[Number(el.value)];
-        void render();
+        if (candidate) void commit(candidate);
       }),
   );
 }
@@ -686,3 +725,9 @@ window.visualViewport?.addEventListener("resize", updateViewport);
 window.addEventListener("resize", updateViewport);
 updateViewport();
 void home();
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) stopTimer();
+  else if (game && !busy && !document.querySelector("dialog[open]"))
+    void render();
+});

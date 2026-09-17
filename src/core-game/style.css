@@ -364,6 +364,34 @@ a {
   opacity: 0.5;
   filter: grayscale(1) drop-shadow(3px 7px 5px #0009);
 }
+
+.c-auto-pass {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #fff4d7;
+  background: #102833;
+  min-width: 100px;
+}
+.c-auto-pass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #76531e;
+  transform-origin: left;
+}
+.c-auto-pass.is-draining::before {
+  animation: core-pass-drain 2s linear forwards;
+}
+.c-auto-pass.reduced-countdown::before {
+  animation-timing-function: steps(4, end);
+}
+@keyframes core-pass-drain {
+  to {
+    transform: scaleX(0);
+  }
+}
 .c-held-card.selected .c-card-pick,
 .c-held-card.next-interaction .c-card-pick {
   outline: 3px solid #e2bd6d;
@@ -961,4 +989,28 @@ a {
     width: fit-content;
     margin: 4px 10px;
   }
+}
+
+.c-played-fan {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding: 24px 20px 32px;
+  background: #203d32;
+  border: 1px solid #a78e53;
+  border-radius: 16px;
+  box-shadow: inset 0 3px 14px #0006;
+}
+.c-played-fan > button {
+  flex: 0 0 210px;
+  width: 210px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  transform: rotate(var(--fan-angle));
+  box-shadow: 3px 8px 9px #0008;
+}
+.c-played-fan > button:focus-visible {
+  outline: 3px solid #e4c87f;
+  outline-offset: 5px;
 }
