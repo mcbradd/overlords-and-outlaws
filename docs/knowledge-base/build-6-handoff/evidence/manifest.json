@@ -1,0 +1,116 @@
+[
+  {
+    "file": "blind-build5-observations.md",
+    "source": "artifacts/core/blind-build5/observations.md",
+    "bytes": 19470,
+    "sha256": "a531f376a31dd32553e8e3585a6fecfeed36586ad6297c7002967346609f0dd5"
+  },
+  {
+    "file": "experience-desktop1366.json",
+    "source": "artifacts/core/build5-visual-review/experience-desktop1366.json",
+    "bytes": 44996,
+    "sha256": "ef716d17f3bd6326b73f9bc3284dad222274d44beef58758ddde1242075c248a"
+  },
+  {
+    "file": "experience-landscape844.json",
+    "source": "artifacts/core/build5-visual-review/experience-landscape844.json",
+    "bytes": 46170,
+    "sha256": "1f420f5a4c8d7569c8c9072cbeada879914e672c1f649705a47917c634e81015"
+  },
+  {
+    "file": "experience-portrait.json",
+    "source": "artifacts/core/build5-visual-review/experience-portrait.json",
+    "bytes": 226113,
+    "sha256": "86e038652115bd09aa2a72fcd25424b450087d23d5ee5a3df4db64ab911f2a17"
+  },
+  {
+    "file": "experience-tablet1024.json",
+    "source": "artifacts/core/build5-visual-review/experience-tablet1024.json",
+    "bytes": 42114,
+    "sha256": "e94dd55ff90ced7737bef7b1361036269e27e1c92cc1326ee5267824038d3f5f"
+  },
+  {
+    "file": "experience-tablet768.json",
+    "source": "artifacts/core/build5-visual-review/experience-tablet768.json",
+    "bytes": 42999,
+    "sha256": "8a7410babb9145c704d8addcf9f3f582d5e5c2c76999512dfb1970be24c3967c"
+  },
+  {
+    "file": "production-4k-complete.json",
+    "source": "tmp/build5-release-7e521f8/artifacts/core/visual-review-production-audit/4k-complete.json",
+    "bytes": 52199,
+    "sha256": "4b1dfad12b8c8ec29777980db4b00c842f0442ed7d713fb684ab698737edc857"
+  },
+  {
+    "file": "production-cross-review.md",
+    "source": "tmp/build5-release-7e521f8/artifacts/core/visual-review-production-audit/production-cross-review.md",
+    "bytes": 9388,
+    "sha256": "57c556d0c9878c5882358e8ebefe407f24decc0f56183a511a1fa0fdfda32e5f"
+  },
+  {
+    "file": "production-ledger.json",
+    "source": "tmp/build5-release-7e521f8/artifacts/core/visual-review-production-audit/ledger.json",
+    "bytes": 178889,
+    "sha256": "1221811d6e9d07bbea793de98b028d5f9fd518fdeb41214017a1c9d2331eba5b"
+  },
+  {
+    "file": "production-square-complete.json",
+    "source": "tmp/build5-release-7e521f8/artifacts/core/visual-review-production-audit/square-complete.json",
+    "bytes": 49008,
+    "sha256": "4bd1f2be04811671cd9b5ef2052d0b0ad19d002e7b2689a7f68a16c7c72cf3c3"
+  },
+  {
+    "file": "rank-choice-probe.json",
+    "source": "artifacts/core/rank-choice-probe.json",
+    "bytes": 2277,
+    "sha256": "dd3c30dd7494d654666523c514e56dcf3e7648df45e6f8782f6705ec3692383f"
+  },
+  {
+    "file": "rank-choice-probe.ts.txt",
+    "source": "artifacts/core/rank-choice-probe.ts",
+    "bytes": 2037,
+    "sha256": "5c90046c1aab651df8f24e353ca4380c60f75480288fe12e67058b6f21b76969"
+  },
+  {
+    "file": "release-failure-classification.json",
+    "source": "tmp/build5-release-7e521f8/artifacts/core/visual-review-production-audit/release-failure-classification.json",
+    "bytes": 7691,
+    "sha256": "399972a15ad9243d5a442d31f221b5b85791fd6079d38d38d14000fd3b5757b7"
+  },
+  {
+    "file": "release-report.json",
+    "source": "tmp/build5-release-7e521f8/artifacts/release/2026-09-17T18-34-18-275Z/report.json",
+    "bytes": 10114,
+    "sha256": "e01c1f8e71168a31dd43c158aac5ee70cb3e7b020a78c392342e16cdb6f14275"
+  },
+  {
+    "file": "root-1440-complete.json",
+    "source": "artifacts/core/build5-visual-review/root-1440-complete.json",
+    "bytes": 36196,
+    "sha256": "4fdab5d1a60462945538cf104dbde61a41a3cad11ed4573153f99afb3a7d13ba"
+  },
+  {
+    "file": "root-1536-complete.json",
+    "source": "artifacts/core/build5-visual-review/root-1536-complete.json",
+    "bytes": 29516,
+    "sha256": "c2cf7d6e6aee6e91f7097dbdca6d7f04b80756ee271d67bbe266425dcc47ff30"
+  },
+  {
+    "file": "root-1920-complete.json",
+    "source": "artifacts/core/build5-visual-review/root-1920-complete.json",
+    "bytes": 29010,
+    "sha256": "0856ba958777f603587c8b3053daf6594580a6229f05f4cffd3a537f1094ba04"
+  },
+  {
+    "file": "root-2560-complete.json",
+    "source": "artifacts/core/build5-visual-review/root-2560-complete.json",
+    "bytes": 29132,
+    "sha256": "65316f689c101049ddab6d341644f96743058da5e6a340337bddd15c557f12b1"
+  },
+  {
+    "file": "root-desktop-complete-1280.json",
+    "source": "artifacts/core/build5-visual-review/root-desktop-complete-1280.json",
+    "bytes": 38032,
+    "sha256": "93a6efb1191b863a9f48aec8f553398d594f550aed75fb9796b00c7e877faae2"
+  }
+]

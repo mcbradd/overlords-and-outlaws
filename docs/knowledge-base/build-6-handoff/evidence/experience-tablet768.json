@@ -1,0 +1,903 @@
+{
+  "sourceSHA": "7e521f8b29d704291f00af3a9db245fddae00b94",
+  "browser": "152.0.7977.83",
+  "status": "All 112 captures actually opened and visually inspected at rendered resolution.",
+  "images": [
+    {
+      "viewport": "768x1024",
+      "index": 0,
+      "state": "opening",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/000-opening.png",
+      "verdict": "PASS",
+      "findings": "Logo, primary text/actions, all three historical portraits legible and complete; copyright below fold."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 1,
+      "state": "introduction",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/001-introduction.png",
+      "verdict": "PASS",
+      "findings": "Intro full objectives, prose and both controls readable with ample space."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 2,
+      "state": "introduction-action-after-deliberate-scroll",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/002-introduction-action-after-deliberate-scroll.png",
+      "verdict": "PASS",
+      "findings": "Intro full objectives, prose and both controls readable with ample space."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 3,
+      "state": "tutorial-01-recruit-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/003-tutorial-01-recruit-explanation.png",
+      "verdict": "PASS",
+      "findings": "Opening lesson explanation and two hand cards fit; both rulers/Draw/Crown visible; unused vertical table space but no obstruction."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 4,
+      "state": "tutorial-01-recruit-selected",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/004-tutorial-01-recruit-selected.png",
+      "verdict": "PASS",
+      "findings": "Both Courts, Draw/Crown, hand and entire guide/action fit. Active marker separate from table; badge clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 5,
+      "state": "tutorial-01-recruit-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/005-tutorial-01-recruit-preview.png",
+      "verdict": "PASS",
+      "findings": "Both Courts, Draw/Crown, hand and entire guide/action fit. Active marker separate from table; badge clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 6,
+      "state": "tutorial-01-recruit-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/006-tutorial-01-recruit-outcome.png",
+      "verdict": "PASS",
+      "findings": "Both Courts, Draw/Crown, hand and entire guide/action fit. Active marker separate from table; badge clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 7,
+      "state": "tutorial-02-recall-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/007-tutorial-02-recall-explanation.png",
+      "verdict": "PASS",
+      "findings": "Both Courts, Draw/Crown, hand and entire guide/action fit. Active marker separate from table; badge clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 8,
+      "state": "tutorial-02-recall-still-awaiting-watch",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/008-tutorial-02-recall-still-awaiting-watch.png",
+      "verdict": "PASS",
+      "findings": "Watch and full explanation fit with both rulers, supporter, hand clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 9,
+      "state": "tutorial-02-recall-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/009-tutorial-02-recall-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Recall line crosses Draw20 and HenryII portrait; guide Continue fits, cards otherwise clean."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 10,
+      "state": "tutorial-03-defend-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/010-tutorial-03-defend-explanation.png",
+      "verdict": "FAIL",
+      "findings": "Severe cream/black horizontal striping obscures top halves/ranks of all three Court portraits plus rival Played. Recall line strikes Draw20. Hand/explanation fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 11,
+      "state": "tutorial-03-defend-selected",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/011-tutorial-03-defend-selected.png",
+      "verdict": "FAIL",
+      "findings": "Portraits clean again, but Recall line crosses Draw20/HenryII; guide Defend fully fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 12,
+      "state": "tutorial-03-defend-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/012-tutorial-03-defend-preview.png",
+      "verdict": "FAIL",
+      "findings": "Recall line crosses Draw20/HenryII portrait; clean portraits and full confirm controls."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 13,
+      "state": "tutorial-03-defend-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/013-tutorial-03-defend-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Played return label intersects MalcolmIII card right edge; outcome/Pass/confirm fully fit; portraits clean."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 14,
+      "state": "tutorial-04-pass-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/014-tutorial-04-pass-explanation.png",
+      "verdict": "FAIL",
+      "findings": "Played return label intersects MalcolmIII card right edge; outcome/Pass/confirm fully fit; portraits clean."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 15,
+      "state": "tutorial-04-pass-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/015-tutorial-04-pass-preview.png",
+      "verdict": "FAIL",
+      "findings": "Played return label intersects MalcolmIII card right edge; outcome/Pass/confirm fully fit; portraits clean."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 16,
+      "state": "tutorial-04-pass-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/016-tutorial-04-pass-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Full readable guide/action fits and both courts visible; return label crosses Malcolm card edge."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 17,
+      "state": "tutorial-05-recruit-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/017-tutorial-05-recruit-explanation.png",
+      "verdict": "FAIL",
+      "findings": "Full readable guide/action fits and both courts visible; return label crosses Malcolm card edge. Lesson describes card backs absent from numeric concealed-hand representation."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 18,
+      "state": "tutorial-05-recruit-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/018-tutorial-05-recruit-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Full readable guide/action fits and both courts visible; return label crosses Malcolm card edge. Rival return label also crosses Richard I edge."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 19,
+      "state": "tutorial-06-pass-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/019-tutorial-06-pass-explanation.png",
+      "verdict": "FAIL",
+      "findings": "Full readable guide/action fits and both courts visible; return label crosses Malcolm card edge. Rival return label also crosses Richard I edge."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 20,
+      "state": "tutorial-06-pass-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/020-tutorial-06-pass-preview.png",
+      "verdict": "FAIL",
+      "findings": "Return labels cross Malcolm/Richard card edges; guide actions fit, all cards clean."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 21,
+      "state": "tutorial-06-pass-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/021-tutorial-06-pass-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Return labels cross Malcolm/Richard card edges; guide actions fit, all cards clean."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 22,
+      "state": "tutorial-07-pass-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/022-tutorial-07-pass-explanation.png",
+      "verdict": "FAIL",
+      "findings": "Return labels cross Malcolm/Richard card edges; guide actions fit, all cards clean."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 23,
+      "state": "tutorial-07-pass-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/023-tutorial-07-pass-outcome.png",
+      "verdict": "PASS",
+      "findings": "Round2 return shown in two clear hand cards, Draw18 and both courts visible; Continue full fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 24,
+      "state": "tutorial-08-pass-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/024-tutorial-08-pass-explanation.png",
+      "verdict": "PASS",
+      "findings": "Both public courts, Draw/Crown and two clear hand cards visible; lesson entire prose and current action fit, badge clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 25,
+      "state": "tutorial-08-pass-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/025-tutorial-08-pass-outcome.png",
+      "verdict": "PASS",
+      "findings": "Both public courts, Draw/Crown and two clear hand cards visible; lesson entire prose and current action fit, badge clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 26,
+      "state": "tutorial-09-name-heir-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/026-tutorial-09-name-heir-explanation.png",
+      "verdict": "PASS",
+      "findings": "Both public courts, Draw/Crown and two clear hand cards visible; lesson entire prose and current action fit, badge clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 27,
+      "state": "tutorial-09-name-heir-selected",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/027-tutorial-09-name-heir-selected.png",
+      "verdict": "PASS",
+      "findings": "Both public courts, Draw/Crown and two clear hand cards visible; lesson entire prose and current action fit, badge clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 28,
+      "state": "tutorial-09-name-heir-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/028-tutorial-09-name-heir-preview.png",
+      "verdict": "PASS",
+      "findings": "Name heir confirmation and full guide fit; clean cards and clear hand."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 29,
+      "state": "tutorial-09-name-heir-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/029-tutorial-09-name-heir-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Header You claims; guide/actions fit, Crown roles visible but board face text small."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 30,
+      "state": "tutorial-10-recall-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/030-tutorial-10-recall-explanation.png",
+      "verdict": "FAIL",
+      "findings": "Header You claims; guide/actions fit, Crown roles visible but board face text small."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 31,
+      "state": "tutorial-10-recall-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/031-tutorial-10-recall-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Cream/black stripe interference at upper-left/ranks of all Court cards, Recall line crosses Draw18 and rival portraits; Continue fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 32,
+      "state": "tutorial-11-defend-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/032-tutorial-11-defend-explanation.png",
+      "verdict": "FAIL",
+      "findings": "Severe broad cream/black striping through Court portraits, Recall across Draw18, header You claims. Guide fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 33,
+      "state": "tutorial-11-defend-selected",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/033-tutorial-11-defend-selected.png",
+      "verdict": "FAIL",
+      "findings": "Court portraits clean; Recall across Draw18 and rival portraits, header You claims; hand/Defend controls fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 34,
+      "state": "tutorial-11-defend-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/034-tutorial-11-defend-preview.png",
+      "verdict": "FAIL",
+      "findings": "Court portraits clean; Recall across Draw18 and rival portraits, header You claims; hand/Defend controls fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 35,
+      "state": "tutorial-11-defend-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/035-tutorial-11-defend-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Diagonal cream line interference through upper corners of Court portraits; Returns label overlaps AlexanderII edge; guide Continue fully visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 36,
+      "state": "tutorial-12-pass-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/036-tutorial-12-pass-explanation.png",
+      "verdict": "FAIL",
+      "findings": "Severe cream horizontal stripe corruption across five Court portraits and both Played; return label crosses heir edge. Full guide/actions still visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 37,
+      "state": "tutorial-12-pass-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/037-tutorial-12-pass-preview.png",
+      "verdict": "FAIL",
+      "findings": "Severe cream horizontal stripe corruption across five Court portraits and both Played; return label crosses heir edge. Full guide/actions still visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 38,
+      "state": "tutorial-12-pass-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/038-tutorial-12-pass-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Diagonal line corruption upper Court corners, return label crosses heir edge; outcome fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 39,
+      "state": "tutorial-13-recruit-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/039-tutorial-13-recruit-explanation.png",
+      "verdict": "FAIL",
+      "findings": "Severe cream horizontal stripe corruption across five Court portraits and both Played; return label crosses heir edge. Full guide/actions still visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 40,
+      "state": "tutorial-13-recruit-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/040-tutorial-13-recruit-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Diagonal fine cream streaks across Court upper corners; return labels cross heir/John edge. Full guide Continue fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 41,
+      "state": "tutorial-14-pass-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/041-tutorial-14-pass-explanation.png",
+      "verdict": "FAIL",
+      "findings": "All six Court portraits and Played severely striped with cream bands; guide Pass/confirm readable and fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 42,
+      "state": "tutorial-14-pass-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/042-tutorial-14-pass-preview.png",
+      "verdict": "FAIL",
+      "findings": "All six Court portraits and Played severely striped with cream bands; guide Pass/confirm readable and fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 43,
+      "state": "tutorial-14-pass-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/043-tutorial-14-pass-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Diagonal fine cream streaks across Court upper corners; return labels cross heir/John edge. Full guide Continue fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 44,
+      "state": "tutorial-15-pass-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/044-tutorial-15-pass-explanation.png",
+      "verdict": "FAIL",
+      "findings": "Severe horizontal striping across six Court/Played portraits; Watch and explanation fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 45,
+      "state": "tutorial-15-pass-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/045-tutorial-15-pass-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Court rank-corner stripe corruption on all six; transfer/roles visible but You wins grammar. Hand/Continue fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 46,
+      "state": "tutorial-16-pass-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/046-tutorial-16-pass-explanation.png",
+      "verdict": "FAIL",
+      "findings": "Header You wins; otherwise clean six-card court and full hand/Pass/confirm visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 47,
+      "state": "tutorial-16-pass-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/047-tutorial-16-pass-preview.png",
+      "verdict": "FAIL",
+      "findings": "Header You wins; otherwise clean six-card court and full hand/Pass/confirm visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 48,
+      "state": "tutorial-16-pass-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/048-tutorial-16-pass-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Upper-left rank/portrait stripe corruption across six Court cards; guide Continue fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 49,
+      "state": "tutorial-17-recall-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/049-tutorial-17-recall-explanation.png",
+      "verdict": "FAIL",
+      "findings": "You wins header grammar; otherwise clean Court/hand and full Watch guide."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 50,
+      "state": "tutorial-17-recall-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/050-tutorial-17-recall-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Upper-left stripe corruption across Court, Recall line through Draw16/three rival portraits; Continue fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 51,
+      "state": "tutorial-18-defend-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/051-tutorial-18-defend-explanation.png",
+      "verdict": "FAIL",
+      "findings": "Severe broad cream stripe corruption through all six Court portraits, Recall line across Draw16; full hand/explanation fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 52,
+      "state": "tutorial-18-defend-selected",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/052-tutorial-18-defend-selected.png",
+      "verdict": "FAIL",
+      "findings": "Recall line crosses Draw16 and three rival portraits, John edge return-label overlap; clean portraits and full Defend/confirm fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 53,
+      "state": "tutorial-18-defend-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/053-tutorial-18-defend-preview.png",
+      "verdict": "FAIL",
+      "findings": "Recall line crosses Draw16 and three rival portraits, John edge return-label overlap; clean portraits and full Defend/confirm fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 54,
+      "state": "tutorial-18-defend-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/054-tutorial-18-defend-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Rank-corner stripe corruption across Court, return labels intersect AlexanderII/John edges; Continue fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 55,
+      "state": "tutorial-19-pass-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/055-tutorial-19-pass-explanation.png",
+      "verdict": "FAIL",
+      "findings": "Returns labels cross AlexanderII/John card edges; clean portraits and full Pass guide fit; You wins grammar."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 56,
+      "state": "tutorial-19-pass-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/056-tutorial-19-pass-preview.png",
+      "verdict": "FAIL",
+      "findings": "Return labels intersect AlexanderII/John edges; clean portraits and full guide/action fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 57,
+      "state": "tutorial-19-pass-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/057-tutorial-19-pass-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Upper-left stripe corruption on Court portraits; overlapping return labels, Continue fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 58,
+      "state": "tutorial-20-recruit-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/058-tutorial-20-recruit-explanation.png",
+      "verdict": "FAIL",
+      "findings": "Return labels intersect AlexanderII/John edges; clean portraits and full guide/action fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 59,
+      "state": "tutorial-20-recruit-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/059-tutorial-20-recruit-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Broad horizontal cream bands obscure upper half of all six upper-row Court cards; new HenryIII below appears clean. Full outcome guide/hand fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 60,
+      "state": "tutorial-21-pass-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/060-tutorial-21-pass-explanation.png",
+      "verdict": "FAIL",
+      "findings": "You wins grammatical error; otherwise clean seven-card Court/Played with full guide/actions fit and no label overlap now."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 61,
+      "state": "tutorial-21-pass-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/061-tutorial-21-pass-preview.png",
+      "verdict": "FAIL",
+      "findings": "You wins grammatical error; otherwise clean seven-card Court/Played with full guide/actions fit and no label overlap now."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 62,
+      "state": "tutorial-21-pass-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/062-tutorial-21-pass-outcome.png",
+      "verdict": "FAIL",
+      "findings": "Cream banding across upper halves six Court cards; lower HenryIII clean, Continue fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 63,
+      "state": "tutorial-22-pass-explanation",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/063-tutorial-22-pass-explanation.png",
+      "verdict": "FAIL",
+      "findings": "You wins grammatical error; otherwise clean seven-card Court/Played with full guide/actions fit and no label overlap now."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 64,
+      "state": "tutorial-22-pass-outcome",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/064-tutorial-22-pass-outcome.png",
+      "verdict": "PASS",
+      "findings": "Win objective, complete Finish lesson and clear seven-card table/hand visible; portraits clean."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 65,
+      "state": "post-lesson-reflection",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/065-post-lesson-reflection.png",
+      "verdict": "PASS",
+      "findings": "Reflection entire text and three controls visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 66,
+      "state": "new-table-setup",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/066-new-table-setup.png",
+      "verdict": "PASS",
+      "findings": "Complete setup including import file visible and readable."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 67,
+      "state": "name-entry-focused",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/067-name-entry-focused.png",
+      "verdict": "PASS",
+      "findings": "Long focused name fully visible with full focus outline and comfortable surrounding form."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 68,
+      "state": "name-entry-simulated-keyboard",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/068-name-entry-simulated-keyboard.png",
+      "verdict": "PASS",
+      "findings": "Simulated keyboard reduced area retains complete focused name field and label with margin."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 69,
+      "state": "sparse-table-private-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/069-sparse-table-private-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff clear complete."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 70,
+      "state": "sparse-table",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/070-sparse-table.png",
+      "verdict": "PASS",
+      "findings": "Full sparse board, hand names/verbs/Inspect and guide Pass visible, badge clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 71,
+      "state": "rules-and-table-menu",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/071-rules-and-table-menu.png",
+      "verdict": "PASS",
+      "findings": "Complete menu readable, every control and privacy note visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 72,
+      "state": "reference-inspection",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/072-reference-inspection.png",
+      "verdict": "PASS",
+      "findings": "Whole reference card index, operative reminder and reference rules/Close fit and readable."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 73,
+      "state": "dense-four-courts-private-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/073-dense-four-courts-private-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff fully visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 74,
+      "state": "dense-four-courts",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/074-dense-four-courts.png",
+      "verdict": "FAIL",
+      "findings": "Severe cream/black portrait corruption across many dense Court cards, lower rows mostly blank cream. All four focus controls and Pass available; names tiny in overview."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 75,
+      "state": "maximal-hand-private-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/075-maximal-hand-private-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff fully visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 76,
+      "state": "maximal-hand",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/076-maximal-hand.png",
+      "verdict": "FAIL",
+      "findings": "Draw0 overlaps Habsburg Court heading; full first four hand cards/Inspect and partial fifth provide scroll cue, full guide Pass fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 77,
+      "state": "empty-deck-private-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/077-empty-deck-private-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff complete and clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 78,
+      "state": "empty-deck",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/078-empty-deck.png",
+      "verdict": "FAIL",
+      "findings": "Both ruler portraits have horizontal cream stripe corruption; tall Played protrudes onto board edge with return label across top card portrait. Full Pass guide fits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 79,
+      "state": "native-notice-private-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/079-native-notice-private-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff complete and clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 80,
+      "state": "native-notice",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/080-native-notice.png",
+      "verdict": "PASS",
+      "findings": "Claim/reign roles and Crown visible, full hand/Inspect and Pass fit; clean portraits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 81,
+      "state": "native-reign-private-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/081-native-reign-private-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff all visible and clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 82,
+      "state": "native-reign",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/082-native-reign.png",
+      "verdict": "PASS",
+      "findings": "Claim/reign roles and Crown visible, full hand/Inspect and Pass fit; clean portraits."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 83,
+      "state": "incoming-recall-private-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/083-incoming-recall-private-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff all visible and clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 84,
+      "state": "incoming-recall",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/084-incoming-recall.png",
+      "verdict": "FAIL",
+      "findings": "Recall line crosses Draw20 and Court faces; complete response choices/confirm and hand Inspect fit, portraits clean."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 85,
+      "state": "free-defense-selected",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/085-free-defense-selected.png",
+      "verdict": "FAIL",
+      "findings": "Recall line crosses Draw20 and Court faces; complete response choices/confirm and hand Inspect fit, portraits clean."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 86,
+      "state": "incoming-recall-response-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/086-incoming-recall-response-preview.png",
+      "verdict": "FAIL",
+      "findings": "Recall line crosses Draw20 and Court faces; complete response choices/confirm and hand Inspect fit, portraits clean."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 87,
+      "state": "incoming-recall-response-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/087-incoming-recall-response-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff fully visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 88,
+      "state": "incoming-recall-resolved",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/088-incoming-recall-resolved.png",
+      "verdict": "FAIL",
+      "findings": "Return label overlaps William heir edge; fine horizontal streaks on left edges of Played faces; outcome and Pass visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 89,
+      "state": "recall-decline-private-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/089-recall-decline-private-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff fully visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 90,
+      "state": "recall-decline",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/090-recall-decline.png",
+      "verdict": "FAIL",
+      "findings": "Recall line strikes Draw20 and Court portraits; full decline/confirm and hand Inspect visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 91,
+      "state": "recall-decline-response-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/091-recall-decline-response-preview.png",
+      "verdict": "FAIL",
+      "findings": "Recall line strikes Draw20 and Court portraits; full decline/confirm and hand Inspect visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 92,
+      "state": "recall-decline-response-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/092-recall-decline-response-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff fully visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 93,
+      "state": "recall-decline-resolved",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/093-recall-decline-resolved.png",
+      "verdict": "FAIL",
+      "findings": "Exchanged cards/empty Crown shown and full hand name-heir caption, Inspect/Pass fit; return label crosses William card edge."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 94,
+      "state": "failed-claim-private-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/094-failed-claim-private-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff fully visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 95,
+      "state": "failed-claim",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/095-failed-claim.png",
+      "verdict": "FAIL",
+      "findings": "Exchanged cards/empty Crown shown and full hand name-heir caption, Inspect/Pass fit; return label crosses William card edge."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 96,
+      "state": "marriage-notice-private-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/096-marriage-notice-private-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff fully visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 97,
+      "state": "marriage-notice",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/097-marriage-notice.png",
+      "verdict": "PASS",
+      "findings": "Marriage link, Crown/roles visible; claim/reign objective named clearly; full guide/Pass and available hand Inspect fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 98,
+      "state": "foreign-reign-private-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/098-foreign-reign-private-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff fully visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 99,
+      "state": "foreign-reign",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/099-foreign-reign.png",
+      "verdict": "PASS",
+      "findings": "Marriage link, Crown/roles visible; claim/reign objective named clearly; full guide/Pass and available hand Inspect fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 100,
+      "state": "trade-offer-private-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/100-trade-offer-private-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff full clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 101,
+      "state": "trade-offer",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/101-trade-offer.png",
+      "verdict": "PASS",
+      "findings": "Trade guide moved above hand, complete decisions/confirm and hand Inspect fit with bottom clearance; public board clean."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 102,
+      "state": "trade-offer-response-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/102-trade-offer-response-preview.png",
+      "verdict": "PASS",
+      "findings": "Trade guide moved above hand, complete decisions/confirm and hand Inspect fit with bottom clearance; public board clean."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 103,
+      "state": "trade-offer-response-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/103-trade-offer-response-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff full clear."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 104,
+      "state": "trade-offer-resolved",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/104-trade-offer-resolved.png",
+      "verdict": "FAIL",
+      "findings": "Draw card back has cream jagged artifact in upper-left and Played portrait horizontal streaks; Trade outcome/Pass fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 105,
+      "state": "trade-decline-private-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/105-trade-decline-private-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff full visible."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 106,
+      "state": "trade-decline",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/106-trade-decline.png",
+      "verdict": "PASS",
+      "findings": "Trade decisions and complete hand Inspect fit, all text readable."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 107,
+      "state": "trade-decline-response-preview",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/107-trade-decline-response-preview.png",
+      "verdict": "FAIL",
+      "findings": "Decline trade preview mislabeled Let it happen; full guide/confirmation/hand Inspect fit."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 108,
+      "state": "trade-decline-response-handoff",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/108-trade-decline-response-handoff.png",
+      "verdict": "PASS",
+      "findings": "Private handoff message and reveal button fit clearly; no private cards shown."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 109,
+      "state": "trade-decline-resolved",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/109-trade-decline-resolved.png",
+      "verdict": "PASS",
+      "findings": "Trade-declined result, retained cards, Inspect and Pass all fit without obstruction."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 110,
+      "state": "cap-draw",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/110-cap-draw.png",
+      "verdict": "FAIL",
+      "findings": "Both ruler portraits have cream horizontal corruption at left; ended game still says Pass, next-round returns and draws in body despite terminal header."
+    },
+    {
+      "viewport": "768x1024",
+      "index": 111,
+      "state": "invalid-save-recovery",
+      "path": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8/artifacts/core/layout/768x1024/111-invalid-save-recovery.png",
+      "verdict": "FAIL",
+      "findings": "Import error is fully visible, but exposes raw JSON parser text rather than actionable recovery guidance."
+    }
+  ]
+}

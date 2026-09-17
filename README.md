@@ -9,7 +9,11 @@ The default application is the **Build 5 core succession prototype**. It begins 
 - **Physical table:** Three.js cards and components, Court cameras, Crown and marriage links; inspectable character references and shared printable rule aids. Public cards and concealed hand counts remain distinct.
 - **Recovery:** separate versioned core saves; old History and combat saves preserved. Private exports explicitly contain every hand. The historical History runtime is at `?archive=history-v4`; combat is at `?legacy=1`. Neither is the current ruleset.
 
-[Binding core rules](docs/SUIT-AND-RANK-DESIGN.md) · [Build 5 production plan](docs/BUILD-5-PRODUCTION-PLAN.md) · [Test contract](docs/BUILD-5-TEST-CONTRACT.md) · [Executed evidence and open gates](docs/reviews/BUILD-5-EXECUTION-LOG.md) · [Design session](docs/reviews/SUIT-RANK-DESIGN-SESSION-2026-09-17.md) · [Physical direction](docs/PHYSICAL-GAME-DIRECTION.md)
+[Published Build 5 rules](docs/reviews/SUIT-AND-RANK-BUILD-5-SUPERSEDED.md) · [Next Build 6 rules](docs/SUIT-AND-RANK-DESIGN.md) · [Build 6 production plan](docs/BUILD-6-PRODUCTION-PLAN.md) · [Executed evidence and open gates](docs/reviews/BUILD-5-EXECUTION-LOG.md) · [Design session](docs/reviews/SUIT-RANK-DESIGN-SESSION-2026-09-17.md) · [Physical direction](docs/PHYSICAL-GAME-DIRECTION.md)
+
+Build 6 is planned, not implemented. The user requested stopping at the next implementation boundary and leaving a knowledge-base handoff. Do not confuse the binding next-phase specification with the game currently served on Prod.
+
+[Resume from the Build 6 knowledge-base handoff](docs/knowledge-base/build-6-handoff/README.md).
 
 The planning freeze preceded implementation. Local code and passing automation do not establish publication, visual acceptance, strategic quality or learner comprehension. The evidence log records what actually ran; screen-only tutorial observation and ten actual UI games are separate from policy simulations. Main remains locked.
 

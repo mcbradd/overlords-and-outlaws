@@ -1,0 +1,680 @@
+{
+  "revision": "7e521f8b29d704291f00af3a9db245fddae00b94",
+  "viewport": "1536x864",
+  "method": "Each captured image individually opened with view_image and visually assessed. Chrome browser emulation; simulated reduced-height keyboard, no physical device validation.",
+  "status": "complete-with-findings",
+  "images": [
+    {
+      "state": "opening",
+      "path": "artifacts/core/layout/1536x864/000-opening.png",
+      "inspected": true,
+      "notes": "Opening complete, title treatment and three card portraits/ranks clear; comfortable body text and buttons; copyright clear of badge."
+    },
+    {
+      "state": "introduction",
+      "path": "artifacts/core/layout/1536x864/001-introduction.png",
+      "inspected": true,
+      "notes": "Introduction left-aligned and fully fits with both buttons."
+    },
+    {
+      "state": "introduction-action-after-deliberate-scroll",
+      "path": "artifacts/core/layout/1536x864/002-introduction-action-after-deliberate-scroll.png",
+      "inspected": true,
+      "notes": "Introduction still fully fits after deliberate scroll."
+    },
+    {
+      "state": "tutorial-01-recruit-explanation",
+      "path": "artifacts/core/layout/1536x864/003-tutorial-01-recruit-explanation.png",
+      "inspected": true,
+      "notes": "Tutorial first selection fit; board top label close to frame but readable, cards complete."
+    },
+    {
+      "state": "tutorial-01-recruit-selected",
+      "path": "artifacts/core/layout/1536x864/004-tutorial-01-recruit-selected.png",
+      "inspected": true,
+      "notes": "Recruit selection and action button fit."
+    },
+    {
+      "state": "tutorial-01-recruit-preview",
+      "path": "artifacts/core/layout/1536x864/005-tutorial-01-recruit-preview.png",
+      "inspected": true,
+      "notes": "Recruit confirm/cancel and both hand cards fully fit."
+    },
+    {
+      "state": "tutorial-01-recruit-outcome",
+      "path": "artifacts/core/layout/1536x864/006-tutorial-01-recruit-outcome.png",
+      "inspected": true,
+      "notes": "Recruit outcome/Continue and remaining hand fit; board complete."
+    },
+    {
+      "state": "tutorial-02-recall-explanation",
+      "path": "artifacts/core/layout/1536x864/007-tutorial-02-recall-explanation.png",
+      "inspected": true,
+      "notes": "Recall explanation and Watch fit."
+    },
+    {
+      "state": "tutorial-02-recall-still-awaiting-watch",
+      "path": "artifacts/core/layout/1536x864/008-tutorial-02-recall-still-awaiting-watch.png",
+      "inspected": true,
+      "notes": "Awaiting Watch stable and fully visible."
+    },
+    {
+      "state": "tutorial-02-recall-outcome",
+      "path": "artifacts/core/layout/1536x864/009-tutorial-02-recall-outcome.png",
+      "inspected": true,
+      "notes": "Recall arrow crosses Draw text and Henry portrait; outcome Continue fits."
+    },
+    {
+      "state": "tutorial-03-defend-explanation",
+      "path": "artifacts/core/layout/1536x864/010-tutorial-03-defend-explanation.png",
+      "inspected": true,
+      "notes": "Defense explanation/hand fit; arrow crosses Draw and Henry."
+    },
+    {
+      "state": "tutorial-03-defend-selected",
+      "path": "artifacts/core/layout/1536x864/011-tutorial-03-defend-selected.png",
+      "inspected": true,
+      "notes": "Selected Defend button fits; arrow crossing persists."
+    },
+    {
+      "state": "tutorial-03-defend-preview",
+      "path": "artifacts/core/layout/1536x864/012-tutorial-03-defend-preview.png",
+      "inspected": true,
+      "notes": "Defense Confirm/Cancel fit; arrow crosses Draw and portrait."
+    },
+    {
+      "state": "tutorial-03-defend-outcome",
+      "path": "artifacts/core/layout/1536x864/013-tutorial-03-defend-outcome.png",
+      "inspected": true,
+      "notes": "Defense outcome fits; Returns next round crosses supporter right edge and touches Crown."
+    },
+    {
+      "state": "tutorial-04-pass-explanation",
+      "path": "artifacts/core/layout/1536x864/014-tutorial-04-pass-explanation.png",
+      "inspected": true,
+      "notes": "Pass explanation/control fit; return label/card/Crown overlap."
+    },
+    {
+      "state": "tutorial-04-pass-preview",
+      "path": "artifacts/core/layout/1536x864/015-tutorial-04-pass-preview.png",
+      "inspected": true,
+      "notes": "Pass Confirm/Cancel fit; return label overlap persists."
+    },
+    {
+      "state": "tutorial-04-pass-outcome",
+      "path": "artifacts/core/layout/1536x864/016-tutorial-04-pass-outcome.png",
+      "inspected": true,
+      "notes": "Pass outcome fits; return label crosses supporter."
+    },
+    {
+      "state": "tutorial-05-recruit-explanation",
+      "path": "artifacts/core/layout/1536x864/017-tutorial-05-recruit-explanation.png",
+      "inspected": true,
+      "notes": "Rival Watch fits; copy says card backs show hidden options, but only count labels are rendered. Return label overlap."
+    },
+    {
+      "state": "tutorial-05-recruit-outcome",
+      "path": "artifacts/core/layout/1536x864/018-tutorial-05-recruit-outcome.png",
+      "inspected": true,
+      "notes": "Both Returns labels cross supporter card edges; tutorial action or Continue fits."
+    },
+    {
+      "state": "tutorial-06-pass-explanation",
+      "path": "artifacts/core/layout/1536x864/019-tutorial-06-pass-explanation.png",
+      "inspected": true,
+      "notes": "Both Returns labels cross supporter card edges; tutorial action or Continue fits."
+    },
+    {
+      "state": "tutorial-06-pass-preview",
+      "path": "artifacts/core/layout/1536x864/020-tutorial-06-pass-preview.png",
+      "inspected": true,
+      "notes": "Both Returns labels cross supporter card edges; tutorial action or Continue fits."
+    },
+    {
+      "state": "tutorial-06-pass-outcome",
+      "path": "artifacts/core/layout/1536x864/021-tutorial-06-pass-outcome.png",
+      "inspected": true,
+      "notes": "Both Returns labels cross supporter card edges; tutorial action or Continue fits."
+    },
+    {
+      "state": "tutorial-07-pass-explanation",
+      "path": "artifacts/core/layout/1536x864/022-tutorial-07-pass-explanation.png",
+      "inspected": true,
+      "notes": "Both Returns labels cross supporter card edges; tutorial action or Continue fits."
+    },
+    {
+      "state": "tutorial-07-pass-outcome",
+      "path": "artifacts/core/layout/1536x864/023-tutorial-07-pass-outcome.png",
+      "inspected": true,
+      "notes": "Returned cards and new hand clear; portraits and ranks intact; Continue fits."
+    },
+    {
+      "state": "tutorial-08-pass-explanation",
+      "path": "artifacts/core/layout/1536x864/024-tutorial-08-pass-explanation.png",
+      "inspected": true,
+      "notes": "Portraits, rank badges, hand and tutorial action fit with clear margins."
+    },
+    {
+      "state": "tutorial-08-pass-outcome",
+      "path": "artifacts/core/layout/1536x864/025-tutorial-08-pass-outcome.png",
+      "inspected": true,
+      "notes": "Portraits, rank badges, hand and tutorial action fit with clear margins."
+    },
+    {
+      "state": "tutorial-09-name-heir-explanation",
+      "path": "artifacts/core/layout/1536x864/026-tutorial-09-name-heir-explanation.png",
+      "inspected": true,
+      "notes": "Portraits, rank badges, hand and tutorial action fit with clear margins."
+    },
+    {
+      "state": "tutorial-09-name-heir-selected",
+      "path": "artifacts/core/layout/1536x864/027-tutorial-09-name-heir-selected.png",
+      "inspected": true,
+      "notes": "Portraits, rank badges, hand and tutorial action fit with clear margins."
+    },
+    {
+      "state": "tutorial-09-name-heir-preview",
+      "path": "artifacts/core/layout/1536x864/028-tutorial-09-name-heir-preview.png",
+      "inspected": true,
+      "notes": "Portraits, rank badges, hand and tutorial action fit with clear margins."
+    },
+    {
+      "state": "tutorial-09-name-heir-outcome",
+      "path": "artifacts/core/layout/1536x864/029-tutorial-09-name-heir-outcome.png",
+      "inspected": true,
+      "notes": "All portraits and role labels fit; copy says You claims and 1 cards; Continue visible."
+    },
+    {
+      "state": "tutorial-10-recall-explanation",
+      "path": "artifacts/core/layout/1536x864/030-tutorial-10-recall-explanation.png",
+      "inspected": true,
+      "notes": "Watch fits; portraits clear; You claims copy."
+    },
+    {
+      "state": "tutorial-10-recall-outcome",
+      "path": "artifacts/core/layout/1536x864/031-tutorial-10-recall-outcome.png",
+      "inspected": true,
+      "notes": "Recall arrow crosses Draw text and intervening Court portraits; actions fit; portraits intact."
+    },
+    {
+      "state": "tutorial-11-defend-explanation",
+      "path": "artifacts/core/layout/1536x864/032-tutorial-11-defend-explanation.png",
+      "inspected": true,
+      "notes": "Recall arrow crosses Draw text and intervening Court portraits; actions fit; portraits intact."
+    },
+    {
+      "state": "tutorial-11-defend-selected",
+      "path": "artifacts/core/layout/1536x864/033-tutorial-11-defend-selected.png",
+      "inspected": true,
+      "notes": "Recall arrow crosses Draw text and intervening Court portraits; actions fit; portraits intact."
+    },
+    {
+      "state": "tutorial-11-defend-preview",
+      "path": "artifacts/core/layout/1536x864/034-tutorial-11-defend-preview.png",
+      "inspected": true,
+      "notes": "Recall arrow crosses Draw text and intervening Court portraits; actions fit; portraits intact."
+    },
+    {
+      "state": "tutorial-11-defend-outcome",
+      "path": "artifacts/core/layout/1536x864/035-tutorial-11-defend-outcome.png",
+      "inspected": true,
+      "notes": "Both Returns labels intersect adjacent card edge or border; portraits clear; Continue fits."
+    },
+    {
+      "state": "tutorial-12-pass-explanation",
+      "path": "artifacts/core/layout/1536x864/036-tutorial-12-pass-explanation.png",
+      "inspected": true,
+      "notes": "Portraits intact; Returns next round labels cross neighboring Court card edges or board border; tutorial control fully visible."
+    },
+    {
+      "state": "tutorial-12-pass-preview",
+      "path": "artifacts/core/layout/1536x864/037-tutorial-12-pass-preview.png",
+      "inspected": true,
+      "notes": "Portraits intact; Returns next round labels cross neighboring Court card edges or board border; tutorial control fully visible."
+    },
+    {
+      "state": "tutorial-12-pass-outcome",
+      "path": "artifacts/core/layout/1536x864/038-tutorial-12-pass-outcome.png",
+      "inspected": true,
+      "notes": "Portraits intact; Returns next round labels cross neighboring Court card edges or board border; tutorial control fully visible."
+    },
+    {
+      "state": "tutorial-13-recruit-explanation",
+      "path": "artifacts/core/layout/1536x864/039-tutorial-13-recruit-explanation.png",
+      "inspected": true,
+      "notes": "Portraits intact; Returns next round labels cross neighboring Court card edges or board border; tutorial control fully visible."
+    },
+    {
+      "state": "tutorial-13-recruit-outcome",
+      "path": "artifacts/core/layout/1536x864/040-tutorial-13-recruit-outcome.png",
+      "inspected": true,
+      "notes": "Portraits intact; Returns next round labels cross neighboring Court card edges or board border; tutorial control fully visible."
+    },
+    {
+      "state": "tutorial-14-pass-explanation",
+      "path": "artifacts/core/layout/1536x864/041-tutorial-14-pass-explanation.png",
+      "inspected": true,
+      "notes": "Portraits intact; Returns next round labels cross neighboring Court card edges or board border; tutorial control fully visible."
+    },
+    {
+      "state": "tutorial-14-pass-preview",
+      "path": "artifacts/core/layout/1536x864/042-tutorial-14-pass-preview.png",
+      "inspected": true,
+      "notes": "Returns labels cross card edges/border; controls fit; portraits intact."
+    },
+    {
+      "state": "tutorial-14-pass-outcome",
+      "path": "artifacts/core/layout/1536x864/043-tutorial-14-pass-outcome.png",
+      "inspected": true,
+      "notes": "Returns labels cross card edges/border; controls fit; portraits intact."
+    },
+    {
+      "state": "tutorial-15-pass-explanation",
+      "path": "artifacts/core/layout/1536x864/044-tutorial-15-pass-explanation.png",
+      "inspected": true,
+      "notes": "Returns labels cross card edges/border; controls fit; portraits intact."
+    },
+    {
+      "state": "tutorial-15-pass-outcome",
+      "path": "artifacts/core/layout/1536x864/045-tutorial-15-pass-outcome.png",
+      "inspected": true,
+      "notes": "Hand, portraits, controls and role labels fit; You wins grammatical defect."
+    },
+    {
+      "state": "tutorial-16-pass-explanation",
+      "path": "artifacts/core/layout/1536x864/046-tutorial-16-pass-explanation.png",
+      "inspected": true,
+      "notes": "Hand, portraits, controls and role labels fit; You wins grammatical defect."
+    },
+    {
+      "state": "tutorial-16-pass-preview",
+      "path": "artifacts/core/layout/1536x864/047-tutorial-16-pass-preview.png",
+      "inspected": true,
+      "notes": "Hand, portraits, controls and role labels fit; You wins grammatical defect."
+    },
+    {
+      "state": "tutorial-16-pass-outcome",
+      "path": "artifacts/core/layout/1536x864/048-tutorial-16-pass-outcome.png",
+      "inspected": true,
+      "notes": "Hand, portraits, controls and role labels fit; You wins grammatical defect."
+    },
+    {
+      "state": "tutorial-17-recall-explanation",
+      "path": "artifacts/core/layout/1536x864/049-tutorial-17-recall-explanation.png",
+      "inspected": true,
+      "notes": "Hand, portraits, controls and role labels fit; You wins grammatical defect."
+    },
+    {
+      "state": "tutorial-17-recall-outcome",
+      "path": "artifacts/core/layout/1536x864/050-tutorial-17-recall-outcome.png",
+      "inspected": true,
+      "notes": "Recall arrow crosses Draw and three rival portraits; Crown touches circular counter; Returns label crosses John edge. Controls fit, portraits intact."
+    },
+    {
+      "state": "tutorial-18-defend-explanation",
+      "path": "artifacts/core/layout/1536x864/051-tutorial-18-defend-explanation.png",
+      "inspected": true,
+      "notes": "Recall arrow crosses Draw and three rival portraits; Crown touches circular counter; Returns label crosses John edge. Controls fit, portraits intact."
+    },
+    {
+      "state": "tutorial-18-defend-selected",
+      "path": "artifacts/core/layout/1536x864/052-tutorial-18-defend-selected.png",
+      "inspected": true,
+      "notes": "Recall arrow crosses Draw and three rival portraits; Crown touches circular counter; Returns label crosses John edge. Controls fit, portraits intact."
+    },
+    {
+      "state": "tutorial-18-defend-preview",
+      "path": "artifacts/core/layout/1536x864/053-tutorial-18-defend-preview.png",
+      "inspected": true,
+      "notes": "Recall arrow crosses Draw and three rival portraits; Crown touches circular counter; Returns label crosses John edge. Controls fit, portraits intact."
+    },
+    {
+      "state": "tutorial-18-defend-outcome",
+      "path": "artifacts/core/layout/1536x864/054-tutorial-18-defend-outcome.png",
+      "inspected": true,
+      "notes": "Returns labels cross adjacent Court edges; Crown touches circular counter. Portraits intact, controls fit."
+    },
+    {
+      "state": "tutorial-19-pass-explanation",
+      "path": "artifacts/core/layout/1536x864/055-tutorial-19-pass-explanation.png",
+      "inspected": true,
+      "notes": "Returns labels cross adjacent Court edges; Crown touches circular counter. Portraits intact, controls fit."
+    },
+    {
+      "state": "tutorial-19-pass-preview",
+      "path": "artifacts/core/layout/1536x864/056-tutorial-19-pass-preview.png",
+      "inspected": true,
+      "notes": "Returns labels cross adjacent Court edges; Crown touches circular counter. Portraits intact, controls fit."
+    },
+    {
+      "state": "tutorial-19-pass-outcome",
+      "path": "artifacts/core/layout/1536x864/057-tutorial-19-pass-outcome.png",
+      "inspected": true,
+      "notes": "Returns labels cross adjacent Court edges; Crown touches circular counter. Portraits intact, controls fit."
+    },
+    {
+      "state": "tutorial-20-recruit-explanation",
+      "path": "artifacts/core/layout/1536x864/058-tutorial-20-recruit-explanation.png",
+      "inspected": true,
+      "notes": "Returns labels cross cards, Crown touches counter; Watch fits."
+    },
+    {
+      "state": "tutorial-20-recruit-outcome",
+      "path": "artifacts/core/layout/1536x864/059-tutorial-20-recruit-outcome.png",
+      "inspected": true,
+      "notes": "Henry III and both Played portraits show jagged horizontal stripes. Board shrinks, tiny Court headings touch top frame and current opportunity; action fits."
+    },
+    {
+      "state": "tutorial-21-pass-explanation",
+      "path": "artifacts/core/layout/1536x864/060-tutorial-21-pass-explanation.png",
+      "inspected": true,
+      "notes": "Henry III and both Played portraits show jagged horizontal stripes. Board shrinks, tiny Court headings touch top frame and current opportunity; action fits."
+    },
+    {
+      "state": "tutorial-21-pass-preview",
+      "path": "artifacts/core/layout/1536x864/061-tutorial-21-pass-preview.png",
+      "inspected": true,
+      "notes": "Henry III and both Played portraits show jagged horizontal stripes. Board shrinks, tiny Court headings touch top frame and current opportunity; action fits."
+    },
+    {
+      "state": "tutorial-21-pass-outcome",
+      "path": "artifacts/core/layout/1536x864/062-tutorial-21-pass-outcome.png",
+      "inspected": true,
+      "notes": "Henry III and both Played portraits show jagged horizontal stripes. Board shrinks, tiny Court headings touch top frame and current opportunity; action fits."
+    },
+    {
+      "state": "tutorial-22-pass-explanation",
+      "path": "artifacts/core/layout/1536x864/063-tutorial-22-pass-explanation.png",
+      "inspected": true,
+      "notes": "Henry III and both Played portraits show jagged horizontal stripes. Board shrinks, tiny Court headings touch top frame and current opportunity; action fits."
+    },
+    {
+      "state": "tutorial-22-pass-outcome",
+      "path": "artifacts/core/layout/1536x864/064-tutorial-22-pass-outcome.png",
+      "inspected": true,
+      "notes": "Henry III and both Played portraits show jagged horizontal stripes. Board shrinks, tiny Court headings touch top frame and current opportunity; action fits."
+    },
+    {
+      "state": "post-lesson-reflection",
+      "path": "artifacts/core/layout/1536x864/065-post-lesson-reflection.png",
+      "inspected": true,
+      "notes": "Reflection modal fully visible, left-aligned copy and controls fit."
+    },
+    {
+      "state": "new-table-setup",
+      "path": "artifacts/core/layout/1536x864/066-new-table-setup.png",
+      "inspected": true,
+      "notes": "Setup complete, all fields and import fit."
+    },
+    {
+      "state": "name-entry-focused",
+      "path": "artifacts/core/layout/1536x864/067-name-entry-focused.png",
+      "inspected": true,
+      "notes": "Focused long name fits."
+    },
+    {
+      "state": "name-entry-simulated-keyboard",
+      "path": "artifacts/core/layout/1536x864/068-name-entry-simulated-keyboard.png",
+      "inspected": true,
+      "notes": "Simulated keyboard name field focus border clipped at modal bottom, input only eight pixels from viewport bottom. Reload is deliberate fixture."
+    },
+    {
+      "state": "sparse-table-private-handoff",
+      "path": "artifacts/core/layout/1536x864/069-sparse-table-private-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fully visible; no hand exposed."
+    },
+    {
+      "state": "sparse-table",
+      "path": "artifacts/core/layout/1536x864/070-sparse-table.png",
+      "inspected": true,
+      "notes": "Sparse board portraits and hand clear; all controls fit."
+    },
+    {
+      "state": "rules-and-table-menu",
+      "path": "artifacts/core/layout/1536x864/071-rules-and-table-menu.png",
+      "inspected": true,
+      "notes": "Rules modal fits, marriage copy incorrectly restricts matching rank."
+    },
+    {
+      "state": "reference-inspection",
+      "path": "artifacts/core/layout/1536x864/072-reference-inspection.png",
+      "inspected": true,
+      "notes": "Reference readable and fully visible with close/rules buttons."
+    },
+    {
+      "state": "dense-four-courts-private-handoff",
+      "path": "artifacts/core/layout/1536x864/073-dense-four-courts-private-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fully visible."
+    },
+    {
+      "state": "dense-four-courts",
+      "path": "artifacts/core/layout/1536x864/074-dense-four-courts.png",
+      "inspected": true,
+      "notes": "Dense Court ranks tiny; second rows Alba and Plantagenet have substantial cream stripes. Court headings cross board frame. Pass fits."
+    },
+    {
+      "state": "maximal-hand-private-handoff",
+      "path": "artifacts/core/layout/1536x864/075-maximal-hand-private-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits, no private cards exposed."
+    },
+    {
+      "state": "maximal-hand",
+      "path": "artifacts/core/layout/1536x864/076-maximal-hand.png",
+      "inspected": true,
+      "notes": "Board excessively small with unused side space; Draw 0 overlaps Habsburg heading. Hand shows three plus partial fourth, weak scroll cue; controls fit."
+    },
+    {
+      "state": "empty-deck-private-handoff",
+      "path": "artifacts/core/layout/1536x864/077-empty-deck-private-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits, no private cards exposed."
+    },
+    {
+      "state": "empty-deck",
+      "path": "artifacts/core/layout/1536x864/078-empty-deck.png",
+      "inspected": true,
+      "notes": "Played pile extends off board, hides identities and intersects Crown; Returns text across portrait. Pass fits."
+    },
+    {
+      "state": "native-notice-private-handoff",
+      "path": "artifacts/core/layout/1536x864/079-native-notice-private-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits, no private cards exposed."
+    },
+    {
+      "state": "native-notice",
+      "path": "artifacts/core/layout/1536x864/080-native-notice.png",
+      "inspected": true,
+      "notes": "Native notice portraits and controls intact and visible."
+    },
+    {
+      "state": "native-reign-private-handoff",
+      "path": "artifacts/core/layout/1536x864/081-native-reign-private-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits, no private cards exposed."
+    },
+    {
+      "state": "native-reign",
+      "path": "artifacts/core/layout/1536x864/082-native-reign.png",
+      "inspected": true,
+      "notes": "Reign clear, portraits/hand/controls fit."
+    },
+    {
+      "state": "incoming-recall-private-handoff",
+      "path": "artifacts/core/layout/1536x864/083-incoming-recall-private-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits and hides hands."
+    },
+    {
+      "state": "incoming-recall",
+      "path": "artifacts/core/layout/1536x864/084-incoming-recall.png",
+      "inspected": true,
+      "notes": "Recall arrow crosses Draw and portraits. Defense, cancel and Inspect fit."
+    },
+    {
+      "state": "free-defense-selected",
+      "path": "artifacts/core/layout/1536x864/085-free-defense-selected.png",
+      "inspected": true,
+      "notes": "Recall arrow crosses Draw and portraits. Defense, cancel and Inspect fit."
+    },
+    {
+      "state": "incoming-recall-response-preview",
+      "path": "artifacts/core/layout/1536x864/086-incoming-recall-response-preview.png",
+      "inspected": true,
+      "notes": "Recall arrow crosses Draw and portraits. Defense, cancel and Inspect fit."
+    },
+    {
+      "state": "incoming-recall-response-handoff",
+      "path": "artifacts/core/layout/1536x864/087-incoming-recall-response-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits and hides hands."
+    },
+    {
+      "state": "incoming-recall-resolved",
+      "path": "artifacts/core/layout/1536x864/088-incoming-recall-resolved.png",
+      "inspected": true,
+      "notes": "Returns label crosses heir edge and opposite board border; Pass fits, portraits intact."
+    },
+    {
+      "state": "recall-decline-private-handoff",
+      "path": "artifacts/core/layout/1536x864/089-recall-decline-private-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits and hides hands."
+    },
+    {
+      "state": "recall-decline",
+      "path": "artifacts/core/layout/1536x864/090-recall-decline.png",
+      "inspected": true,
+      "notes": "Recall arrow crosses Draw and Court portraits; controls fit."
+    },
+    {
+      "state": "recall-decline-response-preview",
+      "path": "artifacts/core/layout/1536x864/091-recall-decline-response-preview.png",
+      "inspected": true,
+      "notes": "Recall arrow crosses Draw and Court portraits; controls fit."
+    },
+    {
+      "state": "recall-decline-response-handoff",
+      "path": "artifacts/core/layout/1536x864/092-recall-decline-response-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits."
+    },
+    {
+      "state": "recall-decline-resolved",
+      "path": "artifacts/core/layout/1536x864/093-recall-decline-resolved.png",
+      "inspected": true,
+      "notes": "Returns label crosses card edge and touches Crown; controls/portraits fit."
+    },
+    {
+      "state": "failed-claim-private-handoff",
+      "path": "artifacts/core/layout/1536x864/094-failed-claim-private-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits."
+    },
+    {
+      "state": "failed-claim",
+      "path": "artifacts/core/layout/1536x864/095-failed-claim.png",
+      "inspected": true,
+      "notes": "Returns label crosses card edge and touches Crown; controls/portraits fit."
+    },
+    {
+      "state": "marriage-notice-private-handoff",
+      "path": "artifacts/core/layout/1536x864/096-marriage-notice-private-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits."
+    },
+    {
+      "state": "marriage-notice",
+      "path": "artifacts/core/layout/1536x864/097-marriage-notice.png",
+      "inspected": true,
+      "notes": "Marriage cord crosses card footer rules; portraits intact, Pass fits."
+    },
+    {
+      "state": "foreign-reign-private-handoff",
+      "path": "artifacts/core/layout/1536x864/098-foreign-reign-private-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits."
+    },
+    {
+      "state": "foreign-reign",
+      "path": "artifacts/core/layout/1536x864/099-foreign-reign.png",
+      "inspected": true,
+      "notes": "Marriage cord crosses footer rules; controls and portraits fit."
+    },
+    {
+      "state": "trade-offer-private-handoff",
+      "path": "artifacts/core/layout/1536x864/100-trade-offer-private-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits."
+    },
+    {
+      "state": "trade-offer",
+      "path": "artifacts/core/layout/1536x864/101-trade-offer.png",
+      "inspected": true,
+      "notes": "Trade action controls fit; offered card available only as text, not face comparison."
+    },
+    {
+      "state": "trade-offer-response-preview",
+      "path": "artifacts/core/layout/1536x864/102-trade-offer-response-preview.png",
+      "inspected": true,
+      "notes": "Trade action controls fit; offered card available only as text, not face comparison."
+    },
+    {
+      "state": "trade-offer-response-handoff",
+      "path": "artifacts/core/layout/1536x864/103-trade-offer-response-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits."
+    },
+    {
+      "state": "trade-offer-resolved",
+      "path": "artifacts/core/layout/1536x864/104-trade-offer-resolved.png",
+      "inspected": true,
+      "notes": "Resolved trade portraits clear; Returns label crosses board border; Pass fits."
+    },
+    {
+      "state": "trade-decline-private-handoff",
+      "path": "artifacts/core/layout/1536x864/105-trade-decline-private-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits."
+    },
+    {
+      "state": "trade-decline",
+      "path": "artifacts/core/layout/1536x864/106-trade-decline.png",
+      "inspected": true,
+      "notes": "Trade buttons fit, offered face absent; hand Inspect visible."
+    },
+    {
+      "state": "trade-decline-response-preview",
+      "path": "artifacts/core/layout/1536x864/107-trade-decline-response-preview.png",
+      "inspected": true,
+      "notes": "Decline trade mislabeled Let it happen on confirmation; buttons fit."
+    },
+    {
+      "state": "trade-decline-response-handoff",
+      "path": "artifacts/core/layout/1536x864/108-trade-decline-response-handoff.png",
+      "inspected": true,
+      "notes": "Private handoff fits."
+    },
+    {
+      "state": "trade-decline-resolved",
+      "path": "artifacts/core/layout/1536x864/109-trade-decline-resolved.png",
+      "inspected": true,
+      "notes": "Resolved declined trade clear, Pass and Inspect visible."
+    },
+    {
+      "state": "cap-draw",
+      "path": "artifacts/core/layout/1536x864/110-cap-draw.png",
+      "inspected": true,
+      "notes": "Ended game incorrectly shows To act and instructs Pass/next-round draw. Restart fits."
+    },
+    {
+      "state": "invalid-save-recovery",
+      "path": "artifacts/core/layout/1536x864/111-invalid-save-recovery.png",
+      "inspected": true,
+      "notes": "Raw JSON parser error at modal bottom, descender clipped and little margin; not player-facing explanation."
+    }
+  ]
+}

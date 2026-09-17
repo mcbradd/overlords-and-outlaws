@@ -1,6 +1,8 @@
-# Suit and rank — Build 6 binding evaluation rules
+# Build 6 — Court, cards and the Crown
 
-17 September 2026. **Selected for implementation planning and adversarial evaluation; not a claim of proven enjoyment.** This is the consolidated D-open/refill-to-two candidate with mandatory card play. The production plan, test contract, tutorial contract and frozen visual inventory must be committed before implementation. Previous Build 5 rules are archived in reviews/SUIT-AND-RANK-BUILD-5-SUPERSEDED.md. The panel's abandoned alternatives remain evidence in the review record, not optional rules.
+This is the reviewed candidate snapshot. The binding next-implementation source is [SUIT-AND-RANK-DESIGN.md](SUIT-AND-RANK-DESIGN.md). Any subsequent amendment must update that source and the production/test package; this snapshot does not independently override it.
+
+17 September 2026. **Selected for implementation planning and adversarial evaluation; not a claim of proven enjoyment.** This is the consolidated D-open/refill-to-two candidate with mandatory card play. Implementation must wait for the complete production task/test freeze. The panel's abandoned alternatives remain evidence in the review record, not optional rules.
 
 ## Player-facing core
 

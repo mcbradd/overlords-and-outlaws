@@ -1,0 +1,3458 @@
+[
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "opening",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\000-opening.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opening/introduction typography and entry controls readable; full faces visible on title."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "introduction",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\001-introduction.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opening/introduction typography and entry controls readable; full faces visible on title."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "introduction-action-after-deliberate-scroll",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\002-introduction-action-after-deliberate-scroll.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opening/introduction typography and entry controls readable; full faces visible on title."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-01-recruit-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\003-tutorial-01-recruit-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-01-recruit-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\004-tutorial-01-recruit-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-01-recruit-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\005-tutorial-01-recruit-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-01-recruit-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\006-tutorial-01-recruit-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-02-recall-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\007-tutorial-02-recall-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Recall target visible and guide/Watch or Continue fits, but attacking rival card origin lies outside cropped board."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-02-recall-still-awaiting-watch",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\008-tutorial-02-recall-still-awaiting-watch.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Recall target visible and guide/Watch or Continue fits, but attacking rival card origin lies outside cropped board."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-02-recall-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\009-tutorial-02-recall-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Recall target visible and guide/Watch or Continue fits, but attacking rival card origin lies outside cropped board."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-03-defend-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\010-tutorial-03-defend-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-03-defend-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\011-tutorial-03-defend-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-03-defend-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\012-tutorial-03-defend-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-03-defend-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\013-tutorial-03-defend-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-04-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\014-tutorial-04-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-04-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\015-tutorial-04-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-04-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\016-tutorial-04-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-05-recruit-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\017-tutorial-05-recruit-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment lesson asks viewer to observe rival person, but rival Court and recruited card are outside focused board crop."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-05-recruit-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\018-tutorial-05-recruit-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment lesson asks viewer to observe rival person, but rival Court and recruited card are outside focused board crop."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-06-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\019-tutorial-06-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-06-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\020-tutorial-06-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-06-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\021-tutorial-06-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-07-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\022-tutorial-07-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-07-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\023-tutorial-07-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-08-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\024-tutorial-08-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-08-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\025-tutorial-08-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-09-name-heir-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\026-tutorial-09-name-heir-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-09-name-heir-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\027-tutorial-09-name-heir-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-09-name-heir-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\028-tutorial-09-name-heir-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-09-name-heir-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\029-tutorial-09-name-heir-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-10-recall-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\030-tutorial-10-recall-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Recall target visible and guide/Watch or Continue fits, but attacking rival card origin lies outside cropped board."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-10-recall-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\031-tutorial-10-recall-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Recall target visible and guide/Watch or Continue fits, but attacking rival card origin lies outside cropped board."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-11-defend-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\032-tutorial-11-defend-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-11-defend-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\033-tutorial-11-defend-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-11-defend-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\034-tutorial-11-defend-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-11-defend-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\035-tutorial-11-defend-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-12-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\036-tutorial-12-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-12-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\037-tutorial-12-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-12-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\038-tutorial-12-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-13-recruit-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\039-tutorial-13-recruit-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment lesson asks viewer to observe rival person, but rival Court and recruited card are outside focused board crop."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-13-recruit-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\040-tutorial-13-recruit-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment lesson asks viewer to observe rival person, but rival Court and recruited card are outside focused board crop."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-14-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\041-tutorial-14-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-14-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\042-tutorial-14-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-14-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\043-tutorial-14-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-15-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\044-tutorial-15-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-15-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\045-tutorial-15-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Transfer visibly moves crown to Alexander II; ruler/supporter role labels legible and Continue fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-16-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\046-tutorial-16-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-16-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\047-tutorial-16-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide/card names readable and required current controls fully fit. Own Court shown; rival Court outside focused view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-16-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\048-tutorial-16-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-17-recall-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\049-tutorial-17-recall-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-17-recall-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\050-tutorial-17-recall-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-18-defend-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\051-tutorial-18-defend-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-18-defend-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\052-tutorial-18-defend-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-18-defend-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\053-tutorial-18-defend-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-18-defend-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\054-tutorial-18-defend-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-19-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\055-tutorial-19-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-19-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\056-tutorial-19-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-19-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\057-tutorial-19-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-20-recruit-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\058-tutorial-20-recruit-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Henry III recruitment lesson asks viewer to watch rival card but rival Court remains outside board crop."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-20-recruit-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\059-tutorial-20-recruit-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Henry III recruitment lesson asks viewer to watch rival card but rival Court remains outside board crop. Played card lower edge clipped by board viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-21-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\060-tutorial-21-pass-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces. Played card lower edge clipped by board viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-21-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\061-tutorial-21-pass-preview.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces. Played card lower edge clipped by board viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-21-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\062-tutorial-21-pass-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces. Played card lower edge clipped by board viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-22-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\063-tutorial-22-pass-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces. Played card lower edge clipped by board viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "tutorial-22-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\064-tutorial-22-pass-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces. Played card lower edge clipped by board viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "post-lesson-reflection",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\065-post-lesson-reflection.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Reader/setup/inspection text and visible controls readable; focused name in synthetic keyboard view remains visible; long reader continuation may scroll."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "new-table-setup",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\066-new-table-setup.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Reader/setup/inspection text and visible controls readable; focused name in synthetic keyboard view remains visible; long reader continuation may scroll."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "name-entry-focused",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\067-name-entry-focused.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Reader/setup/inspection text and visible controls readable; focused name in synthetic keyboard view remains visible; long reader continuation may scroll."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "name-entry-simulated-keyboard",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\068-name-entry-simulated-keyboard.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Fresh reopened setup (script intentionally reloads): focused You field and label visible within synthetic keyboard viewport; not an input-persistence test."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "sparse-table-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\069-sparse-table-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "sparse-table",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\070-sparse-table.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "rules-and-table-menu",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\071-rules-and-table-menu.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Reader/setup/inspection text and visible controls readable; focused name in synthetic keyboard view remains visible; long reader continuation may scroll."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "reference-inspection",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\072-reference-inspection.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Reader/setup/inspection text and visible controls readable; focused name in synthetic keyboard view remains visible; long reader continuation may scroll."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "dense-four-courts-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\073-dense-four-courts-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "dense-four-courts",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\074-dense-four-courts.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "52-card dense Court overview fits but faces are microscopic; emptyhand guide and Pass readable."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "maximal-hand-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\075-maximal-hand-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "maximal-hand",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\076-maximal-hand.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "empty-deck-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\077-empty-deck-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "empty-deck",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\078-empty-deck.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Emptydeck text and Pass fit, but front Played pile card extends below board viewport and is cut."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "native-notice-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\079-native-notice-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "native-notice",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\080-native-notice.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "native-reign-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\081-native-reign-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "native-reign",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\082-native-reign.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "incoming-recall-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\083-incoming-recall-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "incoming-recall",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\084-incoming-recall.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "free-defense-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\085-free-defense-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "incoming-recall-response-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\086-incoming-recall-response-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "incoming-recall-response-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\087-incoming-recall-response-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "incoming-recall-resolved",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\088-incoming-recall-resolved.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "recall-decline-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\089-recall-decline-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "recall-decline",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\090-recall-decline.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "recall-decline-response-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\091-recall-decline-response-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "recall-decline-response-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\092-recall-decline-response-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "recall-decline-resolved",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\093-recall-decline-resolved.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "failed-claim-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\094-failed-claim-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "failed-claim",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\095-failed-claim.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "marriage-notice-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\096-marriage-notice-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "marriage-notice",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\097-marriage-notice.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "foreign-reign-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\098-foreign-reign-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "foreign-reign",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\099-foreign-reign.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "trade-offer-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\100-trade-offer-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "trade-offer",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\101-trade-offer.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "trade-offer-response-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\102-trade-offer-response-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "trade-offer-response-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\103-trade-offer-response-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "trade-offer-resolved",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\104-trade-offer-resolved.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "trade-decline-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\105-trade-decline-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "trade-decline",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\106-trade-decline.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "trade-decline-response-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\107-trade-decline-response-preview.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Trade decline preview inconsistently names action Let it happen; current controls fit."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "trade-decline-response-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\108-trade-decline-response-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff has readable recipient and fully visible reveal control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "trade-decline-resolved",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\109-trade-decline-resolved.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: visible text and current action controls fit; Court overview needs focus to read small faces."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "cap-draw",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\110-cap-draw.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Game-ended guide incorrectly instructs Pass and next-round drawing; restart target fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "414x896",
+    "state": "invalid-save-recovery",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\414x896\\111-invalid-save-recovery.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Reader/setup/inspection text and visible controls readable; focused name in synthetic keyboard view remains visible; long reader continuation may scroll."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "opening",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\000-opening.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "introduction",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\001-introduction.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "introduction-action-after-deliberate-scroll",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\002-introduction-action-after-deliberate-scroll.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-01-recruit-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\003-tutorial-01-recruit-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-01-recruit-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\004-tutorial-01-recruit-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-01-recruit-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\005-tutorial-01-recruit-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-01-recruit-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\006-tutorial-01-recruit-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-02-recall-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\007-tutorial-02-recall-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-02-recall-still-awaiting-watch",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\008-tutorial-02-recall-still-awaiting-watch.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-02-recall-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\009-tutorial-02-recall-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-03-defend-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\010-tutorial-03-defend-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-03-defend-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\011-tutorial-03-defend-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-03-defend-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\012-tutorial-03-defend-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-03-defend-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\013-tutorial-03-defend-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-04-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\014-tutorial-04-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-04-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\015-tutorial-04-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-04-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\016-tutorial-04-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-05-recruit-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\017-tutorial-05-recruit-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment instruction names a card outside the cropped board; action not visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-05-recruit-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\018-tutorial-05-recruit-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment instruction names a card outside the cropped board; action not visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-06-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\019-tutorial-06-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-06-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\020-tutorial-06-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-06-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\021-tutorial-06-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-07-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\022-tutorial-07-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-07-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\023-tutorial-07-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-08-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\024-tutorial-08-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-08-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\025-tutorial-08-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-09-name-heir-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\026-tutorial-09-name-heir-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-09-name-heir-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\027-tutorial-09-name-heir-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-09-name-heir-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\028-tutorial-09-name-heir-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-09-name-heir-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\029-tutorial-09-name-heir-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-10-recall-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\030-tutorial-10-recall-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-10-recall-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\031-tutorial-10-recall-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-11-defend-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\032-tutorial-11-defend-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-11-defend-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\033-tutorial-11-defend-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-11-defend-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\034-tutorial-11-defend-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-11-defend-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\035-tutorial-11-defend-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-12-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\036-tutorial-12-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-12-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\037-tutorial-12-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-12-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\038-tutorial-12-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-13-recruit-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\039-tutorial-13-recruit-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment instruction names a card outside the cropped board; action not visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-13-recruit-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\040-tutorial-13-recruit-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment instruction names a card outside the cropped board; action not visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-14-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\041-tutorial-14-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-14-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\042-tutorial-14-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-14-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\043-tutorial-14-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-15-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\044-tutorial-15-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-15-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\045-tutorial-15-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-16-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\046-tutorial-16-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-16-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\047-tutorial-16-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-16-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\048-tutorial-16-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-17-recall-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\049-tutorial-17-recall-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-17-recall-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\050-tutorial-17-recall-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-18-defend-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\051-tutorial-18-defend-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-18-defend-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\052-tutorial-18-defend-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-18-defend-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\053-tutorial-18-defend-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-18-defend-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\054-tutorial-18-defend-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-19-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\055-tutorial-19-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-19-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\056-tutorial-19-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-19-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\057-tutorial-19-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-20-recruit-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\058-tutorial-20-recruit-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment instruction names a card outside the cropped board; action not visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-20-recruit-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\059-tutorial-20-recruit-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment instruction names a card outside the cropped board; action not visible. Played card clipped at lower board edge."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-21-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\060-tutorial-21-pass-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read. Played card clipped at lower board edge."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-21-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\061-tutorial-21-pass-preview.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read. Played card clipped at lower board edge."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-21-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\062-tutorial-21-pass-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read. Played card clipped at lower board edge."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-22-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\063-tutorial-22-pass-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read. Played card clipped at lower board edge."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "tutorial-22-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\064-tutorial-22-pass-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read. Played card clipped at lower board edge."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "post-lesson-reflection",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\065-post-lesson-reflection.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "new-table-setup",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\066-new-table-setup.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "name-entry-focused",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\067-name-entry-focused.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "name-entry-simulated-keyboard",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\068-name-entry-simulated-keyboard.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Fresh reopened setup (script intentionally reloads): focused You field and label visible within synthetic keyboard viewport; not an input-persistence test."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "sparse-table-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\069-sparse-table-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "sparse-table",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\070-sparse-table.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "rules-and-table-menu",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\071-rules-and-table-menu.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "reference-inspection",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\072-reference-inspection.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "dense-four-courts-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\073-dense-four-courts-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "dense-four-courts",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\074-dense-four-courts.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Several lower-row dense Court cards appear blank cream with ornament instead of portraits; other faces microscopic. Emptyhand/Pass readable."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "maximal-hand-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\075-maximal-hand-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "maximal-hand",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\076-maximal-hand.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "empty-deck-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\077-empty-deck-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "empty-deck",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\078-empty-deck.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Played pile front card clipped at lower board edge; emptydeck/Pass fit."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "native-notice-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\079-native-notice-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "native-notice",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\080-native-notice.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "native-reign-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\081-native-reign-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "native-reign",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\082-native-reign.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "incoming-recall-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\083-incoming-recall-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "incoming-recall",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\084-incoming-recall.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "free-defense-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\085-free-defense-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "incoming-recall-response-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\086-incoming-recall-response-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "incoming-recall-response-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\087-incoming-recall-response-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "incoming-recall-resolved",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\088-incoming-recall-resolved.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "recall-decline-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\089-recall-decline-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "recall-decline",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\090-recall-decline.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "recall-decline-response-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\091-recall-decline-response-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "recall-decline-response-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\092-recall-decline-response-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "recall-decline-resolved",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\093-recall-decline-resolved.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "failed-claim-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\094-failed-claim-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "failed-claim",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\095-failed-claim.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "marriage-notice-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\096-marriage-notice-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "marriage-notice",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\097-marriage-notice.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "foreign-reign-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\098-foreign-reign-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "foreign-reign",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\099-foreign-reign.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "trade-offer-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\100-trade-offer-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "trade-offer",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\101-trade-offer.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Trade response and hand readable, but build badge overlaps lower-left Inspect border."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "trade-offer-response-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\102-trade-offer-response-preview.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Trade response and hand readable, but build badge overlaps lower-left Inspect border."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "trade-offer-response-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\103-trade-offer-response-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "trade-offer-resolved",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\104-trade-offer-resolved.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "trade-decline-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\105-trade-decline-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "trade-decline",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\106-trade-decline.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Trade response and hand readable, but build badge overlaps lower-left Inspect border."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "trade-decline-response-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\107-trade-decline-response-preview.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Decline trade preview is labeled Let it happen; Confirm/Cancel fit."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "trade-decline-response-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\108-trade-decline-response-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private handoff with full reveal target."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "trade-decline-resolved",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\109-trade-decline-resolved.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "cap-draw",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\110-cap-draw.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Game-ended guide wrongly instructs Pass and next-round draw; restart fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "393x873",
+    "state": "invalid-save-recovery",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\393x873\\111-invalid-save-recovery.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable; current action targets fit. Board overview faces require focus to read."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "opening",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\000-opening.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "introduction",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\001-introduction.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "introduction-action-after-deliberate-scroll",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\002-introduction-action-after-deliberate-scroll.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-01-recruit-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\003-tutorial-01-recruit-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-01-recruit-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\004-tutorial-01-recruit-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-01-recruit-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\005-tutorial-01-recruit-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-01-recruit-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\006-tutorial-01-recruit-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-02-recall-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\007-tutorial-02-recall-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-02-recall-still-awaiting-watch",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\008-tutorial-02-recall-still-awaiting-watch.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-02-recall-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\009-tutorial-02-recall-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-03-defend-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\010-tutorial-03-defend-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-03-defend-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\011-tutorial-03-defend-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-03-defend-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\012-tutorial-03-defend-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-03-defend-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\013-tutorial-03-defend-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-04-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\014-tutorial-04-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-04-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\015-tutorial-04-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-04-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\016-tutorial-04-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-05-recruit-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\017-tutorial-05-recruit-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment card outside focused board view despite Watch instruction."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-05-recruit-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\018-tutorial-05-recruit-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment card outside focused board view despite Watch instruction."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-06-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\019-tutorial-06-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-06-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\020-tutorial-06-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-06-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\021-tutorial-06-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-07-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\022-tutorial-07-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-07-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\023-tutorial-07-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-08-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\024-tutorial-08-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-08-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\025-tutorial-08-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-09-name-heir-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\026-tutorial-09-name-heir-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-09-name-heir-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\027-tutorial-09-name-heir-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-09-name-heir-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\028-tutorial-09-name-heir-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-09-name-heir-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\029-tutorial-09-name-heir-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-10-recall-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\030-tutorial-10-recall-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-10-recall-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\031-tutorial-10-recall-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-11-defend-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\032-tutorial-11-defend-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-11-defend-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\033-tutorial-11-defend-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-11-defend-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\034-tutorial-11-defend-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-11-defend-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\035-tutorial-11-defend-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-12-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\036-tutorial-12-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-12-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\037-tutorial-12-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-12-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\038-tutorial-12-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-13-recruit-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\039-tutorial-13-recruit-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment card outside focused board view despite Watch instruction."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-13-recruit-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\040-tutorial-13-recruit-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment card outside focused board view despite Watch instruction."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-14-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\041-tutorial-14-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-14-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\042-tutorial-14-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-14-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\043-tutorial-14-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-15-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\044-tutorial-15-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-15-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\045-tutorial-15-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-16-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\046-tutorial-16-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-16-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\047-tutorial-16-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-16-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\048-tutorial-16-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-17-recall-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\049-tutorial-17-recall-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-17-recall-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\050-tutorial-17-recall-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-18-defend-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\051-tutorial-18-defend-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-18-defend-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\052-tutorial-18-defend-selected.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-18-defend-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\053-tutorial-18-defend-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-18-defend-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\054-tutorial-18-defend-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-19-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\055-tutorial-19-pass-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-19-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\056-tutorial-19-pass-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-19-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\057-tutorial-19-pass-outcome.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-20-recruit-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\058-tutorial-20-recruit-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment card outside focused board view despite Watch instruction."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-20-recruit-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\059-tutorial-20-recruit-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Rival recruitment card outside focused board view despite Watch instruction. Played card lower edge clipped by board viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-21-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\060-tutorial-21-pass-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus. Played card lower edge clipped by board viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-21-pass-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\061-tutorial-21-pass-preview.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus. Played card lower edge clipped by board viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-21-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\062-tutorial-21-pass-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus. Played card lower edge clipped by board viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-22-pass-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\063-tutorial-22-pass-explanation.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus. Played card lower edge clipped by board viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "tutorial-22-pass-outcome",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\064-tutorial-22-pass-outcome.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus. Played card lower edge clipped by board viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "post-lesson-reflection",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\065-post-lesson-reflection.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "new-table-setup",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\066-new-table-setup.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "name-entry-focused",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\067-name-entry-focused.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "name-entry-simulated-keyboard",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\068-name-entry-simulated-keyboard.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Fresh reopened setup (script intentionally reloads): focused You field and label visible within synthetic keyboard viewport; not an input-persistence test."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "sparse-table-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\069-sparse-table-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "sparse-table",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\070-sparse-table.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "rules-and-table-menu",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\071-rules-and-table-menu.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "reference-inspection",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\072-reference-inspection.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "dense-four-courts-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\073-dense-four-courts-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "dense-four-courts",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\074-dense-four-courts.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Dense Court has visible tiny portraits across rows; names unreadable at overview scale. Emptyhand guide and Pass fit."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "maximal-hand-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\075-maximal-hand-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "maximal-hand",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\076-maximal-hand.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "empty-deck-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\077-empty-deck-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "empty-deck",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\078-empty-deck.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Front Played pile card cut at lower board edge; emptydeck and Pass readable."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "native-notice-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\079-native-notice-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "native-notice",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\080-native-notice.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "native-reign-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\081-native-reign-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "native-reign",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\082-native-reign.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "incoming-recall-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\083-incoming-recall-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "incoming-recall",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\084-incoming-recall.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Recall response button reaches bottom edge; build badge overlaps its label and guide lower border is clipped."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "free-defense-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\085-free-defense-selected.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Recall response button reaches bottom edge; build badge overlaps its label and guide lower border is clipped."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "incoming-recall-response-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\086-incoming-recall-response-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "incoming-recall-response-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\087-incoming-recall-response-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "incoming-recall-resolved",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\088-incoming-recall-resolved.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "recall-decline-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\089-recall-decline-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "recall-decline",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\090-recall-decline.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Recall response button reaches bottom edge; build badge overlaps its label and guide lower border is clipped."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "recall-decline-response-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\091-recall-decline-response-preview.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Recall response button reaches bottom edge; build badge overlaps its label and guide lower border is clipped."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "recall-decline-response-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\092-recall-decline-response-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "recall-decline-resolved",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\093-recall-decline-resolved.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "failed-claim-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\094-failed-claim-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "failed-claim",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\095-failed-claim.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "marriage-notice-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\096-marriage-notice-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "marriage-notice",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\097-marriage-notice.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "foreign-reign-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\098-foreign-reign-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "foreign-reign",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\099-foreign-reign.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "trade-offer-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\100-trade-offer-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "trade-offer",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\101-trade-offer.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Trade response buttons fit but Inspect lies below viewport; badge overlaps bottom hand area."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "trade-offer-response-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\102-trade-offer-response-preview.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Trade response buttons fit but Inspect lies below viewport; badge overlaps bottom hand area."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "trade-offer-response-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\103-trade-offer-response-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "trade-offer-resolved",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\104-trade-offer-resolved.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "trade-decline-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\105-trade-decline-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "trade-decline",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\106-trade-decline.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Trade response buttons fit but Inspect lies below viewport; badge overlaps bottom hand area."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "trade-decline-response-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\107-trade-decline-response-preview.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Decline trade preview inconsistently says Let it happen; current Confirm/Cancel and Inspect fit."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "trade-decline-response-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\108-trade-decline-response-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable private recipient and reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "trade-decline-resolved",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\109-trade-decline-resolved.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "cap-draw",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\110-cap-draw.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "Game-ended guide wrongly instructs Pass and next-round drawing; restart fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "384x832",
+    "state": "invalid-save-recovery",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\384x832\\111-invalid-save-recovery.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Opened individually: guide or modal text readable and main current target visible; small Court overview needs focus."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "opening",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\000-opening.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable title and both primary routes; decorative cards continue below fold."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "introduction",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\001-introduction.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable introduction and both controls fit."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "introduction-action-after-deliberate-scroll",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\002-introduction-action-after-deliberate-scroll.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Introduction end controls visible; same view after deliberate reader scroll."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "tutorial-01-recruit-explanation",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\003-tutorial-01-recruit-explanation.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable first lesson, highlighted Malcolm III and two hand choices; board ruler tiny."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "tutorial-01-recruit-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\004-tutorial-01-recruit-selected.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: Recruit confirmation button clipped at bottom and local build badge overlaps its label."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "FAILED-complete-tutorial",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\005-FAILED-complete-tutorial.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: captured tutorial stop retains clipped Recruit control."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "new-table-setup",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\006-new-table-setup.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Setup labels and controls readable; Begin rests at modal lower edge."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "name-entry-focused",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\007-name-entry-focused.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Focused long name stays within input, horizontal text scroll expected."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "name-entry-simulated-keyboard",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\008-name-entry-simulated-keyboard.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Fresh reopened setup (script intentionally reloads): focused You field and label visible within synthetic keyboard viewport; not an input-persistence test."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "sparse-table-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\009-sparse-table-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff readable; reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "sparse-table",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\010-sparse-table.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: ordinary Pass clipped at bottom and badge overlaps label; Court cards tiny."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "rules-and-table-menu",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\011-rules-and-table-menu.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Readable table rules in deliberately scrollable modal; lower settings continue below."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "reference-inspection",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\012-reference-inspection.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Printed reference face and rules readable; lower rules action continues below in modal."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "dense-four-courts-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\013-dense-four-courts-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff readable; reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "dense-four-courts",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\014-dense-four-courts.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Empty-hand explanation and Pass fit; dense Court faces microscopic at whole-table view."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "maximal-hand-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\015-maximal-hand-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff readable; reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "maximal-hand",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\016-maximal-hand.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: maximal-hand Pass clipped and badge overlaps; partial third card signals horizontal hand continuation."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "empty-deck-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\017-empty-deck-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff readable; reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "empty-deck",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\018-empty-deck.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Empty deck explanation and Pass fit; Played pile visibly stacks on physical table."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "native-notice-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\019-native-notice-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Long Plantagenet handoff name wraps cleanly; reveal fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "native-notice",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\020-native-notice.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: native notice hand title wraps, guide and Pass run below viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "native-reign-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\021-native-reign-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Long Plantagenet handoff name wraps cleanly; reveal fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "native-reign",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\022-native-reign.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: native reign hand title wraps; Pass clipped and badge overlays bottom guide."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "incoming-recall-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\023-incoming-recall-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff readable; reveal target fully visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "incoming-recall",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\024-incoming-recall.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: Recall explanation cut below viewport; response buttons unavailable onscreen."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "free-defense-selected",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\025-free-defense-selected.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: selected defense guide clipped; Defend control below viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "FAILED-incoming-recall",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\026-FAILED-incoming-recall.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: captured Recall stop retains missing onscreen response."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "recall-decline-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\027-recall-decline-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff readable; reveal target fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "recall-decline",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\028-recall-decline.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: Recall decline explanation clipped; decline target below viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "FAILED-recall-decline",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\029-FAILED-recall-decline.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: captured decline stop retains missing onscreen response."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "failed-claim-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\030-failed-claim-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Private handoff readable; reveal target fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "failed-claim",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\031-failed-claim.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: failed-claim ordinary Pass clipped and badge overlaps."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "marriage-notice-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\032-marriage-notice-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Long Plantagenet handoff wraps cleanly; reveal fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "marriage-notice",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\033-marriage-notice.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Marriage notice, emptyhand explanation and Pass fit; physical marriage link visible."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "foreign-reign-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\034-foreign-reign-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Long Plantagenet handoff wraps cleanly; reveal fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "foreign-reign",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\035-foreign-reign.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: foreign reign Pass below viewport; badge overlays guide."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "trade-offer-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\036-trade-offer-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Long Plantagenet handoff wraps cleanly; reveal fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "trade-offer",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\037-trade-offer.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Trade explanation and response controls fit; hand card extends below viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "trade-offer-response-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\038-trade-offer-response-preview.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Trade accept preview and Confirm/Cancel fit; card extends below viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "trade-offer-response-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\039-trade-offer-response-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Long Plantagenet handoff wraps cleanly; reveal fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "trade-offer-resolved",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\040-trade-offer-resolved.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Accepted trade outcome and Pass fit; empty hand clear."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "trade-decline-private-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\041-trade-decline-private-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Long Plantagenet handoff wraps cleanly; reveal fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "trade-decline",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\042-trade-decline.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Trade explanation and response controls fit; hand card extends below viewport."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "trade-decline-response-preview",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\043-trade-decline-response-preview.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: decline preview calls action Let it happen; Inspect also clips at screen bottom, though Confirm/Cancel fit."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "trade-decline-response-handoff",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\044-trade-decline-response-handoff.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Long Plantagenet handoff wraps cleanly; reveal fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "trade-decline-resolved",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\045-trade-decline-resolved.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: trade-declined outcome Pass clipped and badge overlaps."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "cap-draw",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\046-cap-draw.png",
+    "inspected": true,
+    "verdict": "fail",
+    "observation": "FAIL: game-ended guide incorrectly instructs Pass and next-round drawing; restart button fits."
+  },
+  {
+    "sourceSha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+    "viewport": "360x780",
+    "state": "invalid-save-recovery",
+    "path": "C:\\Projects\\Carlin\\OandO\\tmp\\build5-release-7e521f8\\artifacts\\core\\layout\\360x780\\047-invalid-save-recovery.png",
+    "inspected": true,
+    "verdict": "reviewed",
+    "observation": "Invalid-save recovery setup readable; Begin at modal lower edge."
+  }
+]

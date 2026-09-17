@@ -1,0 +1,1214 @@
+{
+  "candidate": "7e521f8b29d704291f00af3a9db245fddae00b94",
+  "viewport": "1366x1366",
+  "reviewed": 112,
+  "method": "Each of 112 images opened individually via view_image; native1366 square, keyboard image shorter. Visual review only, not new interaction testing.",
+  "rows": [
+    {
+      "index": 0,
+      "state": "opening",
+      "path": "artifacts/core/layout/1366x1366/000-opening.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 1,
+      "state": "introduction",
+      "path": "artifacts/core/layout/1366x1366/001-introduction.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 2,
+      "state": "introduction-action-after-deliberate-scroll",
+      "path": "artifacts/core/layout/1366x1366/002-introduction-action-after-deliberate-scroll.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 3,
+      "state": "tutorial-01-recruit-explanation",
+      "path": "artifacts/core/layout/1366x1366/003-tutorial-01-recruit-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 4,
+      "state": "tutorial-01-recruit-selected",
+      "path": "artifacts/core/layout/1366x1366/004-tutorial-01-recruit-selected.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 5,
+      "state": "tutorial-01-recruit-preview",
+      "path": "artifacts/core/layout/1366x1366/005-tutorial-01-recruit-preview.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 6,
+      "state": "tutorial-01-recruit-outcome",
+      "path": "artifacts/core/layout/1366x1366/006-tutorial-01-recruit-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 7,
+      "state": "tutorial-02-recall-explanation",
+      "path": "artifacts/core/layout/1366x1366/007-tutorial-02-recall-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 8,
+      "state": "tutorial-02-recall-still-awaiting-watch",
+      "path": "artifacts/core/layout/1366x1366/008-tutorial-02-recall-still-awaiting-watch.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 9,
+      "state": "tutorial-02-recall-outcome",
+      "path": "artifacts/core/layout/1366x1366/009-tutorial-02-recall-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 10,
+      "state": "tutorial-03-defend-explanation",
+      "path": "artifacts/core/layout/1366x1366/010-tutorial-03-defend-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 11,
+      "state": "tutorial-03-defend-selected",
+      "path": "artifacts/core/layout/1366x1366/011-tutorial-03-defend-selected.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 12,
+      "state": "tutorial-03-defend-preview",
+      "path": "artifacts/core/layout/1366x1366/012-tutorial-03-defend-preview.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 13,
+      "state": "tutorial-03-defend-outcome",
+      "path": "artifacts/core/layout/1366x1366/013-tutorial-03-defend-outcome.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 14,
+      "state": "tutorial-04-pass-explanation",
+      "path": "artifacts/core/layout/1366x1366/014-tutorial-04-pass-explanation.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 15,
+      "state": "tutorial-04-pass-preview",
+      "path": "artifacts/core/layout/1366x1366/015-tutorial-04-pass-preview.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 16,
+      "state": "tutorial-04-pass-outcome",
+      "path": "artifacts/core/layout/1366x1366/016-tutorial-04-pass-outcome.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 17,
+      "state": "tutorial-05-recruit-explanation",
+      "path": "artifacts/core/layout/1366x1366/017-tutorial-05-recruit-explanation.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 18,
+      "state": "tutorial-05-recruit-outcome",
+      "path": "artifacts/core/layout/1366x1366/018-tutorial-05-recruit-outcome.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 19,
+      "state": "tutorial-06-pass-explanation",
+      "path": "artifacts/core/layout/1366x1366/019-tutorial-06-pass-explanation.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 20,
+      "state": "tutorial-06-pass-preview",
+      "path": "artifacts/core/layout/1366x1366/020-tutorial-06-pass-preview.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 21,
+      "state": "tutorial-06-pass-outcome",
+      "path": "artifacts/core/layout/1366x1366/021-tutorial-06-pass-outcome.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 22,
+      "state": "tutorial-07-pass-explanation",
+      "path": "artifacts/core/layout/1366x1366/022-tutorial-07-pass-explanation.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 23,
+      "state": "tutorial-07-pass-outcome",
+      "path": "artifacts/core/layout/1366x1366/023-tutorial-07-pass-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 24,
+      "state": "tutorial-08-pass-explanation",
+      "path": "artifacts/core/layout/1366x1366/024-tutorial-08-pass-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 25,
+      "state": "tutorial-08-pass-outcome",
+      "path": "artifacts/core/layout/1366x1366/025-tutorial-08-pass-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 26,
+      "state": "tutorial-09-name-heir-explanation",
+      "path": "artifacts/core/layout/1366x1366/026-tutorial-09-name-heir-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 27,
+      "state": "tutorial-09-name-heir-selected",
+      "path": "artifacts/core/layout/1366x1366/027-tutorial-09-name-heir-selected.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 28,
+      "state": "tutorial-09-name-heir-preview",
+      "path": "artifacts/core/layout/1366x1366/028-tutorial-09-name-heir-preview.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 29,
+      "state": "tutorial-09-name-heir-outcome",
+      "path": "artifacts/core/layout/1366x1366/029-tutorial-09-name-heir-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 30,
+      "state": "tutorial-10-recall-explanation",
+      "path": "artifacts/core/layout/1366x1366/030-tutorial-10-recall-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 31,
+      "state": "tutorial-10-recall-outcome",
+      "path": "artifacts/core/layout/1366x1366/031-tutorial-10-recall-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 32,
+      "state": "tutorial-11-defend-explanation",
+      "path": "artifacts/core/layout/1366x1366/032-tutorial-11-defend-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 33,
+      "state": "tutorial-11-defend-selected",
+      "path": "artifacts/core/layout/1366x1366/033-tutorial-11-defend-selected.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 34,
+      "state": "tutorial-11-defend-preview",
+      "path": "artifacts/core/layout/1366x1366/034-tutorial-11-defend-preview.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 35,
+      "state": "tutorial-11-defend-outcome",
+      "path": "artifacts/core/layout/1366x1366/035-tutorial-11-defend-outcome.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 36,
+      "state": "tutorial-12-pass-explanation",
+      "path": "artifacts/core/layout/1366x1366/036-tutorial-12-pass-explanation.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 37,
+      "state": "tutorial-12-pass-preview",
+      "path": "artifacts/core/layout/1366x1366/037-tutorial-12-pass-preview.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 38,
+      "state": "tutorial-12-pass-outcome",
+      "path": "artifacts/core/layout/1366x1366/038-tutorial-12-pass-outcome.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 39,
+      "state": "tutorial-13-recruit-explanation",
+      "path": "artifacts/core/layout/1366x1366/039-tutorial-13-recruit-explanation.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 40,
+      "state": "tutorial-13-recruit-outcome",
+      "path": "artifacts/core/layout/1366x1366/040-tutorial-13-recruit-outcome.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 41,
+      "state": "tutorial-14-pass-explanation",
+      "path": "artifacts/core/layout/1366x1366/041-tutorial-14-pass-explanation.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 42,
+      "state": "tutorial-14-pass-preview",
+      "path": "artifacts/core/layout/1366x1366/042-tutorial-14-pass-preview.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 43,
+      "state": "tutorial-14-pass-outcome",
+      "path": "artifacts/core/layout/1366x1366/043-tutorial-14-pass-outcome.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 44,
+      "state": "tutorial-15-pass-explanation",
+      "path": "artifacts/core/layout/1366x1366/044-tutorial-15-pass-explanation.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 45,
+      "state": "tutorial-15-pass-outcome",
+      "path": "artifacts/core/layout/1366x1366/045-tutorial-15-pass-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 46,
+      "state": "tutorial-16-pass-explanation",
+      "path": "artifacts/core/layout/1366x1366/046-tutorial-16-pass-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 47,
+      "state": "tutorial-16-pass-preview",
+      "path": "artifacts/core/layout/1366x1366/047-tutorial-16-pass-preview.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 48,
+      "state": "tutorial-16-pass-outcome",
+      "path": "artifacts/core/layout/1366x1366/048-tutorial-16-pass-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 49,
+      "state": "tutorial-17-recall-explanation",
+      "path": "artifacts/core/layout/1366x1366/049-tutorial-17-recall-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 50,
+      "state": "tutorial-17-recall-outcome",
+      "path": "artifacts/core/layout/1366x1366/050-tutorial-17-recall-outcome.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 51,
+      "state": "tutorial-18-defend-explanation",
+      "path": "artifacts/core/layout/1366x1366/051-tutorial-18-defend-explanation.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 52,
+      "state": "tutorial-18-defend-selected",
+      "path": "artifacts/core/layout/1366x1366/052-tutorial-18-defend-selected.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 53,
+      "state": "tutorial-18-defend-preview",
+      "path": "artifacts/core/layout/1366x1366/053-tutorial-18-defend-preview.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 54,
+      "state": "tutorial-18-defend-outcome",
+      "path": "artifacts/core/layout/1366x1366/054-tutorial-18-defend-outcome.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 55,
+      "state": "tutorial-19-pass-explanation",
+      "path": "artifacts/core/layout/1366x1366/055-tutorial-19-pass-explanation.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 56,
+      "state": "tutorial-19-pass-preview",
+      "path": "artifacts/core/layout/1366x1366/056-tutorial-19-pass-preview.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 57,
+      "state": "tutorial-19-pass-outcome",
+      "path": "artifacts/core/layout/1366x1366/057-tutorial-19-pass-outcome.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 58,
+      "state": "tutorial-20-recruit-explanation",
+      "path": "artifacts/core/layout/1366x1366/058-tutorial-20-recruit-explanation.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 59,
+      "state": "tutorial-20-recruit-outcome",
+      "path": "artifacts/core/layout/1366x1366/059-tutorial-20-recruit-outcome.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Court headings cross board top border; upper Ruler label is tangent to next row card top, risking wrong role association."
+      ]
+    },
+    {
+      "index": 60,
+      "state": "tutorial-21-pass-explanation",
+      "path": "artifacts/core/layout/1366x1366/060-tutorial-21-pass-explanation.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Court headings cross board top border; upper Ruler label is tangent to next row card top, risking wrong role association."
+      ]
+    },
+    {
+      "index": 61,
+      "state": "tutorial-21-pass-preview",
+      "path": "artifacts/core/layout/1366x1366/061-tutorial-21-pass-preview.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Court headings cross board top border; upper Ruler label is tangent to next row card top, risking wrong role association."
+      ]
+    },
+    {
+      "index": 62,
+      "state": "tutorial-21-pass-outcome",
+      "path": "artifacts/core/layout/1366x1366/062-tutorial-21-pass-outcome.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Court headings cross board top border; upper Ruler label is tangent to next row card top, risking wrong role association."
+      ]
+    },
+    {
+      "index": 63,
+      "state": "tutorial-22-pass-explanation",
+      "path": "artifacts/core/layout/1366x1366/063-tutorial-22-pass-explanation.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Court headings cross board top border; upper Ruler label is tangent to next row card top, risking wrong role association."
+      ]
+    },
+    {
+      "index": 64,
+      "state": "tutorial-22-pass-outcome",
+      "path": "artifacts/core/layout/1366x1366/064-tutorial-22-pass-outcome.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Court headings cross board top border; upper Ruler label is tangent to next row card top, risking wrong role association."
+      ]
+    },
+    {
+      "index": 65,
+      "state": "post-lesson-reflection",
+      "path": "artifacts/core/layout/1366x1366/065-post-lesson-reflection.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 66,
+      "state": "new-table-setup",
+      "path": "artifacts/core/layout/1366x1366/066-new-table-setup.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Setup/input controls visible; keyboard capture is fresh setup after reload and cannot prove value persistence."
+      ]
+    },
+    {
+      "index": 67,
+      "state": "name-entry-focused",
+      "path": "artifacts/core/layout/1366x1366/067-name-entry-focused.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Setup/input controls visible; keyboard capture is fresh setup after reload and cannot prove value persistence."
+      ]
+    },
+    {
+      "index": 68,
+      "state": "name-entry-simulated-keyboard",
+      "path": "artifacts/core/layout/1366x1366/068-name-entry-simulated-keyboard.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Setup/input controls visible; keyboard capture is fresh setup after reload and cannot prove value persistence."
+      ]
+    },
+    {
+      "index": 69,
+      "state": "sparse-table-private-handoff",
+      "path": "artifacts/core/layout/1366x1366/069-sparse-table-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 70,
+      "state": "sparse-table",
+      "path": "artifacts/core/layout/1366x1366/070-sparse-table.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 71,
+      "state": "rules-and-table-menu",
+      "path": "artifacts/core/layout/1366x1366/071-rules-and-table-menu.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 72,
+      "state": "reference-inspection",
+      "path": "artifacts/core/layout/1366x1366/072-reference-inspection.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 73,
+      "state": "dense-four-courts-private-handoff",
+      "path": "artifacts/core/layout/1366x1366/073-dense-four-courts-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 74,
+      "state": "dense-four-courts",
+      "path": "artifacts/core/layout/1366x1366/074-dense-four-courts.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Dense Court role labels are tangent to the second row; whole-table fine print is too small for direct reading."
+      ]
+    },
+    {
+      "index": 75,
+      "state": "maximal-hand-private-handoff",
+      "path": "artifacts/core/layout/1366x1366/075-maximal-hand-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 76,
+      "state": "maximal-hand",
+      "path": "artifacts/core/layout/1366x1366/076-maximal-hand.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Draw 0 overlaps Habsburg Court heading."
+      ]
+    },
+    {
+      "index": 77,
+      "state": "empty-deck-private-handoff",
+      "path": "artifacts/core/layout/1366x1366/077-empty-deck-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 78,
+      "state": "empty-deck",
+      "path": "artifacts/core/layout/1366x1366/078-empty-deck.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Played stack extends off board onto wood; its annotation crosses front card and Crown."
+      ]
+    },
+    {
+      "index": 79,
+      "state": "native-notice-private-handoff",
+      "path": "artifacts/core/layout/1366x1366/079-native-notice-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 80,
+      "state": "native-notice",
+      "path": "artifacts/core/layout/1366x1366/080-native-notice.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration."
+      ]
+    },
+    {
+      "index": 81,
+      "state": "native-reign-private-handoff",
+      "path": "artifacts/core/layout/1366x1366/081-native-reign-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 82,
+      "state": "native-reign",
+      "path": "artifacts/core/layout/1366x1366/082-native-reign.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration."
+      ]
+    },
+    {
+      "index": 83,
+      "state": "incoming-recall-private-handoff",
+      "path": "artifacts/core/layout/1366x1366/083-incoming-recall-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 84,
+      "state": "incoming-recall",
+      "path": "artifacts/core/layout/1366x1366/084-incoming-recall.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration."
+      ]
+    },
+    {
+      "index": 85,
+      "state": "free-defense-selected",
+      "path": "artifacts/core/layout/1366x1366/085-free-defense-selected.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration."
+      ]
+    },
+    {
+      "index": 86,
+      "state": "incoming-recall-response-preview",
+      "path": "artifacts/core/layout/1366x1366/086-incoming-recall-response-preview.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration."
+      ]
+    },
+    {
+      "index": 87,
+      "state": "incoming-recall-response-handoff",
+      "path": "artifacts/core/layout/1366x1366/087-incoming-recall-response-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 88,
+      "state": "incoming-recall-resolved",
+      "path": "artifacts/core/layout/1366x1366/088-incoming-recall-resolved.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 89,
+      "state": "recall-decline-private-handoff",
+      "path": "artifacts/core/layout/1366x1366/089-recall-decline-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 90,
+      "state": "recall-decline",
+      "path": "artifacts/core/layout/1366x1366/090-recall-decline.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration."
+      ]
+    },
+    {
+      "index": 91,
+      "state": "recall-decline-response-preview",
+      "path": "artifacts/core/layout/1366x1366/091-recall-decline-response-preview.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration."
+      ]
+    },
+    {
+      "index": 92,
+      "state": "recall-decline-response-handoff",
+      "path": "artifacts/core/layout/1366x1366/092-recall-decline-response-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 93,
+      "state": "recall-decline-resolved",
+      "path": "artifacts/core/layout/1366x1366/093-recall-decline-resolved.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 94,
+      "state": "failed-claim-private-handoff",
+      "path": "artifacts/core/layout/1366x1366/094-failed-claim-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 95,
+      "state": "failed-claim",
+      "path": "artifacts/core/layout/1366x1366/095-failed-claim.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Returns next round annotation crosses or touches a card footer or Crown component."
+      ]
+    },
+    {
+      "index": 96,
+      "state": "marriage-notice-private-handoff",
+      "path": "artifacts/core/layout/1366x1366/096-marriage-notice-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 97,
+      "state": "marriage-notice",
+      "path": "artifacts/core/layout/1366x1366/097-marriage-notice.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration."
+      ]
+    },
+    {
+      "index": 98,
+      "state": "foreign-reign-private-handoff",
+      "path": "artifacts/core/layout/1366x1366/098-foreign-reign-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 99,
+      "state": "foreign-reign",
+      "path": "artifacts/core/layout/1366x1366/099-foreign-reign.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration."
+      ]
+    },
+    {
+      "index": 100,
+      "state": "trade-offer-private-handoff",
+      "path": "artifacts/core/layout/1366x1366/100-trade-offer-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 101,
+      "state": "trade-offer",
+      "path": "artifacts/core/layout/1366x1366/101-trade-offer.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Offered Marjorie Bruce face absent from table comparison; paragraphs carry exchange and immediate Recruit exception."
+      ]
+    },
+    {
+      "index": 102,
+      "state": "trade-offer-response-preview",
+      "path": "artifacts/core/layout/1366x1366/102-trade-offer-response-preview.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Offered Marjorie Bruce face absent from table comparison; paragraphs carry exchange and immediate Recruit exception."
+      ]
+    },
+    {
+      "index": 103,
+      "state": "trade-offer-response-handoff",
+      "path": "artifacts/core/layout/1366x1366/103-trade-offer-response-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 104,
+      "state": "trade-offer-resolved",
+      "path": "artifacts/core/layout/1366x1366/104-trade-offer-resolved.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 105,
+      "state": "trade-decline-private-handoff",
+      "path": "artifacts/core/layout/1366x1366/105-trade-decline-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 106,
+      "state": "trade-decline",
+      "path": "artifacts/core/layout/1366x1366/106-trade-decline.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Offered Marjorie Bruce face absent from table comparison; paragraphs carry exchange and immediate Recruit exception."
+      ]
+    },
+    {
+      "index": 107,
+      "state": "trade-decline-response-preview",
+      "path": "artifacts/core/layout/1366x1366/107-trade-decline-response-preview.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Decline trade changes to Let it happen / Confirm Let it happen."
+      ]
+    },
+    {
+      "index": 108,
+      "state": "trade-decline-response-handoff",
+      "path": "artifacts/core/layout/1366x1366/108-trade-decline-response-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 109,
+      "state": "trade-decline-resolved",
+      "path": "artifacts/core/layout/1366x1366/109-trade-decline-resolved.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible."
+      ]
+    },
+    {
+      "index": 110,
+      "state": "cap-draw",
+      "path": "artifacts/core/layout/1366x1366/110-cap-draw.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Cream striping obscures portions of Court or Played portraits; strongest states cover operative rank regions. Renderer failure, not accepted decoration.",
+        "Terminal guide contradicts end state with Pass and next-round return/draw instructions."
+      ]
+    },
+    {
+      "index": 111,
+      "state": "invalid-save-recovery",
+      "path": "artifacts/core/layout/1366x1366/111-invalid-save-recovery.png",
+      "inspected": true,
+      "verdict": "fail",
+      "observations": [
+        "Actual image opened at native square resolution; controls and guide remain visible.",
+        "Raw JSON parser details appear as player-facing recovery explanation."
+      ]
+    }
+  ]
+}

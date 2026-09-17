@@ -1,0 +1,58 @@
+{
+  "source": "7e521f8b29d704291f00af3a9db245fddae00b94",
+  "scope": "Constructed invariant-valid states; local response only; not proof of reachability or full-game optimality",
+  "results": [
+    {
+      "threat": 13,
+      "heir": 1,
+      "reserved": 12,
+      "legalDefenseRanks": [],
+      "claimSurvives": false,
+      "events": [
+        "plantagenet plays Robert II to Recall Kenneth MacAlpin. Its controller may Defend once or let the person go.",
+        "Kenneth MacAlpin goes to plantagenet in exchange for Robert II, which goes to alba. Both enter Played and return to their new owners next round.",
+        "The Crown attempt fails because a required person has left. The Crown is available again."
+      ]
+    },
+    {
+      "threat": 13,
+      "heir": 12,
+      "reserved": 1,
+      "legalDefenseRanks": [
+        1
+      ],
+      "claimSurvives": true,
+      "events": [
+        "alba names St Margaret heir, supported by David I. Malcolm III claims the Crown; succession begins next round.",
+        "plantagenet plays Robert II to Recall St Margaret. Its controller may Defend once or let the person go.",
+        "Kenneth MacAlpin defends against Robert II. St Margaret stays in Court."
+      ]
+    },
+    {
+      "threat": 10,
+      "heir": 1,
+      "reserved": 12,
+      "legalDefenseRanks": [
+        12
+      ],
+      "claimSurvives": true,
+      "events": [
+        "alba names Kenneth MacAlpin heir, supported by David I. Malcolm III claims the Crown; succession begins next round.",
+        "plantagenet plays Constantine II to Recall Kenneth MacAlpin. Its controller may Defend once or let the person go.",
+        "St Margaret defends against Constantine II. Kenneth MacAlpin stays in Court."
+      ]
+    },
+    {
+      "threat": 10,
+      "heir": 12,
+      "reserved": 1,
+      "legalDefenseRanks": [],
+      "claimSurvives": false,
+      "events": [
+        "plantagenet plays Constantine II to Recall St Margaret. Its controller may Defend once or let the person go.",
+        "St Margaret goes to plantagenet in exchange for Constantine II, which goes to alba. Both enter Played and return to their new owners next round.",
+        "The Crown attempt fails because a required person has left. The Crown is available again."
+      ]
+    }
+  ]
+}

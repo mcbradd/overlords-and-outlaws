@@ -1,0 +1,904 @@
+{
+  "candidate": "7e521f8b29d704291f00af3a9db245fddae00b94",
+  "browser": "Chrome152.0.7977.83",
+  "evidenceRoot": "C:/Projects/Carlin/OandO/tmp/build5-release-7e521f8",
+  "status": "in-progress",
+  "entries": [
+    {
+      "state": "opening",
+      "path": "artifacts/core/layout/1280x720/000-opening.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Opening controls and authored title readable. Fixed build badge overlaps the lower-left copyright line."
+    },
+    {
+      "state": "introduction",
+      "path": "artifacts/core/layout/1280x720/001-introduction.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Left-aligned introduction and controls readable; no clipping."
+    },
+    {
+      "state": "introduction-action-after-deliberate-scroll",
+      "path": "artifacts/core/layout/1280x720/002-introduction-action-after-deliberate-scroll.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Left-aligned introduction and controls readable; no clipping."
+    },
+    {
+      "state": "tutorial-01-recruit-explanation",
+      "path": "artifacts/core/layout/1280x720/003-tutorial-01-recruit-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide, next target and controls readable. Current-opportunity overlay intersects the rival Court heading; incoming Recall arrow also crosses Draw label in states009–012."
+    },
+    {
+      "state": "tutorial-01-recruit-selected",
+      "path": "artifacts/core/layout/1280x720/004-tutorial-01-recruit-selected.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide, next target and controls readable. Current-opportunity overlay intersects the rival Court heading; incoming Recall arrow also crosses Draw label in states009–012."
+    },
+    {
+      "state": "tutorial-01-recruit-preview",
+      "path": "artifacts/core/layout/1280x720/005-tutorial-01-recruit-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide, next target and controls readable. Current-opportunity overlay intersects the rival Court heading; incoming Recall arrow also crosses Draw label in states009–012."
+    },
+    {
+      "state": "tutorial-01-recruit-outcome",
+      "path": "artifacts/core/layout/1280x720/006-tutorial-01-recruit-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide, next target and controls readable. Current-opportunity overlay intersects the rival Court heading; incoming Recall arrow also crosses Draw label in states009–012."
+    },
+    {
+      "state": "tutorial-02-recall-explanation",
+      "path": "artifacts/core/layout/1280x720/007-tutorial-02-recall-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide, next target and controls readable. Current-opportunity overlay intersects the rival Court heading; incoming Recall arrow also crosses Draw label in states009–012."
+    },
+    {
+      "state": "tutorial-02-recall-still-awaiting-watch",
+      "path": "artifacts/core/layout/1280x720/008-tutorial-02-recall-still-awaiting-watch.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide, next target and controls readable. Current-opportunity overlay intersects the rival Court heading; incoming Recall arrow also crosses Draw label in states009–012."
+    },
+    {
+      "state": "tutorial-02-recall-outcome",
+      "path": "artifacts/core/layout/1280x720/009-tutorial-02-recall-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide, next target and controls readable. Current-opportunity overlay intersects the rival Court heading; incoming Recall arrow also crosses Draw label in states009–012."
+    },
+    {
+      "state": "tutorial-03-defend-explanation",
+      "path": "artifacts/core/layout/1280x720/010-tutorial-03-defend-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide, next target and controls readable. Current-opportunity overlay intersects the rival Court heading; incoming Recall arrow also crosses Draw label in states009–012."
+    },
+    {
+      "state": "tutorial-03-defend-selected",
+      "path": "artifacts/core/layout/1280x720/011-tutorial-03-defend-selected.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide, next target and controls readable. Current-opportunity overlay intersects the rival Court heading; incoming Recall arrow also crosses Draw label in states009–012."
+    },
+    {
+      "state": "tutorial-03-defend-preview",
+      "path": "artifacts/core/layout/1280x720/012-tutorial-03-defend-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide, next target and controls readable. Current-opportunity overlay intersects the rival Court heading; incoming Recall arrow also crosses Draw label in states009–012."
+    },
+    {
+      "state": "tutorial-03-defend-outcome",
+      "path": "artifacts/core/layout/1280x720/013-tutorial-03-defend-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide and required controls readable. Returns next round labels encroach on Court-card edges; review physical label placement. State017 says card backs show hidden options, while this capture shows only concealed-count text."
+    },
+    {
+      "state": "tutorial-04-pass-explanation",
+      "path": "artifacts/core/layout/1280x720/014-tutorial-04-pass-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide and required controls readable. Returns next round labels encroach on Court-card edges; review physical label placement. State017 says card backs show hidden options, while this capture shows only concealed-count text."
+    },
+    {
+      "state": "tutorial-04-pass-preview",
+      "path": "artifacts/core/layout/1280x720/015-tutorial-04-pass-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide and required controls readable. Returns next round labels encroach on Court-card edges; review physical label placement. State017 says card backs show hidden options, while this capture shows only concealed-count text."
+    },
+    {
+      "state": "tutorial-04-pass-outcome",
+      "path": "artifacts/core/layout/1280x720/016-tutorial-04-pass-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide and required controls readable. Returns next round labels encroach on Court-card edges; review physical label placement. State017 says card backs show hidden options, while this capture shows only concealed-count text."
+    },
+    {
+      "state": "tutorial-05-recruit-explanation",
+      "path": "artifacts/core/layout/1280x720/017-tutorial-05-recruit-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide and required controls readable. Returns next round labels encroach on Court-card edges; review physical label placement. State017 says card backs show hidden options, while this capture shows only concealed-count text."
+    },
+    {
+      "state": "tutorial-05-recruit-outcome",
+      "path": "artifacts/core/layout/1280x720/018-tutorial-05-recruit-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide and required controls readable. Returns next round labels encroach on Court-card edges; review physical label placement. State017 says card backs show hidden options, while this capture shows only concealed-count text."
+    },
+    {
+      "state": "tutorial-06-pass-explanation",
+      "path": "artifacts/core/layout/1280x720/019-tutorial-06-pass-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide and required controls readable. Returns next round labels encroach on Court-card edges; review physical label placement. State017 says card backs show hidden options, while this capture shows only concealed-count text."
+    },
+    {
+      "state": "tutorial-06-pass-preview",
+      "path": "artifacts/core/layout/1280x720/020-tutorial-06-pass-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Pass/refill explanation and controls readable; Played return labels touch Court card edges."
+    },
+    {
+      "state": "tutorial-06-pass-outcome",
+      "path": "artifacts/core/layout/1280x720/021-tutorial-06-pass-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Pass/refill explanation and controls readable; Played return labels touch Court card edges."
+    },
+    {
+      "state": "tutorial-07-pass-explanation",
+      "path": "artifacts/core/layout/1280x720/022-tutorial-07-pass-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Pass/refill explanation and controls readable; Played return labels touch Court card edges."
+    },
+    {
+      "state": "tutorial-07-pass-outcome",
+      "path": "artifacts/core/layout/1280x720/023-tutorial-07-pass-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Name-heir teaching, selected and confirmation target readable; opportunity indicator touches rival Court heading."
+    },
+    {
+      "state": "tutorial-08-pass-explanation",
+      "path": "artifacts/core/layout/1280x720/024-tutorial-08-pass-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Name-heir teaching, selected and confirmation target readable; opportunity indicator touches rival Court heading."
+    },
+    {
+      "state": "tutorial-08-pass-outcome",
+      "path": "artifacts/core/layout/1280x720/025-tutorial-08-pass-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Name-heir teaching, selected and confirmation target readable; opportunity indicator touches rival Court heading."
+    },
+    {
+      "state": "tutorial-09-name-heir-explanation",
+      "path": "artifacts/core/layout/1280x720/026-tutorial-09-name-heir-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Name-heir teaching, selected and confirmation target readable; opportunity indicator touches rival Court heading."
+    },
+    {
+      "state": "tutorial-09-name-heir-selected",
+      "path": "artifacts/core/layout/1280x720/027-tutorial-09-name-heir-selected.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Name-heir teaching, selected and confirmation target readable; opportunity indicator touches rival Court heading."
+    },
+    {
+      "state": "tutorial-09-name-heir-preview",
+      "path": "artifacts/core/layout/1280x720/028-tutorial-09-name-heir-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Name-heir teaching, selected and confirmation target readable; opportunity indicator touches rival Court heading."
+    },
+    {
+      "state": "tutorial-09-name-heir-outcome",
+      "path": "artifacts/core/layout/1280x720/029-tutorial-09-name-heir-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Crown roles and guide readable; header says 'You claims'. Incoming Recall arrow crosses Draw text in031–034."
+    },
+    {
+      "state": "tutorial-10-recall-explanation",
+      "path": "artifacts/core/layout/1280x720/030-tutorial-10-recall-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Crown roles and guide readable; header says 'You claims'. Incoming Recall arrow crosses Draw text in031–034."
+    },
+    {
+      "state": "tutorial-10-recall-outcome",
+      "path": "artifacts/core/layout/1280x720/031-tutorial-10-recall-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Crown roles and guide readable; header says 'You claims'. Incoming Recall arrow crosses Draw text in031–034."
+    },
+    {
+      "state": "tutorial-11-defend-explanation",
+      "path": "artifacts/core/layout/1280x720/032-tutorial-11-defend-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Crown roles and guide readable; header says 'You claims'. Incoming Recall arrow crosses Draw text in031–034."
+    },
+    {
+      "state": "tutorial-11-defend-selected",
+      "path": "artifacts/core/layout/1280x720/033-tutorial-11-defend-selected.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Crown roles and guide readable; header says 'You claims'. Incoming Recall arrow crosses Draw text in031–034."
+    },
+    {
+      "state": "tutorial-11-defend-preview",
+      "path": "artifacts/core/layout/1280x720/034-tutorial-11-defend-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Crown roles and guide readable; header says 'You claims'. Incoming Recall arrow crosses Draw text in031–034."
+    },
+    {
+      "state": "tutorial-11-defend-outcome",
+      "path": "artifacts/core/layout/1280x720/035-tutorial-11-defend-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guided pass/recruit controls readable; header says 'You claims'; return labels touch adjacent Court card edges."
+    },
+    {
+      "state": "tutorial-12-pass-explanation",
+      "path": "artifacts/core/layout/1280x720/036-tutorial-12-pass-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guided pass/recruit controls readable; header says 'You claims'; return labels touch adjacent Court card edges."
+    },
+    {
+      "state": "tutorial-12-pass-preview",
+      "path": "artifacts/core/layout/1280x720/037-tutorial-12-pass-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guided pass/recruit controls readable; header says 'You claims'; return labels touch adjacent Court card edges."
+    },
+    {
+      "state": "tutorial-12-pass-outcome",
+      "path": "artifacts/core/layout/1280x720/038-tutorial-12-pass-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guided pass/recruit controls readable; header says 'You claims'; return labels touch adjacent Court card edges."
+    },
+    {
+      "state": "tutorial-13-recruit-explanation",
+      "path": "artifacts/core/layout/1280x720/039-tutorial-13-recruit-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guided pass/recruit controls readable; header says 'You claims'; return labels touch adjacent Court card edges."
+    },
+    {
+      "state": "tutorial-13-recruit-outcome",
+      "path": "artifacts/core/layout/1280x720/040-tutorial-13-recruit-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guided pass/recruit controls readable; header says 'You claims'; return labels touch adjacent Court card edges."
+    },
+    {
+      "state": "tutorial-14-pass-explanation",
+      "path": "artifacts/core/layout/1280x720/041-tutorial-14-pass-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guided pass/recruit controls readable; header says 'You claims'; return labels touch adjacent Court card edges."
+    },
+    {
+      "state": "tutorial-14-pass-preview",
+      "path": "artifacts/core/layout/1280x720/042-tutorial-14-pass-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guided pass/recruit controls readable; header says 'You claims'; return labels touch adjacent Court card edges."
+    },
+    {
+      "state": "tutorial-14-pass-outcome",
+      "path": "artifacts/core/layout/1280x720/043-tutorial-14-pass-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guided pass/recruit controls readable; header says 'You claims'; return labels touch adjacent Court card edges."
+    },
+    {
+      "state": "tutorial-15-pass-explanation",
+      "path": "artifacts/core/layout/1280x720/044-tutorial-15-pass-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guided pass/recruit controls readable; header says 'You claims'; return labels touch adjacent Court card edges."
+    },
+    {
+      "state": "tutorial-15-pass-outcome",
+      "path": "artifacts/core/layout/1280x720/045-tutorial-15-pass-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Succession and defense guidance readable; header says 'You wins'. Incoming Recall arrow crosses Draw label in050–051."
+    },
+    {
+      "state": "tutorial-16-pass-explanation",
+      "path": "artifacts/core/layout/1280x720/046-tutorial-16-pass-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Succession and defense guidance readable; header says 'You wins'. Incoming Recall arrow crosses Draw label in050–051."
+    },
+    {
+      "state": "tutorial-16-pass-preview",
+      "path": "artifacts/core/layout/1280x720/047-tutorial-16-pass-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Succession and defense guidance readable; header says 'You wins'. Incoming Recall arrow crosses Draw label in050–051."
+    },
+    {
+      "state": "tutorial-16-pass-outcome",
+      "path": "artifacts/core/layout/1280x720/048-tutorial-16-pass-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Succession and defense guidance readable; header says 'You wins'. Incoming Recall arrow crosses Draw label in050–051."
+    },
+    {
+      "state": "tutorial-17-recall-explanation",
+      "path": "artifacts/core/layout/1280x720/049-tutorial-17-recall-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Succession and defense guidance readable; header says 'You wins'. Incoming Recall arrow crosses Draw label in050–051."
+    },
+    {
+      "state": "tutorial-17-recall-outcome",
+      "path": "artifacts/core/layout/1280x720/050-tutorial-17-recall-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Succession and defense guidance readable; header says 'You wins'. Incoming Recall arrow crosses Draw label in050–051."
+    },
+    {
+      "state": "tutorial-18-defend-explanation",
+      "path": "artifacts/core/layout/1280x720/051-tutorial-18-defend-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Succession and defense guidance readable; header says 'You wins'. Incoming Recall arrow crosses Draw label in050–051."
+    },
+    {
+      "state": "tutorial-18-defend-selected",
+      "path": "artifacts/core/layout/1280x720/052-tutorial-18-defend-selected.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Guide and Defend fit. Header says You wins; Recall arrow crosses Draw."
+    },
+    {
+      "state": "tutorial-18-defend-preview",
+      "path": "artifacts/core/layout/1280x720/053-tutorial-18-defend-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Defense confirmation readable. Header says You wins; Recall arrow crosses Draw."
+    },
+    {
+      "state": "tutorial-18-defend-outcome",
+      "path": "artifacts/core/layout/1280x720/054-tutorial-18-defend-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Outcome readable. Returns next round overlaps adjacent Court edge; You wins grammar."
+    },
+    {
+      "state": "tutorial-19-pass-explanation",
+      "path": "artifacts/core/layout/1280x720/055-tutorial-19-pass-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Pass explanation readable. Return label overlaps Court edge; You wins grammar."
+    },
+    {
+      "state": "tutorial-19-pass-preview",
+      "path": "artifacts/core/layout/1280x720/056-tutorial-19-pass-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Pass preview fits. Return label overlaps Court edge; You wins grammar."
+    },
+    {
+      "state": "tutorial-19-pass-outcome",
+      "path": "artifacts/core/layout/1280x720/057-tutorial-19-pass-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Outcome fits. Return label overlaps Court edge; You wins grammar."
+    },
+    {
+      "state": "tutorial-20-recruit-explanation",
+      "path": "artifacts/core/layout/1280x720/058-tutorial-20-recruit-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Rival recruit explanation fits. Return label overlaps Court edge; You wins grammar."
+    },
+    {
+      "state": "tutorial-20-recruit-outcome",
+      "path": "artifacts/core/layout/1280x720/059-tutorial-20-recruit-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Fourth rival Court card shrinks entire board; tiny faces/roles, opportunity overlay crosses Court heading."
+    },
+    {
+      "state": "tutorial-21-pass-explanation",
+      "path": "artifacts/core/layout/1280x720/060-tutorial-21-pass-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Final pass guide fits; board tiny and opportunity overlay crosses Court heading; You wins grammar."
+    },
+    {
+      "state": "tutorial-21-pass-preview",
+      "path": "artifacts/core/layout/1280x720/061-tutorial-21-pass-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Final pass preview fits; board tiny and opportunity overlay crosses Court heading; You wins grammar."
+    },
+    {
+      "state": "tutorial-21-pass-outcome",
+      "path": "artifacts/core/layout/1280x720/062-tutorial-21-pass-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Outcome guide fits; board tiny and opportunity overlay crosses Court heading; You wins grammar."
+    },
+    {
+      "state": "tutorial-22-pass-explanation",
+      "path": "artifacts/core/layout/1280x720/063-tutorial-22-pass-explanation.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Final lesson explanation fits; tiny board, opportunity overlay crosses Court heading; You wins grammar."
+    },
+    {
+      "state": "tutorial-22-pass-outcome",
+      "path": "artifacts/core/layout/1280x720/064-tutorial-22-pass-outcome.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Victory header correct and Finish lesson reachable; board remains very small."
+    },
+    {
+      "state": "post-lesson-reflection",
+      "path": "artifacts/core/layout/1280x720/065-post-lesson-reflection.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Reflection dialog text and close/start/title controls readable and unclipped."
+    },
+    {
+      "state": "new-table-setup",
+      "path": "artifacts/core/layout/1280x720/066-new-table-setup.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Setup labels, fields and Begin game fit."
+    },
+    {
+      "state": "name-entry-focused",
+      "path": "artifacts/core/layout/1280x720/067-name-entry-focused.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Focused setup name visible with focus outline; Begin game fits."
+    },
+    {
+      "state": "name-entry-simulated-keyboard",
+      "path": "artifacts/core/layout/1280x720/068-name-entry-simulated-keyboard.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Simulated keyboard leaves focused input at bottom edge without comfortable margin."
+    },
+    {
+      "state": "sparse-table-private-handoff",
+      "path": "artifacts/core/layout/1280x720/069-sparse-table-private-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff readable, no hand leak."
+    },
+    {
+      "state": "sparse-table",
+      "path": "artifacts/core/layout/1280x720/070-sparse-table.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Ordinary sparse table and hand readable; build badge touches Inspect lower-left border."
+    },
+    {
+      "state": "rules-and-table-menu",
+      "path": "artifacts/core/layout/1280x720/071-rules-and-table-menu.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Menu readable; matching-rank foreign heir copy omits neighboring rank eligibility."
+    },
+    {
+      "state": "reference-inspection",
+      "path": "artifacts/core/layout/1280x720/072-reference-inspection.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Reference card readable; lower Reference Rules control partly clipped inside scrollable dialog, requires scroll verification."
+    },
+    {
+      "state": "dense-four-courts-private-handoff",
+      "path": "artifacts/core/layout/1280x720/073-dense-four-courts-private-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff clear."
+    },
+    {
+      "state": "dense-four-courts",
+      "path": "artifacts/core/layout/1280x720/074-dense-four-courts.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Dense 52-card overview names/ranks microscopic; focus controls available. Empty hand and Pass clear."
+    },
+    {
+      "state": "maximal-hand-private-handoff",
+      "path": "artifacts/core/layout/1280x720/075-maximal-hand-private-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff clear."
+    },
+    {
+      "state": "maximal-hand",
+      "path": "artifacts/core/layout/1280x720/076-maximal-hand.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Maximum hand shows horizontal overflow cue; four-seat board very tiny despite width. Pass fits."
+    },
+    {
+      "state": "empty-deck-private-handoff",
+      "path": "artifacts/core/layout/1280x720/077-empty-deck-private-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff clear."
+    },
+    {
+      "state": "empty-deck",
+      "path": "artifacts/core/layout/1280x720/078-empty-deck.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Huge Played pile extends off board into hand boundary; top card name clipped and return label crosses card."
+    },
+    {
+      "state": "native-notice-private-handoff",
+      "path": "artifacts/core/layout/1280x720/079-native-notice-private-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Two-line private handoff heading and ready control fit."
+    },
+    {
+      "state": "native-notice",
+      "path": "artifacts/core/layout/1280x720/080-native-notice.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Native notice identifies heir/supporter and roles; hand controls fit."
+    },
+    {
+      "state": "native-reign-private-handoff",
+      "path": "artifacts/core/layout/1280x720/081-native-reign-private-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff clear."
+    },
+    {
+      "state": "native-reign",
+      "path": "artifacts/core/layout/1280x720/082-native-reign.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Native reign roles and full-round objective clear; held-card controls fit."
+    },
+    {
+      "state": "incoming-recall-private-handoff",
+      "path": "artifacts/core/layout/1280x720/083-incoming-recall-private-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff clear."
+    },
+    {
+      "state": "incoming-recall",
+      "path": "artifacts/core/layout/1280x720/084-incoming-recall.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Recall lead/target and response controls readable; arrow crosses Draw label."
+    },
+    {
+      "state": "free-defense-selected",
+      "path": "artifacts/core/layout/1280x720/085-free-defense-selected.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Selected defense and decline controls fit; arrow crosses Draw label."
+    },
+    {
+      "state": "incoming-recall-response-preview",
+      "path": "artifacts/core/layout/1280x720/086-incoming-recall-response-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Defense confirmation clear; arrow crosses Draw label."
+    },
+    {
+      "state": "incoming-recall-response-handoff",
+      "path": "artifacts/core/layout/1280x720/087-incoming-recall-response-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff clear."
+    },
+    {
+      "state": "incoming-recall-resolved",
+      "path": "artifacts/core/layout/1280x720/088-incoming-recall-resolved.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Defense result explicitly says supporter stays; return label overlaps heir card edge."
+    },
+    {
+      "state": "recall-decline-private-handoff",
+      "path": "artifacts/core/layout/1280x720/089-recall-decline-private-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff clear."
+    },
+    {
+      "state": "recall-decline",
+      "path": "artifacts/core/layout/1280x720/090-recall-decline.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Recall response controls readable; arrow crosses Draw label."
+    },
+    {
+      "state": "recall-decline-response-preview",
+      "path": "artifacts/core/layout/1280x720/091-recall-decline-response-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Decline exchange/break warning and confirm/cancel fit; arrow crosses Draw label."
+    },
+    {
+      "state": "recall-decline-response-handoff",
+      "path": "artifacts/core/layout/1280x720/092-recall-decline-response-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff clear."
+    },
+    {
+      "state": "recall-decline-resolved",
+      "path": "artifacts/core/layout/1280x720/093-recall-decline-resolved.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Failed Crown claim and exchange visible; return label overlaps William card edge."
+    },
+    {
+      "state": "failed-claim-private-handoff",
+      "path": "artifacts/core/layout/1280x720/094-failed-claim-private-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff clear."
+    },
+    {
+      "state": "failed-claim",
+      "path": "artifacts/core/layout/1280x720/095-failed-claim.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Failed claim state and Name heir availability readable; return label overlaps Court edge."
+    },
+    {
+      "state": "marriage-notice-private-handoff",
+      "path": "artifacts/core/layout/1280x720/096-marriage-notice-private-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff clear."
+    },
+    {
+      "state": "marriage-notice",
+      "path": "artifacts/core/layout/1280x720/097-marriage-notice.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Foreign marriage notice and pair link visible; objective and Pass readable."
+    },
+    {
+      "state": "foreign-reign-private-handoff",
+      "path": "artifacts/core/layout/1280x720/098-foreign-reign-private-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff clear."
+    },
+    {
+      "state": "foreign-reign",
+      "path": "artifacts/core/layout/1280x720/099-foreign-reign.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Foreign reign ruler/supporter link and full-round objective readable; hand controls fit."
+    },
+    {
+      "state": "trade-offer-private-handoff",
+      "path": "artifacts/core/layout/1280x720/100-trade-offer-private-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff wraps naturally; ready control visible, hand concealed."
+    },
+    {
+      "state": "trade-offer",
+      "path": "artifacts/core/layout/1280x720/101-trade-offer.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Exact trade offer, requested identity and lower-native immediate recruit exception readable; badge touches Inspect border."
+    },
+    {
+      "state": "trade-offer-response-preview",
+      "path": "artifacts/core/layout/1280x720/102-trade-offer-response-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Trade accept confirmation explains exact exchange and immediate recruit; controls fit. Badge touches Inspect border."
+    },
+    {
+      "state": "trade-offer-response-handoff",
+      "path": "artifacts/core/layout/1280x720/103-trade-offer-response-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff readable."
+    },
+    {
+      "state": "trade-offer-resolved",
+      "path": "artifacts/core/layout/1280x720/104-trade-offer-resolved.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Accepted trade board shows native recruit and received Played card; result and Pass readable."
+    },
+    {
+      "state": "trade-decline-private-handoff",
+      "path": "artifacts/core/layout/1280x720/105-trade-decline-private-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff readable."
+    },
+    {
+      "state": "trade-decline",
+      "path": "artifacts/core/layout/1280x720/106-trade-decline.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Decline/accept options and offer terms readable; badge touches Inspect border."
+    },
+    {
+      "state": "trade-decline-response-preview",
+      "path": "artifacts/core/layout/1280x720/107-trade-decline-response-preview.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Decline preview misleadingly titled Let it happen and Confirm Let it happen; body correctly says decline. Controls fit."
+    },
+    {
+      "state": "trade-decline-response-handoff",
+      "path": "artifacts/core/layout/1280x720/108-trade-decline-response-handoff.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Private handoff readable."
+    },
+    {
+      "state": "trade-decline-resolved",
+      "path": "artifacts/core/layout/1280x720/109-trade-decline-resolved.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Declined result correctly explains retained ownership and Pass; controls fit, badge touches Inspect border."
+    },
+    {
+      "state": "cap-draw",
+      "path": "artifacts/core/layout/1280x720/110-cap-draw.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "revise",
+      "findings": "Ended game body contradicts terminal state by instructing Pass and next-round draw; Play another game visible."
+    },
+    {
+      "state": "invalid-save-recovery",
+      "path": "artifacts/core/layout/1280x720/111-invalid-save-recovery.png",
+      "inspected": true,
+      "reviewer": "root",
+      "verdict": "pass",
+      "findings": "Invalid-save recovery setup fits with readable labels and reachable Begin game."
+    }
+  ]
+}

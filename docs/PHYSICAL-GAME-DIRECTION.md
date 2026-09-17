@@ -1,5 +1,13 @@
 # Physical game — current creative direction
 
+## Build 6 presentation authority — 17 September 2026
+
+[The binding suit/rank game](SUIT-AND-RANK-DESIGN.md) and [production plan](BUILD-6-PRODUCTION-PLAN.md) govern the next implementation. Preserve the real 3D board, engraved collectible treatment, original portraits, matching rounded card stock/frames and 63:88 faces. Present mixed political Courts, readable suit/rank indices, face-up Resting cards, a printed rank ring and per-Court Crowns. Do not carry obsolete health, gold, seal, marriage, heir or round markers into this core merely because older paragraphs mention them. Such older component requirements apply only to their retained historical modes.
+
+Every active choice must show the actual offered person, target, possible neighboring answers and destinations with minimal text. A Crown means at least one three-rank run survives, not a hidden arbitrary trio. Visually repair portrait corruption, small/unused board allocation, labels across cards, clipped controls and offscreen rival actions. New faces and all contexts require actual visual review; generated screenshots are not acceptance. The user has requested a planning freeze and handoff before implementation begins.
+
+**Family-game clarity:** [Family-game design gate](FAMILY-GAME-DESIGN-GATE.md) governs the presentation. Sixth-grade language and minimal text are mandatory. Cards and components should visibly explain choices and consequences. Multiple explanatory sentences needed for ordinary gameplay indicate a design failure; more text, tiny labels or unexplained icons do not repair it.
+
 ## Binding Build 5 presentation correction — 17 September 2026
 
 The Build 4 transcript governs the next visual iteration. Preserve the physical/engraved art direction, source portraits and 63:88 faces while rebuilding their composition where needed. One authored title treatment; no redundant title, tiny essential text, centered paragraphs, navy holes through portrait apertures, mismatched frame corners, tangential role labels or focus strokes crossing content. Full printed names and suit/rank communicate the available card actions. A real, accessible camera must make the existing 3D depth useful; deliberate component placement and contact shadows keep the board dominant. Reserve room for the hand/guide so lower components remain visible. Predecode essential assets before scene transitions.

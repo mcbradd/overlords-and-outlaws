@@ -1,0 +1,515 @@
+{
+  "sha": "7e521f8b29d704291f00af3a9db245fddae00b94",
+  "dirty": false,
+  "base": "/overlords-and-outlaws-prod/",
+  "startedAt": "2026-09-17T18:34:18.322Z",
+  "checks": [
+    {
+      "name": "core-rules-and-storage",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 0.694
+    },
+    {
+      "name": "core-policy-simulation",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 1.017
+    },
+    {
+      "name": "core-browser",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 50.641
+    },
+    {
+      "name": "core-browser-extended",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 31.767
+    },
+    {
+      "name": "core-app-audit",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 28.224
+    },
+    {
+      "name": "core-layout",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 918.07
+    },
+    {
+      "name": "history-card-compile",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 0.484
+    },
+    {
+      "name": "history-card-lint",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 0.397
+    },
+    {
+      "name": "history-card-manifest",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 0.388
+    },
+    {
+      "name": "history-card-proofs",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 0.597
+    },
+    {
+      "name": "card-language-runtime",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 0.225
+    },
+    {
+      "name": "card-language-faces",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 4.232
+    },
+    {
+      "name": "card-language-ui",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 30.757
+    },
+    {
+      "name": "history-semantics",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 0.193
+    },
+    {
+      "name": "history-reminder-invariance",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 0.146
+    },
+    {
+      "name": "history-browser",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 21.15
+    },
+    {
+      "name": "playthrough-recovery",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 10.853
+    },
+    {
+      "name": "history-browser-landscape",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 19.514
+    },
+    {
+      "name": "history-browser-compact",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 19.151
+    },
+    {
+      "name": "tutorial-usability",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 31.779
+    },
+    {
+      "name": "tutorial-preview-fit",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 31.77
+    },
+    {
+      "name": "history-reading",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 16.782
+    },
+    {
+      "name": "history-layout",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 21.073
+    },
+    {
+      "name": "history-face-geometry",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 4.027
+    },
+    {
+      "name": "history-scene-inspection",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 3.37
+    },
+    {
+      "name": "playtest-recovery",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 2.291
+    },
+    {
+      "name": "history-simulation",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 4.027
+    },
+    {
+      "name": "history-print-fit",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 5.884
+    },
+    {
+      "name": "build",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 2.053
+    },
+    {
+      "name": "bundle",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 1.478
+    },
+    {
+      "name": "history-print-built",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 2.531
+    },
+    {
+      "name": "unit",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 1.991
+    },
+    {
+      "name": "ui",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 5.74
+    },
+    {
+      "name": "simulation",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 3.979
+    },
+    {
+      "name": "decision-audit",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 447.068
+    },
+    {
+      "name": "balance-soak",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 1.593
+    },
+    {
+      "name": "browser",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 31.081
+    },
+    {
+      "name": "layout",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 30.988
+    },
+    {
+      "name": "card-faces",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 25.454
+    },
+    {
+      "name": "physical",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 6.017
+    },
+    {
+      "name": "tutorial-regression",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 1.545
+    },
+    {
+      "name": "damage-regression",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 5.981
+    },
+    {
+      "name": "tutorial-drag",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 6.676
+    },
+    {
+      "name": "session02",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 16.337
+    },
+    {
+      "name": "interaction-v3",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 8.719
+    },
+    {
+      "name": "playthrough-lesson",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 31.275
+    },
+    {
+      "name": "playthrough",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 51.913
+    },
+    {
+      "name": "playthrough-motion",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 385.002
+    },
+    {
+      "name": "family",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 7.274
+    },
+    {
+      "name": "family-compact",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 7.34
+    },
+    {
+      "name": "physical-motion",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 1.686
+    },
+    {
+      "name": "portraits",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 6.188
+    },
+    {
+      "name": "gallery",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 1.71
+    },
+    {
+      "name": "showcase",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 17.665
+    },
+    {
+      "name": "opening",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 9.286
+    },
+    {
+      "name": "dense-courts",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 15.329
+    },
+    {
+      "name": "components",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 13.216
+    },
+    {
+      "name": "opponents",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 19.797
+    },
+    {
+      "name": "frames",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 2.882
+    },
+    {
+      "name": "layout-probe",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 30.731
+    },
+    {
+      "name": "retained-visual-probe",
+      "passed": false,
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 31.329
+    },
+    {
+      "name": "pages-smoke",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 7.393
+    },
+    {
+      "name": "core-pages-smoke",
+      "passed": true,
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "seconds": 88.259
+    }
+  ],
+  "visualInspection": "pending: inspect opening, action, dense courts and compact screenshots",
+  "completedAt": "2026-09-17T19:17:25.892Z",
+  "passed": false
+}

@@ -1,0 +1,30 @@
+import { createGame, assertInvariants, legalActions, viewForSeat, applyAction } from '../../src/core-game/engine';
+import { CARDS, BY_ID } from '../../src/core-game/content';
+import { writeFileSync } from 'node:fs';
+
+const id = (rank: number) => CARDS.find(c => c.dynasty === 'alba' && c.rank === rank)!.id;
+const results = [];
+for (const threat of [13, 10]) for (const heir of [1, 12]) {
+  let state = createGame({seed:'rank-choice-probe',dynasties:['alba','plantagenet']});
+  state.players[0].court = [id(2),id(3)];
+  state.players[0].ruler = id(2);
+  state.players[0].hand = [id(1),id(12)];
+  state.players[1].hand = [id(threat)];
+  state.knownHands = {1:[id(threat)]};
+  const occupied = state.players.flatMap(p=>[...p.court,...p.hand,...p.played]);
+  state.deck = CARDS.filter(c=>state.dynasties.includes(c.dynasty)&&!occupied.includes(c.id)).map(c=>c.id);
+  assertInvariants(state);
+  const choose = (seat:number,predicate:(a:any)=>boolean) => {
+    const action = legalActions(viewForSeat(state,seat),seat).find(predicate);
+    if (!action) throw new Error('Expected action absent');
+    state = applyAction(state,action);
+  };
+  choose(0,a=>a.type==='name-heir'&&a.card===id(heir)&&a.supporter===id(3));
+  choose(1,a=>a.type==='recall'&&a.card===id(threat)&&a.target===id(heir));
+  const defenses = legalActions(viewForSeat(state,0),0).filter(a=>a.type==='defend');
+  choose(0,a=>defenses.length ? a.type==='defend' : a.type==='decline');
+  results.push({threat,heir,reserved:heir===1?12:1,legalDefenseRanks:defenses.map(a=>BY_ID[a.card!].rank),claimSurvives:!!state.crown,events:state.events.slice(-3)});
+}
+if (results.map(r=>r.claimSurvives).join(',') !== 'false,true,true,false') throw new Error('Counterexample expectation failed');
+writeFileSync('artifacts/core/rank-choice-probe.json',JSON.stringify({source:'7e521f8b29d704291f00af3a9db245fddae00b94',scope:'Constructed invariant-valid states; local response only; not proof of reachability or full-game optimality',results},null,2));
+console.log(JSON.stringify(results));

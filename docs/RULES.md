@@ -1,6 +1,6 @@
 # Current rules and historical archive
 
-Build 5 core succession rules are defined in [Suit and rank](SUIT-AND-RANK-DESIGN.md). That document governs the default application. The older rules below apply only to the preserved `?archive=history-v4` runtime. Their seals, inheritance draft, History and paintings are not part of the current core. See the [Build 5 evidence log](reviews/BUILD-5-EXECUTION-LOG.md) for implementation and verification status.
+The currently published Build 5 core uses [archived succession rules](reviews/SUIT-AND-RANK-BUILD-5-SUPERSEDED.md). The next implementation is defined in [binding Build 6 suit/rank rules](SUIT-AND-RANK-DESIGN.md) and its [production package](BUILD-6-PRODUCTION-PLAN.md); it is not implemented yet. The older rules below apply only to the preserved `?archive=history-v4` runtime. Their seals, inheritance draft, History and paintings are not part of either core. See the [Build 5 evidence log](reviews/BUILD-5-EXECUTION-LOG.md) for the actual published status.
 
 ---
 

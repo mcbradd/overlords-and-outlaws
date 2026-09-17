@@ -1,0 +1,1194 @@
+{
+  "candidate": "7e521f8b29d704291f00af3a9db245fddae00b94",
+  "viewport": "3840x2160",
+  "method": "Each of 112 screenshots individually opened with view_image. Default image output resized to 2048x1152; keyboard capture to 2048x634. Index004 additionally opened native original 3840x2160. Composition inspection is not certification of every native text glyph. Original capture manifests unchanged.",
+  "rows": [
+    {
+      "index": 0,
+      "state": "opening",
+      "path": "artifacts/core/layout/3840x2160/000-opening.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Opening/intro content forms a small island amid substantial unused space; typography hierarchy concern at 4K."
+      ]
+    },
+    {
+      "index": 1,
+      "state": "introduction",
+      "path": "artifacts/core/layout/3840x2160/001-introduction.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Opening/intro content forms a small island amid substantial unused space; typography hierarchy concern at 4K."
+      ]
+    },
+    {
+      "index": 2,
+      "state": "introduction-action-after-deliberate-scroll",
+      "path": "artifacts/core/layout/3840x2160/002-introduction-action-after-deliberate-scroll.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Opening/intro content forms a small island amid substantial unused space; typography hierarchy concern at 4K."
+      ]
+    },
+    {
+      "index": 3,
+      "state": "tutorial-01-recruit-explanation",
+      "path": "artifacts/core/layout/3840x2160/003-tutorial-01-recruit-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 4,
+      "state": "tutorial-01-recruit-selected",
+      "path": "artifacts/core/layout/3840x2160/004-tutorial-01-recruit-selected.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 5,
+      "state": "tutorial-01-recruit-preview",
+      "path": "artifacts/core/layout/3840x2160/005-tutorial-01-recruit-preview.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 6,
+      "state": "tutorial-01-recruit-outcome",
+      "path": "artifacts/core/layout/3840x2160/006-tutorial-01-recruit-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 7,
+      "state": "tutorial-02-recall-explanation",
+      "path": "artifacts/core/layout/3840x2160/007-tutorial-02-recall-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 8,
+      "state": "tutorial-02-recall-still-awaiting-watch",
+      "path": "artifacts/core/layout/3840x2160/008-tutorial-02-recall-still-awaiting-watch.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 9,
+      "state": "tutorial-02-recall-outcome",
+      "path": "artifacts/core/layout/3840x2160/009-tutorial-02-recall-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 10,
+      "state": "tutorial-03-defend-explanation",
+      "path": "artifacts/core/layout/3840x2160/010-tutorial-03-defend-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 11,
+      "state": "tutorial-03-defend-selected",
+      "path": "artifacts/core/layout/3840x2160/011-tutorial-03-defend-selected.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 12,
+      "state": "tutorial-03-defend-preview",
+      "path": "artifacts/core/layout/3840x2160/012-tutorial-03-defend-preview.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 13,
+      "state": "tutorial-03-defend-outcome",
+      "path": "artifacts/core/layout/3840x2160/013-tutorial-03-defend-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 14,
+      "state": "tutorial-04-pass-explanation",
+      "path": "artifacts/core/layout/3840x2160/014-tutorial-04-pass-explanation.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 15,
+      "state": "tutorial-04-pass-preview",
+      "path": "artifacts/core/layout/3840x2160/015-tutorial-04-pass-preview.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 16,
+      "state": "tutorial-04-pass-outcome",
+      "path": "artifacts/core/layout/3840x2160/016-tutorial-04-pass-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 17,
+      "state": "tutorial-05-recruit-explanation",
+      "path": "artifacts/core/layout/3840x2160/017-tutorial-05-recruit-explanation.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 18,
+      "state": "tutorial-05-recruit-outcome",
+      "path": "artifacts/core/layout/3840x2160/018-tutorial-05-recruit-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 19,
+      "state": "tutorial-06-pass-explanation",
+      "path": "artifacts/core/layout/3840x2160/019-tutorial-06-pass-explanation.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 20,
+      "state": "tutorial-06-pass-preview",
+      "path": "artifacts/core/layout/3840x2160/020-tutorial-06-pass-preview.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 21,
+      "state": "tutorial-06-pass-outcome",
+      "path": "artifacts/core/layout/3840x2160/021-tutorial-06-pass-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 22,
+      "state": "tutorial-07-pass-explanation",
+      "path": "artifacts/core/layout/3840x2160/022-tutorial-07-pass-explanation.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 23,
+      "state": "tutorial-07-pass-outcome",
+      "path": "artifacts/core/layout/3840x2160/023-tutorial-07-pass-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 24,
+      "state": "tutorial-08-pass-explanation",
+      "path": "artifacts/core/layout/3840x2160/024-tutorial-08-pass-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 25,
+      "state": "tutorial-08-pass-outcome",
+      "path": "artifacts/core/layout/3840x2160/025-tutorial-08-pass-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 26,
+      "state": "tutorial-09-name-heir-explanation",
+      "path": "artifacts/core/layout/3840x2160/026-tutorial-09-name-heir-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 27,
+      "state": "tutorial-09-name-heir-selected",
+      "path": "artifacts/core/layout/3840x2160/027-tutorial-09-name-heir-selected.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 28,
+      "state": "tutorial-09-name-heir-preview",
+      "path": "artifacts/core/layout/3840x2160/028-tutorial-09-name-heir-preview.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 29,
+      "state": "tutorial-09-name-heir-outcome",
+      "path": "artifacts/core/layout/3840x2160/029-tutorial-09-name-heir-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 30,
+      "state": "tutorial-10-recall-explanation",
+      "path": "artifacts/core/layout/3840x2160/030-tutorial-10-recall-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 31,
+      "state": "tutorial-10-recall-outcome",
+      "path": "artifacts/core/layout/3840x2160/031-tutorial-10-recall-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 32,
+      "state": "tutorial-11-defend-explanation",
+      "path": "artifacts/core/layout/3840x2160/032-tutorial-11-defend-explanation.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 33,
+      "state": "tutorial-11-defend-selected",
+      "path": "artifacts/core/layout/3840x2160/033-tutorial-11-defend-selected.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 34,
+      "state": "tutorial-11-defend-preview",
+      "path": "artifacts/core/layout/3840x2160/034-tutorial-11-defend-preview.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 35,
+      "state": "tutorial-11-defend-outcome",
+      "path": "artifacts/core/layout/3840x2160/035-tutorial-11-defend-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 36,
+      "state": "tutorial-12-pass-explanation",
+      "path": "artifacts/core/layout/3840x2160/036-tutorial-12-pass-explanation.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 37,
+      "state": "tutorial-12-pass-preview",
+      "path": "artifacts/core/layout/3840x2160/037-tutorial-12-pass-preview.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 38,
+      "state": "tutorial-12-pass-outcome",
+      "path": "artifacts/core/layout/3840x2160/038-tutorial-12-pass-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 39,
+      "state": "tutorial-13-recruit-explanation",
+      "path": "artifacts/core/layout/3840x2160/039-tutorial-13-recruit-explanation.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 40,
+      "state": "tutorial-13-recruit-outcome",
+      "path": "artifacts/core/layout/3840x2160/040-tutorial-13-recruit-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 41,
+      "state": "tutorial-14-pass-explanation",
+      "path": "artifacts/core/layout/3840x2160/041-tutorial-14-pass-explanation.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 42,
+      "state": "tutorial-14-pass-preview",
+      "path": "artifacts/core/layout/3840x2160/042-tutorial-14-pass-preview.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 43,
+      "state": "tutorial-14-pass-outcome",
+      "path": "artifacts/core/layout/3840x2160/043-tutorial-14-pass-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 44,
+      "state": "tutorial-15-pass-explanation",
+      "path": "artifacts/core/layout/3840x2160/044-tutorial-15-pass-explanation.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 45,
+      "state": "tutorial-15-pass-outcome",
+      "path": "artifacts/core/layout/3840x2160/045-tutorial-15-pass-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 46,
+      "state": "tutorial-16-pass-explanation",
+      "path": "artifacts/core/layout/3840x2160/046-tutorial-16-pass-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 47,
+      "state": "tutorial-16-pass-preview",
+      "path": "artifacts/core/layout/3840x2160/047-tutorial-16-pass-preview.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 48,
+      "state": "tutorial-16-pass-outcome",
+      "path": "artifacts/core/layout/3840x2160/048-tutorial-16-pass-outcome.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 49,
+      "state": "tutorial-17-recall-explanation",
+      "path": "artifacts/core/layout/3840x2160/049-tutorial-17-recall-explanation.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 50,
+      "state": "tutorial-17-recall-outcome",
+      "path": "artifacts/core/layout/3840x2160/050-tutorial-17-recall-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 51,
+      "state": "tutorial-18-defend-explanation",
+      "path": "artifacts/core/layout/3840x2160/051-tutorial-18-defend-explanation.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 52,
+      "state": "tutorial-18-defend-selected",
+      "path": "artifacts/core/layout/3840x2160/052-tutorial-18-defend-selected.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 53,
+      "state": "tutorial-18-defend-preview",
+      "path": "artifacts/core/layout/3840x2160/053-tutorial-18-defend-preview.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 54,
+      "state": "tutorial-18-defend-outcome",
+      "path": "artifacts/core/layout/3840x2160/054-tutorial-18-defend-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 55,
+      "state": "tutorial-19-pass-explanation",
+      "path": "artifacts/core/layout/3840x2160/055-tutorial-19-pass-explanation.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 56,
+      "state": "tutorial-19-pass-preview",
+      "path": "artifacts/core/layout/3840x2160/056-tutorial-19-pass-preview.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 57,
+      "state": "tutorial-19-pass-outcome",
+      "path": "artifacts/core/layout/3840x2160/057-tutorial-19-pass-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 58,
+      "state": "tutorial-20-recruit-explanation",
+      "path": "artifacts/core/layout/3840x2160/058-tutorial-20-recruit-explanation.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 59,
+      "state": "tutorial-20-recruit-outcome",
+      "path": "artifacts/core/layout/3840x2160/059-tutorial-20-recruit-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified.",
+        "Upper Court headings touch board border; Henry II Ruler label is tangent to Henry III card."
+      ]
+    },
+    {
+      "index": 60,
+      "state": "tutorial-21-pass-explanation",
+      "path": "artifacts/core/layout/3840x2160/060-tutorial-21-pass-explanation.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified.",
+        "Upper Court headings touch board border; Henry II Ruler label is tangent to Henry III card."
+      ]
+    },
+    {
+      "index": 61,
+      "state": "tutorial-21-pass-preview",
+      "path": "artifacts/core/layout/3840x2160/061-tutorial-21-pass-preview.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified.",
+        "Upper Court headings touch board border; Henry II Ruler label is tangent to Henry III card."
+      ]
+    },
+    {
+      "index": 62,
+      "state": "tutorial-21-pass-outcome",
+      "path": "artifacts/core/layout/3840x2160/062-tutorial-21-pass-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified.",
+        "Upper Court headings touch board border; Henry II Ruler label is tangent to Henry III card."
+      ]
+    },
+    {
+      "index": 63,
+      "state": "tutorial-22-pass-explanation",
+      "path": "artifacts/core/layout/3840x2160/063-tutorial-22-pass-explanation.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified.",
+        "Upper Court headings touch board border; Henry II Ruler label is tangent to Henry III card."
+      ]
+    },
+    {
+      "index": 64,
+      "state": "tutorial-22-pass-outcome",
+      "path": "artifacts/core/layout/3840x2160/064-tutorial-22-pass-outcome.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified.",
+        "Upper Court headings touch board border; Henry II Ruler label is tangent to Henry III card."
+      ]
+    },
+    {
+      "index": 65,
+      "state": "post-lesson-reflection",
+      "path": "artifacts/core/layout/3840x2160/065-post-lesson-reflection.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 66,
+      "state": "new-table-setup",
+      "path": "artifacts/core/layout/3840x2160/066-new-table-setup.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 67,
+      "state": "name-entry-focused",
+      "path": "artifacts/core/layout/3840x2160/067-name-entry-focused.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 68,
+      "state": "name-entry-simulated-keyboard",
+      "path": "artifacts/core/layout/3840x2160/068-name-entry-simulated-keyboard.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 69,
+      "state": "sparse-table-private-handoff",
+      "path": "artifacts/core/layout/3840x2160/069-sparse-table-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 70,
+      "state": "sparse-table",
+      "path": "artifacts/core/layout/3840x2160/070-sparse-table.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 71,
+      "state": "rules-and-table-menu",
+      "path": "artifacts/core/layout/3840x2160/071-rules-and-table-menu.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 72,
+      "state": "reference-inspection",
+      "path": "artifacts/core/layout/3840x2160/072-reference-inspection.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 73,
+      "state": "dense-four-courts-private-handoff",
+      "path": "artifacts/core/layout/3840x2160/073-dense-four-courts-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 74,
+      "state": "dense-four-courts",
+      "path": "artifacts/core/layout/3840x2160/074-dense-four-courts.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 75,
+      "state": "maximal-hand-private-handoff",
+      "path": "artifacts/core/layout/3840x2160/075-maximal-hand-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 76,
+      "state": "maximal-hand",
+      "path": "artifacts/core/layout/3840x2160/076-maximal-hand.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Draw count overlaps Habsburg Court heading; long hand intentionally scrolls."
+      ]
+    },
+    {
+      "index": 77,
+      "state": "empty-deck-private-handoff",
+      "path": "artifacts/core/layout/3840x2160/077-empty-deck-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 78,
+      "state": "empty-deck",
+      "path": "artifacts/core/layout/3840x2160/078-empty-deck.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Played stack extends beyond board bottom and its annotation crosses front card/Crown."
+      ]
+    },
+    {
+      "index": 79,
+      "state": "native-notice-private-handoff",
+      "path": "artifacts/core/layout/3840x2160/079-native-notice-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 80,
+      "state": "native-notice",
+      "path": "artifacts/core/layout/3840x2160/080-native-notice.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 81,
+      "state": "native-reign-private-handoff",
+      "path": "artifacts/core/layout/3840x2160/081-native-reign-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 82,
+      "state": "native-reign",
+      "path": "artifacts/core/layout/3840x2160/082-native-reign.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 83,
+      "state": "incoming-recall-private-handoff",
+      "path": "artifacts/core/layout/3840x2160/083-incoming-recall-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 84,
+      "state": "incoming-recall",
+      "path": "artifacts/core/layout/3840x2160/084-incoming-recall.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 85,
+      "state": "free-defense-selected",
+      "path": "artifacts/core/layout/3840x2160/085-free-defense-selected.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 86,
+      "state": "incoming-recall-response-preview",
+      "path": "artifacts/core/layout/3840x2160/086-incoming-recall-response-preview.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 87,
+      "state": "incoming-recall-response-handoff",
+      "path": "artifacts/core/layout/3840x2160/087-incoming-recall-response-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 88,
+      "state": "incoming-recall-resolved",
+      "path": "artifacts/core/layout/3840x2160/088-incoming-recall-resolved.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate.",
+        "Cream horizontal striping/patches obscure portrait or rank on rendered cards; visually observed, underlying cause unverified."
+      ]
+    },
+    {
+      "index": 89,
+      "state": "recall-decline-private-handoff",
+      "path": "artifacts/core/layout/3840x2160/089-recall-decline-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 90,
+      "state": "recall-decline",
+      "path": "artifacts/core/layout/3840x2160/090-recall-decline.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 91,
+      "state": "recall-decline-response-preview",
+      "path": "artifacts/core/layout/3840x2160/091-recall-decline-response-preview.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 92,
+      "state": "recall-decline-response-handoff",
+      "path": "artifacts/core/layout/3840x2160/092-recall-decline-response-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 93,
+      "state": "recall-decline-resolved",
+      "path": "artifacts/core/layout/3840x2160/093-recall-decline-resolved.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 94,
+      "state": "failed-claim-private-handoff",
+      "path": "artifacts/core/layout/3840x2160/094-failed-claim-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 95,
+      "state": "failed-claim",
+      "path": "artifacts/core/layout/3840x2160/095-failed-claim.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Returns next round annotation crosses or touches nearby Crown/card footer; component-label clearance inadequate."
+      ]
+    },
+    {
+      "index": 96,
+      "state": "marriage-notice-private-handoff",
+      "path": "artifacts/core/layout/3840x2160/096-marriage-notice-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 97,
+      "state": "marriage-notice",
+      "path": "artifacts/core/layout/3840x2160/097-marriage-notice.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 98,
+      "state": "foreign-reign-private-handoff",
+      "path": "artifacts/core/layout/3840x2160/098-foreign-reign-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 99,
+      "state": "foreign-reign",
+      "path": "artifacts/core/layout/3840x2160/099-foreign-reign.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 100,
+      "state": "trade-offer-private-handoff",
+      "path": "artifacts/core/layout/3840x2160/100-trade-offer-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 101,
+      "state": "trade-offer",
+      "path": "artifacts/core/layout/3840x2160/101-trade-offer.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Trade offer is named in guide, but offered card face is absent from the visible table comparison."
+      ]
+    },
+    {
+      "index": 102,
+      "state": "trade-offer-response-preview",
+      "path": "artifacts/core/layout/3840x2160/102-trade-offer-response-preview.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Trade offer is named in guide, but offered card face is absent from the visible table comparison."
+      ]
+    },
+    {
+      "index": 103,
+      "state": "trade-offer-response-handoff",
+      "path": "artifacts/core/layout/3840x2160/103-trade-offer-response-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 104,
+      "state": "trade-offer-resolved",
+      "path": "artifacts/core/layout/3840x2160/104-trade-offer-resolved.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 105,
+      "state": "trade-decline-private-handoff",
+      "path": "artifacts/core/layout/3840x2160/105-trade-decline-private-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 106,
+      "state": "trade-decline",
+      "path": "artifacts/core/layout/3840x2160/106-trade-decline.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Trade offer is named in guide, but offered card face is absent from the visible table comparison."
+      ]
+    },
+    {
+      "index": 107,
+      "state": "trade-decline-response-preview",
+      "path": "artifacts/core/layout/3840x2160/107-trade-decline-response-preview.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Decline trade preview says Let it happen / Confirm Let it happen, inconsistent with selected action."
+      ]
+    },
+    {
+      "index": 108,
+      "state": "trade-decline-response-handoff",
+      "path": "artifacts/core/layout/3840x2160/108-trade-decline-response-handoff.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 109,
+      "state": "trade-decline-resolved",
+      "path": "artifacts/core/layout/3840x2160/109-trade-decline-resolved.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale."
+      ]
+    },
+    {
+      "index": 110,
+      "state": "cap-draw",
+      "path": "artifacts/core/layout/3840x2160/110-cap-draw.png",
+      "inspected": true,
+      "verdict": "finding",
+      "observations": [
+        "Actual composition review: board, guide, controls and privacy state inspected; no additional clipping observed at this display scale.",
+        "Ended game still instructs Pass, return next round and draw; outcome messaging contradicts terminal state."
+      ]
+    },
+    {
+      "index": 111,
+      "state": "invalid-save-recovery",
+      "path": "artifacts/core/layout/3840x2160/111-invalid-save-recovery.png",
+      "inspected": true,
+      "verdict": "reviewed",
+      "observations": [
+        "Invalid import recovery visible and controls fit; raw JSON parse error is implementation language rather than player-facing guidance."
+      ]
+    }
+  ]
+}

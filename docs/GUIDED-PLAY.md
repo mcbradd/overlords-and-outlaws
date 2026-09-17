@@ -1,8 +1,14 @@
 # Guided play and card presentation
 
-## Binding Build 5 replacement — 17 September 2026
+**Family-game teaching gate:** [Family-game design gate](FAMILY-GAME-DESIGN-GATE.md) is binding. Use sixth-grade language, minimal text and visible examples. A mechanic that needs multiple sentences to clarify ordinary gameplay must be simplified; splitting its paragraph across more tutorial cursors does not pass. The existing sequence below is a candidate to revise, while legal-action continuity and one-guide interaction remain required.
 
-The latest user transcript supersedes the earlier tutorial recovery rules below. Use the exact legal fixture and action sequence in [Build 5 suit/rank rules](SUIT-AND-RANK-DESIGN.md). Start with one ruler and two hand cards, no prebuilt Court, seals, History, painting or event. One navy/gold guide teaches prerequisite concepts in order, full printed names, immediate purpose, card cost/destination, preview, legal action and outcome. Only the current taught interaction and Exit tutorial are operable. Do not invite alternative strategy during teaching. Continue changes only the guide cursor; every state change is an ordinary legal reducer action. Rival teaching moves are labeled scripted examples; normal-game AI is separate and has no tutorial immunity.
+## Binding Build 6 replacement — 17 September 2026
+
+> **Build 6 controls the next implementation:** use [the exact six-commitment legal lesson](BUILD-6-TUTORIAL-CONTRACT.md), with 23 required screen IDs and the [frozen production/test package](BUILD-6-PRODUCTION-PLAN.md). The Build 5 succession script below is historical evidence. One guide, full names, card-first interaction, legal reducer continuity, actual source/destination movement and Exit remain binding. The next lesson teaches Add, useful exchanged people, a mixed-suit run, and a neighboring-rank answer; it contains no successor, Queen-role or round-reset lesson.
+
+## Historical Build 5 teaching contract
+
+The following records the previous lesson, not the next implementation. Its exact fixture is in [archived Build 5 rules](reviews/SUIT-AND-RANK-BUILD-5-SUPERSEDED.md). It started with one ruler and two hand cards, no prebuilt Court, seals, History, painting or event. The single guide, ordinary legal actions, full names and separate scripted rival remain useful contracts; the succession lesson and its repetition are superseded by Build 6.
 
 The independent blind agent receives only the deployed URL and screen-visible information. The older solution-driven harnesses below remain regression evidence for earlier implementations and cannot count as blind learning or ten observed games. Apply [Build 5 production gates](BUILD-5-PRODUCTION-PLAN.md) to every guide state, keyboard/touch path and viewport.
 

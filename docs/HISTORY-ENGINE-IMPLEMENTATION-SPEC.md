@@ -1,8 +1,18 @@
 # Overlords & Outlaws — The Weight of the Crown
 
-## Binding Build 5 replacement — 17 September 2026
+**Binding family-game constraint, 17 September:** [Family-game design gate](FAMILY-GAME-DESIGN-GATE.md) governs every implementation and rule proposal. Use sixth-grade language and minimal player-facing text. Mechanics requiring multiple sentences to clarify ordinary gameplay must be redesigned, not patched with longer explanations. Detailed internal specifications do not authorize complex player-facing rules.
 
-The latest Build 4 playtest transcript supersedes R4 and the retained historical sections below. [Suit and rank — Build 5 binding core](SUIT-AND-RANK-DESIGN.md) is the single normative rule source for the next implementation. [Production plan](BUILD-5-PRODUCTION-PLAN.md) and [explicit test contract](BUILD-5-TEST-CONTRACT.md) must be written and frozen before implementation, then executed with evidence.
+## Binding Build 6 replacement — 17 September 2026
+
+> **Superseded for the next implementation by Build 6:** [Suit and rank — binding evaluation rules](SUIT-AND-RANK-DESIGN.md), [production plan](BUILD-6-PRODUCTION-PLAN.md), [explicit tests](BUILD-6-TEST-CONTRACT.md), [tutorial](BUILD-6-TUTORIAL-CONTRACT.md), and [visual inventory](BUILD-6-VISUAL-INVENTORY.json) form the complete next-phase package. Build 5 remains the currently published control until implementation and a verified Prod deploy. Its descriptions below are historical requirements, not optional Build 6 mechanics.
+
+Build 6 starts with one exposed Founder and two private cards, permits any person to join a mixed Court, and wins by keeping three cyclic neighboring ranks until the owner's next turn. Cards supply Add, same-suit Swap and neighboring-rank Answer. One card must be played each turn; return individual Resting cards then refill only to two. No voluntary Pass, global round, special Ace/Queen rules, exact-name Trade, successor dependency clock or external puzzle is retained. All cards remain conserved. A natural all-empty/no-Crown position is a draw, not an artificial time limit. Historical asymmetry is explicitly deferred for this clarity-first evaluation, without inventing new historical facts.
+
+This change follows the completed ten-game Build 5 cohort and antagonistic whole-game review. Conditional rank reservation remains a goal; no candidate is claimed balanced or family-validated merely because its rules are shorter. The user has requested stopping at the implementation boundary with a knowledge-base handoff. Do not begin implementation in this task after the planning freeze.
+
+## Historical Build 5 replacement
+
+The Build 4 playtest transcript superseded R4 for Build 5. [Archived Build 5 rules](reviews/SUIT-AND-RANK-BUILD-5-SUPERSEDED.md), [production plan](BUILD-5-PRODUCTION-PLAN.md) and [explicit test contract](BUILD-5-TEST-CONTRACT.md) record that implementation and its evidence. They do not control Build 6.
 
 Build 5 is explicitly the **Core succession prototype**: one leader/two initial hand cards, exact card commitments instead of seals, ranked Recall/Defend, native development and succession, exact-card Trade with a lower-native deployment option, and equal/neighbor foreign marriage succession. A full round of keeping the new ruler and named supporter wins. No universal toolbar, readiness, seal budget or unexplained advanced objects remain in this core. Each new round returns face-up Played cards and deals one new card per player; reversible consecutive passing survives. A visible twelve-round prototype cap yields an honest draw and is an empirical pacing gate.
 

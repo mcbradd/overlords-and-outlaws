@@ -1,0 +1,155 @@
+{
+  "candidate": "7e521f8b29d704291f00af3a9db245fddae00b94",
+  "report": "artifacts/release/2026-09-17T18-34-18-275Z/report.json",
+  "checks": 63,
+  "passed": 40,
+  "failed": 23,
+  "runnerTimeouts": 0,
+  "disposition": "FAILED. Classifications are diagnosis scopes, not waivers; no failed check converted to pass.",
+  "classes": {
+    "current-core defect": 1,
+    "stale test contract": 13,
+    "unclassified": 7,
+    "retained-history defect": 2
+  },
+  "failures": [
+    {
+      "name": "core-layout",
+      "classification": "current-core defect",
+      "evidence": "360×800 Watch/Recall and360×780 Recruit/Recall exceed usable viewport; actual screenshot review confirms.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/core-layout.log"
+    },
+    {
+      "name": "card-language-ui",
+      "classification": "stale test contract",
+      "evidence": "card-language-ui.ts:67 waits data-ui=resume after injecting earlier history save; retained route/bootstrap contract needs explicit migration.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/card-language-ui.log"
+    },
+    {
+      "name": "tutorial-usability",
+      "classification": "stale test contract",
+      "evidence": "tutorial-usability.ts:24 waits data-action-category and allows alternate tutorial actions; contradicts controlled curriculum.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/tutorial-usability.log"
+    },
+    {
+      "name": "tutorial-preview-fit",
+      "classification": "unclassified",
+      "evidence": "history-tutorial-driver.ts:28 missing data-ui=commit. Determine wrong lesson phase versus stale driver before disposition.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/tutorial-preview-fit.log"
+    },
+    {
+      "name": "history-reading",
+      "classification": "unclassified",
+      "evidence": "history-reading.ts:99/267/619 selected control has zero rect. Cannot distinguish hidden-control regression from wrong-phase selector from log alone.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/history-reading.log"
+    },
+    {
+      "name": "history-scene-inspection",
+      "classification": "unclassified",
+      "evidence": "history-scene-inspection.ts:77 expected .h-hand [data-select] visible after Court inspect/focus sequence; phase/selector or retained app requires reproduction.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/history-scene-inspection.log"
+    },
+    {
+      "name": "playtest-recovery",
+      "classification": "stale test contract",
+      "evidence": "playtest-recovery.mjs:27 dereferences removed/missing .h-hand or .h-guide without null handling after actual .h-hand-card ready. Update explicit retained presentation contract, preserving original failure.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/playtest-recovery.log"
+    },
+    {
+      "name": "browser",
+      "classification": "stale test contract",
+      "evidence": "ux-interactions.ts:49 waits .arena [data-royal] in retained Three table; DOM-card assumption no longer tests physical scene.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/browser.log"
+    },
+    {
+      "name": "layout",
+      "classification": "stale test contract",
+      "evidence": "ux-layout.ts:45 same .arena [data-royal] DOM assumption.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/layout.log"
+    },
+    {
+      "name": "physical",
+      "classification": "stale test contract",
+      "evidence": "physical-verify.ts:47 expects ten .physical-card DOM nodes but scene renderer uses canvas.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/physical.log"
+    },
+    {
+      "name": "tutorial-regression",
+      "classification": "unclassified",
+      "evidence": "tutorial-regression log health actual=visible=3 but no exact next-action highlight after retained lesson. Determine waiting/phase versus actual missing highlight.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/tutorial-regression.log"
+    },
+    {
+      "name": "damage-regression",
+      "classification": "stale test contract",
+      "evidence": "damage-token-regression.ts:17 expects four .physical-card DOM nodes, preventing meaningful current rendered-damage check.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/damage-regression.log"
+    },
+    {
+      "name": "tutorial-drag",
+      "classification": "unclassified",
+      "evidence": "tutorial-drag.ts:73 missing .drop-slot while David I selected and Play Royal visible. Need adjudicate drag target contract against Three scene.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/tutorial-drag.log"
+    },
+    {
+      "name": "session02",
+      "classification": "unclassified",
+      "evidence": "session02-browser.ts:41 expected one data-tutorial-focus got0 in retained tutorial. No blanket stale classification until phase evidence.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/session02.log"
+    },
+    {
+      "name": "interaction-v3",
+      "classification": "unclassified",
+      "evidence": "interaction-v3.ts:69 Court remains1 after actual drag to arena expected2. Could be target geometry or retained drag defect; requires reproduction.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/interaction-v3.log"
+    },
+    {
+      "name": "playthrough-lesson",
+      "classification": "stale test contract",
+      "evidence": "Missing .modal .primary[data-close] in retained lesson; old mandatory modal sequence conflicts with current guide flow.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/playthrough-lesson.log"
+    },
+    {
+      "name": "playthrough",
+      "classification": "retained-history defect",
+      "evidence": "battle-banner.show is visible/enabled but Three canvas intercepts pointer repeatedly. Actual retained combat overlay cannot be clicked through intended target.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/playthrough.log"
+    },
+    {
+      "name": "family",
+      "classification": "stale test contract",
+      "evidence": "family-browser.ts:72 expects Alba handoff after single Brace/banner. Actual app offers repeated Brace and Resolve combat, so test never completes defense.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/family.log"
+    },
+    {
+      "name": "family-compact",
+      "classification": "stale test contract",
+      "evidence": "Same family-browser.ts:72 single-Brace assumption; compact run separately preserved.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/family-compact.log"
+    },
+    {
+      "name": "physical-motion",
+      "classification": "stale test contract",
+      "evidence": "physical-motion.ts:9 clicks ambiguous .hand-card matching David I and St Margaret. Strict-mode failure occurs before motion assertion.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/physical-motion.log"
+    },
+    {
+      "name": "dense-courts",
+      "classification": "retained-history defect",
+      "evidence": "full-table.ts:70 reports2 seats1024×600 scroll=true and clipped plantagenet-0/-6/-12 public cards.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/dense-courts.log"
+    },
+    {
+      "name": "layout-probe",
+      "classification": "stale test contract",
+      "evidence": "layout-repro.mjs:8 waits removed data-start=tutorial.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/layout-probe.log"
+    },
+    {
+      "name": "retained-visual-probe",
+      "classification": "stale test contract",
+      "evidence": "visual-v2.mjs:7 waits .modal .primary[data-close], obsolete entry sequence.",
+      "log": "artifacts/release/2026-09-17T18-34-18-275Z/retained-visual-probe.log"
+    }
+  ]
+}

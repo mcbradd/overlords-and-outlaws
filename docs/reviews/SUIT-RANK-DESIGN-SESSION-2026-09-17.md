@@ -1,4 +1,30 @@
-# Suit/rank design session — Build 5, 17 September 2026
+# Suit/rank design session — Builds 5 and 6, 17 September 2026
+
+## Final next-phase selection and requested stop
+
+The completed published Build 5 cohort contains ten ordinary screen-only games, eight wins/two losses, all four Dynasties and 2/3/4-player tables. Its independent explanation identified meaningful defense/trade timing but also rule-level family comprehension failures. The complete release still failed 23 of 63 checks. All 2,228 captured matrix images were actually reviewed, with documented missing-state and display-scale limitations. These results do not approve Build 5.
+
+Malachy's full supplied email was presented to the next panel as guidance. The user explicitly opened **every** mechanic to challenge. Experience and production agents cross-examined whole games; the primary agent supplied systems counterexamples and a four-case executed control probe. These are actual agent critiques, not human professional endorsement.
+
+The review rejected role-set candidates with unearned complexity, ordered-target runs with an immune J/Q/K, neighbor-only attacks with excessive forced opening passes, and native-only runs with a structural acquisition lock. It retained conditional rank reservation as a desirable property, rather than retaining the old higher-card/Ace exception. A current-reducer probe showed a local reversal: Q heir/A reserve answers known K, whereas A heir/Q reserve answers known 10; this is not a proof of global optimality.
+
+**Selected Build 6 evaluation game:** any person can Add to a mixed Court; keep three cyclic neighboring ranks until the next turn; offer a same-suit Swap; answer with a neighboring rank of that suit; return personal Resting cards then refill only to two; play one card per turn. Remove voluntary Pass, succession, marriage prerequisites, exact-name Trade, higher-card combat, global rounds and an external clock. Preserve all transferred power and the physical card/board presentation. A natural all-empty/no-Crown position draws. Historical asymmetry is explicitly deferred, not falsely represented by renamed symmetric machinery.
+
+The mandatory-play choice received a final cross-defense with two concrete positions: it preserves conditional Add/reserve choices but can force unwanted exposure. That cost, repeated Swap cycles, hidden-answer shields, hoarding and draw luck remain falsification tests. Selection authorizes an experiment after the complete planning freeze; it is not proof of fun or balance.
+
+Binding package: [rules](../SUIT-AND-RANK-DESIGN.md), [state boundary](../BUILD-6-STATE-CONTRACT.md), [production tasks](../BUILD-6-PRODUCTION-PLAN.md), [tests](../BUILD-6-TEST-CONTRACT.md), [six-commitment tutorial](../BUILD-6-TUTORIAL-CONTRACT.md), [literal visual inventory](../BUILD-6-VISUAL-INVENTORY.json) and [inventory interpretation](../BUILD-6-VISUAL-INVENTORY-README.md). The older selections below are historical records wherever they differ.
+
+The user then instructed: finish until ready for the next implementation phase, stop, and write current knowledge to the knowledge base for another agent. Accordingly this task stops at the committed planning boundary. No Build 6 implementation or deployment is performed. The next agent should resume from the handoff only when the user resumes work.
+
+## Binding follow-up: family play and explanation cost
+
+The user's final clarification applies to **all mechanics** that obstruct fun and clear family play, not only Eudoxia. No existing mechanic is protected by implementation effort, prior decisions or correspondence. The next panel must review the entire core and defend each retained mechanism by its contribution to meaningful choices, clarity and fun. Earlier rule selections below document the tested candidate, not mandatory future design.
+
+Subsequent clarification: the user explicitly permits pushback on suggested mechanics. Eudoxia began as a compromise and can be replaced or removed. Reviewers must distinguish the underlying goal from its proposed mechanism, defend decisions through logic and evidence of fun, and compare simpler alternatives, including no external clock. The email is not an immutable feature list.
+
+The user also directs the next antagonistic panel to read [Malachy's email in full](../knowledge-base/MALACHY-EMAIL-2026-09-17.md). Its design guidance must be presented at the start of that round and addressed in the proposals and cross-defense. Eudoxia timing/puzzle count and Interregna warning are questions to investigate; historical asymmetry, hidden OUTLAW leverage and power transfer must not be dismissed because the current core omits advanced systems.
+
+The user has clarified that this is a family game, understandable at a sixth-grade reading level, with minimal text and clear mechanics/intent. Multiple sentences needed to clarify ordinary gameplay are a design failure. The [family-game gate](../FAMILY-GAME-DESIGN-GATE.md) is binding on the next panel. Reopen existing mechanics that fail it; do not preserve rules merely because implemented, or move necessary paragraphs into inspection. Prior panel selection is not acceptance under this new gate.
 
 This is the current binding design-session record. The prior four-round R4 session is preserved in [its archive](SUIT-RANK-DESIGN-SESSION-R4-ARCHIVE.md). The newest user transcript replaces its seals and expanded teaching grammar. Independent agent reports: [systems](BUILD-5-SYSTEMS-PANEL.md), [experience](BUILD-5-EXPERIENCE-PANEL.md), [production](BUILD-5-PRODUCTION-AUDIT.md). These are simulated disciplinary critiques, not human expert consultation or observed playtests.
 
