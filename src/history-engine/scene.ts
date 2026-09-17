@@ -175,7 +175,7 @@ export class HistoryTable {
     rotated: boolean,
     generation: number,
   ) {
-    const w = 146,
+    const w = this.view?.players.length === 2 ? 200 : 156,
       h = (w * 88) / 63;
     const body = this.box(w, h, 3, 0xddd1b6, x, y, 12);
     if (rotated) body.rotation.z = -0.12;
@@ -216,9 +216,12 @@ export class HistoryTable {
   private resize() {
     const rect = this.host.getBoundingClientRect();
     if (rect.width < 1 || rect.height < 1) return;
-    this.renderer.setSize(rect.width, rect.height);
-    this.labels.setSize(rect.width, rect.height);
-    this.camera.aspect = rect.width / rect.height;
+    const renderWidth =
+      this.focus !== null && rect.width < 700 ? 720 : rect.width;
+    this.host.dataset.pannable = String(renderWidth > rect.width);
+    this.renderer.setSize(renderWidth, rect.height);
+    this.labels.setSize(renderWidth, rect.height);
+    this.camera.aspect = renderWidth / rect.height;
     const fit = Math.max(
       this.height / 2 / Math.tan(THREE.MathUtils.degToRad(19)),
       this.width /
@@ -228,7 +231,19 @@ export class HistoryTable {
     );
     const center =
       this.focus === null ? { x: 0, y: 0 } : this.courtAnchor(this.focus);
-    const z = fit * (this.focus === null ? 1.03 : 0.55);
+    const court = this.focus === null ? null : this.view?.players[this.focus];
+    const rows = court ? Math.max(1, Math.ceil(court.court.length / 4)) : 1;
+    const focusWidth = this.view?.players.length === 2 ? 1380 : 870;
+    const focusHeight =
+      rows * (this.view?.players.length === 2 ? 278 : 242) + 170;
+    const courtFit = Math.max(
+      focusHeight / 2 / Math.tan(THREE.MathUtils.degToRad(19)),
+      focusWidth /
+        2 /
+        Math.tan(THREE.MathUtils.degToRad(19)) /
+        this.camera.aspect,
+    );
+    const z = this.focus === null ? fit * 1.03 : courtFit * 1.04;
     this.camera.position.set(center.x, center.y - z * 0.25, z);
     this.camera.up.set(0, 1, 0);
     this.camera.lookAt(center.x, center.y, 0);
@@ -271,18 +286,34 @@ export class HistoryTable {
       0.38,
       0.6,
     );
-    this.box(this.width, this.height, 6, 0x1c3932, 0, 0, 3);
+    this.box(this.width, this.height, 6, 0x142921, 0, 0, 3);
+    const boardTexture = new THREE.TextureLoader().load(
+      assetUrl("art/v2-table.webp"),
+      () => {
+        if (!this.disposed && generation === this.generation)
+          this.drawRequested = true;
+      },
+    );
+    boardTexture.colorSpace = THREE.SRGBColorSpace;
+    this.textures.push(boardTexture);
+    const boardArt = new THREE.Mesh(
+      new THREE.PlaneGeometry(this.width, this.height),
+      new THREE.MeshBasicMaterial({ map: boardTexture, color: 0xbac4b9 }),
+    );
+    boardArt.position.z = 6.5;
+    this.group.add(boardArt);
     for (const x of [-this.width / 2 + 22, this.width / 2 - 22])
       this.box(2, this.height - 44, 1, 0x897445, x, 0, 7, 0.5, 0.4);
     for (const y of [-this.height / 2 + 22, this.height / 2 - 22])
       this.box(this.width - 44, 2, 1, 0x897445, 0, y, 7, 0.5, 0.4);
     this.label("OVERLORDS &amp; OUTLAWS", 0, 140, 10, 580, "h-table-engraving");
-    this.crown(-700, 25);
+    const crownX = -this.width / 2 + 145;
+    this.crown(crownX, 25);
     this.label(
       v.crown
         ? `${escapeHTML(v.players[v.crown.seat].name)} · ${v.crown.route === "regency" ? "Regency" : escapeHTML(nameOf(`law-${v.players[v.crown.seat].dynasty}`))}<br>${escapeHTML(crownProgress(v))}`
         : "THE CROWN IS VACANT",
-      -700,
+      crownX,
       -53,
       15,
       230,
@@ -323,8 +354,31 @@ export class HistoryTable {
       const anchor = this.courtAnchor(p.seat);
       const rows = Math.max(1, Math.ceil(p.court.length / 4));
       const matWidth = v.players.length === 2 ? 1300 : 790;
-      const matHeight = rows * 232 + 135;
-      this.box(matWidth, matHeight, 3, 0x132d28, anchor.x, anchor.y, 10);
+      const rowPitch = v.players.length === 2 ? 278 : 242;
+      const matHeight = rows * rowPitch + 115;
+      const mat = this.box(
+        matWidth,
+        matHeight,
+        2,
+        0x0a1c1b,
+        anchor.x,
+        anchor.y,
+        9,
+      );
+      (mat.material as THREE.MeshStandardMaterial).transparent = true;
+      (mat.material as THREE.MeshStandardMaterial).opacity = 0.65;
+      for (const dy of [-1, 1])
+        this.box(
+          matWidth - 20,
+          1,
+          1,
+          0x8f7b50,
+          anchor.x,
+          anchor.y + (dy * matHeight) / 2,
+          11,
+          0.7,
+          0.2,
+        );
       this.label(
         `${SEAT_SIGNS[p.seat]} ${escapeHTML(p.name)} <span>${escapeHTML(p.dynasty ?? "Inheritance")}</span>`,
         anchor.x,
@@ -351,8 +405,14 @@ export class HistoryTable {
       p.court.forEach((id, i) => {
         const row = Math.floor(i / 4),
           inRow = Math.min(4, p.court.length - row * 4);
-        const x = anchor.x + ((i % 4) - (inRow - 1) / 2) * 171,
-          y = anchor.y + matHeight / 2 - 200 - row * 232;
+        const x =
+            anchor.x +
+            ((i % 4) - (inRow - 1) / 2) * (v.players.length === 2 ? 245 : 181),
+          y =
+            anchor.y +
+            matHeight / 2 -
+            (v.players.length === 2 ? 216 : 200) -
+            row * rowPitch;
         const marriage = v.marriages.find(
           (m) => m.queen === id || m.spouse === id,
         );
@@ -361,7 +421,7 @@ export class HistoryTable {
           ...(marriage ? [`PAIR ${marriage.id}`] : []),
           ...(!supported(v, p.seat, id) ? ["OUTSIDE BLOODLINE"] : []),
           ...(p.rotated.includes(id) ? ["SIDEWAYS"] : []),
-          ...(v.petitioned.includes(id) ? ["RECALLED THIS ROUND"] : []),
+          ...(v.petitioned.includes(id) ? ["SAFE FROM RECALL THIS ROUND"] : []),
         ];
         void this.card(id, x, y, markers, p.rotated.includes(id), generation);
       });

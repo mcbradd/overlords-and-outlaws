@@ -27,7 +27,7 @@ export const NOBLES: CardSource[] = MODULES.flatMap((dynasty) =>
       const n = Number(c.id.split("-")[1]);
       return {
         id: c.id,
-        revision: 2,
+        revision: 3,
         kind: "noble",
         printed: {
           name: c.name,
@@ -38,12 +38,17 @@ export const NOBLES: CardSource[] = MODULES.flatMap((dynasty) =>
           collector: index + 1,
         },
         cardText: [
-          "Actions cost 1 seal.",
-          "Hand: Recruit into your Court if this is your Dynasty; Recall a rival's Court Noble of this Dynasty; Block a Recall against a Noble of this Dynasty.",
-          "Hand: Trade; Lend when a Crisis asks; discard to Cover a painting fragment.",
-          "Court: Withdraw to your hand; Challenge a Crisis if in your Bloodline and ready.",
+          "Pay 1 seal; Trade only if accepted.",
+          "Recruit: Move from hand to Court if this Noble matches your Dynasty.",
+          "Recall: Lend from hand to take a rival's Court Noble of this Dynasty unless Blocked.",
+          "Block: Lend from hand to stop a Recall of this Dynasty.",
+          "Trade from your hand.",
+          "Lend from hand when a Crisis asks.",
+          "Cover: Discard from hand to cover a painting piece.",
+          "Withdraw: Return from Court to hand.",
+          "Challenge: Turn sideways if ready and in your Bloodline.",
           queens[dynasty].includes(n)
-            ? "Marry: Pair this unmarried Queen in your Court with an unpaired foreign Noble in your hand or Court. This Queen must be of your Dynasty."
+            ? "Marry: Pair this unmarried Court Queen of your Dynasty with an unmarried foreign Noble from your hand or Court."
             : "",
         ]
           .filter(Boolean)
@@ -66,7 +71,7 @@ const record = (
   reminderRefs: string[] = [],
 ): CardSource => ({
   id,
-  revision: 2,
+  revision: 3,
   kind,
   printed: { name, dynasty },
   cardText,
@@ -87,7 +92,7 @@ export const LAW_CARDS: CardSource[] = [
       "Claim the Crown: Have 3 Court Nobles of your Dynasty, including your Ruler.",
       "Choose 2 other Court Nobles of your Dynasty from different branches as heirs.",
       "Keep your Ruler and at least 1 named heir until the Ruler changes.",
-      "In 1 round, at its start: Retire your Ruler. Crown a remaining named heir.",
+      "At the start of the next round: Retire your Ruler. Crown a remaining named heir.",
       "Win: Keep your new Ruler in your Bloodline for 1 full round.",
       "Fail: Lose the Crown if a required Noble or marriage is lost.",
     ].join("\n"),
@@ -103,7 +108,7 @@ export const LAW_CARDS: CardSource[] = [
       "Choose 1 other Court Noble of your Dynasty as heir.",
       "Choose a different Court Noble of your Dynasty, not your Ruler, as Witness.",
       "Keep your Ruler, heir and Witness until the Ruler changes.",
-      "In 1 round, at its start: Retire your Ruler. Crown a remaining named heir.",
+      "At the start of the next round: Retire your Ruler. Crown a remaining named heir.",
       "Win: Keep your new Ruler and Witness in your Bloodline for 1 full round.",
       "Fail: Lose the Crown if a required Noble or marriage is lost.",
     ].join("\n"),
@@ -118,7 +123,7 @@ export const LAW_CARDS: CardSource[] = [
       "Claim the Crown: Have 3 Court Nobles of your Dynasty, including your Ruler.",
       "Choose 1 hand Noble of your Dynasty as heir. Set the heir aside face down.",
       "Keep your Ruler and hidden heir until the Ruler changes.",
-      "In 1 round, at its start: Reveal your heir. Retire your Ruler. Crown a remaining named heir.",
+      "At the start of the next round: Reveal your heir. Retire your Ruler. Crown a remaining named heir.",
       "Win: Keep your new Ruler in your Bloodline for 1 full round.",
       "Fail: Lose the Crown if a required Noble or marriage is lost. Return any hidden heir face up to your hand.",
     ].join("\n"),
@@ -133,7 +138,7 @@ export const LAW_CARDS: CardSource[] = [
       "Claim the Crown: Have 3 Court Nobles of your Dynasty, including your Ruler.",
       "Choose 1 foreign Court Noble married to your Queen as heir. The Queen must be of your Dynasty, not your Ruler.",
       "Keep your Ruler, heir and their marriage until the Ruler changes.",
-      "In 1 round, at its start: Retire your Ruler. Crown a remaining named heir.",
+      "At the start of the next round: Retire your Ruler. Crown a remaining named heir.",
       "Win: Keep your new Ruler in your Bloodline and the same marriage intact for 1 full round.",
       "Fail: Lose the Crown if a required Noble or marriage is lost.",
     ].join("\n"),

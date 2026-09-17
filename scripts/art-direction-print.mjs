@@ -1,0 +1,1 @@
+import {chromium} from '@playwright/test';const b=await chromium.launch({channel:'chrome',headless:true});const p=await b.newPage({viewport:{width:1000,height:900}});await p.goto('http://localhost:5182/history-proof.html');await p.locator('[data-card="alba-1"]').screenshot({path:'artifacts/art-direction/queen-print-proof.png',scale:'css'});await b.close();

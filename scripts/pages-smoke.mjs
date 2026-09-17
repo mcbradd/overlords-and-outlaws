@@ -22,6 +22,7 @@ try {
   await page.locator('[data-ui="teach"]').click();
   await page.locator('[data-ui="unlock"]').click();
   await expect(page.locator(".h-guide")).toBeVisible();
+  for (const card of await page.locator("[data-guide-card]").all()) await card.click();
   await page.locator('[data-ui="lesson-action"]').click();
   if (namespace) {
     expect(await page.evaluate(() => localStorage.getItem("oando-v3"))).toBe(

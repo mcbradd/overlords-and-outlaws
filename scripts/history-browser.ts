@@ -12,6 +12,7 @@ import { defaultPreferences } from "../src/history-engine/storage";
 import { createDemo } from "../src/history-engine/fixtures";
 import { chooseAction } from "../src/history-engine/ai";
 import { viewForSeat } from "../src/history-engine/view";
+import { requiredTeachingCards } from "../src/history-engine/learning";
 const base = process.env.HISTORY_BASE_URL ?? "http://localhost:5178";
 mkdirSync("artifacts/history", { recursive: true });
 const browser = await chromium.launch({
@@ -41,6 +42,8 @@ for (let i = 0; i < LESSONS.length; i++) {
     () => JSON.parse(localStorage.getItem("oando-v4-history")!).game,
   );
   assert.equal(before.revision, expected.revision);
+  for (const id of requiredTeachingCards(viewForSeat(expected, 0), lessonAction(expected, i)!))
+    await page.locator(`[data-guide-card="${id}"]`).click();
   await page.locator('[data-ui="lesson-action"]').click();
   expected = applyAction(expected, lessonAction(expected, i)!);
   const actual = await page.evaluate(

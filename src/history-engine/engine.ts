@@ -183,7 +183,7 @@ function drawNoble(s: GameState, seat: Seat) {
   emit(
     s,
     "NobleDrawn",
-    `${s.players[seat].name} draws one Noble in hand.`,
+    `${s.players[seat].name === "You" ? "You draw" : `${s.players[seat].name} draws`} one Noble into hand.`,
     [],
     "dynasty-deck",
     `hand-${seat}`,
@@ -204,7 +204,7 @@ function commit(s: GameState, seat: Seat, id: string) {
   emit(
     s,
     "NobleCommitted",
-    `${s.players[seat].name} Lends ${nameOf(id)}.`,
+    `${s.players[seat].name === "You" ? "You lend" : `${s.players[seat].name} lends`} ${nameOf(id)} until next round.`,
     [id],
     `hand-${seat}`,
     `leverage-${seat}`,
@@ -226,7 +226,7 @@ function depart(
   emit(
     s,
     to === "past" ? "RulerRetired" : "NobleTransferred",
-    `${nameOf(id)} ${to === "past" ? "Retires to The Past" : `moves to ${s.players[recipient].name}’s hand`}.`,
+    `${nameOf(id)} ${to === "past" ? "Retires to The Past" : `moves to ${s.players[recipient].name === "You" ? "your" : `${s.players[recipient].name}’s`} hand`}.`,
     [id],
     `court-${seat}`,
     to === "past" ? "noble-past" : `hand-${recipient}`,
@@ -621,7 +621,7 @@ function stepSetup(s: GameState) {
       emit(
         s,
         "DraftPacketReceived",
-        `You receive ${packet.length} Nobles.`,
+        `You receive ${packet.length} Noble${packet.length === 1 ? "" : "s"}.`,
         packet,
         `hand-${p.seat}`,
         `hand-${next}`,
@@ -802,7 +802,7 @@ function pump(s: GameState) {
             emit(
               s,
               "CommitmentReturned",
-              `${nameOf(id)} returns to ${p.name}’s hand.`,
+              `${nameOf(id)} returns to ${p.name === "You" ? "your" : `${p.name}’s`} hand.`,
               [id],
               `leverage-${p.seat}`,
               `hand-${p.seat}`,
@@ -951,7 +951,7 @@ function pump(s: GameState) {
           finish(
             s,
             c.seat,
-            `${s.players[c.seat].name} wins under ${c.route === "regency" ? "Regency" : nameOf(`law-${s.players[c.seat].dynasty}`)}. ${nameOf(c.successor!)} stayed Ruler for ${lawFor(s, c.seat, c.route).reignRounds} full round(s).`,
+            `${s.players[c.seat].name === "You" ? "You win" : `${s.players[c.seat].name} wins`} under ${c.route === "regency" ? "Regency" : nameOf(`law-${s.players[c.seat].dynasty}`)}. ${nameOf(c.successor!)} stayed Ruler for ${lawFor(s, c.seat, c.route).reignRounds} full round${lawFor(s, c.seat, c.route).reignRounds === 1 ? "" : "s"}.`,
           );
           break;
         }
@@ -988,7 +988,7 @@ export function applyAction(state: GameState, a: Action): GameState {
     emit(
       s,
       "PacketLocked",
-      `${p.name} locks their ${s.setup!.step === "pass" ? "passing packet" : "declaration"}.`,
+      `${p.name === "You" ? "You confirm your" : `${p.name} confirms their`} ${s.setup!.step === "pass" ? "cards to pass" : "starting Court"}.`,
     );
   } else if (a.type === "repair") {
     const st = s.setup!;
@@ -1010,7 +1010,7 @@ export function applyAction(state: GameState, a: Action): GameState {
     st.repairDraw = null;
   } else if (a.type === "ruler") {
     p.ruler = card;
-    emit(s, "RulerChosen", `${nameOf(card)} is ${p.name}’s Ruler.`, [card]);
+    emit(s, "RulerChosen", `${nameOf(card)} is ${p.name === "You" ? "your" : `${p.name}’s`} Ruler.`, [card]);
   } else if (a.type === "choice") {
     s.choices!.requests.find((c) => c.id === a.choiceId)!.selection = [
       ...a.cards!,
@@ -1065,14 +1065,14 @@ export function applyAction(state: GameState, a: Action): GameState {
     emit(
       s,
       "BarterOffered",
-      `${p.name} offers ${a.cards!.length} Noble in hand${a.cards!.length === 1 ? "" : "s"} to ${s.players[a.other!].name}.`,
+      `${p.name === "You" ? "You offer" : `${p.name} offers`} ${a.cards!.length} hand Noble${a.cards!.length === 1 ? "" : "s"} to ${s.players[a.other!].name}.`,
     );
   } else if (a.type === "pass") {
     s.passes.push(a.seat);
     emit(
       s,
       "Passed",
-      `${p.name} passes. ${s.passes.length} consecutive pass${s.passes.length === 1 ? "" : "es"}.`,
+      `${p.name === "You" ? "You pass" : `${p.name} passes`}. ${s.passes.length} consecutive pass${s.passes.length === 1 ? "" : "es"}.`,
     );
     if (s.passes.length === s.players.length) {
       s.phase = "end";
@@ -1095,7 +1095,7 @@ export function applyAction(state: GameState, a: Action): GameState {
         emit(
           s,
           "NobleBuilt",
-          `${nameOf(card)} enters ${p.name}’s Court.`,
+          `${nameOf(card)} enters ${p.name === "You" ? "your" : `${p.name}’s`} Court.`,
           [card],
           `hand-${a.seat}`,
           `court-${a.seat}`,
@@ -1145,7 +1145,7 @@ export function applyAction(state: GameState, a: Action): GameState {
         emit(
           s,
           "ClaimAnnounced",
-          `${p.name} Presses a Recall on ${nameOf(a.target!)}. ${s.players[defender].name} may Block.`,
+          `${p.name === "You" ? "You try" : `${p.name} tries`} to take ${nameOf(a.target!)} with a Recall. ${s.players[defender].name} may Block.`,
           [card, a.target!],
           `leverage-${a.seat}`,
           `court-${defender}`,
@@ -1161,7 +1161,7 @@ export function applyAction(state: GameState, a: Action): GameState {
         emit(
           s,
           "ConditionContributed",
-          `${p.name} Addresses ${nameOf(e.id)} with ${nameOf(card)}.`,
+          `${p.name === "You" ? "You help" : `${p.name} helps`} stop ${nameOf(e.id)} using ${nameOf(card)}.`,
           [card, e.id],
         );
         break;
@@ -1229,7 +1229,7 @@ export function applyAction(state: GameState, a: Action): GameState {
         emit(
           s,
           "CrownProclaimed",
-          `${p.name} claims the Crown. Change Ruler at the start of round ${s.round + law.successionAfter}; keep the new Ruler for ${law.reignRounds} full round(s) to win.`,
+          `${p.name === "You" ? "You claim" : `${p.name} claims`} the Crown. Change Ruler at the start of round ${s.round + law.successionAfter}; keep the new Ruler for ${law.reignRounds} full round${law.reignRounds === 1 ? "" : "s"} to win.`,
           [
             p.ruler!,
             ...(sealed ? [] : a.heirs!),

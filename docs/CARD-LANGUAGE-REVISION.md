@@ -1,5 +1,7 @@
 # Read the card: sixth-grade language revision
 
+The subsequent [observed-play tutorial and art revision](reviews/TUTORIAL-REVISION-SYNTHESIS-2026-09-16.md) supersedes this candidate. This document retains the earlier research and audit history; its scores are not fresh measurements of the later wording.
+
 16 September 2026. Candidate content: `r4-3ff12c6b`. Applies to the default History game on **prod**, not the preserved legacy game or Main.
 
 The design target is a sixth-grade reader who can understand a card's immediate purpose and predict its result after learning the small shared rules reference. Short wording is useful only when it keeps the actor, target, timing, payment and destination clear. This revision is a playable proposal for review, not a claim of proven comprehension, optimal balance or player preference.

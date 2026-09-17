@@ -5,7 +5,7 @@ import { createGame, applyAction } from "./engine";
 import { legalActions, supported, crownProgress } from "./rules";
 import { chooseAction, type Decision } from "./ai";
 import { viewForSeat, viewForSpectator, publicReplay } from "./view";
-import { previewAction } from "./preview";
+import { previewAction, ACTION_LABELS, ACTION_PURPOSES } from "./preview";
 import { CONTENT_VERSION, SOURCE, SOURCES, nameOf, program } from "./content";
 import { MODULES, type Action, type GameState, type GameView } from "./types";
 import {
@@ -24,6 +24,7 @@ import { HistoryTable } from "./scene";
 import { TableAudio } from "./audio";
 import { captureAnchors, animateEvents, clearMotion } from "./motion";
 import { glossaryHTML } from "./glossary";
+import { learningGoal, crownReadiness, requiredTeachingCards, teachingCardOptions, selectedTeachingAction, teachingCardLocation, describeOutcome } from "./learning";
 
 const root = document.querySelector<HTMLDivElement>("#app")!;
 let state: GameState | null = null,
@@ -42,6 +43,9 @@ let autoAI = false;
 let practiceRevision: number | null = null;
 let knowledgeFeedback = "";
 let knowledgeOpen = false;
+let lastOutcome: string[] = [];
+let renderedRevision: number | null = null;
+let renderedLesson: number | null = null;
 let aiWorker: Worker | null = null;
 const audio = new TableAudio();
 const loaded = readSave();
@@ -80,6 +84,7 @@ function curtain() {
   viewer = null;
   selected = null;
   packet = [];
+  lastOutcome = [];
   dispose();
   render();
 }
@@ -95,7 +100,7 @@ function title() {
   dispose();
   state = null;
   viewer = null;
-  root.innerHTML = `<main class="h-title"><div class="h-title-backdrop"></div><nav class="h-title-nav"><span>OVERLORDS &amp; OUTLAWS</span><a href="?legacy=1">Legacy game ↗</a></nav><section class="h-title-copy"><p class="h-eyebrow">A SHARED INHERITANCE. A DISPUTED SUCCESSION.</p><h1>The Weight<br>of the Crown</h1><p class="h-lead">Recruit a dynasty. Keep your intentions concealed.<br>Let your government outlive its ruler.</p><div class="h-title-actions">${button("Learn at the table", "teach", 'class="primary"')}${button("Set a new table", "setup")}${resume ? button("Resume saved game", "resume") : ""}</div><p class="h-title-note">2–4 players · local table or solo against rivals<br>A physical card game · playable prototype</p>${loaded.legacy ? `<aside class="h-notice">Your legacy game is preserved. <a href="?legacy=1">Continue legacy game</a> or start this new ruleset.</aside>` : ""}${error ? `<p role="alert" class="h-error">${esc(error)}</p>${button("Export stored save for recovery", "recovery-export")}` : ""}<div class="h-title-links"><button data-ui="demo">Five-minute preset demo</button>${button("The rules", "rules")}${button("Read the cards", "archive")}${button("Import private save", "import")}</div></section><div class="h-title-portraits" aria-hidden="true">${["alba-0", "plantagenet-1", "tudor-1"].map((id) => `<div>${faceHTML(id, true)}</div>`).join("")}</div><footer>Original concept © 2025 Malachy Murray · Counterfactual game offices and relationships</footer></main>`;
+  root.innerHTML = `<main class="h-title"><div class="h-title-backdrop"></div><nav class="h-title-nav"><span>OVERLORDS &amp; OUTLAWS</span><a href="?legacy=1">Legacy game ↗</a></nav><section class="h-title-copy"><p class="h-eyebrow">A SHARED INHERITANCE. A DISPUTED SUCCESSION.</p><h1>The Weight<br>of the Crown</h1><p class="h-lead">Build your family. Claim the Crown.<br>Pass it to an heir—and protect them to win.</p><div class="h-title-actions">${button("Learn at the table", "teach", 'class="primary"')}${button("Set a new table", "setup")}${resume ? button("Resume saved game", "resume") : ""}</div><p class="h-title-note">2–4 players · local table or solo against rivals<br>A physical card game · playable prototype</p>${loaded.legacy ? `<aside class="h-notice">Your legacy game is preserved. <a href="?legacy=1">Continue legacy game</a> or start this new ruleset.</aside>` : ""}${error ? `<p role="alert" class="h-error">${esc(error)}</p>${button("Export stored save for recovery", "recovery-export")}` : ""}<div class="h-title-links"><button data-ui="demo">Five-minute preset demo</button>${button("The rules", "rules")}${button("Read the cards", "archive")}${button("Import private save", "import")}</div></section><div class="h-title-portraits" aria-hidden="true">${["alba-0", "plantagenet-1", "tudor-1"].map((id) => `<div>${faceHTML(id, true)}</div>`).join("")}</div><footer>Original concept © 2025 Malachy Murray · Counterfactual game offices and relationships</footer></main>`;
   bind();
 }
 function setup() {
@@ -122,10 +127,12 @@ function start(game: GameState, cursor: number | null = null) {
 }
 function commit(action: Action) {
   if (!state) return;
+  const beforeView = viewForSeat(state, viewer);
   const before = captureAnchors(),
     sequence = state.events.length;
   try {
     state = applyAction(state, action);
+    lastOutcome = describeOutcome(beforeView, viewForSeat(state, viewer), action);
     selected = null;
     packet = [];
     error = "";
@@ -176,7 +183,7 @@ function historyRail(v: GameView) {
 function ownLawButton(v: GameView) {
   const dynasty = v.players[viewer ?? 0]?.dynasty;
   return dynasty
-    ? `<button data-inspect="law-${dynasty}">Your Law</button>`
+    ? `<button data-inspect="law-${dynasty}">How to win</button>`
     : "";
 }
 function setupControls(v: GameView, seat: number) {
@@ -200,9 +207,18 @@ function actionList(actions: Action[], v: GameView) {
   return `<div class="h-action-list">${actions
     .map((a) => {
       const p = previewAction(v, a);
-      return `<button data-action='${esc(JSON.stringify(a))}'><strong>${esc(p.title)}</strong><span>${esc(actionName(a) || p.effect)}</span></button>`;
+      return `<button data-action='${esc(JSON.stringify(a))}'><strong>${esc(p.title)}</strong><span>${esc(p.effect)}</span><small>${esc(p.cost)}</small></button>`;
     })
     .join("")}</div>`;
+}
+function outcomeHTML() {
+  return `<div class="h-outcome"><h3>What changed</h3>${lastOutcome.length ? `<ul>${lastOutcome.map(text => `<li>${esc(text)}</li>`).join("")}</ul>` : "<p>This saved action is complete. The table shows its result; open Table record for the history.</p>"}</div>`;
+}
+function tradeOffers(v: GameView) {
+  const trade = v.barter;
+  if (!trade?.inspected || v.viewer === null || ![trade.initiator, trade.recipient].includes(v.viewer)) return "";
+  const other = v.viewer === trade.initiator ? trade.recipient : trade.initiator;
+  return `<div class="h-trade-offers" data-trade-offer>${[v.viewer, other].map(seat => `<section><h3>${seat === v.viewer ? "You give" : "You receive"}</h3>${(trade.packets[seat] ?? []).map(id => `<button data-inspect="${id}">${faceHTML(id, true)}<span>Inspect ${esc(nameOf(id))}</span></button>`).join("")}</section>`).join("")}</div>`;
 }
 const knowledgeQuestions = [
   [
@@ -230,14 +246,19 @@ function decision(v: GameView) {
   if (v.result && tutorial !== null && knowledgeOpen)
     return `<p class="h-eyebrow">PREDICT BEFORE YOU PLAY</p><h2>Four consequences</h2>${knowledgeQuestions.map(([question, yes, no], i) => `<label>${esc(question)}<select data-knowledge="${i}"><option value="">Choose what happens</option><option value="yes">${esc(yes)}</option><option value="no">${esc(no)}</option></select></label>`).join("")}${button("Check predictions", "knowledge-check", 'class="primary"')}${knowledgeFeedback ? `<p role="status">${esc(knowledgeFeedback)}</p>${button("Start a new unaided practice", "practice", 'class="primary"')}` : ""}`;
   if (v.result)
-    return `<p class="h-eyebrow">${v.result.winner === "eudoxia" ? "THE RECORD IS COMPLETE" : "THE CROWN IS SETTLED"}</p><h2>${v.result.winner === "eudoxia" ? "Eudoxia prevails" : `${esc(v.players[v.result.winner].name)} prevails`}</h2><p>${esc(v.result.reason)}</p>${tutorial !== null ? button("Predict the next consequences", "knowledge", 'class="primary"') : ""}${button("Explore a new table", "home", 'class="primary"')}${button("Export public record", "public-export")}`;
+    return `<p class="h-eyebrow">${v.result.winner === "eudoxia" ? "THE RECORD IS COMPLETE" : "THE CROWN IS SETTLED"}</p><h2>${v.result.winner === "eudoxia" ? "Eudoxia prevails" : `${v.players[v.result.winner].name === "You" ? "You win" : `${esc(v.players[v.result.winner].name)} wins`}`}</h2><p>${esc(v.result.reason)}</p>${tutorial !== null ? button("Check what you learned", "knowledge", 'class="primary"') : ""}${button("Explore a new table", "home", 'class="primary"')}${button("Export public record", "public-export")}`;
   if (tutorial !== null) {
     const lesson = LESSONS[tutorial];
     if (!lesson)
       return `<h2>The teaching match is complete</h2>${button("Play an unaided game", "home")}`;
     const a = lessonAction(state!, tutorial)!;
     const own = lesson.action.seat === 0;
-    return `<span class="h-progress">${tutorial + 1} / ${LESSONS.length}</span><p class="h-eyebrow">${own ? "YOUR NEXT DECISION" : `${esc(state!.players[lesson.action.seat].name)}’S ACTION`}</p><h2>${esc(lesson.title)}</h2><p>${esc(lesson.explanation)}</p>${lessonDone ? `<div class="h-outcome">${esc(v.events.filter((e) => e.visibility === "public").at(-1)?.text ?? "The action is complete.")}</div>${button("Continue", "lesson-next", 'class="primary h-next"')}` : `<div class="h-preview">${own ? esc(previewAction(v, a).effect) : "Resolve this announced legal action to see its effect on the table."}</div>${button(own ? previewAction(v, a).title : "Resolve opponent action", "lesson-action", 'class="primary h-next"')}`}<p class="h-small">Read the outcome, then Continue when you are ready.</p>`;
+    const chosen = selectedTeachingAction(v, a, packet);
+    const choices = teachingCardOptions(v, a);
+    const needed = a.type === "counterclaim" ? 1 : requiredTeachingCards(v, a).length;
+    const preview = previewAction(v, chosen ?? a);
+    const selection = choices.length ? `<div class="h-teaching-selection"><p><b>${a.type === "counterclaim" ? "Choose 1 matching card to lend" : `Select ${needed} card${needed === 1 ? "" : "s"} for this example`}.</b> ${packet.filter(id => choices.includes(id)).length}/${needed} selected.</p>${choices.map(id => `<button data-guide-card="${id}" aria-pressed="${packet.includes(id)}"><strong>${esc(nameOf(id))}</strong><span>${esc(teachingCardLocation(v, id))}</span></button>`).join("")}</div>` : "";
+    return `<span class="h-progress">${tutorial + 1} / ${LESSONS.length}</span><p class="h-eyebrow">${own ? "GUIDED EXAMPLE · YOUR TURN" : `${esc(state!.players[lesson.action.seat].name)}’S ACTION`}</p><p class="h-learning-goal">${esc(tutorial === 0 || v.crown ? learningGoal(v) : "Goal: pass the Crown to your next Ruler, then protect that Ruler for a full round.")}</p><h2>${esc(lesson.title)}</h2><p>${esc(lesson.explanation)}</p>${lessonDone ? `${outcomeHTML()}${tradeOffers(v)}${button("Continue", "lesson-next", 'class="primary h-next"')}` : `${selection}${tradeOffers(v)}<div class="h-preview">${own ? `<strong>${esc(preview.cost)}</strong><p>${esc(preview.effect)}</p>${preview.warning ? `<p>${esc(preview.warning)}</p>` : ""}` : "Resolve this announced action, then read what changed before continuing."}</div>${button(own ? preview.title : "Resolve opponent action", "lesson-action", `class="primary h-next" ${own && !chosen ? "disabled" : ""}`)}`}<p class="h-small">This is a guided example, not the only way to play. Choose freely with the same cards using the button below.</p>${button("Play freely from this position", "leave-tutorial", 'class="h-subtle"')}`;
   }
   const seat = actingSeat();
   if (seat === null) return "<p>Waiting for the current procedure.</p>";
@@ -245,21 +266,21 @@ function decision(v: GameView) {
     return `<p class="h-eyebrow">${esc(state!.players[seat].name)}’S OPPORTUNITY</p><h2>A rival considers the table</h2><p>Concealed intentions stay private. The committed action will name its source and destination.</p>${button("Resolve opponent action", "ai-step", 'class="primary"')}<label class="h-toggle"><input type="checkbox" id="h-auto" ${autoAI ? "checked" : ""}> Continue AI automatically</label>`;
   if (selected) {
     const p = previewAction(v, selected);
-    return `<p class="h-eyebrow">REVIEW BEFORE COMMITTING</p><h2>${esc(p.title)}</h2><strong class="h-cost">${esc(p.cost)}</strong><p>${esc(p.effect)}</p>${p.warning ? `<p class="h-warning">${esc(p.warning)}</p>` : ""}${button("Lend action", "commit", `class="primary" ${!p.legal ? "disabled" : ""}`)}${button("Cancel preview", "cancel")}`;
+    return `<p class="h-eyebrow">REVIEW YOUR CHOICE</p><h2>${esc(p.title)}</h2><strong class="h-cost">${esc(p.cost)}</strong><p>${esc(p.effect)}</p>${p.warning ? `<p class="h-warning">${esc(p.warning)}</p>` : ""}${button("Confirm this action", "commit", `class="primary" ${!p.legal ? "disabled" : ""}`)}${button("Cancel preview", "cancel")}`;
   }
   if (v.phase === "setup")
     return `<p class="h-eyebrow">INHERITANCE</p>${setupControls(v, seat)}`;
   const actions = legalActions(v, seat);
   if (v.phase === "barter") {
     const b = v.barter!;
-    return `<p class="h-eyebrow">PRIVATE TRADE · ${esc(b.stage)}</p><h2>Agree on a Trade</h2>${b.inspected ? `<p>Offered to you: ${esc((b.packets[seat === b.initiator ? b.recipient : b.initiator] ?? []).map(nameOf).join(", "))}</p>` : "<p>Packets remain concealed until both authorize inspection.</p>"}${b.stage === "packet" && seat === b.recipient ? `<p>Choose 1 or 2 cards from your hand.</p>${button("Lock offer", "barter-lock", `class="primary" ${packet.length < 1 || packet.length > 2 ? "disabled" : ""}`)}${button("Decline offer", "barter-cancel")}` : actionList(actions, v)}`;
+    return `<p class="h-eyebrow">PRIVATE TRADE</p><h2>Compare before you agree</h2>${tradeOffers(v)}${b.inspected ? "<p>You can refuse after looking. Only an accepted exchange costs the person who offered it 1 seal.</p>" : "<p>Both offers stay face down until you both agree to look.</p>"}${b.stage === "packet" && seat === b.recipient ? `<p>Choose 1 or 2 cards from your hand.</p>${button("Confirm offer", "barter-lock", `class="primary" ${packet.length < 1 || packet.length > 2 ? "disabled" : ""}`)}${button("Decline offer", "barter-cancel")}` : actionList(actions, v)}`;
   }
   if (v.phase === "choice" || v.phase === "response")
-    return `<p class="h-eyebrow">${v.phase === "choice" ? "LOCK A CHOICE" : "A RESPONSE IS OPEN"}</p><h2>${v.phase === "choice" ? "Resolve the named consequence" : `Defend ${nameOf(v.claim!.target)}`}</h2><p>${v.phase === "choice" ? "Every chooser uses the same snapshot. No cards move until all choices lock." : "Block spends a seal and matching Noble in hand. There is no response to a response."}</p>${actionList(actions, v)}`;
+    return `<p class="h-eyebrow">${v.phase === "choice" ? "CHOOSE A CARD" : "A RIVAL TRIES TO TAKE YOUR NOBLE"}</p><h2>${v.phase === "choice" ? "Choose what happens next" : `Defend ${nameOf(v.claim!.target)}`}</h2><p>${v.phase === "choice" ? "Read each choice below. When several players must choose, the cards move after everyone has chosen." : "Block costs 1 seal and a loan of a matching-Dynasty hand card. The loan returns next round. Without a Block, the rival takes your Noble into their hand."}</p>${actionList(actions, v)}`;
   const types = [...new Set(actions.map((a) => a.type))];
   if (!types.includes(category as Action["type"]))
     category = types[0] ?? "pass";
-  return `<p class="h-eyebrow">${SEAT_SIGNS[seat]} ${esc(v.players[seat].name)} · ONE ACTION OR PASS</p><h2>What will you expose?</h2><div class="h-action-tabs">${types.map((type) => `<button data-category="${type}" aria-pressed="${category === type}">${esc(previewAction(v, actions.find((a) => a.type === type)!).title)}</button>`).join("")}</div>${
+  return `<p class="h-eyebrow">${SEAT_SIGNS[seat]} ${esc(v.players[seat].name)} · ONE ACTION OR PASS</p><h2>Choose your next move</h2><p class="h-learning-goal">${esc(learningGoal(v))}</p><p><b>${v.players[seat].seals} seals left.</b> Each action or Block costs 1. Pass is free.</p><div class="h-action-tabs">${types.map((type) => `<button data-category="${type}" aria-pressed="${category === type}">${esc(ACTION_LABELS[type] ?? type)}</button>`).join("")}</div><p>${esc(ACTION_PURPOSES[category as Action["type"]] ?? "Choose an action to see its cost and result before confirming.")}</p>${
     category === "barter"
       ? `<p>Select one or two Nobles in hand, then a recipient. Both packets are inspected only after consent.</p><div class="h-barter-to">${v.players
           .filter((p) => p.seat !== seat && p.handCount)
@@ -284,19 +305,24 @@ function render() {
   }
   if (aiTimer) clearTimeout(aiTimer);
   aiTimer = null;
+  const keepScroll = renderedRevision === state.revision && renderedLesson === tutorial;
+  const guideScroll = keepScroll ? document.querySelector(".h-decision")?.scrollTop ?? 0 : 0;
+  const handScroll = document.querySelector(".h-hand .h-card-row")?.scrollLeft ?? 0;
+  renderedRevision = state.revision;
+  renderedLesson = tutorial;
   document.querySelectorAll("dialog").forEach((d) => d.remove());
   root.classList.toggle("large-text", preferences.largeText);
   const priorHost = table ? document.querySelector("#h-table") : null;
   if (locked) {
     const next = actingSeat();
     const seat = next !== null && !state.players[next].ai ? next : 0;
-    root.innerHTML = `<main class="h-curtain"><p class="h-eyebrow">PRIVATE TABLE HANDOFF</p><div class="h-seal-large">${SEAT_SIGNS[seat]}</div><h1>${esc(state.players[seat].name)}</h1><p>Pass the device to this seat.<br>Open only when the other players cannot see your hand.</p>${button("Open my view", "unlock", `class="primary" data-seat="${seat}"`)}${button("Return to title", "home")}</main>`;
+    root.innerHTML = `<main class="h-curtain"><p class="h-eyebrow">PRIVATE TABLE HANDOFF</p><div class="h-seal-large">${SEAT_SIGNS[seat]}</div><h1>${esc(state.players[seat].name)}</h1><p>${state.players.filter(p => !p.ai).length === 1 ? "You are playing against computer rivals. Open your private hand to begin." : "Pass the device to this player. Open only when the other players cannot see your hand."}</p>${button("Open my view", "unlock", `class="primary" data-seat="${seat}"`)}${button("Return to title", "home")}</main>`;
     bind();
     return;
   }
   const v = viewForSeat(state, viewer);
   const seat = actingSeat();
-  root.innerHTML = `<main class="h-game"><header class="h-game-header"><button data-ui="home" class="h-brand">O&amp;O <span>The Weight of the Crown</span></button><div class="h-round">${v.phase === "setup" ? "Inheritance" : `Round ${v.round}`}<small>${v.passes.length}/${v.players.length} passes in a row</small></div><nav>${ownLawButton(v)}${button("Rules", "rules")}${button("Inspect state", "registers")}${button("Settings", "settings")}${button("Cover hands", "lock")}</nav></header><div class="h-game-grid"><section class="h-table-panel" aria-label="Physical game table"><div class="h-cameras">${button("Whole table", "focus-all")}${v.players.map((p) => button(`${SEAT_SIGNS[p.seat]} ${esc(p.name)}`, `focus-${p.seat}`)).join("")}</div><div id="h-table" class="h-table ${preferences.quality === "semantic" ? "semantic" : ""}">${preferences.quality === "semantic" ? drawSemantic(v) : ""}</div><div class="h-record" role="status" aria-live="polite">${esc(v.events.filter((e) => e.visibility === "public").at(-1)?.text ?? "Inheritance begins.")}</div></section><aside class="h-decision ${tutorial !== null ? "h-guide" : ""}" aria-label="${tutorial !== null ? "Learning guide" : "Action and outcome"}">${error ? `<p class="h-error" role="alert">${esc(error)}</p>` : ""}${decision(v)}</aside><section class="h-hand" aria-label="Your private Nobles in hand"><header><h2>${SEAT_SIGNS[viewer ?? 0]} ${esc(v.players[viewer ?? 0]?.name)}’s Nobles in hand</h2><span>${v.players[viewer ?? 0]?.seals ?? 0} available seals · private hand</span></header><div class="h-card-row">${(v.players[viewer ?? 0]?.hand ?? []).map((id) => `<div class="h-hand-card ${packet.includes(id) ? "selected" : ""}"><button data-select="${id}" aria-pressed="${packet.includes(id)}" aria-label="Select ${esc(nameOf(id))}">${faceHTML(id, true)}</button><button data-inspect="${id}" class="h-inspect-small">Inspect</button></div>`).join("") || "<p>Your hand is empty. You can still use Court actions, Draw or Pass.</p>"}</div></section><section class="h-history-panel">${historyRail(v)}</section></div></main>`;
+  root.innerHTML = `<main class="h-game"><header class="h-game-header"><button data-ui="home" class="h-brand">O&amp;O <span>The Weight of the Crown</span></button><div class="h-round">${v.phase === "setup" ? "Inheritance" : `Round ${v.round}`}<small>${v.passes.length}/${v.players.length} passes in a row</small></div><nav>${ownLawButton(v)}${button("Rules", "rules")}${button("Table record", "registers")}${button("Settings", "settings")}${button("Cover hands", "lock")}</nav></header><div class="h-game-grid"><section class="h-table-panel" aria-label="Physical game table"><div class="h-cameras">${button("Whole table", "focus-all")}${v.players.map((p) => button(`${SEAT_SIGNS[p.seat]} ${esc(p.name)}`, `focus-${p.seat}`)).join("")}</div><div id="h-table" class="h-table ${preferences.quality === "semantic" ? "semantic" : ""}">${preferences.quality === "semantic" ? drawSemantic(v) : ""}</div><div class="h-record" role="status" aria-live="polite">${esc(v.events.filter((e) => e.visibility === "public").at(-1)?.text ?? "Inheritance begins.")}</div></section><aside class="h-decision ${tutorial !== null ? "h-guide" : ""}" aria-label="${tutorial !== null ? "Learning guide" : "Action and outcome"}">${error ? `<p class="h-error" role="alert">${esc(error)}</p>` : ""}${decision(v)}</aside><section class="h-hand" aria-label="Your private Nobles in hand"><header><h2>${SEAT_SIGNS[viewer ?? 0]} ${v.players[viewer ?? 0]?.name === "You" ? "Your Nobles in hand" : `${esc(v.players[viewer ?? 0]?.name)}’s Nobles in hand`}</h2><span>${v.players[viewer ?? 0]?.seals ?? 0} available seals · private hand</span></header><div class="h-card-row">${(v.players[viewer ?? 0]?.hand ?? []).map((id) => `<div class="h-hand-card ${packet.includes(id) ? "selected" : ""}"><button data-select="${id}" aria-pressed="${packet.includes(id)}" aria-label="Select ${esc(nameOf(id))}">${faceHTML(id, true)}</button><button data-inspect="${id}" class="h-inspect-small">Inspect</button></div>`).join("") || "<p>Your hand is empty. You can still use Court actions, Draw or Pass.</p>"}</div></section><section class="h-history-panel">${historyRail(v)}</section></div></main>`;
   if (preferences.quality !== "semantic") {
     try {
       if (table && priorHost)
@@ -304,7 +330,7 @@ function render() {
       else
         table = new HistoryTable(
           document.querySelector("#h-table")!,
-          inspect,
+          tableCard,
           () => {
             table?.dispose();
             table = null;
@@ -326,6 +352,24 @@ function render() {
     table = null;
   }
   bind();
+  const guidePanel = document.querySelector(".h-decision");
+  if (guidePanel) guidePanel.scrollTop = guideScroll;
+  const handRow = document.querySelector(".h-hand .h-card-row");
+  if (handRow) handRow.scrollLeft = handScroll;
+  if (tutorial !== null && !lessonDone) {
+    const action = lessonAction(state, tutorial)!;
+    const targets = new Set(teachingCardOptions(v, action));
+    const highlight = () => {
+      document.querySelectorAll<HTMLElement>("[data-select], [data-card-id], [data-fragment], [data-guide-card]").forEach(element => {
+        const id = element.dataset.select ?? element.dataset.cardId ?? element.dataset.fragment ?? element.dataset.guideCard;
+        element.classList.toggle("h-teaching-target", !!id && targets.has(id));
+      });
+    };
+    highlight();
+    requestAnimationFrame(highlight);
+  } else {
+    document.querySelectorAll(".h-teaching-target").forEach(element => element.classList.remove("h-teaching-target"));
+  }
   if (autoAI && tutorial === null && seat !== null && state.players[seat].ai)
     aiTimer = setTimeout(aiStep, 1500);
 }
@@ -353,7 +397,8 @@ function inspect(id: string) {
         (p.hand ?? []).includes(id),
     ) ||
     v.noblePast.includes(id) ||
-    v.crown?.sealed === id;
+    v.crown?.sealed === id ||
+    (!!v.barter?.inspected && Object.values(v.barter.packets).some(ids => ids?.includes(id)));
   if (!allowed) return;
   const controller = v.players.find(
     (p) =>
@@ -368,18 +413,34 @@ function inspect(id: string) {
       ? `<h3>Nobles marked when revealed</h3>${crisis.obligated.map((seat) => `<p><b>${esc(v.players[seat].name)}</b>: ${(crisis.restoreIds[seat] ?? []).map((card) => esc(nameOf(card))).join(", ")}${crisis.fulfilled.includes(seat) ? " · already helped" : " · Marry one of these Nobles to help"}</p>`).join("")}`
       : "";
   modal(
-    `<div class="h-inspection">${faceHTML(id)}<section><p class="h-eyebrow">READ THE CARD</p><h2>${esc(c.printed.name)}</h2>${controller ? `<p>Held by ${SEAT_SIGNS[controller.seat]} ${esc(controller.name)}. Dynasty: ${esc(c.printed.dynasty)}.</p><p>${c.printed.dynasty === controller.dynasty ? "Matches this player’s Dynasty" : supported(v, controller.seat, id) ? "Joins this player’s Bloodline through marriage" : "Does not belong to this player’s Bloodline"}${controller.ruler === id ? " · Ruler" : ""}${controller.rotated.includes(id) ? " · Turned sideways until next round" : ""}.</p>` : ""}${marriage ? `<p>Marriage ${marriage.id}: ${esc(nameOf(marriage.queen))} ↔ ${esc(nameOf(marriage.spouse))}</p>` : ""}${marked}<details class="h-card-terms"><summary>Words and actions on this card</summary>${glossaryHTML(c.cardText)}</details><details><summary>History and artwork</summary><p class="h-small">${esc(c.historicalNote)}</p></details></section></div>`,
+    `<div class="h-inspection">${faceHTML(id)}<section><p class="h-eyebrow">READ THE CARD</p><h2>${esc(c.printed.name)}</h2>${c.kind === "law" && c.printed.dynasty === v.players[viewer ?? 0]?.dynasty ? `<p class="h-learning-goal">${esc(crownReadiness(v, viewer ?? 0))}</p>` : ""}${controller ? `<p>Held by ${SEAT_SIGNS[controller.seat]} ${esc(controller.name)}. Dynasty: ${esc(c.printed.dynasty)}.</p><p>${c.printed.dynasty === controller.dynasty ? "Matches this player’s Dynasty" : supported(v, controller.seat, id) ? "Joins this player’s Bloodline through marriage" : "Does not belong to this player’s Bloodline"}${controller.ruler === id ? " · Ruler" : ""}${controller.rotated.includes(id) ? " · Turned sideways until next round" : ""}.</p>` : ""}${marriage ? `<p>Marriage ${marriage.id}: ${esc(nameOf(marriage.queen))} ↔ ${esc(nameOf(marriage.spouse))}</p>` : ""}${marked}<details class="h-card-terms" open><summary>Words and actions on this card</summary>${glossaryHTML(c.cardText)}</details><details><summary>History and artwork</summary><p class="h-small">${esc(c.historicalNote)}</p></details></section></div>`,
   );
+}
+function tableCard(id: string) {
+  if (state && tutorial !== null && !lessonDone) {
+    const view = viewForSeat(state, viewer);
+    const action = lessonAction(state, tutorial)!;
+    if (teachingCardOptions(view, action).includes(id)) {
+      toggleCardSelection(id);
+      return;
+    }
+  }
+  inspect(id);
+}
+function toggleCardSelection(id: string) {
+  const single = tutorial !== null && LESSONS[tutorial]?.action.type === "counterclaim";
+  packet = packet.includes(id) ? packet.filter(card => card !== id) : single ? [id] : [...packet, id];
+  render();
 }
 function rules() {
   modal(
     `<p class="h-eyebrow">LEARN THE GAME</p><h2>Pass the Crown. Keep your family together.</h2>
     <p><b>Your goal:</b> claim the Crown, pass it to your chosen heir, then keep that new Ruler in your Bloodline for the time on your Law. If Eudoxia completes a painting first, everyone loses.</p>
-    <h3>Set up</h3><p>Choose one Dynasty set per player. Mix their Noble cards into one deck and their History cards into another. Deal 8 Nobles each. Everyone passes 3 cards to the left at the same time, then 2, then 1. Place 3 Nobles of one Dynasty in front of you: this is your Court and your Dynasty. Mark one as your Ruler. Keep the other 5 cards secret.</p>
+    <h3>Set up</h3><p>Choose one Dynasty set per player. Mix their Noble cards into one deck and their History cards into another. Deal 8 Nobles each. Everyone passes 3 cards clockwise at the same time, then 2, then 1. Place 3 Nobles of one Dynasty in front of you: this is your Court and your Dynasty. Mark one as your Ruler. Keep the other 5 cards secret.</p>
     <h3>Your turn</h3><p>Take 1 action or Pass. Each action costs 1 seal; everyone gets 3 seals each round. Save a seal if you want to Block a rival’s Recall. Pass costs nothing. You may act again after passing if someone else acts. When everyone passes in a row, the round ends.</p>
-    <h3>A new round</h3><p>Move the first-player marker left, except in round one. Then follow these steps in order.</p><ol><li>Uncover any painting fragments due now. Return lent Nobles to their hands.</li><li>Refill everyone’s 3 seals and turn all sideways Nobles upright.</li><li>Follow any Crown change due now, then the active Crises, oldest first.</li><li>Reveal 1 History card per player. Everyone sees every draw.</li><li>If you have fewer than 5 cards in hand, draw 1 Noble.</li></ol>
+    <h3>A new round</h3><p>Move the first-player marker clockwise, except in round one. Then follow these steps in order.</p><ol><li>Uncover any painting fragments due now. Return lent Nobles to their hands.</li><li>Refill everyone’s 3 seals and turn all sideways Nobles upright.</li><li>Follow any Crown change due now, then the active Crises, oldest first.</li><li>Reveal 1 History card per player. Everyone sees every draw.</li><li>If you have fewer than 5 cards in hand, draw 1 Noble.</li></ol>
     <h3>History gives everyone a warning</h3><p>A new Crisis waits until this round ends. Read its Prevent line: help in time and it goes to The Past. Otherwise its effect starts. Each Crisis says when it ends and whether you can still stop it. Track contributions on the card; returning a loan does not erase that record.</p>
-    <h3>Keep marriage visible</h3><p>A Queen of your Dynasty can marry one Noble of another Dynasty from your hand or Court. Put both in your Court with matching pair markers. That spouse joins your Bloodline. If either leaves, the pair breaks. A foreign spouse left behind stays in Court but leaves your Bloodline. A Queen of your Dynasty remains in your Bloodline. Each Noble can have only one spouse.</p>
+    <h3>Compare Nobles</h3><p>Look at the Dynasty, branch and Queen role. Nobles with the same three labels have the same abilities. A historical name or Founder label gives no extra power. Your Law explains which family relationships matter for winning.</p><h3>Keep marriage visible</h3><p>A Queen of your Dynasty can marry one Noble of another Dynasty from your hand or Court. Put both in your Court with matching pair markers. That spouse joins your Bloodline. If either leaves, the pair breaks. A foreign spouse left behind stays in Court but leaves your Bloodline. A Queen of your Dynasty remains in your Bloodline. Each Noble can have only one spouse.</p>
     <h3>Win through your Law</h3><p>Read your Dynasty’s Law before claiming the Crown. The Crown must be free. Keep its named people and marriage as instructed. If a requirement fails, remove your Crown claim at once; fixing it later does not restore that attempt.</p><p><b>Regency:</b> an alternative for every Dynasty. With a Ruler and another Court Noble of your Dynasty, spend 1 seal and name that Noble as heir. Keep both until next round starts. Retire the old Ruler and make the heir Ruler. Keep the new Ruler in your Bloodline for 2 full rounds to win.</p>
     ${glossaryHTML()}<p>The Past is a public pile. Cards there never return. Hands and Courts have no size limit. When the Noble deck is empty, stop drawing.</p><p><a href="${assetUrl("history-proof.html")}" target="_blank">Printable cards and table reference ↗</a></p>`,
   );
@@ -554,11 +615,25 @@ function bind(scope: ParentNode = root) {
           render();
         }
         if (action === "ai-step") aiStep();
-        if (action === "lesson-action" && tutorial !== null && state)
-          commit(lessonAction(state, tutorial)!);
+  if (action === "lesson-action" && tutorial !== null && state)
+          {
+            const a = selectedTeachingAction(viewForSeat(state, viewer), lessonAction(state, tutorial)!, packet);
+            if (a) commit(a);
+          }
+        if (action === "leave-tutorial" && state) {
+          tutorial = null;
+          lessonDone = false;
+          selected = null;
+          packet = [];
+          lastOutcome = [];
+          persist();
+          render();
+        }
         if (action === "lesson-next" && tutorial !== null) {
           tutorial++;
           lessonDone = false;
+          packet = [];
+          lastOutcome = [];
           persist();
           render();
         }
@@ -648,15 +723,19 @@ function bind(scope: ParentNode = root) {
     (b) =>
       (b.onclick = () => {
         const id = b.dataset.select!;
-        packet = packet.includes(id)
-          ? packet.filter((c) => c !== id)
-          : [...packet, id];
-        render();
+        toggleCardSelection(id);
         document
           .querySelector<HTMLButtonElement>(`[data-select="${id}"]`)
-          ?.focus();
+          ?.focus({ preventScroll: true });
       }),
   );
+  scope.querySelectorAll<HTMLButtonElement>("[data-guide-card]").forEach(b => {
+    b.onclick = () => {
+      const id = b.dataset.guideCard!;
+      toggleCardSelection(id);
+      document.querySelector<HTMLButtonElement>(`[data-guide-card="${id}"]`)?.focus({ preventScroll: true });
+    };
+  });
   scope.querySelectorAll<HTMLButtonElement>("[data-action]").forEach(
     (b) =>
       (b.onclick = () => {

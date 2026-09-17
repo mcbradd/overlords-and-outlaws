@@ -38,7 +38,7 @@ try {
   await page.reload();
   await page.locator('[data-ui="resume"]').click();
   await page.locator('[data-ui="unlock"]').click();
-  await page.getByRole("button", { name: "Your Law", exact: true }).click();
+  await page.getByRole("button", { name: "How to win", exact: true }).click();
   assert.match(
     await page.locator("dialog .h-operative").innerText(),
     /Claim the Crown: Have 3/,

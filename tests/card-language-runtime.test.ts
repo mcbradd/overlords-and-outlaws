@@ -228,7 +228,7 @@ test("printed Law reign duration postpones actual victory until the second full 
 test("printed Law transfer delay changes which round installs the new Ruler", () => {
   changeText(
     "law-plantagenet",
-    (t) => t.replace("In 1 round, at its start:", "In 2 rounds, at its start:"),
+    (t) => t.replace("At the start of the next round:", "At the start of the second round after this one:"),
     () => {
       let s = table(["plantagenet", "alba"]);
       put(s, 0, "court", "plantagenet-0", "plantagenet-2", "plantagenet-3");
@@ -257,7 +257,7 @@ test("removing Recruit from a Noble script prevents the real Recruit action", ()
   assert(validateAction(s, recruit).ok);
   changeText(
     "alba-3",
-    (t) => t.replace("Recruit into your Court if this is your Dynasty; ", ""),
+    (t) => t.replace("Recruit: Move from hand to Court if this Noble matches your Dynasty.\n", ""),
     () => {
       assert.equal(validateAction(s, recruit).ok, false);
       assert.throws(() => applyAction(s, recruit));

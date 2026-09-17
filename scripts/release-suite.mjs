@@ -42,6 +42,7 @@ const checks = [
     ],
   ],
   ["history-browser", script("history-browser.ts")],
+  ["tutorial-usability", script("tutorial-usability.ts")],
   ["history-layout", script("history-layout.ts")],
   ["history-simulation", script("history-simulate.ts")],
   ["history-print-fit", script("history-proof-check.mjs")],

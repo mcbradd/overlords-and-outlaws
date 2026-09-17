@@ -83,7 +83,7 @@ export async function cardCanvas(
   const color = DYNASTY_COLORS[source.printed.dynasty];
   ctx.fillStyle = "#101e29";
   ctx.fillRect(0, 0, 630, 880);
-  const portraitHeight = source.kind === "noble" && !compact ? 240 : 580;
+  const portraitHeight = source.kind === "noble" && !compact ? 158 : 550;
   if (source.artRef && source.kind === "noble") {
     const img = await loadImage(source.artRef);
     if (img) {
@@ -105,16 +105,16 @@ export async function cardCanvas(
       ctx.fillRect(0, 0, 630, portraitHeight);
     }
   }
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 3;
-  ctx.strokeRect(9, 9, 612, 862);
-  ctx.lineWidth = 1;
-  ctx.strokeRect(18, 18, 594, 844);
+  // Authored perimeter has no cost or combat stat fields.
+  const frame = await loadImage(
+    `art/frames/${source.printed.dynasty}-perimeter-v2.png`,
+  );
+  if (frame) ctx.drawImage(frame, 0, 0, 630, 880);
   ctx.fillStyle = "#eedfc4";
   ctx.textAlign = "center";
-  let nameSize = 48;
-  const titleTop = source.kind === "noble" ? (compact ? 637 : 286) : 126;
-  const titleBudget = compact && source.kind === "noble" ? 76 : 100;
+  let nameSize = compact ? 64 : 48;
+  const titleTop = source.kind === "noble" ? (compact ? 618 : 202) : 126;
+  const titleBudget = compact && source.kind === "noble" ? 128 : 100;
   while (nameSize > 32) {
     ctx.font = `bold ${nameSize}px "Cormorant Garamond", Georgia`;
     if (
@@ -133,34 +133,27 @@ export async function cardCanvas(
     554,
     nameSize,
   );
-  ctx.font = "600 25px Manrope, sans-serif";
+  ctx.font = "600 32px Manrope, sans-serif";
   ctx.fillStyle = color;
   ctx.fillText(
     source.printed.dynasty.toUpperCase(),
     315,
-    source.kind === "noble" ? (compact ? 769 : titleBottom + 8) : 72,
+    source.kind === "noble" ? (compact ? 794 : titleBottom + 8) : 72,
   );
   if (source.kind === "noble" && compact) {
     ctx.fillStyle = "#eedfc4";
-    ctx.font = "26px Manrope, sans-serif";
+    ctx.font = "34px Manrope, sans-serif";
     ctx.fillText(
       source.printed.queen
-        ? "QUEEN · MARRIAGE ROLE"
+        ? "QUEEN"
         : source.printed.founder
-          ? "FOUNDER · HISTORICAL LABEL"
+          ? "FOUNDER"
           : "NOBLE",
       315,
-      722,
+      746,
     );
-    ctx.font = "23px Manrope, sans-serif";
-    if (source.printed.branch) ctx.fillText(source.printed.branch, 315, 807);
-    ctx.font = "18px Manrope, sans-serif";
-    ctx.fillStyle = "#c6b79c";
-    ctx.fillText(
-      `${id}   ·   ${String(source.printed.collector).padStart(2, "0")} / 13`,
-      315,
-      846,
-    );
+    ctx.font = "30px Manrope, sans-serif";
+    if (source.printed.branch) ctx.fillText(source.printed.branch, 315, 830);
   } else {
     let top = source.kind === "noble" ? titleBottom + 64 : titleBottom + 38;
     if (source.kind === "noble") {
@@ -181,16 +174,19 @@ export async function cardCanvas(
     ctx.textAlign = "left";
     ctx.fillStyle = "#eedfc4";
     const text = MANIFEST[id].canonicalText;
+    const sentences = text.split("\n");
+    const paragraphs =
+      source.kind === "noble"
+        ? [sentences[0], sentences.slice(1, -1).join(" "), sentences.at(-1)!]
+        : sentences;
     let size = source.kind === "noble" ? 28 : 32;
     const available = 820 - top;
     const measuredHeight = () =>
-      text
-        .split("\n")
-        .reduce(
-          (total, line) =>
-            total + linesFor(ctx, line, 550).length * size * 1.18 + 7,
-          0,
-        );
+      paragraphs.reduce(
+        (total, line) =>
+          total + linesFor(ctx, line, 550).length * size * 1.18 + 7,
+        0,
+      );
     while (size > 26) {
       ctx.font = `${size}px Manrope, sans-serif`;
       if (measuredHeight() <= available) break;
@@ -199,7 +195,7 @@ export async function cardCanvas(
     ctx.font = `${size}px Manrope, sans-serif`;
     c.dataset.textOverflow = String(measuredHeight() > available);
     c.dataset.bodyFont = String(size);
-    for (const line of text.split("\n")) {
+    for (const line of paragraphs) {
       top = wrap(ctx, line, 40, top, 550, size * 1.18) + 7;
     }
     ctx.font = "18px Manrope, sans-serif";
@@ -211,5 +207,5 @@ export async function cardCanvas(
 export function faceHTML(id: string, compact = false): string {
   const c = SOURCE[id];
   if (!c) return escapeHTML(id);
-  return `<article class="h-card-face ${c.kind} ${compact ? "h-compact-face" : "h-reference-face"}" style="--dynasty:${DYNASTY_COLORS[c.printed.dynasty]}">${c.artRef && c.kind === "noble" ? `<img src="${assetUrl(c.artRef)}" alt="" loading="lazy">` : ""}<div class="h-card-ink"><span class="h-eyebrow">${escapeHTML(c.printed.dynasty)}</span><h3>${escapeHTML(c.printed.name)}</h3>${c.kind === "noble" ? `<p class="h-card-role">${c.printed.queen ? "Queen" : c.printed.founder ? "Founder · historical label" : "Noble"}${c.printed.branch ? ` · ${escapeHTML(c.printed.branch)}` : ""}</p>` : `<p class="h-card-role">${c.kind === "law" ? "Your path to the Crown" : c.kind === "interregnum" ? "Shared crisis" : "Painting piece"}</p>`}${!compact && c.cardText ? `<div class="h-operative" aria-label="Card instructions">${cardTextHTML(MANIFEST[id].canonicalText)}</div>` : ""}<small>${escapeHTML(id)}${c.printed.collector ? ` · Collector ${c.printed.collector} of 13` : ""}</small></div></article>`;
+  return `<article class="h-card-face ${c.kind} ${compact ? "h-compact-face" : "h-reference-face"}" style="--dynasty:${DYNASTY_COLORS[c.printed.dynasty]};--house-frame:url('${assetUrl(`art/frames/${c.printed.dynasty}-perimeter-v2.png`)}')">${c.artRef && c.kind === "noble" ? `<img src="${assetUrl(c.artRef)}" alt="" loading="lazy">` : ""}<div class="h-card-ink"><span class="h-eyebrow">${escapeHTML(c.printed.dynasty)}</span><h3>${escapeHTML(c.printed.name)}</h3>${c.kind === "noble" ? `<p class="h-card-role">${c.printed.queen ? "Queen" : c.printed.founder ? (compact ? "Founder" : "Founder · historical label") : "Noble"}${c.printed.branch ? ` · ${escapeHTML(c.printed.branch)}` : ""}</p>` : `<p class="h-card-role">${c.kind === "law" ? "Your path to the Crown" : c.kind === "interregnum" ? "Shared crisis" : "Painting piece"}</p>`}${!compact && c.cardText ? `<div class="h-operative" aria-label="Card instructions">${cardTextHTML(MANIFEST[id].canonicalText)}</div>` : ""}<small>${escapeHTML(id)}${c.printed.collector ? ` · Collector ${c.printed.collector} of 13` : ""}</small></div></article>`;
 }

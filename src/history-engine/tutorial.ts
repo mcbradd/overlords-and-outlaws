@@ -47,7 +47,7 @@ export function createTutorial(): GameState {
     "alba-5",
     "alba-6",
     "plantagenet-6",
-    "plantagenet-7",
+    "alba-9",
     "tudor-7",
   ];
   const dealt = s.players.flatMap((p) => p.hand);
@@ -58,15 +58,15 @@ export function createTutorial(): GameState {
     "A1",
     "A2",
     "painting-alba-1",
+    "painting-alba-2",
+    "painting-alba-3",
+    "painting-alba-4",
+    "painting-alba-5",
     "painting-tudor-1",
     "painting-plantagenet-1",
-    "painting-alba-2",
+    "painting-alba-6",
     "painting-tudor-2",
     "painting-plantagenet-2",
-    "painting-alba-3",
-    "painting-tudor-3",
-    "painting-plantagenet-3",
-    "painting-alba-4",
   ];
   s.historyDeck = [
     ...first,
@@ -82,14 +82,14 @@ const L = (
 ): Lesson => ({ title, explanation, action });
 const pass = (seat: number) =>
   L(
-    "The round belongs to everyone",
-    "Pass costs nothing. You can act later if someone acts. The round ends when everyone passes in a row.",
+    "Pass and keep your remaining seals",
+    "Pass costs nothing. You keep any seals for defense. If another player acts, you may act on your next turn. If everyone passes in a row, the round ends.",
     { type: "pass", seat },
   );
 export const LESSONS: Lesson[] = [
   L(
-    "An inheritance, shared",
-    "Choose these 3 Nobles to pass left. Everyone chooses first, then all pass their cards together.",
+    "Choose the cards to pass",
+    "A Noble is a person card. A Dynasty is the family name on it. First, keep 3 Nobles from one Dynasty. Select Eleanor, Richard and Elizabeth to pass clockwise. This teaching deal follows set choices; you can play freely from the same table whenever you want.",
     {
       type: "setup-lock",
       seat: 0,
@@ -112,7 +112,7 @@ export const LESSONS: Lesson[] = [
   ),
   L(
     "Pass two",
-    "You can pass cards you just received. Try to keep 3 Nobles with the same Dynasty name.",
+    "You can pass cards you just received. Keep Kenneth, Margaret and David: all three say Alba. This example passes Alexander II and Edward II. In a normal game, other choices may be better; extra Alba cards can help defend Alba later.",
     { type: "setup-lock", seat: 0, cards: ["alba-5", "plantagenet-6"] },
   ),
   L("The Lion passes two", "Locked packets cannot change.", {
@@ -122,7 +122,7 @@ export const LESSONS: Lesson[] = [
   }),
   L(
     "The Rose passes two",
-    "Cards remain private until an authorized inspection or declaration.",
+    "The other players cannot see which cards you kept. Only the person receiving a pass sees those cards.",
     { type: "setup-lock", seat: 2, cards: ["alba-2", "alba-4"] },
   ),
   L("The last pass", "Lock one final Noble.", {
@@ -137,12 +137,12 @@ export const LESSONS: Lesson[] = [
   }),
   L(
     "The Rose passes one",
-    "Each seat now declares three of the same printed Dynasty.",
-    { type: "setup-lock", seat: 2, cards: ["plantagenet-7"] },
+    "The last cards pass together. Next, each player puts 3 cards of one Dynasty face up on the table.",
+    { type: "setup-lock", seat: 2, cards: ["alba-9"] },
   ),
   L(
     "Declare Alba",
-    "Kenneth, Margaret and David make Alba your Dynasty. Another player may also choose Alba; each keeps their own Court.",
+    "Select Kenneth, Margaret and David. Their family name, Alba, becomes your Dynasty. Put them face up in front of you: this is your Court. Keep your other cards hidden in your hand.",
     { type: "setup-lock", seat: 0, cards: ["alba-0", "alba-1", "alba-3"] },
   ),
   L("The Lion declares", "Declarations reveal together.", {
@@ -157,7 +157,7 @@ export const LESSONS: Lesson[] = [
   }),
   L(
     "Give Kenneth the Ruler marker",
-    "Choose who leads your Court. This is a game role, not a claim about history. No one holds the Crown yet.",
+    "Your Ruler leads your Court. Select Kenneth for this example. Having a Ruler does not win the game: you must claim the Crown, pass it to an heir, then protect the new Ruler for a full round.",
     { type: "ruler", seat: 0, card: "alba-0" },
   ),
   L("The Lion appoints Henry", "Each player has their own Ruler marker.", {
@@ -167,16 +167,16 @@ export const LESSONS: Lesson[] = [
   }),
   L(
     "History opens",
-    "The first public History draw happens now, after Inheritance.",
+    "Every round, reveal 1 History card per player: 3 cards at this table. Crises threaten everyone; each gives you this round to stop it. Painting pieces are a shared danger: if any painting has all 6 pieces uncovered, everyone loses.",
     { type: "ruler", seat: 2, card: "tudor-0" },
   ),
   L(
-    "A concealed person has uses",
-    "Read Edward III. You can Trade him, or Lend him to Recall a rival’s Plantagenet Noble. Here, offer him to The Lion.",
-    { type: "barter", seat: 0, cards: ["plantagenet-7"], other: 1 },
+    "Trade a family card for a new option",
+    "You have 3 seals: tokens that pay for actions or Blocks. Your hand contains only Alba Nobles. Offer Robert II to The Lion. A card from another Dynasty could marry Margaret or help you take a rival’s Noble. Giving up Robert means one fewer Alba card for your own Court or defense.",
+    { type: "barter", seat: 0, cards: ["alba-9"], other: 1 },
   ),
   L(
-    "The Lion locks Richard",
+    "The Lion chooses a hidden offer",
     "The Lion chooses which card to offer without seeing yours.",
     { type: "barter-packet", seat: 1, cards: ["plantagenet-2"] },
   ),
@@ -192,7 +192,7 @@ export const LESSONS: Lesson[] = [
   ),
   L(
     "Accept this exchange",
-    "Richard belongs to Plantagenet. Marry him to your Queen to bring him into your Court, or keep him in hand for a Recall.",
+    "Compare the two offers below. Richard is Plantagenet; Robert is Alba. Richard gives you a foreign spouse for Margaret or a way to Recall a Plantagenet rival. Robert is more useful for defending Alba. This example accepts; playing freely also lets you decline.",
     { type: "barter-decide", seat: 0, accept: true },
   ),
   L(
@@ -207,17 +207,17 @@ export const LESSONS: Lesson[] = [
   ),
   L(
     "Block",
-    "Spend 1 seal and put William face up in Loans. Margaret stays in your Court. Both lent cards return to their hands next round.",
+    "Choose an Alba card from your hand to lend, and spend 1 seal. Margaret stays in your Court. A lent card sits face up in Loans and cannot be used again until it returns next round. Keeping a seal and an Alba card made this defense possible.",
     { type: "counterclaim", seat: 0, card: "alba-4" },
   ),
   L(
     "First contribution against Border Rising",
-    "The Rose spends 1 seal and turns a ready Bloodline Noble sideways. Mark the first contribution on Border Rising.",
+    "If Border Rising starts, each player must lose a Court Noble at round start. Two different Nobles can stop it together. The Rose pays 1 seal and turns a Noble sideways for the first Challenge. That Noble cannot Challenge again until next round.",
     { type: "attack", seat: 2, card: "tudor-5", event: "A2" },
   ),
   L(
     "Choose the actual marriage",
-    "Pair Margaret with Richard in your Court. Richard is still Plantagenet, but joins your Bloodline while their marriage lasts.",
+    "Select Margaret and Richard. Pay 1 seal and put them together in your Court. Your Bloodline is your own family plus married-in Nobles. Richard now belongs to it, but still says Plantagenet: he cannot fill an Alba-only heir slot. If Margaret leaves, he loses that support.",
     { type: "marry", seat: 0, card: "alba-1", target: "plantagenet-2" },
   ),
   L(
@@ -239,36 +239,27 @@ export const LESSONS: Lesson[] = [
     { type: "address", seat: 1, card: "plantagenet-5", event: "A1" },
   ),
   L(
-    "Shared public obligations",
+    "Each player must help once",
     "The Rose lends a Noble of its Dynasty. Mark that player’s help on the Crisis. Keep the mark when the card returns next round.",
     { type: "address", seat: 2, card: "tudor-4", event: "A1" },
   ),
   L(
-    "Eudoxia can be delayed",
-    "Put Malcolm in The Past to Cover Alba’s first painting piece. Uncover it at the start of round 4. Malcolm never returns.",
-    { type: "veil", seat: 0, card: "alba-2", target: "painting-alba-1" },
+    "Remove the obstacle to claiming the Crown",
+    "The Lion and The Rose have helped. Lend Alexander III and pay 1 seal to finish Contested Recognition now. You will have 2 seals left to Recruit and Claim the Crown this round. Waiting would save a seal, but delay your claim.",
+    { type: "address", seat: 0, card: "alba-6", event: "A1" },
   ),
   pass(1),
   pass(2),
   L(
-    "Expose a second kindred",
-    "Recruit Robert the Bruce. Alba’s two named heirs must be from different printed branches.",
+    "Bring in a different family branch",
+    "Alba’s Law needs two heirs from different branches. Margaret and David both say Dunkeld. Robert the Bruce says Bruce–Stewart. Select Robert and pay 1 seal to move him into your Court. You will have 1 seal left.",
     { type: "build", seat: 0, card: "alba-7" },
   ),
   pass(1),
   pass(2),
   L(
-    "Complete the public condition",
-    "Lend Alexander III to finish Contested Recognition. All three seats contributed; the active restriction ends.",
-    { type: "address", seat: 0, card: "alba-6", event: "A1" },
-  ),
-  pass(1),
-  pass(2),
-  pass(0),
-  pass(2),
-  L(
-    "Claim the Crown",
-    "Name David and Robert as heirs from two different branches. Keep Kenneth as Ruler and at least one heir until next round starts.",
+    "See the risk of spending your last seal",
+    "This example spends your last seal to claim the Crown now. Select David and Robert as heirs. Kenneth must stay until next round starts, but you will have no seal to Block. In free play, you could wait and keep that seal for defense. We will use a safer plan on the next attempt.",
     {
       type: "proclaim",
       seat: 0,
@@ -278,31 +269,34 @@ export const LESSONS: Lesson[] = [
   ),
   L(
     "Rivals can break your Crown claim",
-    "Alexander returned from Loans last round. The Lion uses that lawful matching connection to contest Kenneth.",
+    "The Lion lends an Alba card to try to take Kenneth. A Recall can take your Ruler as well as any other Court Noble. If Kenneth leaves now, your Crown claim ends.",
     { type: "claim", seat: 1, card: "alba-5", target: "alba-0" },
   ),
   L(
-    "Let this attempt fail",
-    "Choose not to Block. Kenneth moves to The Lion’s hand. You lose your Crown claim because your old Ruler left.",
+    "No seal means no Block",
+    "You have Alba cards, but no seals left. You cannot Block this Recall. Kenneth goes to The Lion’s hand and your Crown claim ends. This is the cost of the rushed claim; having more cards alone does not protect you.",
     { type: "decline", seat: 0 },
   ),
   // The choice ID is resolved from the engine at runtime; the selected identity is fixed.
   L(
     "Choose an interim Ruler",
-    "Choose a Court Noble of your Dynasty as Ruler. This replaces a missing leader; it does not win the Crown.",
+    "Select David to lead your remaining Court. This costs no seal. Losing a Ruler does not eliminate you, but you must start a new Crown claim to win.",
     { type: "choice", seat: 0, cards: ["alba-3"] },
   ),
   pass(2),
+  pass(0),
+  pass(1),
+  pass(2),
   L(
-    "Rebuild through a legal action",
-    "Recruit Alexander III from your hand to rebuild your Court. Spend 1 seal.",
-    { type: "build", seat: 0, card: "alba-6" },
+    "Stop the painting before it is complete",
+    "Alba now has 5 uncovered painting pieces. A sixth would make everyone lose immediately. Select Malcolm: pay 1 seal and discard him permanently to Cover the first piece until round 5 starts. You cannot wait until all 6 are uncovered; that would be too late.",
+    { type: "veil", seat: 0, card: "alba-2", target: "painting-alba-1" },
   ),
   pass(1),
   pass(2),
   L(
     "Try for the Crown again",
-    "With David ruling, choose Margaret and Robert as heirs from different branches. Start a new Crown claim.",
+    "You already have David, Margaret and Robert in your Court. No extra Recruit is needed. Select Margaret (Dunkeld) and Robert (Bruce–Stewart) as heirs. Pay 1 seal to claim the Crown, leaving your last seal for a Block.",
     {
       type: "proclaim",
       seat: 0,
@@ -310,12 +304,14 @@ export const LESSONS: Lesson[] = [
       heirs: ["alba-1", "alba-7"],
     },
   ),
-  pass(1),
+  L("The Lion tries again", "The Lion tries to take David. This time you saved a seal and still have Alba cards in hand.", { type: "claim", seat: 1, card: "alba-5", target: "alba-3" }),
+  L("Use the defense you saved", "Choose an Alba hand card to lend and pay your last seal. David stays, so your Crown claim survives. You may choose any listed card; the lent card returns next round.", { type: "counterclaim", seat: 0, card: "alba-4" }),
   pass(2),
   pass(0),
+  pass(1),
   L(
-    "Government outlives its Ruler",
-    "First uncover the painting piece due now. Then choose Robert as Ruler and put David in The Past. Keep Robert in your Bloodline until this round ends to win.",
+    "Pass the Crown to your heir",
+    "Select Robert as your new Ruler. Put David in The Past permanently. Keep Robert in your Bloodline until this round ends to win. The covered painting piece stays covered until round 5, so the sixth piece cannot complete that painting now.",
     { type: "choice", seat: 0, cards: ["alba-7"] },
   ),
   pass(0),

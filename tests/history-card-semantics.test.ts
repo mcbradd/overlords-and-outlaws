@@ -85,7 +85,7 @@ test("Law clauses parse independent numbers and named relationships rather than 
     ...original,
     cardText: original.cardText
       .replace("Have 3 Court Nobles", "Have 4 Court Nobles")
-      .replace("In 1 round, at its start:", "In 2 rounds, at its start:")
+      .replace("At the start of the next round:", "At the start of the second round after this one:")
       .replace("for 1 full round.", "for 2 full rounds."),
   });
   assert.deepEqual(changed.ast.law, {
@@ -117,7 +117,7 @@ test("Noble action clauses determine capabilities; a name does not grant a power
   const stripped = compileCard({
     ...queen,
     cardText: queen.cardText
-      .replace("Recruit into your Court if this is your Dynasty; ", "")
+      .replace("Recruit: Move from hand to Court if this Noble matches your Dynasty.\n", "")
       .replace(/\nMarry:.*$/, ""),
   });
   assert.ok(!stripped.ast.abilities?.includes("build"));

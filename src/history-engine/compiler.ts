@@ -10,8 +10,8 @@ import type {
 } from "./types";
 
 // Finite, fail-closed English. The printed clauses are the executable source.
-export const LANGUAGE_VERSION = "2.0.0";
-export const COMPILER_VERSION = "2.0.0";
+export const LANGUAGE_VERSION = "2.1.0";
+export const COMPILER_VERSION = "2.1.0";
 export const INTERPRETER_VERSION = "2.0.0";
 export const REMINDERS: Record<string, string> = {
   attack:
@@ -68,20 +68,20 @@ export const EFFECTS: Record<Effect, string> = {
     "Each player chooses 1 Court Noble whose Dynasty matches a rival's Court Noble. Retire the chosen Nobles together.",
 };
 const nobleHand: [string, string][] = [
-  ["build", "Recruit into your Court if this is your Dynasty"],
-  ["claim", "Recall a rival's Court Noble of this Dynasty"],
-  ["counterclaim", "Block a Recall against a Noble of this Dynasty"],
-  ["barter", "Trade"],
-  ["commit", "Lend when a Crisis asks"],
-  ["veil", "discard to Cover a painting fragment"],
+  ["build", "Recruit: Move from hand to Court if this Noble matches your Dynasty."],
+  ["claim", "Recall: Lend from hand to take a rival's Court Noble of this Dynasty unless Blocked."],
+  ["counterclaim", "Block: Lend from hand to stop a Recall of this Dynasty."],
+  ["barter", "Trade from your hand."],
+  ["commit", "Lend from hand when a Crisis asks."],
+  ["veil", "Cover: Discard from hand to cover a painting piece."],
 ];
 const nobleCourt: [string, string][] = [
-  ["withdraw", "Withdraw to your hand"],
-  ["attack", "Challenge a Crisis if in your Bloodline and ready"],
+  ["withdraw", "Withdraw: Return from Court to hand."],
+  ["attack", "Challenge: Turn sideways if ready and in your Bloodline."],
 ];
 const marriageClause =
-  "Marry: Pair this unmarried Queen in your Court with an unpaired foreign Noble in your hand or Court. This Queen must be of your Dynasty.";
-const costClause = "Actions cost 1 seal.";
+  "Marry: Pair this unmarried Court Queen of your Dynasty with an unmarried foreign Noble from your hand or Court.";
+const costClause = "Pay 1 seal; Trade only if accepted.";
 const activationClause = "Starts at round end unless prevented.";
 const carryClause = "Earlier help still counts.";
 const failureClause =
@@ -96,9 +96,7 @@ const keepClauses: Record<LawProgram["keep"], string> = {
   "heir-marriage":
     "Keep your Ruler, heir and their marriage until the Ruler changes.",
 };
-function rounds(count: number) {
-  return count + " round" + (count === 1 ? "" : "s");
-}
+const successionTimes = ["the next round", "the second round after this one", "the third round after this one"];
 function lawText(law: LawProgram): string {
   const h = law.heir;
   const choice =
@@ -132,9 +130,9 @@ function lawText(law: LawProgram): string {
     choice,
     law.witness === "native" ? witnessClause : "",
     keepClauses[law.keep],
-    "In " +
-      rounds(law.successionAfter) +
-      ", at its start: " +
+    "At the start of " +
+      successionTimes[law.successionAfter - 1] +
+      ": " +
       (h.zone === "hand" ? "Reveal your heir. " : "") +
       "Retire your Ruler. Crown a remaining named heir.",
     "Win: Keep " +
@@ -254,24 +252,8 @@ function conditionText(p: Program): string {
 export function canonicalText(p: Program, kind: CardSource["kind"]): string {
   if (kind === "noble") {
     const has = (a: [string, string]) => p.abilities?.includes(a[0]);
-    const hand = [nobleHand.slice(0, 3), nobleHand.slice(3)].map((group) =>
-      group
-        .filter(has)
-        .map(([, text]) => text)
-        .join("; "),
-    );
-    const court = nobleCourt
-      .filter(has)
-      .map(([, text]) => text)
-      .join("; ");
-    return [
-      costClause,
-      ...hand.map((text) => (text ? "Hand: " + text + "." : "")),
-      court ? "Court: " + court + "." : "",
-      p.abilities?.includes("marry") ? marriageClause : "",
-    ]
-      .filter(Boolean)
-      .join("\n");
+    return [costClause, ...[...nobleHand, ...nobleCourt].filter(has).map(([, text]) => text),
+      p.abilities?.includes("marry") ? marriageClause : ""].filter(Boolean).join("\n");
   }
   if (kind === "law" && p.law) return lawText(p.law);
   if (p.fragment)
@@ -393,22 +375,10 @@ export function compileCard(
         ast.abilities!.push("marry");
         return;
       }
-      const m = /^(Hand|Court): (.+)\.$/.exec(line);
-      if (!m) {
-        fail("CT001", line, index + 1);
-        return;
-      }
-      const dictionary = m[1] === "Hand" ? nobleHand : nobleCourt;
-      for (const clause of m[2].split("; ")) {
-        const ability = dictionary.find(([, t]) => t === clause)?.[0];
-        if (!ability || ast.abilities!.includes(ability))
-          fail(
-            "CT001",
-            "Unknown or repeated " + m[1] + " clause: " + clause,
-            index + 1,
-          );
-        else ast.abilities!.push(ability);
-      }
+      const ability = [...nobleHand, ...nobleCourt].find(([, text]) => text === line)?.[0];
+      if (!ability || ast.abilities!.includes(ability))
+        fail("CT001", "Unknown or repeated Noble instruction: " + line, index + 1);
+      else ast.abilities!.push(ability);
     });
     if (!cost || !ast.abilities.length)
       fail("CT006", "A Noble needs the action cost and at least one action.");
@@ -487,12 +457,12 @@ export function compileCard(
         /* parsed typed maintenance clause */
       } else if (
         (m =
-          /^In (\d+) rounds?, at its start: (Reveal your heir\. )?Retire your Ruler\. Crown a remaining named heir\.$/.exec(
+          /^At the start of (the next round|the second round after this one|the third round after this one): (Reveal your heir\. )?Retire your Ruler\. Crown a remaining named heir\.$/.exec(
             line,
           )) &&
         law.successionAfter === undefined
       ) {
-        law.successionAfter = bounded(m[1], 1, 3, "Succession delay", ln);
+        law.successionAfter = successionTimes.indexOf(m[1]) + 1;
         revealHeir = !!m[2];
       } else if (
         (m =
