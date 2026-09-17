@@ -35,7 +35,7 @@ await page.evaluate(async () => {
   }
 });
 await page.pdf({
-  path: "output/pdf/history-engine-print-and-play.pdf",
+  path: process.argv[2] ?? "output/pdf/history-engine-print-and-play.pdf",
   format: "A4",
   printBackground: true,
   preferCSSPageSize: true,

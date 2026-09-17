@@ -116,11 +116,7 @@ export async function cardCanvas(id: string): Promise<HTMLCanvasElement> {
       722,
     );
     ctx.font = "23px Manrope, sans-serif";
-    ctx.fillText(
-      source.printed.branch ?? "Printed affiliation is permanent",
-      315,
-      807,
-    );
+    if (source.printed.branch) ctx.fillText(source.printed.branch, 315, 807);
     ctx.font = "18px Manrope, sans-serif";
     ctx.fillStyle = "#c6b79c";
     ctx.fillText(
