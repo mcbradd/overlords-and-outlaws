@@ -42,12 +42,20 @@ const checks = [
     ],
   ],
   ["history-browser", script("history-browser.ts")],
+  ["history-browser-landscape", script("history-browser.ts")],
+  ["history-browser-compact", script("history-browser.ts")],
   ["tutorial-usability", script("tutorial-usability.ts")],
+  ["tutorial-preview-fit", script("tutorial-preview-fit.ts")],
+  ["history-reading", script("history-reading.ts")],
   ["history-layout", script("history-layout.ts")],
+  ["history-face-geometry", script("history-face-geometry.ts")],
+  ["history-scene-inspection", script("history-scene-inspection.ts")],
+  ["playtest-recovery", script("playtest-recovery.mjs")],
   ["history-simulation", script("history-simulate.ts")],
   ["history-print-fit", script("history-proof-check.mjs")],
   ["build", ["node_modules/typescript/bin/tsc", "--noEmit"]],
   ["bundle", ["node_modules/vite/bin/vite.js", "build"]],
+  ["history-print-built", script("history-print-build-smoke.mjs")],
   ["unit", ["--import", "tsx", "--test", "tests/*.test.ts"]],
   ["ui", ["node_modules/vitest/vitest.mjs", "run"]],
   ["simulation", script("simulate.ts")],
@@ -127,6 +135,7 @@ async function run(name, args) {
         VITE_SAVE_NAMESPACE: name === "bundle" ? "prod:" : "",
         SAVE_NAMESPACE: name === "pages-smoke" ? "prod:" : "",
         HISTORY_BASE_URL: "http://localhost:5176",
+        HISTORY_VIEWPORT: name === "history-reading" ? "" : name === "history-browser-landscape" ? "844x390" : ["history-browser-compact", "tutorial-preview-fit"].includes(name) ? "667x375" : "1440x900",
         BASE_URL:
           name === "pages-smoke"
             ? `http://localhost:4176${base}`

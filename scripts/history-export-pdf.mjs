@@ -1,43 +1,18 @@
 import { chromium } from "@playwright/test";
 import { mkdirSync } from "node:fs";
+import assert from "node:assert/strict";
 mkdirSync("output/pdf", { recursive: true });
 const browser = await chromium.launch({ channel: "chrome", headless: true });
-const page = await browser.newPage();
-await page.goto(
-  `${process.env.HISTORY_BASE_URL ?? "http://localhost:5178"}/history-proof.html`,
-  { waitUntil: "networkidle" },
-);
-// Bound embedded print rasters to a 1200 px long edge. Original art stays intact;
-// this only changes the PDF's intermediate browser surface, not runtime assets.
-await page.evaluate(async () => {
-  const urls = new Map();
-  async function printRaster(url) {
-    if (urls.has(url)) return urls.get(url);
-    const image = new Image();
-    image.src = url;
-    await image.decode();
-    const scale = Math.min(1, 1200 / Math.max(image.width, image.height));
-    const canvas = document.createElement("canvas");
-    canvas.width = Math.round(image.width * scale);
-    canvas.height = Math.round(image.height * scale);
-    canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height);
-    const result = canvas.toDataURL("image/jpeg", 0.88);
-    urls.set(url, result);
-    return result;
-  }
-  for (const img of document.images) {
-    img.src = await printRaster(img.src);
-    await img.decode();
-  }
-  for (const painting of document.querySelectorAll(".painting")) {
-    const url = getComputedStyle(painting).backgroundImage.slice(5, -2);
-    painting.style.backgroundImage = `url("${await printRaster(url)}")`;
-  }
-});
-await page.pdf({
-  path: process.argv[2] ?? "output/pdf/history-engine-print-and-play.pdf",
-  format: "A4",
-  printBackground: true,
-  preferCSSPageSize: true,
-});
-await browser.close();
+try {
+  const page = await browser.newPage();
+  await page.goto(`${process.env.HISTORY_BASE_URL ?? "http://localhost:5178"}/history-proof.html`);
+  await page.waitForFunction(() => ["ready", "error"].includes(document.documentElement.dataset.printState));
+  assert.equal(await page.locator("html").getAttribute("data-print-state"), "ready", await page.locator("[data-print-status]").innerText());
+  assert.equal(await page.locator(".card[data-card] [data-face-state='ready']").count(), 92);
+  // The page already contains the shared fixed compositor; do not replace its
+  // ink or portraits with a second PDF-only crop, scale or JPEG conversion.
+  await page.pdf({
+    path: process.argv[2] ?? "output/pdf/history-engine-print-and-play.pdf",
+    format: "A4", printBackground: true, preferCSSPageSize: true,
+  });
+} finally { await browser.close(); }

@@ -12,12 +12,31 @@ GitHub Pages supports one site per repository. The separate
 `mcbradd/overlords-and-outlaws-prod` repository holds only built static files on
 `gh-pages`. The prod deployment key grants write access only to that repository.
 Source changes stay in `prod`; deployment never merges into Main.
+
+### Numbered evaluation builds
+
+The evaluation workflow reads the last published `revision.json` before building.
+`scripts/build-identity.mjs` starts the new sequence at 1, increments for a new
+source revision, and retains the number when retrying the same published revision.
+An unavailable or malformed prior record fails allocation instead of silently
+resetting the sequence. The serialized publishing job writes `buildNumber`, source
+SHA, branch and build time into the deployed record and injects the number into the
+bottom-left badge. A local build displays `Build 1 · local` unless supplied an
+explicit build identity; it is not evidence of a publication.
+
+When a future Main promotion is explicitly authorized, preserve the evaluated
+candidate's build identity in the promoted artifact. The current change configures
+evaluation numbering only; it does not authorize or perform that promotion.
 Prod builds use `VITE_SAVE_NAMESPACE=prod:` because both Pages sites share browser
 storage on the same origin. Live retains its existing save keys.
 
 ## Routine work
 
-Work in `prod`, or merge feature branches into `prod`. Push `prod` for evaluation.
+Work in `prod`, or merge feature branches into `prod`. The user has given standing
+authorization to commit and push completed game changes to Prod. Delivery requires
+the evaluation site: wait for its deployment, verify `revision.json` against the
+pushed source SHA, exercise the actual deployed page, and report its URL and build
+number. Local changes or a successful push alone do not complete delivery.
 The prod workflow requires the build, unit and UI tests before publishing. The
 full release suite runs separately so evaluation builds can expose unresolved
 regressions. A working prod site is not a release approval.

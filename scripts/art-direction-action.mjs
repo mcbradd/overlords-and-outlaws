@@ -6,8 +6,9 @@ await p.locator('[data-ui="demo"]').click();await p.locator('[data-ui="unlock"]'
 await p.locator('[data-action]').first().click();await p.screenshot({path:'artifacts/art-direction/after-action-review.png',fullPage:true});await p.locator('[data-ui="commit"]').click();await p.waitForTimeout(1500);await p.screenshot({path:'artifacts/art-direction/after-action.png',fullPage:true});
 await p.locator('[data-inspect]').first().click();await p.screenshot({path:'artifacts/art-direction/after-inspection.png',fullPage:true});await p.keyboard.press('Escape');
 const fit=await p.evaluate(async()=>{
-const {faceHTML}=await import('/src/history-engine/face.ts');const {SOURCES}=await import('/src/history-engine/content.ts');
-document.body.innerHTML='<div id="proof" style="display:grid;grid-template-columns:repeat(4,340px);gap:20px"></div>';
-const proof=document.querySelector('#proof');proof.innerHTML=SOURCES.map(c=>`<div data-id="${c.id}">${faceHTML(c.id,false)}</div>`).join('');await document.fonts.ready;
-return [...proof.children].flatMap(wrapper=>{const face=wrapper.querySelector('article'),r=face.getBoundingClientRect();return [...face.querySelectorAll('.h-card-ink>*')].filter(e=>e.getBoundingClientRect().bottom>r.bottom-1).map(e=>({id:wrapper.dataset.id,tag:e.tagName,overflow:e.getBoundingClientRect().bottom-r.bottom}));});
+const {cardCanvas,HISTORY_FACE}=await import('/src/history-engine/face.ts');const {SOURCES}=await import('/src/history-engine/content.ts');
+if(SOURCES.length!==92)throw new Error('Expected all 92 current History cards');
+const failures=[];
+for(const source of SOURCES){const canvas=await cardCanvas(source.id,false);const fields=JSON.parse(canvas.dataset.fields||'[]');if(!fields.some(f=>f.label==='name')||!fields.some(f=>f.label==='rules'))throw new Error(`Missing measured print fields: ${source.id}`);for(const field of fields){const box=HISTORY_FACE[field.label];if(field.x<box.x-1||field.x+field.width>box.x+box.width+1||field.y<box.y-1||field.y+field.height>box.y+box.height+1)failures.push({id:source.id,field});}if(canvas.dataset.textOverflow==='true')failures.push({id:source.id,overflow:true});}
+return failures;
 });writeFileSync('artifacts/art-direction/reference-fit.json',JSON.stringify(fit,null,2));console.log(fit);await b.close();

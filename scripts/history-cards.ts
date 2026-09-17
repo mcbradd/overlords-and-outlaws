@@ -15,7 +15,8 @@ import {
   REMINDERS,
   DICTIONARY_HASH,
 } from "../src/history-engine/compiler";
-import { escapeHTML as esc } from "../src/history-engine/face";
+import { escapeHTML as esc, faceHTML } from "../src/history-engine/face";
+import { build as buildPrintRenderer } from "vite";
 import { MODULES } from "../src/history-engine/types";
 import { ACTION_REFERENCE, glossaryHTML } from "../src/history-engine/glossary";
 const mode = process.argv[2] ?? "compile";
@@ -85,22 +86,11 @@ if (mode === "compile" || mode === "manifest") {
     ),
   );
 }
-function printedText(text: string, noble: boolean) {
-  const lines = text.split("\n");
-  const paragraphs = noble && lines.length > 3 ? [lines[0], lines.slice(1, -1).join(" "), lines.at(-1)!] : lines;
-  return paragraphs.map(esc).join("<br>");
-}
 if (mode === "proof") {
-  const cards = SOURCES.map(
-    (c) =>
-      `<article class="card ${c.kind}" data-card="${c.id}">${c.kind === "noble" ? `<img class="portrait" src="${esc(c.artRef)}" alt="">` : c.kind === "fragment" ? `<div class="painting" style="background-image:url('${c.artRef}');background-position:${((c.printed.slot! - 1) % 3) * 50}% ${Math.floor((c.printed.slot! - 1) / 3) * 100}%"></div>` : ""}<div class="ink"><div class="dynasty">${esc(c.printed.dynasty)} · ${esc(c.kind)}</div><h2>${esc(c.printed.name)}</h2>${c.kind === "noble" ? `<p>${c.printed.queen ? "Queen · marriage role" : c.printed.founder ? "Founder · Noble" : "Noble"}${c.printed.branch ? ` · ${esc(c.printed.branch)}` : ""}</p>` : ""}${c.cardText ? `<p class="operative">${printedText(c.cardText, c.kind === "noble")}</p>` : ""}<footer>${esc(c.id)} · r${c.revision}${c.printed.collector ? ` · ${c.printed.collector}/13` : ""}</footer></div></article>`,
-  ).join("");
-  const pagedCards = cards
-    .split("</article>")
-    .filter(Boolean)
+  const pagedCards = SOURCES
     .reduce<string[]>((pages, card, index) => {
       if (index % 9 === 0) pages.push("");
-      pages[pages.length - 1] += card + "</article>";
+      pages[pages.length - 1] += `<article class="card ${card.kind}" data-card="${card.id}">${faceHTML(card.id, false)}</article>`;
       return pages;
     }, [])
     .map((page) => `<div class="sheet sheet-page">${page}</div>`)
@@ -154,7 +144,23 @@ if (mode === "proof") {
    .join(
      "",
    )}</table><p>Verify a 1200×900 mm table with actual-size pieces and all four 189×176 mm painting trays. Test 1500×900 mm extended layout if maximum legal component state does not fit. Digital panning is not proof of tabletop fit.</p></section><section class="reference"><h2>Reference backs and module selection</h2><p>Use opaque sleeves or print enough identical backs for all 52 Nobles and 36 History cards. The History back must not identify painting or event. Four module selection cards have one common reverse; these do not enter either deck.</p><div class="sheet"><article class="card back">OVERLORDS<br>&amp; OUTLAWS<br>DYNASTY</article><article class="card back">OVERLORDS<br>&amp; OUTLAWS<br>HISTORY</article><article class="card back">DYNASTY<br>SELECTION</article>${MODULES.map((d) => `<article class="card"><div class="ink"><h2>${d}</h2><p>13 Nobles · 3 Crises · 6 fragments · 1 Law</p><p>${LAW_CARDS.find((c) => c.printed.dynasty === d)!.printed.name}</p><p>Combine one module per seat. A selected module belongs to the pool; draft your Dynasty.</p></div></article>`).join("")}</div></section></html>`;
-  writeFileSync("public/history-proof.html", html);
+  const sharedFaceStyle = `.card[data-card]{border:0}.card[data-card]>.h-card-face{display:block;position:absolute;inset:0;width:63mm;height:88mm;overflow:hidden}.h-face-canvas{display:block;width:100%;height:100%}.h-face-semantic{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.print-loading-warning{display:none}@media print{html:not([data-print-state="ready"]) .sheet{display:none}html:not([data-print-state="ready"]) .print-loading-warning{display:block;color:#900;font-size:20pt}}`;
+  const paintingProofs = MODULES.map(dynasty => `<section class="painting-proof-page"><h2>${esc(dynasty)} · painting artwork alignment</h2><p>Six alternate artwork faces at 63 × 88 mm form one 189 × 176 mm painting. These are face studies, not additional required game pieces. Final front/back, readable rules and cut alignment require a physical proof.</p><div class="painting-proof">${FRAGMENTS.filter(card => card.printed.dynasty === dynasty).map(card => `<canvas width="630" height="880" data-print-tile="${card.id}" aria-label="${esc(card.printed.name)}"></canvas>`).join("")}</div></section>`).join("");
+  const paintingProofStyle = `.painting-proof-page{max-width:190mm;padding:0;margin:8mm auto;break-before:page;break-after:page}.painting-proof{display:grid;grid-template-columns:repeat(3,63mm);gap:0;width:189mm}.painting-proof canvas{display:block;width:63mm;height:88mm}.painting-proof-page p{font-size:9pt}.painting-proof-page h2{text-transform:capitalize}@media print{.painting-proof-page{margin:0}html:not([data-print-state="ready"]) .painting-proof{display:none}}`;
+  const sharedHTML = html
+    .replace('<html lang="en">', `<html lang="en" data-content-version="${CONTENT_VERSION}">`)
+    .replace("</style>", `${sharedFaceStyle}${paintingProofStyle}</style>`)
+    .replace('<section class="reference"><h2>At every seat:', `${paintingProofs}<section class="reference"><h2>At every seat:`)
+    .replace('<button onclick="print()">Print at 100% scale</button>', '<button data-print disabled>Print at 100% scale</button> <span data-print-status>Preparing the shared card faces…</span>')
+    .replace("</html>", '<p class="print-loading-warning">The card faces are not ready. Return to the proof, wait for all 92 faces, then print again.</p><script type="module" src="history-proof-runtime/history-print.js"></script></html>');
+  // A standalone static bundle keeps this generated public page deployable while
+  // reusing face.ts exactly. No browser installation is needed to build it.
+  await buildPrintRenderer({ configFile: false, publicDir: false, base: "./", logLevel: "warn", build: {
+    outDir: "public/history-proof-runtime", emptyOutDir: false, minify: true,
+    lib: { entry: "src/history-engine/print.ts", formats: ["es"], fileName: () => "history-print.js" },
+    rollupOptions: { output: { inlineDynamicImports: true } },
+  } });
+  writeFileSync("public/history-proof.html", sharedHTML);
   console.log(
     "Wrote public/history-proof.html · 92 canonical faces plus reference/component kit.",
   );

@@ -1,5 +1,5 @@
 import { chromium } from "@playwright/test";
-import { createDenseFixture, createDemo } from "../src/history-engine/fixtures";
+import { createDenseFixture } from "../src/history-engine/fixtures";
 import { CONTENT_VERSION } from "../src/history-engine/content";
 import { defaultPreferences } from "../src/history-engine/storage";
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -12,6 +12,7 @@ for (const maximum of [false, true])
   for (const [width, height] of [
     [1440, 900],
     [390, 844],
+    [844, 390],
     [3840, 2160],
   ]) {
     const page = await browser.newPage({
@@ -21,6 +22,8 @@ for (const maximum of [false, true])
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
     const game = createDenseFixture(maximum);
+    // Exercise hot-seat privacy explicitly; solo intentionally opens its owner's view.
+    game.players.forEach(player => player.ai = false);
     await page.goto(base);
     await page.evaluate(
       (save) => localStorage.setItem("oando-v4-history", JSON.stringify(save)),
@@ -49,23 +52,34 @@ for (const maximum of [false, true])
     );
     await page.screenshot({
       path: `artifacts/history/${maximum ? "maximum" : "dense"}-${width}.png`,
-      fullPage: true,
+      fullPage: false,
     });
     await page.locator('[data-ui="focus-0"]').click();
     await page.screenshot({
       path: `artifacts/history/${maximum ? "maximum" : "dense"}-court-${width}.png`,
-      fullPage: true,
+      fullPage: false,
     });
-    await page.locator(".h-world-card").first().click({ force: true });
+    const viewport = await page.evaluate(() => {
+      const hand = document.querySelector('.h-hand')!.getBoundingClientRect();
+      const panel = document.querySelector('.h-decision')!;
+      return { overflow: document.documentElement.scrollHeight > innerHeight || document.documentElement.scrollWidth > innerWidth,
+        handVisible: hand.bottom <= innerHeight && hand.left >= 0 && hand.right <= innerWidth,
+        panelOverflow: panel.scrollHeight > panel.clientHeight + 1 };
+    });
+    assert.equal(viewport.overflow, false, `document overflow at ${width}×${height}`);
+    assert.equal(viewport.handVisible, true, `hand outside ${width}×${height}`);
+    assert.equal(viewport.panelOverflow, false, `action controls overflow at ${width}×${height}`);
+    await page.locator('.h-world-card[data-seat="0"]').first().click();
     assert.ok(await page.locator("dialog[open]").count());
     await page.keyboard.press("Escape");
-    await page.locator('[data-ui="lock"]').click();
+    // Blur is the real hot-seat privacy guard at every responsive size.
+    await page.evaluate(() => window.dispatchEvent(new Event('blur')));
     assert.equal(
       await page.locator(".h-world-card,.h-card-face,dialog").count(),
       0,
     );
     assert.deepEqual(errors, []);
-    reports.push({ maximum, width, height, errors });
+    reports.push({ maximum, width, height, errors, viewport });
     await page.close();
   }
 // Actual hot-seat routes: packet locking switches to a curtain with no private DOM.

@@ -6,12 +6,14 @@ The default application now runs **history-engine-v4**, implementing the R3 Hist
 
 ## Play
 
-- **Learn at the table:** one continuous 59-action guided match, from simultaneous 3–2–1 Inheritance to contested succession. Continue changes only the guide. Rivals legally defeat the learner's first Crown.
+- **Learn at the table:** a solo introduction and prepared family table reached through legal Inheritance. Ten chapters use ordinary actions; fifteen player commitments replace the former 59-action click-through. Rivals act automatically and real responses wait for you. Legal alternatives preserve the position and continue in free play.
 - **Set a new table:** two to four seats, selected shared modules, reproducible deal, solo AI or private hot-seat handoffs.
 - **Five-minute preset demo:** a labeled public position using ordinary rules and real choices; no guaranteed win.
 - **Archive and inspector:** canonical operative text, separate reminders, immutable printed Dynasty and current relationships.
 - **Physical table:** shared-camera Three.js board and faces, Court cameras, Crown, seals, numbered marriages, Leverage, History and all selected paintings. Semantic mode supports the same game without WebGL.
-- **Private saves:** environment-prefixed v4 storage, incompatible-save recovery/export, curtain on blur/reload/handoff, and untouched legacy bytes.
+- **Private saves:** environment-prefixed v4 storage, incompatible-save recovery/export, hot-seat curtain on blur/reload/handoff, direct solo resume, and untouched legacy bytes.
+
+The [playtest recovery plan](docs/PLAYTEST-RECOVERY-PLAN.md) governs the current revision. Initial repairs are under evaluation: viewport fit is not proof of mobile readability, and tactical quality, human comprehension and pacing still have explicit open gates. A bottom-left build badge identifies local work and numbered evaluation builds.
 
 Use click/tap or keyboard selection, review the cost and consequence, then Commit. Inspection is passive. No action requires dragging. Public registers expose retained evidence. Local privacy protects ordinary shared-device play; a device owner can inspect full saves/devtools.
 
@@ -88,6 +90,6 @@ V3 uses a new save key, preserves V2 collection/progression/settings, and leaves
 
 Original concept and supplied source: © 2025 Malachy Murray. This private repository grants no open-source license to the concept, implementation or art. Dependencies retain their own licenses; see [Third-party credits](docs/THIRD-PARTY.md).
 
-### Guided play
+### Legacy combat guided play
 
 The tutorial is one continuous nine-step match. A single navy/gold guide holds each explanation, combat preview, action and outcome; gold outlines identify the next interaction. Advancing preserves all cards and consequences. Legal drag destinations preview the actual landing or ability target. Battlefield faces intentionally simplify the physical design; full cards remain available on inspection. See [the user-directed presentation exception and tutorial contract](docs/GUIDED-PLAY.md).

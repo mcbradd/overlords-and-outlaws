@@ -17,14 +17,16 @@ import {
   LEGACY_KEY,
   type Preferences,
 } from "./storage";
-import { createTutorial, LESSONS, lessonAction } from "./tutorial";
+import { createPreparedTutorial, PREPARED_TUTORIAL_CURSOR, LESSONS, lessonAction, tutorialProgress } from "./tutorial";
 import { createDemo } from "./fixtures";
 import { escapeHTML as esc, faceHTML, SEAT_SIGNS } from "./face";
 import { HistoryTable } from "./scene";
 import { TableAudio } from "./audio";
 import { captureAnchors, animateEvents, clearMotion } from "./motion";
 import { glossaryHTML } from "./glossary";
-import { learningGoal, crownReadiness, requiredTeachingCards, teachingCardOptions, selectedTeachingAction, teachingCardLocation, describeOutcome } from "./learning";
+import { createReader } from "./reader";
+import { actionAvailabilityPages, deadlinePages } from "./reading";
+import { learningGoal, crownReadiness, teachingCardOptions, followsTeachingAction, describeOutcome } from "./learning";
 
 const root = document.querySelector<HTMLDivElement>("#app")!;
 let state: GameState | null = null,
@@ -39,10 +41,14 @@ let table: HistoryTable | null = null,
   error = "",
   locked = true,
   aiTimer: ReturnType<typeof setTimeout> | null = null;
-let autoAI = false;
+let autoAI = true;
+let soloIntro = false;
+let tutorialNotice = "";
+let actionPage = 0;
+let announcedAI: Action | null = null;
 let practiceRevision: number | null = null;
 let knowledgeFeedback = "";
-let knowledgeOpen = false;
+let knowledgeAnswers: string[] = [];
 let lastOutcome: string[] = [];
 let renderedRevision: number | null = null;
 let renderedLesson: number | null = null;
@@ -75,11 +81,12 @@ function dispose() {
   table = null;
   if (aiTimer) clearTimeout(aiTimer);
   aiTimer = null;
-  document.querySelectorAll("dialog").forEach((d) => d.remove());
+  document.querySelectorAll("dialog").forEach(d => { d.dispatchEvent(new Event("reader-dispose")); d.remove(); });
   document.querySelector("#overlay")?.replaceChildren();
   document.querySelector("#announcer")?.replaceChildren();
 }
 function curtain() {
+  if (state?.players.filter(player => !player.ai).length === 1) return;
   locked = true;
   viewer = null;
   selected = null;
@@ -95,6 +102,13 @@ function actingSeat(): number | null {
   for (const p of state.players)
     if (legalActions(viewForSeat(state, p.seat), p.seat).length) return p.seat;
   return null;
+}
+function expectedTeachingAction(): Action | null {
+  return state && tutorial !== null ? lessonAction(state, tutorial) : null;
+}
+function isRecommendation(v: GameView, action: Action): boolean {
+  const expected = expectedTeachingAction();
+  return !!expected && followsTeachingAction(v, expected, action);
 }
 function title() {
   dispose();
@@ -113,14 +127,21 @@ function start(game: GameState, cursor: number | null = null) {
   state = game;
   tutorial = cursor;
   lessonDone = false;
-  locked = true;
-  viewer = null;
+  const humans = game.players.filter(player => !player.ai);
+  locked = humans.length !== 1;
+  viewer = humans.length === 1 ? humans[0].seat : null;
+  soloIntro = cursor !== null;
+  autoAI = true;
+  announcedAI = null;
+  tutorialNotice = "";
+  actionPage = 0;
+  category = cursor !== null ? LESSONS[cursor]?.action.type ?? "build" : "build";
   selected = null;
   packet = [];
   error = "";
   practiceRevision = null;
   knowledgeFeedback = "";
-  knowledgeOpen = false;
+  knowledgeAnswers = [];
   audio.resumeAt(game.events.length);
   persist();
   render();
@@ -131,12 +152,25 @@ function commit(action: Action) {
   const before = captureAnchors(),
     sequence = state.events.length;
   try {
+    const recommended = tutorial !== null && isRecommendation(beforeView, action);
     state = applyAction(state, action);
     lastOutcome = describeOutcome(beforeView, viewForSeat(state, viewer), action);
     selected = null;
     packet = [];
     error = "";
-    if (tutorial !== null) lessonDone = true;
+    announcedAI = null;
+    actionPage = 0;
+    if (tutorial !== null) {
+      if (recommended) {
+        tutorial++;
+        lessonDone = false;
+        category = LESSONS[tutorial]?.action.type ?? "build";
+      } else {
+        tutorial = null;
+        lessonDone = false;
+        tutorialNotice = "Your choice starts free play from this exact position. The guide is off; the same rules and controls continue.";
+      }
+    }
     audio.effects = preferences.effects;
     audio.play(viewForSeat(state, viewer).events);
     persist();
@@ -160,22 +194,13 @@ function commit(action: Action) {
   }
 }
 function drawSemantic(v: GameView) {
-  return `<div class="h-semantic-table"><section class="h-semantic-center"><h2>${v.crown ? `${esc(v.players[v.crown.seat].name)} · ${esc(crownProgress(v))}` : "The Crown is vacant"}</h2><p>Dynasty Deck ${v.dynastyCount} · History Deck ${v.historyCount}</p><div class="h-semantic-paintings">${v.modules
-    .map(
-      (d) =>
-        `<article><h3>${esc(d)}</h3><div class="h-painting-grid">${Array.from(
-          { length: 6 },
-          (_, i) => {
-            const f = v.fragments.find(
-              (f) => f.dynasty === d && f.slot === i + 1,
-            );
-            return `<span class="h-fragment ${f ? "present" : ""} ${f?.veil ? "veiled" : ""}">${i + 1}${f?.veil ? ` · R${f.veil.until}` : f ? " ✓" : ""}</span>`;
-          },
-        ).join("")}</div></article>`,
-    )
-    .join(
-      "",
-    )}</div></section>${v.players.map((p) => `<section class="h-semantic-court"><h2>${SEAT_SIGNS[p.seat]} ${esc(p.name)} · ${esc(p.dynasty ?? "Inheritance")}</h2><p>${p.seals} available seals · ${p.handCount} concealed Nobles in hand</p><div class="h-card-row">${p.court.map((id) => `<button class="h-card-button" data-inspect="${id}">${faceHTML(id, true)}<span>${p.ruler === id ? "Ruler · " : ""}${supported(v, p.seat, id) ? "Bloodline" : "Outside Bloodline"}${v.marriages.some((m) => m.queen === id || m.spouse === id) ? ` · Pair ${v.marriages.find((m) => m.queen === id || m.spouse === id)!.id}` : ""}${p.rotated.includes(id) ? " · Sideways" : ""}</span></button>`).join("")}</div></section>`).join("")}</div>`;
+  return `<div class="h-semantic-table"><button type="button" data-ui="accessible-table"><strong>${v.crown ? `${esc(v.players[v.crown.seat].name)} holds the Crown` : "The Crown is vacant"}</strong><span>Read Courts, relationships and paintings</span></button></div>`;
+}
+function accessibleTable(seat?: number) {
+  if (!state || locked) return;
+  const v = viewForSeat(state, viewer);
+  const courts = v.players.filter(player => seat === undefined || player.seat === seat);
+  modal(`<h2>${seat === undefined ? "The accessible table" : esc(v.players[seat].name)}</h2><h3>The Crown</h3><p>${v.crown ? esc(crownProgress(v)) : "The Crown is vacant."}</p>${courts.map(player => `<h3>${SEAT_SIGNS[player.seat]} ${esc(player.name)} · ${esc(player.dynasty ?? "Inheritance")}</h3><p>${player.seals} available seals. ${player.handCount} concealed Nobles in hand.</p>${player.court.map(id => `<button data-inspect="${id}">${esc(nameOf(id))}</button><p>${player.ruler === id ? "Ruler. " : ""}${supported(v, player.seat, id) ? "In this player's Bloodline." : "Outside this player's Bloodline."} ${player.rotated.includes(id) ? "Turned sideways until next round." : "Ready."} ${v.marriages.filter(pair => pair.queen === id || pair.spouse === id).map(pair => `Married to ${esc(nameOf(pair.queen === id ? pair.spouse : pair.queen))}; pair ${pair.id}.`).join(" ")}</p>`).join("") || "<p>No Nobles in Court.</p>"}`).join("")}<h3>The paintings</h3>${v.modules.map(dynasty => `<h3>${esc(dynasty)}</h3>${Array.from({length: 6}, (_, slot) => { const fragment = v.fragments.find(piece => piece.dynasty === dynasty && piece.slot === slot + 1); return `<p>Piece ${slot + 1}: ${fragment ? fragment.veil ? `covered until round ${fragment.veil.until}` : "uncovered" : "not revealed"}.</p>`; }).join("")}`).join("")}`);
 }
 function historyRail(v: GameView) {
   return `<div class="h-history-rail"><header><h2>History</h2><span>${v.historyCount} cards left</span></header>${v.history.length ? v.history.map((e) => `<button class="h-event ${e.status}" data-inspect="${e.id}"><span class="h-eyebrow">${e.status === "pending" ? "WARNING · starts when this round ends" : `ACTIVE · ends after round ${e.expires}`}</span><strong>${esc(nameOf(e.id))}</strong><span>${program(e.id).condition === "attack" ? `${e.attacks.length} of ${program(e.id).requiredContributions} Challenges · ${e.attacks.map((a) => esc(nameOf(a.card))).join(", ") || "No contributions yet"}` : program(e.id).condition === "dynasties" ? `${new Set(e.contributions.map((c) => c.dynasty)).size} of ${program(e.id).requiredContributions} Dynasties helped` : `${e.fulfilled.filter((s) => e.obligated.includes(s)).length} of ${e.obligated.length} players helped`}</span></button>`).join("") : "<p>No Crises waiting or active.</p>"}</div>`;
@@ -204,12 +229,18 @@ function actionName(a: Action) {
   return `${a.card ? nameOf(a.card) : ""}${a.target ? ` → ${nameOf(a.target)}` : ""}${a.event ? ` · ${nameOf(a.event)}` : ""}${a.other !== undefined ? ` · ${state!.players[a.other].name}` : ""}${a.heirs ? ` · ${a.heirs.map(nameOf).join(" / ")}${a.witness ? ` · ${nameOf(a.witness)}` : ""}` : ""}${a.cards ? ` ${a.cards.map((id) => (SOURCE[id] ? nameOf(id) : `Marriage ${id}`)).join(", ")}` : ""}`.trim();
 }
 function actionList(actions: Action[], v: GameView) {
-  return `<div class="h-action-list">${actions
+  const ordered = [...actions].sort((a, b) => Number(isRecommendation(v, b)) - Number(isRecommendation(v, a)));
+  const pageSize = (window.visualViewport?.height ?? window.innerHeight) < 500 ? 1 : 2;
+  const pages = Math.max(1, Math.ceil(ordered.length / pageSize));
+  actionPage = Math.min(actionPage, pages - 1);
+  return `<div class="h-action-list">${ordered.slice(actionPage * pageSize, (actionPage + 1) * pageSize)
     .map((a) => {
       const p = previewAction(v, a);
-      return `<button data-action='${esc(JSON.stringify(a))}'><strong>${esc(p.title)}</strong><span>${esc(p.effect)}</span><small>${esc(p.cost)}</small></button>`;
+      const people = a.type === "proclaim" ? `Heirs: ${(a.heirs ?? []).map(nameOf).join(" · ")}${a.witness ? ` · Witness: ${nameOf(a.witness)}` : ""}`
+        : a.type === "choice" && a.cards?.some(id => !p.title.includes(nameOf(id))) ? actionName(a) : "";
+      return `<button data-action='${esc(JSON.stringify(a))}' ${isRecommendation(v, a) ? 'class="h-teaching-target" data-recommended="true"' : ""}><strong>${esc(p.title)}</strong>${people ? `<span class="h-action-people">${esc(people)}</span>` : ""}<small>${esc(p.cost)}</small></button>`;
     })
-    .join("")}</div>`;
+    .join("")}</div>${pages > 1 ? `<nav class="h-action-pagination" aria-label="Action choices">${button("Previous", "actions-prev", actionPage === 0 ? "disabled" : "")}<span>${actionPage + 1} / ${pages}</span>${button("Next", "actions-next", actionPage === pages - 1 ? "disabled" : "")}</nav>` : ""}`;
 }
 function outcomeHTML() {
   return `<div class="h-outcome"><h3>What changed</h3>${lastOutcome.length ? `<ul>${lastOutcome.map(text => `<li>${esc(text)}</li>`).join("")}</ul>` : "<p>This saved action is complete. The table shows its result; open Table record for the history.</p>"}</div>`;
@@ -218,7 +249,7 @@ function tradeOffers(v: GameView) {
   const trade = v.barter;
   if (!trade?.inspected || v.viewer === null || ![trade.initiator, trade.recipient].includes(v.viewer)) return "";
   const other = v.viewer === trade.initiator ? trade.recipient : trade.initiator;
-  return `<div class="h-trade-offers" data-trade-offer>${[v.viewer, other].map(seat => `<section><h3>${seat === v.viewer ? "You give" : "You receive"}</h3>${(trade.packets[seat] ?? []).map(id => `<button data-inspect="${id}">${faceHTML(id, true)}<span>Inspect ${esc(nameOf(id))}</span></button>`).join("")}</section>`).join("")}</div>`;
+  return `<div class="h-trade-offers h-trade-compact" data-trade-offer>${[v.viewer, other].map(seat => `<section><h3>${seat === v.viewer ? "You give" : "You receive"}</h3>${(trade.packets[seat] ?? []).map(id => `<button data-inspect="${id}">${esc(nameOf(id))}</button>`).join("")}</section>`).join("")}</div>`;
 }
 const knowledgeQuestions = [
   [
@@ -243,52 +274,40 @@ const knowledgeQuestions = [
   ],
 ];
 function decision(v: GameView) {
-  if (v.result && tutorial !== null && knowledgeOpen)
-    return `<p class="h-eyebrow">PREDICT BEFORE YOU PLAY</p><h2>Four consequences</h2>${knowledgeQuestions.map(([question, yes, no], i) => `<label>${esc(question)}<select data-knowledge="${i}"><option value="">Choose what happens</option><option value="yes">${esc(yes)}</option><option value="no">${esc(no)}</option></select></label>`).join("")}${button("Check predictions", "knowledge-check", 'class="primary"')}${knowledgeFeedback ? `<p role="status">${esc(knowledgeFeedback)}</p>${button("Start a new unaided practice", "practice", 'class="primary"')}` : ""}`;
   if (v.result)
-    return `<p class="h-eyebrow">${v.result.winner === "eudoxia" ? "THE RECORD IS COMPLETE" : "THE CROWN IS SETTLED"}</p><h2>${v.result.winner === "eudoxia" ? "Eudoxia prevails" : `${v.players[v.result.winner].name === "You" ? "You win" : `${esc(v.players[v.result.winner].name)} wins`}`}</h2><p>${esc(v.result.reason)}</p>${tutorial !== null ? button("Check what you learned", "knowledge", 'class="primary"') : ""}${button("Explore a new table", "home", 'class="primary"')}${button("Export public record", "public-export")}`;
-  if (tutorial !== null) {
-    const lesson = LESSONS[tutorial];
-    if (!lesson)
-      return `<h2>The teaching match is complete</h2>${button("Play an unaided game", "home")}`;
-    const a = lessonAction(state!, tutorial)!;
-    const own = lesson.action.seat === 0;
-    const chosen = selectedTeachingAction(v, a, packet);
-    const choices = teachingCardOptions(v, a);
-    const needed = a.type === "counterclaim" ? 1 : requiredTeachingCards(v, a).length;
-    const preview = previewAction(v, chosen ?? a);
-    const selection = choices.length ? `<div class="h-teaching-selection"><p><b>${a.type === "counterclaim" ? "Choose 1 matching card to lend" : `Select ${needed} card${needed === 1 ? "" : "s"} for this example`}.</b> ${packet.filter(id => choices.includes(id)).length}/${needed} selected.</p>${choices.map(id => `<button data-guide-card="${id}" aria-pressed="${packet.includes(id)}"><strong>${esc(nameOf(id))}</strong><span>${esc(teachingCardLocation(v, id))}</span></button>`).join("")}</div>` : "";
-    return `<span class="h-progress">${tutorial + 1} / ${LESSONS.length}</span><p class="h-eyebrow">${own ? "GUIDED EXAMPLE · YOUR TURN" : `${esc(state!.players[lesson.action.seat].name)}’S ACTION`}</p><p class="h-learning-goal">${esc(tutorial === 0 || v.crown ? learningGoal(v) : "Goal: pass the Crown to your next Ruler, then protect that Ruler for a full round.")}</p><h2>${esc(lesson.title)}</h2><p>${esc(lesson.explanation)}</p>${lessonDone ? `${outcomeHTML()}${tradeOffers(v)}${button("Continue", "lesson-next", 'class="primary h-next"')}` : `${selection}${tradeOffers(v)}<div class="h-preview">${own ? `<strong>${esc(preview.cost)}</strong><p>${esc(preview.effect)}</p>${preview.warning ? `<p>${esc(preview.warning)}</p>` : ""}` : "Resolve this announced action, then read what changed before continuing."}</div>${button(own ? preview.title : "Resolve opponent action", "lesson-action", `class="primary h-next" ${own && !chosen ? "disabled" : ""}`)}`}<p class="h-small">This is a guided example, not the only way to play. Choose freely with the same cards using the button below.</p>${button("Play freely from this position", "leave-tutorial", 'class="h-subtle"')}`;
-  }
+    return `<p class="h-eyebrow">${v.result.winner === "eudoxia" ? "THE RECORD IS COMPLETE" : "THE CROWN IS SETTLED"}</p><h2>${v.result.winner === "eudoxia" ? "Eudoxia prevails" : `${v.players[v.result.winner].name === "You" ? "You win" : `${esc(v.players[v.result.winner].name)} wins`}`}</h2><p>${esc(v.result.reason)}</p>${tutorial !== null ? button("Check what you learned", "knowledge", 'class="primary"') : ""}${button("Play a full game", "full-game", 'class="primary"')}${button("Return to title", "home")}${button("Export public record", "public-export")}`;
   const seat = actingSeat();
   if (seat === null) return "<p>Waiting for the current procedure.</p>";
-  if (state!.players[seat].ai)
-    return `<p class="h-eyebrow">${esc(state!.players[seat].name)}’S OPPORTUNITY</p><h2>A rival considers the table</h2><p>Concealed intentions stay private. The committed action will name its source and destination.</p>${button("Resolve opponent action", "ai-step", 'class="primary"')}<label class="h-toggle"><input type="checkbox" id="h-auto" ${autoAI ? "checked" : ""}> Continue AI automatically</label>`;
+  if (state!.players[seat].ai) {
+    const action = announcedAI ?? expectedTeachingAction();
+    const preview = action ? opponentPreview(v, action) : null;
+    return `<section class="h-opponent-preview"><p class="h-eyebrow">${esc(state!.players[seat].name)}</p><h3>${preview ? esc(preview.title) : "Considering the table…"}</h3><p>${preview ? esc(preview.effect) : "Their committed action will appear here. Your decisions always wait for you."}</p>${button(autoAI ? "Pause rivals" : "Resume rivals", "toggle-ai", 'class="h-subtle"')}</section>`;
+  }
   if (selected) {
     const p = previewAction(v, selected);
-    return `<p class="h-eyebrow">REVIEW YOUR CHOICE</p><h2>${esc(p.title)}</h2><strong class="h-cost">${esc(p.cost)}</strong><p>${esc(p.effect)}</p>${p.warning ? `<p class="h-warning">${esc(p.warning)}</p>` : ""}${button("Confirm this action", "commit", `class="primary" ${!p.legal ? "disabled" : ""}`)}${button("Cancel preview", "cancel")}`;
+    return `<h3>${esc(p.title)}</h3><strong class="h-cost">${esc(p.cost)}</strong><p>${esc(p.effect)}</p>${p.warning ? `<p class="h-warning">${esc(p.warning)}</p>` : ""}<div class="h-confirm-actions">${button("Confirm this action", "commit", `class="primary ${isRecommendation(v, selected) ? "h-teaching-target" : ""}" ${!p.legal ? "disabled" : ""}`)}${button("Cancel", "cancel")}</div>`;
   }
   if (v.phase === "setup")
     return `<p class="h-eyebrow">INHERITANCE</p>${setupControls(v, seat)}`;
   const actions = legalActions(v, seat);
   if (v.phase === "barter") {
     const b = v.barter!;
-    return `<p class="h-eyebrow">PRIVATE TRADE</p><h2>Compare before you agree</h2>${tradeOffers(v)}${b.inspected ? "<p>You can refuse after looking. Only an accepted exchange costs the person who offered it 1 seal.</p>" : "<p>Both offers stay face down until you both agree to look.</p>"}${b.stage === "packet" && seat === b.recipient ? `<p>Choose 1 or 2 cards from your hand.</p>${button("Confirm offer", "barter-lock", `class="primary" ${packet.length < 1 || packet.length > 2 ? "disabled" : ""}`)}${button("Decline offer", "barter-cancel")}` : actionList(actions, v)}`;
+    return `${tradeOffers(v)}${b.inspected ? "" : "<p>Offers stay hidden until both players agree.</p>"}${b.stage === "packet" && seat === b.recipient ? `<p>Choose 1 or 2 cards from your hand.</p>${button("Confirm offer", "barter-lock", `class="primary" ${packet.length < 1 || packet.length > 2 ? "disabled" : ""}`)}${button("Decline offer", "barter-cancel")}` : actionList(actions, v)}`;
   }
   if (v.phase === "choice" || v.phase === "response")
-    return `<p class="h-eyebrow">${v.phase === "choice" ? "CHOOSE A CARD" : "A RIVAL TRIES TO TAKE YOUR NOBLE"}</p><h2>${v.phase === "choice" ? "Choose what happens next" : `Defend ${nameOf(v.claim!.target)}`}</h2><p>${v.phase === "choice" ? "Read each choice below. When several players must choose, the cards move after everyone has chosen." : "Block costs 1 seal and a loan of a matching-Dynasty hand card. The loan returns next round. Without a Block, the rival takes your Noble into their hand."}</p>${actionList(actions, v)}`;
+    return `<p class="h-eyebrow">${v.phase === "choice" ? "CHOOSE A CARD" : "YOUR RESPONSE"}</p><h3>${v.phase === "choice" ? "Choose what happens next" : `Defend ${nameOf(v.claim!.target)}`}</h3>${actionList(actions, v)}`;
   const types = [...new Set(actions.map((a) => a.type))];
   if (!types.includes(category as Action["type"]))
     category = types[0] ?? "pass";
-  return `<p class="h-eyebrow">${SEAT_SIGNS[seat]} ${esc(v.players[seat].name)} · ONE ACTION OR PASS</p><h2>Choose your next move</h2><p class="h-learning-goal">${esc(learningGoal(v))}</p><p><b>${v.players[seat].seals} seals left.</b> Each action or Block costs 1. Pass is free.</p><div class="h-action-tabs">${types.map((type) => `<button data-category="${type}" aria-pressed="${category === type}">${esc(ACTION_LABELS[type] ?? type)}</button>`).join("")}</div><p>${esc(ACTION_PURPOSES[category as Action["type"]] ?? "Choose an action to see its cost and result before confirming.")}</p>${
+  return `<label class="h-action-picker"><span>${v.players[seat].seals} seals · choose an action</span><select data-action-category aria-label="Choose action">${types.map(type => `<option value="${type}" ${category === type ? "selected" : ""}>${esc(ACTION_LABELS[type] ?? type)}</option>`).join("")}</select></label>${
     category === "barter"
-      ? `<p>Select one or two Nobles in hand, then a recipient. Both packets are inspected only after consent.</p><div class="h-barter-to">${v.players
+      ? `<p>Select 1–2 hand cards. ${packet.length} selected.</p><div class="h-barter-to">${v.players
           .filter((p) => p.seat !== seat && p.handCount)
           .map((p) =>
             button(
               `Offer to ${esc(p.name)}`,
               `offer-${p.seat}`,
-              `${packet.length < 1 || packet.length > 2 ? "disabled" : ""}`,
+              `${packet.length < 1 || packet.length > 2 ? "disabled" : ""} ${isRecommendation(v, { type: "barter", seat, revision: v.revision, cards: packet, other: p.seat }) ? 'class="h-teaching-target"' : ""}`,
             ),
           )
           .join("")}</div>`
@@ -296,7 +315,19 @@ function decision(v: GameView) {
           actions.filter((a) => a.type === category),
           v,
         )
-  }${practiceRevision !== null && v.revision === practiceRevision ? "<p>New practice scenario: make one unaided legal choice before requesting advice.</p>" : button("Advice from your visible information", "advice", 'class="h-subtle"')}`;
+  }${tutorial === null && !(practiceRevision !== null && v.revision === practiceRevision) ? button("Advice", "advice", 'class="h-subtle"') : ""}`;
+}
+function opponentPreview(v: GameView, action: Action) {
+  if (action.type === "setup-lock") return { title: "Chooses a private packet", effect: "The cards stay hidden until the exchange or declaration resolves." };
+  if (action.type === "barter" || action.type === "barter-packet") return { title: "Offers a private trade", effect: "The offered cards remain hidden until both players agree to inspect." };
+  if (action.type === "barter-inspect") return { title: action.accept ? "Agrees to inspect" : "Declines inspection", effect: "Each player controls their own consent." };
+  if (action.type === "barter-decide") return { title: action.accept ? "Accepts the exchange" : "Declines the exchange", effect: action.accept ? "The cards exchange only if both players accept." : "Both players keep their cards." };
+  return previewAction(v, action);
+}
+function coach(v: GameView) {
+  if (tutorial === null || v.result) return tutorialNotice ? `<p class="h-tutorial-notice" role="status">${esc(tutorialNotice)}</p>` : "";
+  const progress = tutorialProgress(tutorial);
+  return `<section class="h-coach"><span class="h-progress">Chapter ${progress.chapter} / ${progress.chapters} · ${progress.completed}/${progress.playerSteps} decisions made</span><h2>${esc(progress.title)}</h2>${!selected ? `<p>${esc(progress.prompt)}</p>` : ""}</section>`;
 }
 function render() {
   if (!state) {
@@ -310,9 +341,14 @@ function render() {
   const handScroll = document.querySelector(".h-hand .h-card-row")?.scrollLeft ?? 0;
   renderedRevision = state.revision;
   renderedLesson = tutorial;
-  document.querySelectorAll("dialog").forEach((d) => d.remove());
+  document.querySelectorAll("dialog").forEach(d => { d.dispatchEvent(new Event("reader-dispose")); d.remove(); });
   root.classList.toggle("large-text", preferences.largeText);
   const priorHost = table ? document.querySelector("#h-table") : null;
+  if (soloIntro) {
+    root.innerHTML = `<main class="h-solo-intro"><section><p class="h-eyebrow">LEARN AT THE TABLE · SOLO</p><h1>Your family is ready.</h1><p>Claim the Crown, pass it to an heir, then protect that Ruler for a full round.</p><p>You lead Alba against Henry II of Plantagenet and Henry VII of Tudor. This teaching table has already completed the inheritance exchange: your Court is face up, your hand is private.</p><p>Three seals pay for actions and defense. The guide introduces ten chapters through fifteen of your decisions. Rivals act automatically.</p>${button("Take your seat", "enter-table", 'class="primary"')}${button("Return to title", "home")}</section></main>`;
+    bind();
+    return;
+  }
   if (locked) {
     const next = actingSeat();
     const seat = next !== null && !state.players[next].ai ? next : 0;
@@ -322,7 +358,7 @@ function render() {
   }
   const v = viewForSeat(state, viewer);
   const seat = actingSeat();
-  root.innerHTML = `<main class="h-game"><header class="h-game-header"><button data-ui="home" class="h-brand">O&amp;O <span>The Weight of the Crown</span></button><div class="h-round">${v.phase === "setup" ? "Inheritance" : `Round ${v.round}`}<small>${v.passes.length}/${v.players.length} passes in a row</small></div><nav>${ownLawButton(v)}${button("Rules", "rules")}${button("Table record", "registers")}${button("Settings", "settings")}${button("Cover hands", "lock")}</nav></header><div class="h-game-grid"><section class="h-table-panel" aria-label="Physical game table"><div class="h-cameras">${button("Whole table", "focus-all")}${v.players.map((p) => button(`${SEAT_SIGNS[p.seat]} ${esc(p.name)}`, `focus-${p.seat}`)).join("")}</div><div id="h-table" class="h-table ${preferences.quality === "semantic" ? "semantic" : ""}">${preferences.quality === "semantic" ? drawSemantic(v) : ""}</div><div class="h-record" role="status" aria-live="polite">${esc(v.events.filter((e) => e.visibility === "public").at(-1)?.text ?? "Inheritance begins.")}</div></section><aside class="h-decision ${tutorial !== null ? "h-guide" : ""}" aria-label="${tutorial !== null ? "Learning guide" : "Action and outcome"}">${error ? `<p class="h-error" role="alert">${esc(error)}</p>` : ""}${decision(v)}</aside><section class="h-hand" aria-label="Your private Nobles in hand"><header><h2>${SEAT_SIGNS[viewer ?? 0]} ${v.players[viewer ?? 0]?.name === "You" ? "Your Nobles in hand" : `${esc(v.players[viewer ?? 0]?.name)}’s Nobles in hand`}</h2><span>${v.players[viewer ?? 0]?.seals ?? 0} available seals · private hand</span></header><div class="h-card-row">${(v.players[viewer ?? 0]?.hand ?? []).map((id) => `<div class="h-hand-card ${packet.includes(id) ? "selected" : ""}"><button data-select="${id}" aria-pressed="${packet.includes(id)}" aria-label="Select ${esc(nameOf(id))}">${faceHTML(id, true)}</button><button data-inspect="${id}" class="h-inspect-small">Inspect</button></div>`).join("") || "<p>Your hand is empty. You can still use Court actions, Draw or Pass.</p>"}</div></section><section class="h-history-panel">${historyRail(v)}</section></div></main>`;
+  root.innerHTML = `<main class="h-game"><header class="h-game-header"><button data-ui="home" class="h-brand">O&amp;O <span>The Weight of the Crown</span></button><button type="button" data-ui="deadlines" class="h-round" aria-label="Round schedule and approaching consequences">${v.phase === "setup" ? "Inheritance" : `Round ${v.round}`}<small>${v.passes.length}/${v.players.length} passes · look ahead</small></button><nav>${ownLawButton(v)}${button("Rules", "rules")}${button("Table record", "registers")}${button("Settings", "settings")}${state.players.filter(player => !player.ai).length > 1 ? button("Cover hands", "lock") : ""}</nav></header><div class="h-game-grid"><section class="h-table-panel" aria-label="Physical game table"><div class="h-cameras">${button("Whole table", "focus-all")}${v.players.map((p) => button(`${SEAT_SIGNS[p.seat]} ${esc(p.name)}`, `focus-${p.seat}`)).join("")}</div><div id="h-table" class="h-table ${preferences.quality === "semantic" ? "semantic" : ""}">${preferences.quality === "semantic" ? drawSemantic(v) : ""}</div><div class="h-record" role="status" aria-live="polite">${esc(v.events.filter((e) => e.visibility === "public").at(-1)?.text ?? "Inheritance begins.")}</div></section><aside class="h-decision ${tutorial !== null ? "h-guide" : ""}" aria-label="${tutorial !== null ? "Learning guide" : "Action and outcome"}">${error ? `<p class="h-error" role="alert">${esc(error)}</p>` : ""}${coach(v)}<section class="h-controls">${decision(v)}</section></aside><section class="h-hand" aria-label="Your private Nobles in hand"><header><h2>${SEAT_SIGNS[viewer ?? 0]} ${v.players[viewer ?? 0]?.name === "You" ? "Your Nobles in hand" : `${esc(v.players[viewer ?? 0]?.name)}’s Nobles in hand`}</h2><span>${v.players[viewer ?? 0]?.seals ?? 0} available seals · private hand</span></header><div class="h-card-row">${(v.players[viewer ?? 0]?.hand ?? []).map((id) => `<div class="h-hand-card ${packet.includes(id) ? "selected" : ""}"><button data-select="${id}" aria-pressed="${packet.includes(id)}" aria-label="Select ${esc(nameOf(id))}">${faceHTML(id, true)}</button><button data-inspect="${id}" class="h-inspect-small">Inspect</button></div>`).join("") || "<p>Your hand is empty. You can still use Court actions, Draw or Pass.</p>"}</div></section><section class="h-history-panel">${historyRail(v)}</section></div></main>`;
   if (preferences.quality !== "semantic") {
     try {
       if (table && priorHost)
@@ -340,6 +376,11 @@ function render() {
           preferences,
         );
       table.render(viewForSpectator(state));
+      if (!priorHost && tutorial !== null && viewer !== null) table.setFocus(viewer);
+      else if (tutorial !== null && seat !== viewer) {
+        const action = expectedTeachingAction();
+        if (action && ["claim", "attack", "marry"].includes(action.type)) table.setFocus(null);
+      }
     } catch {
       table?.dispose();
       table = null;
@@ -358,30 +399,35 @@ function render() {
   if (handRow) handRow.scrollLeft = handScroll;
   if (tutorial !== null && !lessonDone) {
     const action = lessonAction(state, tutorial)!;
-    const targets = new Set(teachingCardOptions(v, action));
+    const targets = new Set(action && (action.type === "barter" || action.type === "barter-packet" || action.type === "setup-lock") && !selected ? teachingCardOptions(v, action) : []);
     const highlight = () => {
-      document.querySelectorAll<HTMLElement>("[data-select], [data-card-id], [data-fragment], [data-guide-card]").forEach(element => {
-        const id = element.dataset.select ?? element.dataset.cardId ?? element.dataset.fragment ?? element.dataset.guideCard;
+      document.querySelectorAll<HTMLElement>("[data-select]").forEach(element => {
+        const id = element.dataset.select;
         element.classList.toggle("h-teaching-target", !!id && targets.has(id));
       });
     };
     highlight();
     requestAnimationFrame(highlight);
   } else {
-    document.querySelectorAll(".h-teaching-target").forEach(element => element.classList.remove("h-teaching-target"));
+    document.querySelectorAll("[data-select].h-teaching-target").forEach(element => element.classList.remove("h-teaching-target"));
   }
-  if (autoAI && tutorial === null && seat !== null && state.players[seat].ai)
-    aiTimer = setTimeout(aiStep, 1500);
+  if (autoAI && seat !== null && state.players[seat].ai) {
+    const automatic = expectedTeachingAction() ?? announcedAI;
+    aiTimer = setTimeout(() => {
+      if (automatic) commit(automatic);
+      else aiStep();
+    }, automatic ? 1800 : 200);
+  }
 }
 function modal(html: string) {
-  document.querySelectorAll("dialog").forEach((d) => d.remove());
-  const dialog = document.createElement("dialog");
-  dialog.className = "h-dialog";
-  dialog.innerHTML = `${button("Close ×", "close", 'class="h-close"')}<div>${html}</div>`;
+  if (aiTimer) clearTimeout(aiTimer);
+  aiTimer = null;
+  document.querySelectorAll("dialog").forEach(d => { d.dispatchEvent(new Event("reader-dispose")); d.remove(); });
+  const dialog = createReader(html);
   root.append(dialog);
   bind(dialog);
   dialog.showModal();
-  dialog.addEventListener("close", () => dialog.remove());
+  dialog.addEventListener("close", () => { dialog.remove(); if (state && !locked) render(); });
 }
 function inspect(id: string) {
   if (!state || locked) return;
@@ -413,18 +459,10 @@ function inspect(id: string) {
       ? `<h3>Nobles marked when revealed</h3>${crisis.obligated.map((seat) => `<p><b>${esc(v.players[seat].name)}</b>: ${(crisis.restoreIds[seat] ?? []).map((card) => esc(nameOf(card))).join(", ")}${crisis.fulfilled.includes(seat) ? " · already helped" : " · Marry one of these Nobles to help"}</p>`).join("")}`
       : "";
   modal(
-    `<div class="h-inspection">${faceHTML(id)}<section><p class="h-eyebrow">READ THE CARD</p><h2>${esc(c.printed.name)}</h2>${c.kind === "law" && c.printed.dynasty === v.players[viewer ?? 0]?.dynasty ? `<p class="h-learning-goal">${esc(crownReadiness(v, viewer ?? 0))}</p>` : ""}${controller ? `<p>Held by ${SEAT_SIGNS[controller.seat]} ${esc(controller.name)}. Dynasty: ${esc(c.printed.dynasty)}.</p><p>${c.printed.dynasty === controller.dynasty ? "Matches this player’s Dynasty" : supported(v, controller.seat, id) ? "Joins this player’s Bloodline through marriage" : "Does not belong to this player’s Bloodline"}${controller.ruler === id ? " · Ruler" : ""}${controller.rotated.includes(id) ? " · Turned sideways until next round" : ""}.</p>` : ""}${marriage ? `<p>Marriage ${marriage.id}: ${esc(nameOf(marriage.queen))} ↔ ${esc(nameOf(marriage.spouse))}</p>` : ""}${marked}<details class="h-card-terms" open><summary>Words and actions on this card</summary>${glossaryHTML(c.cardText)}</details><details><summary>History and artwork</summary><p class="h-small">${esc(c.historicalNote)}</p></details></section></div>`,
+    `<div class="h-inspection">${faceHTML(id, true)}<section><h2>${esc(c.printed.name)}</h2><h3>Card instructions</h3><p>${esc(c.cardText)}</p>${c.kind === "law" && c.printed.dynasty === v.players[viewer ?? 0]?.dynasty ? `<h3>Your path to the Crown</h3><p class="h-learning-goal">${esc(crownReadiness(v, viewer ?? 0))}</p>` : ""}${controller ? `<h3>At this table</h3><p>Held by ${SEAT_SIGNS[controller.seat]} ${esc(controller.name)}. Dynasty: ${esc(c.printed.dynasty)}.</p><p>${c.printed.dynasty === controller.dynasty ? "Matches this player’s Dynasty" : supported(v, controller.seat, id) ? "Joins this player’s Bloodline through marriage" : "Does not belong to this player’s Bloodline"}${controller.ruler === id ? " · Ruler" : ""}${controller.rotated.includes(id) ? " · Turned sideways until next round" : ""}.</p>` : ""}${marriage ? `<p>Marriage ${marriage.id}: ${esc(nameOf(marriage.queen))} ↔ ${esc(nameOf(marriage.spouse))}</p>` : ""}${marked}<button type="button" data-card-terms="${id}">Explain the words and actions</button><details><summary>History and artwork</summary><p class="h-small">${esc(c.historicalNote)}</p></details></section></div>`,
   );
 }
 function tableCard(id: string) {
-  if (state && tutorial !== null && !lessonDone) {
-    const view = viewForSeat(state, viewer);
-    const action = lessonAction(state, tutorial)!;
-    if (teachingCardOptions(view, action).includes(id)) {
-      toggleCardSelection(id);
-      return;
-    }
-  }
   inspect(id);
 }
 function toggleCardSelection(id: string) {
@@ -435,7 +473,7 @@ function toggleCardSelection(id: string) {
 function rules() {
   modal(
     `<p class="h-eyebrow">LEARN THE GAME</p><h2>Pass the Crown. Keep your family together.</h2>
-    <p><b>Your goal:</b> claim the Crown, pass it to your chosen heir, then keep that new Ruler in your Bloodline for the time on your Law. If Eudoxia completes a painting first, everyone loses.</p>
+    <p><b>Your goal:</b> claim the Crown, pass it to your chosen heir, then keep that new Ruler in your Bloodline for the time on your Law. If Eudoxia completes a painting first, everyone loses.</p>${state && !locked ? button("Available actions and costs", "actions-guide") : ""}
     <h3>Set up</h3><p>Choose one Dynasty set per player. Mix their Noble cards into one deck and their History cards into another. Deal 8 Nobles each. Everyone passes 3 cards clockwise at the same time, then 2, then 1. Place 3 Nobles of one Dynasty in front of you: this is your Court and your Dynasty. Mark one as your Ruler. Keep the other 5 cards secret.</p>
     <h3>Your turn</h3><p>Take 1 action or Pass. Each action costs 1 seal; everyone gets 3 seals each round. Save a seal if you want to Block a rival’s Recall. Pass costs nothing. You may act again after passing if someone else acts. When everyone passes in a row, the round ends.</p>
     <h3>A new round</h3><p>Move the first-player marker clockwise, except in round one. Then follow these steps in order.</p><ol><li>Uncover any painting fragments due now. Return lent Nobles to their hands.</li><li>Refill everyone’s 3 seals and turn all sideways Nobles upright.</li><li>Follow any Crown change due now, then the active Crises, oldest first.</li><li>Reveal 1 History card per player. Everyone sees every draw.</li><li>If you have fewer than 5 cards in hand, draw 1 Noble.</li></ol>
@@ -467,6 +505,22 @@ function settings() {
     `<h2>Table settings</h2><label>Presentation <select id="h-quality">${["high", "standard", "compact", "semantic"].map((q) => `<option ${preferences.quality === q ? "selected" : ""}>${q}</option>`).join("")}</select></label><label><input id="h-motion" type="checkbox" ${preferences.motion ? "checked" : ""}> Table motion</label><label><input id="h-large" type="checkbox" ${preferences.largeText ? "checked" : ""}> Larger interface text</label><label>Material sound <input id="h-effects" type="range" min="0" max="1" step="0.05" value="${preferences.effects}"></label><p>All consequences remain in captions when muted. Semantic presentation preserves the same legal game and private handoffs without WebGL.</p>${button("Apply settings", "settings-save", 'class="primary"')}`,
   );
 }
+function deadlines() {
+  if (!state || locked) return;
+  modal(`<h2>Look ahead</h2>${deadlinePages(viewForSeat(state, viewer)).map(page => `<h3>${esc(page.title)}</h3>${page.body.map(paragraph => `<p>${esc(paragraph)}</p>`).join("")}`).join("")}`);
+}
+function actionsGuide() {
+  if (!state || locked || viewer === null) return;
+  modal(`<h2>Your choices now</h2>${actionAvailabilityPages(viewForSeat(state, viewer), viewer).map(page => `<h3>${esc(page.title)}</h3>${page.body.map(paragraph => `<p>${esc(paragraph)}</p>`).join("")}`).join("")}`);
+}
+function archive(id = SOURCES[0].id) {
+  const card = SOURCE[id];
+  modal(`<div class="h-inspection">${faceHTML(id)}<section><h2>Read the cards</h2><label>Card <select id="h-archive-card">${SOURCES.map(source => `<option value="${source.id}" ${source.id === id ? "selected" : ""}>${esc(source.printed.name)} · ${esc(source.kind)}</option>`).join("")}</select></label><h3>${esc(card.printed.name)}</h3><p>${esc(card.cardText)}</p><button type="button" data-card-terms="${id}">Explain the words and actions</button><h3>History and artwork</h3><p>${esc(card.historicalNote)}</p></section></div>`);
+  document.querySelector<HTMLSelectElement>("#h-archive-card")!.onchange = event => archive((event.target as HTMLSelectElement).value);
+}
+function knowledgeQuiz() {
+  modal(`<h2>Four consequences</h2>${knowledgeFeedback ? `<p role="status">${esc(knowledgeFeedback)}</p>${button("Start a new unaided practice", "practice", 'class="primary"')}` : ""}${knowledgeQuestions.map(([question, yes, no], i) => `<h3>Prediction ${i + 1}</h3><p>${esc(question)}</p><label>Answer <select data-knowledge="${i}"><option value="">Choose what happens</option><option value="yes" ${knowledgeAnswers[i] === "yes" ? "selected" : ""}>${esc(yes)}</option><option value="no" ${knowledgeAnswers[i] === "no" ? "selected" : ""}>${esc(no)}</option></select></label>`).join("")}${button("Check predictions", "knowledge-check", 'class="primary"')}`);
+}
 function exportText(text: string, name: string) {
   const blob = new Blob([text], { type: "application/json" }),
     url = URL.createObjectURL(blob);
@@ -491,8 +545,10 @@ function aiStep() {
     worker.terminate();
     if (aiWorker !== worker) return;
     aiWorker = null;
-    if (state === requestedState && !locked && event.data)
-      commit(event.data.action);
+    if (state === requestedState && !locked && event.data) {
+      announcedAI = event.data.action;
+      if (!document.querySelector("dialog[open]")) render();
+    }
   };
   worker.onerror = () => {
     worker.terminate();
@@ -516,27 +572,45 @@ function bind(scope: ParentNode = root) {
           title();
         }
         if (action === "knowledge") {
-          knowledgeOpen = true;
-          render();
+          knowledgeQuiz();
         }
         if (action === "knowledge-check") {
           const predictions = [
             ...document.querySelectorAll<HTMLSelectElement>("[data-knowledge]"),
           ].map((el) => el.value);
+          knowledgeAnswers = predictions;
           if (predictions.some((value) => !value))
             knowledgeFeedback =
               "Choose a prediction for each consequence, then check again.";
           else
             knowledgeFeedback = `${predictions.filter((value) => value === "yes").length}/4 correct. The foreign spouse stays in Court, outside your Bloodline. Block needs 1 seal and a matching card from your hand. Crises start when everyone passes in a row. Cover needs a piece never covered before and no piece already covered by you. A completed painting ends the game immediately.`;
-          render();
+          knowledgeQuiz();
         }
         if (action === "practice") {
           start(createDemo());
           practiceRevision = state!.revision;
           render();
         }
-        if (action === "teach") start(createTutorial(), 0);
+        if (action === "teach") start(createPreparedTutorial(), PREPARED_TUTORIAL_CURSOR);
+        if (action === "enter-table") {
+          soloIntro = false;
+          audio.unlock();
+          render();
+        }
+        if (action === "actions-prev" || action === "actions-next") {
+          actionPage = Math.max(0, actionPage + (action === "actions-next" ? 1 : -1));
+          render();
+        }
+        if (action === "toggle-ai") {
+          autoAI = !autoAI;
+          render();
+        }
         if (action === "demo") start(createDemo());
+        if (action === "full-game") start(createGame({
+          modules: ["alba", "plantagenet", "tudor"],
+          players: [{ name: "You", ai: false }, { name: "Henry II · Plantagenet", ai: true }, { name: "Henry VII · Tudor", ai: true }],
+          seed: Date.now() >>> 0,
+        }));
         if (action === "setup") setup();
         if (action === "begin") {
           const modules = Array.from(
@@ -570,9 +644,25 @@ function bind(scope: ParentNode = root) {
           state = resume.game;
           preferences = resume.preferences;
           tutorial = resume.tutorial;
-          lessonDone = tutorial !== null && state.revision > tutorial;
-          locked = true;
-          viewer = null;
+          // Old guided saves can already have committed the displayed action.
+          if (tutorial !== null && state.revision === tutorial + 1) tutorial++;
+          lessonDone = false;
+          const humans = state.players.filter(player => !player.ai);
+          locked = humans.length !== 1;
+          viewer = humans.length === 1 ? humans[0].seat : null;
+          soloIntro = false;
+          announcedAI = null;
+          autoAI = true;
+          actionPage = 0;
+          category = tutorial !== null ? LESSONS[tutorial]?.action.type ?? "build" : "build";
+          tutorialNotice = "";
+          if (tutorial !== null && !state.result) {
+            const expected = expectedTeachingAction();
+            if (tutorial < PREPARED_TUTORIAL_CURSOR || !expected || !legalActions(viewForSeat(state, expected.seat), expected.seat).some(action => followsTeachingAction(viewForSeat(state!, expected.seat), expected, action))) {
+              tutorial = null;
+              tutorialNotice = "Your saved position is intact. Continue freely; the updated guide starts from a new prepared table.";
+            }
+          }
           selected = null;
           packet = [];
           audio.resumeAt(state.events.length);
@@ -586,6 +676,9 @@ function bind(scope: ParentNode = root) {
         }
         if (action === "lock") curtain();
         if (action === "close") b.closest("dialog")?.close();
+        if (action === "deadlines") deadlines();
+        if (action === "actions-guide") actionsGuide();
+        if (action === "accessible-table") accessibleTable();
         if (action === "rules") rules();
         if (action === "registers") registers();
         if (action === "settings") settings();
@@ -605,33 +698,17 @@ function bind(scope: ParentNode = root) {
           persist();
           render();
         }
-        if (action === "archive")
-          modal(
-            `<h2>Read the cards</h2><p>52 Nobles · 4 Laws · 12 Crises · 24 painting pieces. Open a card to read its instructions.</p><details><summary>Words and actions</summary>${glossaryHTML()}</details><div class="h-archive">${SOURCES.map((c) => `<details><summary>${esc(c.printed.name)} · ${esc(c.kind === "interregnum" ? "Crisis" : c.kind === "fragment" ? "Painting piece" : c.kind)}</summary>${faceHTML(c.id)}<p>${esc(c.historicalNote)}</p></details>`).join("")}</div>`,
-          );
+        if (action === "archive") archive();
         if (action === "commit" && selected) commit(selected);
         if (action === "cancel") {
           selected = null;
           render();
         }
         if (action === "ai-step") aiStep();
-  if (action === "lesson-action" && tutorial !== null && state)
-          {
-            const a = selectedTeachingAction(viewForSeat(state, viewer), lessonAction(state, tutorial)!, packet);
-            if (a) commit(a);
-          }
         if (action === "leave-tutorial" && state) {
           tutorial = null;
           lessonDone = false;
           selected = null;
-          packet = [];
-          lastOutcome = [];
-          persist();
-          render();
-        }
-        if (action === "lesson-next" && tutorial !== null) {
-          tutorial++;
-          lessonDone = false;
           packet = [];
           lastOutcome = [];
           persist();
@@ -674,9 +751,14 @@ function bind(scope: ParentNode = root) {
               `<h2>A possible move</h2><p>${esc(d.reason)}</p><p>${esc(previewAction(viewForSeat(state, viewer), d.action).effect)}</p><p>Rivals may hold a matching card to Block you. This suggestion uses only visible cards; it cannot see rival hands or future draws.</p>`,
             );
         }
-        if (action === "focus-all") table?.setFocus(null);
-        if (action.startsWith("focus-") && action !== "focus-all")
-          table?.setFocus(Number(action.slice(6)));
+        if (action === "focus-all") {
+          if (preferences.quality === "semantic") accessibleTable();
+          else table?.setFocus(null);
+        }
+        if (action.startsWith("focus-") && action !== "focus-all") {
+          if (preferences.quality === "semantic") accessibleTable(Number(action.slice(6)));
+          else table?.setFocus(Number(action.slice(6)));
+        }
         if (action === "public-export" && state)
           exportText(
             JSON.stringify(publicReplay(state), null, 2),
@@ -719,22 +801,41 @@ function bind(scope: ParentNode = root) {
   scope
     .querySelectorAll<HTMLButtonElement>("[data-inspect]")
     .forEach((b) => (b.onclick = () => inspect(b.dataset.inspect!)));
-  scope.querySelectorAll<HTMLButtonElement>("[data-select]").forEach(
-    (b) =>
-      (b.onclick = () => {
+  scope.querySelectorAll<HTMLButtonElement>("[data-card-terms]").forEach(b => {
+    b.onclick = () => {
+      const card = SOURCE[b.dataset.cardTerms!];
+      if (card) modal(`<h2>Words and actions · ${esc(card.printed.name)}</h2>${glossaryHTML(card.cardText)}`);
+    };
+  });
+  scope.querySelectorAll<HTMLButtonElement>("[data-select]").forEach((b) => {
+      let hold: ReturnType<typeof setTimeout> | null = null;
+      let reading = false;
+      let origin = { x: 0, y: 0 };
+      const stopHold = () => { if (hold) clearTimeout(hold); hold = null; };
+      b.setAttribute("aria-description", "Select this card. Hold or right-click to read its instructions.");
+      b.title = `${nameOf(b.dataset.select!)} · hold to read`;
+      b.onpointerdown = event => {
+        if (event.button !== 0) return;
+        reading = false;
+        origin = { x: event.clientX, y: event.clientY };
+        hold = setTimeout(() => { reading = true; inspect(b.dataset.select!); }, 500);
+      };
+      b.onpointermove = event => {
+        if (Math.hypot(event.clientX - origin.x, event.clientY - origin.y) > 10) stopHold();
+      };
+      b.onpointerup = stopHold;
+      b.onpointercancel = stopHold;
+      b.onpointerleave = stopHold;
+      b.oncontextmenu = event => { event.preventDefault(); stopHold(); reading = true; inspect(b.dataset.select!); };
+      b.onclick = () => {
+        stopHold();
+        if (reading) { reading = false; return; }
         const id = b.dataset.select!;
         toggleCardSelection(id);
         document
           .querySelector<HTMLButtonElement>(`[data-select="${id}"]`)
           ?.focus({ preventScroll: true });
-      }),
-  );
-  scope.querySelectorAll<HTMLButtonElement>("[data-guide-card]").forEach(b => {
-    b.onclick = () => {
-      const id = b.dataset.guideCard!;
-      toggleCardSelection(id);
-      document.querySelector<HTMLButtonElement>(`[data-guide-card="${id}"]`)?.focus({ preventScroll: true });
-    };
+      };
   });
   scope.querySelectorAll<HTMLButtonElement>("[data-action]").forEach(
     (b) =>
@@ -746,13 +847,13 @@ function bind(scope: ParentNode = root) {
           ?.focus();
       }),
   );
-  scope.querySelectorAll<HTMLButtonElement>("[data-category]").forEach(
-    (b) =>
-      (b.onclick = () => {
-        category = b.dataset.category!;
-        render();
-      }),
-  );
+  const actionCategory = scope.querySelector<HTMLSelectElement>("[data-action-category]");
+  if (actionCategory) actionCategory.onchange = () => {
+    category = actionCategory.value;
+    actionPage = 0;
+    packet = [];
+    render();
+  };
   const auto = scope.querySelector<HTMLInputElement>("#h-auto");
   if (auto)
     auto.onchange = () => {
@@ -769,6 +870,15 @@ function bind(scope: ParentNode = root) {
 window.addEventListener("blur", () => {
   if (state && !locked) curtain();
 });
+let resizeFrame = 0;
+const resizeControls = () => {
+  cancelAnimationFrame(resizeFrame);
+  resizeFrame = requestAnimationFrame(() => {
+    if (state && !locked && !soloIntro && !document.querySelector("dialog[open]")) render();
+  });
+};
+window.addEventListener("resize", resizeControls);
+window.visualViewport?.addEventListener("resize", resizeControls);
 document.addEventListener("visibilitychange", () => {
   if (document.hidden && state && !locked) curtain();
 });

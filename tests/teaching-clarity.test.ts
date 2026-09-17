@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createTutorial, LESSONS, lessonAction } from "../src/history-engine/tutorial";
+import { createTutorial, createPreparedTutorial, PREPARED_TUTORIAL_CURSOR, LESSONS, lessonAction, tutorialProgress, TUTORIAL_CHAPTERS } from "../src/history-engine/tutorial";
 import { applyAction } from "../src/history-engine/engine";
 import { legalActions } from "../src/history-engine/rules";
 import { viewForSeat } from "../src/history-engine/view";
@@ -15,7 +15,7 @@ function atLesson(index: number) {
 }
 
 test("the Crown goal identifies public targets without naming a hidden heir", () => {
-  const state = atLesson(39);
+  const state = atLesson(44);
   const view = viewForSeat(state, 1);
   const goal = learningGoal(view);
   assert.ok(goal.includes(nameOf(state.players[0].ruler!)));
@@ -54,23 +54,23 @@ test("the published teaching sequence remains a continuous legal game", () => {
   assert.equal(state.result?.winner, 0);
 });
 
-test("the first failed claim has no available Block, while the second demonstrates a saved defense", () => {
-  const rushed = atLesson(40);
-  assert.equal(rushed.players[0].seals, 0);
-  assert.equal(legalActions(viewForSeat(rushed, 0), 0).some(a => a.type === "counterclaim"), false);
-  const defended = atLesson(51);
+test("the teaching claim keeps a real defense instead of requiring an avoidable failure", () => {
+  const waiting = atLesson(38);
+  assert.equal(waiting.players[0].seals, 1);
+  assert.equal(lessonAction(waiting, 38)!.type, "pass");
+  const defended = atLesson(45);
   assert.equal(defended.players[0].seals, 1);
   const alternatives = legalActions(viewForSeat(defended, 0), 0).filter(a => a.type === "counterclaim");
   assert.ok(alternatives.length > 1, "the player can choose a matching card to lend");
   for (const alternative of alternatives) {
     let state = applyAction(defended, alternative);
-    for (let i = 52; i < LESSONS.length; i++) state = applyAction(state, lessonAction(state, i)!);
+    for (let i = 46; i < LESSONS.length; i++) state = applyAction(state, lessonAction(state, i)!);
     assert.equal(state.result?.winner, 0, "every offered Block choice preserves a legal tutorial continuation");
   }
 });
 
 test("the new Cover addresses five visible pieces and prevents the sixth-piece loss", () => {
-  const state = atLesson(46);
+  const state = atLesson(40);
   assert.equal(state.fragments.filter(f => f.dynasty === "alba" && !f.veil).length, 5);
   assert.equal(state.players[0].seals, 3);
   assert.equal(state.crown, null);
@@ -83,10 +83,18 @@ test("teaching requires the selected cards and accepts a real alternate Block", 
   assert.equal(selectedTeachingAction(view, action, []), null);
   assert.equal(selectedTeachingAction(view, action, ["alba-0"]), null);
   assert.deepEqual(selectedTeachingAction(view, action, requiredTeachingCards(view, action))?.cards, action.cards);
-  const blockState = atLesson(51), blockView = viewForSeat(blockState, 0);
-  const chosen = selectedTeachingAction(blockView, lessonAction(blockState, 51)!, ["alba-6"]);
+  const blockState = atLesson(45), blockView = viewForSeat(blockState, 0);
+  const chosen = selectedTeachingAction(blockView, lessonAction(blockState, 45)!, ["alba-6"]);
   assert.equal(chosen?.card, "alba-6");
   assert.ok(applyAction(blockState, chosen!).crown);
+});
+test("prepared teaching uses legal setup and counts exactly ten chapters and fifteen player decisions", () => {
+  assert.deepEqual(createPreparedTutorial(), atLesson(PREPARED_TUTORIAL_CURSOR));
+  assert.equal(TUTORIAL_CHAPTERS.length, 10);
+  assert.equal(tutorialProgress(PREPARED_TUTORIAL_CURSOR).completed, 0);
+  assert.equal(tutorialProgress(PREPARED_TUTORIAL_CURSOR).playerSteps, 15);
+  assert.equal(tutorialProgress(LESSONS.length).completed, 15);
+  assert.equal(tutorialProgress(LESSONS.length).chapter, 10);
 });
 
 test("outcomes include the actual changes and do not expose an uninspected rival offer", () => {

@@ -3,15 +3,27 @@ import {
   CSS3DObject,
   CSS3DRenderer,
 } from "three/examples/jsm/renderers/CSS3DRenderer.js";
+import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { assetUrl } from "../assets";
 import { nameOf, PAINTING_NAMES } from "./content";
-import { cardCanvas, escapeHTML, SEAT_SIGNS } from "./face";
+import { cardCanvas, escapeHTML, loadImage, SEAT_SIGNS } from "./face";
 import { supported, crownProgress } from "./rules";
 import type { GameView } from "./types";
 import type { Preferences } from "./storage";
 
-// A single coordinate model drives solid cardstock, physical mats and accessible
-// CSS3D faces. The scene accepts projected public state only, never a full save.
+// The decoded image survives app-level table rebuilds. GPU textures remain
+// owned by each table instance and are disposed with that instance.
+let decodedBoard: HTMLImageElement | null = null;
+let decodingBoard: Promise<HTMLImageElement | null> | null = null;
+function boardImage() {
+  return decodingBoard ??= loadImage("art/v2-table.webp").then(image => {
+    decodedBoard = image;
+    return image;
+  });
+}
+
+// Visible card ink, cardstock and table share the same lighting. CSS3D carries
+// transparent semantic hit targets and labels, never a second visible card face.
 export class HistoryTable {
   private renderer: THREE.WebGLRenderer;
   private labels = new CSS3DRenderer();
@@ -29,6 +41,9 @@ export class HistoryTable {
   private width = 1400;
   private height = 1050;
   private textures: THREE.Texture[] = [];
+  private boardTexture = new THREE.Texture();
+  private boardMaterial: THREE.MeshStandardMaterial | null = null;
+  private readyGeneration = -1;
   private drawRequested = true;
   constructor(
     private host: HTMLElement,
@@ -48,11 +63,18 @@ export class HistoryTable {
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.setClearColor(0x071111, 0);
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 1.15;
     this.renderer.domElement.className = "h-webgl";
     this.labels.domElement.className = "h-css3d";
     host.replaceChildren(this.renderer.domElement, this.labels.domElement);
-    this.scene.add(new THREE.HemisphereLight(0xffeed5, 0x203b32, 2.2));
-    const key = new THREE.DirectionalLight(0xffe5b5, 3.5);
+    this.boardTexture.colorSpace = THREE.SRGBColorSpace;
+    if (decodedBoard) {
+      this.boardTexture.image = decodedBoard;
+      this.boardTexture.needsUpdate = true;
+    }
+    this.scene.add(new THREE.HemisphereLight(0xffeed5, 0x203b32, 1.7));
+    const key = new THREE.DirectionalLight(0xffe5b5, 2.5);
     key.position.set(-500, 500, 900);
     key.castShadow = true;
     key.shadow.mapSize.set(2048, 2048);
@@ -63,7 +85,7 @@ export class HistoryTable {
     key.shadow.camera.far = 2500;
     key.shadow.bias = -0.0005;
     this.scene.add(key);
-    const fill = new THREE.DirectionalLight(0x9aaed4, 1.3);
+    const fill = new THREE.DirectionalLight(0x9aaed4, 0.7);
     fill.position.set(650, -250, 700);
     this.scene.add(fill);
     this.scene.add(this.group);
@@ -81,6 +103,8 @@ export class HistoryTable {
         this.renderer.render(this.scene, this.camera);
         this.labels.render(this.faceScene, this.camera);
         this.drawRequested = false;
+        if (this.readyGeneration === this.generation)
+          this.host.dataset.sceneReady = "true";
       }
     };
     tick();
@@ -174,13 +198,46 @@ export class HistoryTable {
     markers: string[],
     rotated: boolean,
     generation: number,
+    seat: number,
   ) {
     const w = this.view?.players.length === 2 ? 200 : 156,
       h = (w * 88) / 63;
-    const body = this.box(w, h, 3, 0xddd1b6, x, y, 12);
-    if (rotated) body.rotation.z = -0.12;
+    const turn = rotated ? -Math.PI / 2 : 0;
+    const body = new THREE.Mesh(
+      new RoundedBoxGeometry(w, h, 3, 2, 0.8),
+      new THREE.MeshStandardMaterial({ color: 0xc8bfa9, roughness: 0.84 }),
+    );
+    body.position.set(x, y, 11.8);
+    body.rotation.z = turn;
+    body.castShadow = true;
+    body.receiveShadow = true;
+    this.group.add(body);
     const canvas = await cardCanvas(id);
     if (this.disposed || generation !== this.generation) return;
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.anisotropy = Math.min(
+      8,
+      this.renderer.capabilities.getMaxAnisotropy(),
+    );
+    this.textures.push(texture);
+    const face = new THREE.Mesh(
+      new THREE.PlaneGeometry(w - 0.5, h - 0.5),
+      new THREE.MeshStandardMaterial({
+        map: texture,
+        roughness: 0.76,
+        metalness: 0,
+        transparent: true,
+        alphaTest: 0.5,
+        polygonOffset: true,
+        polygonOffsetFactor: -1,
+        polygonOffsetUnits: -2,
+      }),
+    );
+    face.position.set(x, y, 13.65);
+    face.rotation.z = turn;
+    face.receiveShadow = true;
+    this.group.add(face);
     const button = document.createElement("button");
     button.className = "h-world-card";
     button.style.width = `${w}px`;
@@ -190,19 +247,21 @@ export class HistoryTable {
       `${nameOf(id)}. ${markers.join(". ")}. Inspect`,
     );
     button.dataset.cardId = id;
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
-    button.append(canvas);
+    button.dataset.seat = String(seat);
+    button.tabIndex = this.focus === null || this.focus === seat ? 0 : -1;
+    button.dataset.orientation = rotated ? "sideways" : "ready";
+    button.style.background = "transparent";
+    button.style.boxShadow = "none";
     const obj = new CSS3DObject(button);
-    obj.position.set(x, y, 14);
-    if (rotated) obj.rotation.z = -0.12;
+    obj.position.set(x, y, 13.8);
+    obj.rotation.z = turn;
     this.faceGroup.add(obj);
     button.onclick = () => this.inspect(id);
     if (markers.length)
       this.label(
         markers.map(escapeHTML).join(" · "),
         x,
-        y - h / 2 - 13,
+        y - (rotated ? w : h) / 2 - 13,
         16,
         w + 18,
         "h-card-markers",
@@ -216,9 +275,16 @@ export class HistoryTable {
   private resize() {
     const rect = this.host.getBoundingClientRect();
     if (rect.width < 1 || rect.height < 1) return;
-    const renderWidth =
-      this.focus !== null && rect.width < 700 ? 720 : rect.width;
-    this.host.dataset.pannable = String(renderWidth > rect.width);
+    const renderWidth = rect.width;
+    this.host.dataset.pannable = "false";
+    this.host
+      .querySelectorAll<HTMLButtonElement>(".h-world-card[data-seat]")
+      .forEach((button) => {
+        button.tabIndex =
+          this.focus === null || Number(button.dataset.seat) === this.focus
+            ? 0
+            : -1;
+      });
     this.renderer.setSize(renderWidth, rect.height);
     this.labels.setSize(renderWidth, rect.height);
     this.camera.aspect = renderWidth / rect.height;
@@ -232,10 +298,25 @@ export class HistoryTable {
     const center =
       this.focus === null ? { x: 0, y: 0 } : this.courtAnchor(this.focus);
     const court = this.focus === null ? null : this.view?.players[this.focus];
-    const rows = court ? Math.max(1, Math.ceil(court.court.length / 4)) : 1;
-    const focusWidth = this.view?.players.length === 2 ? 1380 : 870;
-    const focusHeight =
-      rows * (this.view?.players.length === 2 ? 278 : 242) + 170;
+    const columns = this.view?.players.length === 2 ? 4 : 3;
+    const rows = court
+      ? Math.max(1, Math.ceil(court.court.length / columns))
+      : 1;
+    const twoPlayers = this.view?.players.length === 2;
+    const cardWidth = twoPlayers ? 200 : 156;
+    const cardHeight = (cardWidth * 88) / 63;
+    const rowPitch = twoPlayers ? 302 : 250;
+    const shownColumns = Math.max(
+      1,
+      Math.min(columns, court?.court.length ?? columns),
+    );
+    const widestCard = court?.rotated.length ? cardHeight : cardWidth;
+    const focusWidth =
+      (shownColumns - 1) * (twoPlayers ? 303 : 242) + widestCard + 40;
+    const focusHeight = (rows - 1) * rowPitch + cardHeight + 54;
+    // A Court close-up fits actual Royals and their attached markers. Shared
+    // Crown, decks and resource trays remain in the explicit Whole table view.
+    if (this.focus !== null) center.y += twoPlayers ? -7.5 : -17.5;
     const courtFit = Math.max(
       focusHeight / 2 / Math.tan(THREE.MathUtils.degToRad(19)),
       focusWidth /
@@ -244,6 +325,11 @@ export class HistoryTable {
         this.camera.aspect,
     );
     const z = this.focus === null ? fit * 1.03 : courtFit * 1.04;
+    // This scene is a shallow table viewed from far away. A near plane of one
+    // unit wastes depth precision and made card fronts fight the cardstock at
+    // the far end of a dense table. Fit clipping distances to the actual camera.
+    this.camera.near = Math.max(1, z * 0.05);
+    this.camera.far = Math.max(z * 3, this.width + this.height + 1000);
     this.camera.position.set(center.x, center.y - z * 0.25, z);
     this.camera.up.set(0, 1, 0);
     this.camera.lookAt(center.x, center.y, 0);
@@ -267,12 +353,19 @@ export class HistoryTable {
     this.view = v;
     this.generation++;
     const generation = this.generation;
+    this.host.dataset.sceneReady = "false";
+    delete this.host.dataset.sceneError;
+    const components: Promise<unknown>[] = [];
     this.clear();
+    const columns = v.players.length === 2 ? 4 : 3;
     const maxRows = Math.max(
       1,
-      ...v.players.map((p) => Math.ceil(p.court.length / 4)),
+      ...v.players.map((p) => Math.ceil(p.court.length / columns)),
     );
-    this.height = Math.max(1100, 620 + maxRows * 480);
+    this.height = Math.max(
+      1100,
+      620 + maxRows * (v.players.length === 2 ? 604 : 500),
+    );
     this.width = 1800;
     this.box(this.width + 50, this.height + 50, 42, 0x302013, 0, 0, -24);
     this.box(
@@ -287,20 +380,29 @@ export class HistoryTable {
       0.6,
     );
     this.box(this.width, this.height, 6, 0x142921, 0, 0, 3);
-    const boardTexture = new THREE.TextureLoader().load(
-      assetUrl("art/v2-table.webp"),
-      () => {
-        if (!this.disposed && generation === this.generation)
-          this.drawRequested = true;
-      },
-    );
-    boardTexture.colorSpace = THREE.SRGBColorSpace;
-    this.textures.push(boardTexture);
+    this.boardMaterial = new THREE.MeshStandardMaterial({
+      map: this.boardTexture.image ? this.boardTexture : null,
+      color: 0xbac4b9,
+      roughness: 0.9,
+      metalness: 0,
+    });
+    components.push(boardImage().then(image => {
+      if (this.disposed || generation !== this.generation) return;
+      if (!image) throw Error("The table artwork could not be loaded.");
+      if (this.boardTexture.image !== image) {
+        this.boardTexture.image = image;
+        this.boardTexture.needsUpdate = true;
+      }
+      this.boardMaterial!.map = this.boardTexture;
+      this.boardMaterial!.needsUpdate = true;
+      this.drawRequested = true;
+    }));
     const boardArt = new THREE.Mesh(
       new THREE.PlaneGeometry(this.width, this.height),
-      new THREE.MeshBasicMaterial({ map: boardTexture, color: 0xbac4b9 }),
+      this.boardMaterial,
     );
     boardArt.position.z = 6.5;
+    boardArt.receiveShadow = true;
     this.group.add(boardArt);
     for (const x of [-this.width / 2 + 22, this.width / 2 - 22])
       this.box(2, this.height - 44, 1, 0x897445, x, 0, 7, 0.5, 0.4);
@@ -352,9 +454,9 @@ export class HistoryTable {
     });
     for (const p of v.players) {
       const anchor = this.courtAnchor(p.seat);
-      const rows = Math.max(1, Math.ceil(p.court.length / 4));
+      const rows = Math.max(1, Math.ceil(p.court.length / columns));
       const matWidth = v.players.length === 2 ? 1300 : 790;
-      const rowPitch = v.players.length === 2 ? 278 : 242;
+      const rowPitch = v.players.length === 2 ? 302 : 250;
       const matHeight = rows * rowPitch + 115;
       const mat = this.box(
         matWidth,
@@ -403,11 +505,12 @@ export class HistoryTable {
         "h-count-label",
       );
       p.court.forEach((id, i) => {
-        const row = Math.floor(i / 4),
-          inRow = Math.min(4, p.court.length - row * 4);
+        const row = Math.floor(i / columns),
+          inRow = Math.min(columns, p.court.length - row * columns);
         const x =
             anchor.x +
-            ((i % 4) - (inRow - 1) / 2) * (v.players.length === 2 ? 245 : 181),
+            ((i % columns) - (inRow - 1) / 2) *
+              (v.players.length === 2 ? 303 : 242),
           y =
             anchor.y +
             matHeight / 2 -
@@ -423,7 +526,15 @@ export class HistoryTable {
           ...(p.rotated.includes(id) ? ["SIDEWAYS"] : []),
           ...(v.petitioned.includes(id) ? ["SAFE FROM RECALL THIS ROUND"] : []),
         ];
-        void this.card(id, x, y, markers, p.rotated.includes(id), generation);
+        components.push(this.card(
+          id,
+          x,
+          y,
+          markers,
+          p.rotated.includes(id),
+          generation,
+          p.seat,
+        ));
       });
       if (p.leverage.length) {
         this.label(
@@ -447,6 +558,14 @@ export class HistoryTable {
       this.label(`${label}<br>${count}`, pileX, y, 35, 70, "h-pile-label");
     }
     this.resize();
+    void Promise.all(components).then(() => {
+      if (this.disposed || generation !== this.generation) return;
+      this.readyGeneration = generation;
+      this.drawRequested = true;
+    }).catch(error => {
+      if (this.disposed || generation !== this.generation) return;
+      this.host.dataset.sceneError = error instanceof Error ? error.message : String(error);
+    });
   }
   private clear() {
     this.group.traverse((o) => {
@@ -470,6 +589,7 @@ export class HistoryTable {
     cancelAnimationFrame(this.frame);
     this.observer.disconnect();
     this.clear();
+    this.boardTexture.dispose();
     this.renderer.dispose();
     this.host.replaceChildren();
   }

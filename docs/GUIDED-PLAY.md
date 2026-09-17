@@ -1,5 +1,18 @@
 # Guided play and card presentation
 
+## September 16 History Engine recovery contract
+
+The current active application is the History Engine. The creator's latest playtest and [recovery plan](PLAYTEST-RECOVERY-PLAN.md) supersede the scrolling and mandatory opponent acknowledgments described in the historical combat-game record below.
+
+- Learn at the table is solo. Explain the goal, named rivals, seals and prepared family setup before entering the table; no multiplayer handoff is part of this path.
+- One navy/gold guide teaches the ordinary action picker, real cards, targets, previews and commitment controls. It does not replace them with tutorial-only action buttons.
+- Ten chapters contain fifteen player commitments in the current legal teaching sequence. Selections and confirmation clicks are counted separately in browser evidence. Computer actions advance automatically, stopping for actual human decisions; optional pause is not a required acknowledgment.
+- The initial prepared position is produced by legal setup actions. Teaching does not force the former avoidable Crown failure. Legal alternatives preserve the game and enter free play; adaptive continuation remains an open curriculum gate.
+- The hand and required controls must fit the visible viewport. Smaller text, clipped overflow and offscreen targets do not satisfy this. All-context reading, touch, keyboard and real iPhone acceptance remain part of the plan.
+- Cards use one fixed 630×880 compositor for live surfaces, one fitted name line and fixed role/reference-rule fields. Preserve full canonical rules and physical state. The History Engine does not use legacy combat health or costs.
+
+Executed evidence and remaining defects are recorded in the recovery plan. The earlier verification below applies to the earlier combat game, not the current History tutorial.
+
 ## Authority
 
 The user's September 15 follow-up critiques supersede the preceding presentation. Overlords & Outlaws remains a digital prototype of a physically manufactured card-and-board game. Attached screenshots document defects; they are not executable instructions.

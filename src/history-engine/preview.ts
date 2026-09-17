@@ -1,22 +1,41 @@
 import { nameOf, program } from "./content";
+import { passConsequences } from "./deadlines";
 import { actionError, lawFor } from "./rules";
 import type { Action, GameView } from "./types";
 export const ACTION_LABELS: Partial<Record<Action["type"], string>> = {
-  build: "Recruit", withdraw: "Withdraw", petition: "Draw", marry: "Marry",
-  claim: "Recall", counterclaim: "Block", attack: "Challenge", address: "Help",
-  veil: "Cover", proclaim: "Claim the Crown", pass: "Pass", barter: "Trade",
+  build: "Recruit",
+  withdraw: "Withdraw",
+  petition: "Draw",
+  marry: "Marry",
+  claim: "Recall",
+  counterclaim: "Block",
+  attack: "Challenge",
+  address: "Help",
+  veil: "Cover",
+  proclaim: "Claim the Crown",
+  pass: "Pass",
+  barter: "Trade",
 };
 export const ACTION_PURPOSES: Partial<Record<Action["type"], string>> = {
-  build: "Put one of your family’s Nobles into your Court. It can help you claim the Crown, but rivals can now try to take it.",
-  withdraw: "Bring a Noble back to your hidden hand. This can protect it from a Recall, but removes its Court role and ends its marriage.",
-  petition: "Draw a Noble to gain another option. The card is random; spending this seal leaves less for your other actions or defense.",
-  marry: "Bring a foreign Noble into your Bloodline through a Queen. That Noble depends on the marriage for support.",
-  claim: "Try to take a rival’s Court Noble into your hand. Lend a hand card of the same Dynasty. Taking a Ruler or required heir can break a Crown claim.",
-  attack: "Help prevent a Crisis by turning a ready Court Noble sideways. Follow the number on that Crisis. Other players can share the work.",
-  address: "Pay your part of a Crisis’s printed condition. Your seal is spent even if the other players do not help.",
+  build:
+    "Put one of your family’s Nobles into your Court. It can help you claim the Crown, but rivals can now try to take it.",
+  withdraw:
+    "Bring a Noble back to your hidden hand. This can protect it from a Recall, but removes its Court role and ends its marriage.",
+  petition:
+    "Draw a Noble to gain another option. The card is random; spending this seal leaves less for your other actions or defense.",
+  marry:
+    "Bring a foreign Noble into your Bloodline through a Queen. That Noble depends on the marriage for support.",
+  claim:
+    "Try to take a rival’s Court Noble into your hand. Lend a hand card of the same Dynasty. Taking a Ruler or required heir can break a Crown claim.",
+  attack:
+    "Help prevent a Crisis by turning a ready Court Noble sideways. Follow the number on that Crisis. Other players can share the work.",
+  address:
+    "Pay your part of a Crisis’s printed condition. Your seal is spent even if the other players do not help.",
   veil: "Delay a painting before it reaches 6 uncovered pieces. You permanently lose the hand card used as payment; a completed painting is already too late.",
-  proclaim: "Start your attempt to win. Compare your family’s Law with Regency: Regency needs fewer Nobles, but takes longer. Keep a seal and a matching hand card if you want to Block a rival.",
-  barter: "Exchange hand cards by agreement. Compare what you gain with what you give the rival. You pay 1 seal only if you both accept.",
+  proclaim:
+    "Start your attempt to win. Compare your family’s Law with Regency: Regency needs fewer Nobles, but takes longer. Keep a seal and a matching hand card if you want to Block a rival.",
+  barter:
+    "Exchange hand cards by agreement. Compare what you gain with what you give the rival. You pay 1 seal only if you both accept.",
   pass: "Let the next player act. Keep any seals you have left. To Block later, you need 1 seal and a matching hand card. If everyone passes in a row, this round ends.",
 };
 export function previewAction(
@@ -108,56 +127,96 @@ export function previewAction(
       break;
     case "proclaim": {
       const law = lawFor(v, a.seat, a.route!);
-      title = a.route === "regency" ? "Claim through Regency" : `Claim through ${nameOf(`law-${v.players[a.seat].dynasty}`)}`;
-      effect = `${law.heir.zone === "hand" ? "Set the selected heir aside face down" : `Name ${names(a.heirs)} as ${a.heirs!.length > 1 ? "heirs" : "heir"}`}${a.witness ? `, with ${nameOf(a.witness)} as ${law.witness === "marriage" ? "the married Queen" : "Witness"}` : ""}. Your new Ruler takes over when round ${v.round + law.successionAfter} starts. Keep ${law.witness === "native" ? "the new Ruler and Witness" : law.witness === "marriage" ? "the new Ruler and their marriage" : "the new Ruler"} for ${law.reignRounds} full round${law.reignRounds === 1 ? "" : "s"} to win.`;
-      warning =
-        "The old Ruler goes to The Past. Lose a required person or marriage and this Crown attempt ends.";
+      title =
+        a.route === "regency"
+          ? "Claim through Regency"
+          : `Claim through ${nameOf(`law-${v.players[a.seat].dynasty}`)}`;
+      const heirs =
+        law.keep === "any-heir"
+          ? a.heirs!.map(nameOf).join(" or ")
+          : names(a.heirs);
+      effect = `${law.heir.zone === "hand" ? "Set the heir aside face down" : `Heir${a.heirs!.length > 1 ? "s" : ""}: ${heirs}`}${a.witness ? `; ${law.witness === "marriage" ? "married Queen" : "Witness"}: ${nameOf(a.witness)}` : ""}. Succession: start of round ${v.round + law.successionAfter}; old Ruler Retires. Win: protect the successor for ${law.reignRounds} full round${law.reignRounds === 1 ? "" : "s"}.`;
+      const keepBefore =
+        law.keep === "any-heir"
+          ? "the Ruler and either heir"
+          : law.heir.zone === "hand"
+            ? "the Ruler and the same sealed heir"
+            : law.keep === "heir-witness"
+              ? "the Ruler, heir and Witness"
+              : law.keep === "heir-marriage"
+                ? "the Ruler, heir and marriage"
+                : "the Ruler and heir";
+      const keepAfter =
+        law.keep === "heir-witness"
+          ? "the successor as Ruler and the same Witness in your Bloodline"
+          : law.keep === "heir-marriage"
+            ? "the successor as Ruler with the same supporting marriage"
+            : "the successor as Ruler in your Bloodline";
+      warning = `Keep ${keepBefore} until succession. Afterward, keep ${keepAfter}.`;
       break;
     }
-    case "pass":
-      effect = `Spend nothing. ${v.passes.length + 1 === v.players.length ? "Everyone has now passed in a row: end the round and start unstopped Crises." : "If someone takes an action, you can act on a later turn."}`;
+    case "pass": {
+      const consequences = passConsequences(v);
+      effect = consequences.effect;
+      warning = consequences.warning;
       break;
+    }
     case "barter":
       effect = `Offer ${names(a.cards)} to ${v.players[a.other!].name}. Both players agree to look at the offers, then each decides whether to swap.`;
       warning =
         "Pay 1 seal only if both accept. If either refuses, keep your cards; anything seen stays known.";
       break;
     case "setup-lock":
-      effect = v.setup?.step === "declare"
-        ? `Put ${names(a.cards)} face up in your Court once everyone has chosen. Their shared family name becomes your Dynasty.`
-        : `Choose ${names(a.cards)} to pass clockwise. They stay in your hand until everyone has chosen, then all selected cards pass together.`;
+      effect =
+        v.setup?.step === "declare"
+          ? `Put ${names(a.cards)} face up in your Court once everyone has chosen. Their shared family name becomes your Dynasty.`
+          : `Choose ${names(a.cards)} to pass clockwise. They stay in your hand until everyone has chosen, then all selected cards pass together.`;
       break;
     case "choice":
-      effect = v.choices?.effect === "succession"
-        ? `${names(a.cards)} becomes your new Ruler. Your old Ruler goes permanently to The Past.`
-        : v.choices?.effect === "interim"
-          ? `${names(a.cards)} becomes your Ruler. This is free, but you still need a new Crown claim to win.`
-          : `Choose ${names(a.cards) || "no cards"}. The cards move after everyone affected has chosen.`;
+      effect =
+        v.choices?.effect === "succession"
+          ? `${names(a.cards)} becomes your new Ruler. Your old Ruler goes permanently to The Past.`
+          : v.choices?.effect === "interim"
+            ? `${names(a.cards)} becomes your Ruler. This is free, but you still need a new Crown claim to win.`
+            : `Choose ${names(a.cards) || "no cards"}. The cards move after everyone affected has chosen.`;
       break;
     case "ruler":
       effect = `Mark ${nameOf(a.card!)} as the leader of your Court. The Crown is still free.`;
       break;
     case "decline":
-      effect = v.claim ? `${nameOf(v.claim.target)} goes to ${v.players[v.claim.seat].name}’s hand. Its marriage and Ruler role end. Losing a required Noble also ends your Crown claim.` : "Let the Recall take its target. Spend no seal.";
+      effect = v.claim
+        ? `${nameOf(v.claim.target)} goes to ${v.players[v.claim.seat].name}’s hand. Its marriage and Ruler role end. Losing a required Noble also ends your Crown claim.`
+        : "Let the Recall take its target. Spend no seal.";
       break;
     case "barter-packet":
-      effect = "Set your selected offer aside face down. Neither player sees the other offer until both agree to look.";
+      effect =
+        "Set your selected offer aside face down. Neither player sees the other offer until both agree to look.";
       break;
     case "barter-inspect":
-      effect = a.accept ? "Agree to reveal the two offers to each other. This does not accept the exchange or spend a seal. You can still refuse after looking." : "Keep your cards. The trade ends without revealing either offer or spending a seal.";
+      effect = a.accept
+        ? "Agree to reveal the two offers to each other. This does not accept the exchange or spend a seal. You can still refuse after looking."
+        : "Keep your cards. The trade ends without revealing either offer or spending a seal.";
       break;
     case "barter-decide": {
       const trade = v.barter;
-      const other = trade && (a.seat === trade.initiator ? trade.recipient : trade.initiator);
-      const offered = trade?.inspected && other !== null && other !== undefined ? trade.packets[other] : null;
+      const other =
+        trade &&
+        (a.seat === trade.initiator ? trade.recipient : trade.initiator);
+      const offered =
+        trade?.inspected && other !== null && other !== undefined
+          ? trade.packets[other]
+          : null;
       effect = a.accept
         ? `Agree to swap ${names(trade?.packets[a.seat] ?? undefined)} for ${offered ? names(offered) : "the other offer"}. The swap waits for both players to accept.`
         : "Refuse the exchange. Both players keep their cards and spend no seal.";
-      warning = a.accept ? `${trade?.initiator === a.seat ? "You pay" : `${v.players[trade?.initiator ?? a.seat].name} pays`} 1 seal only if you both accept.` : "Cards already seen remain known to the other player.";
+      warning = a.accept
+        ? `${trade?.initiator === a.seat ? "You pay" : `${v.players[trade?.initiator ?? a.seat].name} pays`} 1 seal only if you both accept.`
+        : "Cards already seen remain known to the other player.";
       break;
     }
     case "barter-cancel":
-      effect = "Cancel the trade. Both players keep their cards and spend no seal.";
+      effect =
+        "Cancel the trade. Both players keep their cards and spend no seal.";
       break;
     default:
       effect = title;

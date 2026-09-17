@@ -13,8 +13,8 @@ export function createTutorial(): GameState {
     modules: ["alba", "plantagenet", "tudor"],
     players: [
       { name: "You", ai: false },
-      { name: "The Lion", ai: true },
-      { name: "The Rose", ai: true },
+      { name: "Henry II · Plantagenet", ai: true },
+      { name: "Henry VII · Tudor", ai: true },
     ],
     seed: 160926,
   });
@@ -258,34 +258,10 @@ export const LESSONS: Lesson[] = [
   pass(1),
   pass(2),
   L(
-    "See the risk of spending your last seal",
-    "This example spends your last seal to claim the Crown now. Select David and Robert as heirs. Kenneth must stay until next round starts, but you will have no seal to Block. In free play, you could wait and keep that seal for defense. We will use a safer plan on the next attempt.",
-    {
-      type: "proclaim",
-      seat: 0,
-      route: "kindreds",
-      heirs: ["alba-3", "alba-7"],
-    },
+    "Keep a seal and wait for the next round",
+    "Claiming now would spend your last seal. Pass to keep a defense available. Once everyone passes, your seals refill and you can claim with protection.",
+    { type: "pass", seat: 0 },
   ),
-  L(
-    "Rivals can break your Crown claim",
-    "The Lion lends an Alba card to try to take Kenneth. A Recall can take your Ruler as well as any other Court Noble. If Kenneth leaves now, your Crown claim ends.",
-    { type: "claim", seat: 1, card: "alba-5", target: "alba-0" },
-  ),
-  L(
-    "No seal means no Block",
-    "You have Alba cards, but no seals left. You cannot Block this Recall. Kenneth goes to The Lion’s hand and your Crown claim ends. This is the cost of the rushed claim; having more cards alone does not protect you.",
-    { type: "decline", seat: 0 },
-  ),
-  // The choice ID is resolved from the engine at runtime; the selected identity is fixed.
-  L(
-    "Choose an interim Ruler",
-    "Select David to lead your remaining Court. This costs no seal. Losing a Ruler does not eliminate you, but you must start a new Crown claim to win.",
-    { type: "choice", seat: 0, cards: ["alba-3"] },
-  ),
-  pass(2),
-  pass(0),
-  pass(1),
   pass(2),
   L(
     "Stop the painting before it is complete",
@@ -295,8 +271,8 @@ export const LESSONS: Lesson[] = [
   pass(1),
   pass(2),
   L(
-    "Try for the Crown again",
-    "You already have David, Margaret and Robert in your Court. No extra Recruit is needed. Select Margaret (Dunkeld) and Robert (Bruce–Stewart) as heirs. Pay 1 seal to claim the Crown, leaving your last seal for a Block.",
+    "Claim with a defense in reserve",
+    "Kenneth leads your Court. Margaret and Robert provide two family branches as heirs. Claiming costs 1 seal, leaving your last seal for a Block.",
     {
       type: "proclaim",
       seat: 0,
@@ -304,14 +280,14 @@ export const LESSONS: Lesson[] = [
       heirs: ["alba-1", "alba-7"],
     },
   ),
-  L("The Lion tries again", "The Lion tries to take David. This time you saved a seal and still have Alba cards in hand.", { type: "claim", seat: 1, card: "alba-5", target: "alba-3" }),
-  L("Use the defense you saved", "Choose an Alba hand card to lend and pay your last seal. David stays, so your Crown claim survives. You may choose any listed card; the lent card returns next round.", { type: "counterclaim", seat: 0, card: "alba-4" }),
+  L("Henry challenges your claim", "Henry tries to take Kenneth. You saved a seal and still have Alba cards in hand.", { type: "claim", seat: 1, card: "alba-5", target: "alba-0" }),
+  L("Use the defense you saved", "Lend an Alba hand card and pay your last seal. Kenneth stays, protecting your claim. Any matching card can Block; the loan returns next round.", { type: "counterclaim", seat: 0, card: "alba-4" }),
   pass(2),
   pass(0),
   pass(1),
   L(
     "Pass the Crown to your heir",
-    "Select Robert as your new Ruler. Put David in The Past permanently. Keep Robert in your Bloodline until this round ends to win. The covered painting piece stays covered until round 5, so the sixth piece cannot complete that painting now.",
+    "Choose Robert as your new Ruler. Kenneth moves permanently to The Past. Protect Robert until this round ends to win. The covered painting piece stays covered until round 5.",
     { type: "choice", seat: 0, cards: ["alba-7"] },
   ),
   pass(0),
@@ -327,6 +303,51 @@ export function lessonAction(s: GameState, cursor: number): Action | null {
       (c) => c.chooser === a.seat && c.selection === null,
     )?.id;
   return a;
+}
+export const PREPARED_TUTORIAL_CURSOR = 15;
+/** Set the teaching table by playing the published inheritance, never by resetting a live match. */
+export function createPreparedTutorial(): GameState {
+  let state = createTutorial();
+  for (let cursor = 0; cursor < PREPARED_TUTORIAL_CURSOR; cursor++)
+    state = applyAction(state, lessonAction(state, cursor)!);
+  return state;
+}
+export const TUTORIAL_CHAPTERS = [
+  { start: 15, title: "Your family and first move" },
+  { start: 21, title: "Protect your family" },
+  { start: 23, title: "Form a marriage" },
+  { start: 27, title: "Read the round ending" },
+  { start: 30, title: "Stop a shared Crisis" },
+  { start: 35, title: "Build your succession" },
+  { start: 38, title: "Keep protection in reserve" },
+  { start: 40, title: "Delay the painting" },
+  { start: 43, title: "Claim and defend" },
+  { start: 49, title: "Pass the Crown" },
+] as const;
+const SHORT_PROMPTS: Record<number, string> = {
+  15: "Your three face-up Nobles form your Court; your hand stays private. Three seals pay for actions or defense. Select Robert II in your hand, then offer him to Henry II: a foreign Noble could marry Margaret.",
+  17: "Both players must agree before seeing the offers. Agree to inspect, then compare the actual cards before deciding whether to trade.",
+  19: "Richard gives you a foreign spouse for Margaret. Robert is useful for Alba’s defense. Accept this exchange to follow the example, or decline and continue freely.",
+  22: "Henry is trying to take Margaret. Block by lending an Alba hand card and spending one seal. Your lent card returns next round.",
+  24: "Marry Margaret and Richard. Richard joins your Bloodline through Margaret, but remains Plantagenet. Losing Margaret would remove that support.",
+  27: "Pass to keep your remaining seals. The round ends only after everyone passes in a row; another action resets that count.",
+  32: "Both rivals helped stop Contested Recognition. Lend Alexander III to finish it. Removing this Crisis permits Crown claims; it costs one seal.",
+  35: "Alba needs heirs from two family branches. Recruit Robert the Bruce: his branch differs from Margaret’s and David’s. You will have one seal left.",
+  38: "Claiming now would spend your last seal. Pass to keep protection. Everyone’s seals refill when this round ends; then you can claim safely.",
+  40: "Five Alba pieces are uncovered. A sixth would end the game. Cover one now, spending a seal and permanently discarding Malcolm; the cover lasts until round 5.",
+  43: "Claim with Margaret and Robert as heirs. Kenneth remains Ruler until succession. This costs one seal and leaves one seal to protect your claim.",
+  45: "Henry threatens Kenneth, your Ruler. Use the defense you saved: any matching Alba hand card can Block. Your Crown claim survives if Kenneth stays.",
+  47: "Pass with the claim intact. The round marker shows who still has an opportunity before your heir takes over.",
+  49: "Choose Robert as successor. Kenneth moves permanently to The Past. Keep Robert in your Bloodline through this round to win.",
+  50: "Pass when ready. The Crown records the remaining hold period; the result follows only after the actual round closes.",
+};
+export function tutorialProgress(cursor: number) {
+  let chapter = 0;
+  TUTORIAL_CHAPTERS.forEach((item, index) => { if (item.start <= cursor) chapter = index; });
+  const playerSteps = LESSONS.slice(PREPARED_TUTORIAL_CURSOR).filter(item => item.action.seat === 0).length;
+  const completed = LESSONS.slice(PREPARED_TUTORIAL_CURSOR, cursor).filter(item => item.action.seat === 0).length;
+  return { chapter: chapter + 1, chapters: TUTORIAL_CHAPTERS.length, title: TUTORIAL_CHAPTERS[chapter].title,
+    completed, playerSteps, prompt: SHORT_PROMPTS[cursor] ?? "Watch the named source and destination. Rival actions continue automatically; your decisions always wait for you." };
 }
 export function validateTutorial(): GameState {
   let s = createTutorial();

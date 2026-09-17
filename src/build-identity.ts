@@ -1,0 +1,11 @@
+const environment = (import.meta as ImportMeta & { env: Record<string, string | undefined> }).env;
+const number = Number(environment.VITE_BUILD_NUMBER || 1);
+const badge = document.createElement('small');
+badge.className = 'build-identity';
+badge.textContent = `Build ${number}${environment.VITE_BUILD_PUBLISHED === 'true' ? '' : ' · local'}`;
+badge.title = environment.VITE_BUILD_SHA ? `Source ${environment.VITE_BUILD_SHA}` : 'Local evaluation of the next numbered build';
+badge.setAttribute('aria-label', badge.textContent);
+document.body.append(badge);
+const style = document.createElement('style');
+style.textContent = `.build-identity{position:fixed;left:max(10px,env(safe-area-inset-left));bottom:max(4px,env(safe-area-inset-bottom));font:10px/1.4 Manrope,Arial,sans-serif;color:#c9b890;z-index:100;pointer-events:none;text-shadow:0 1px 3px #000;background:#081318d9;padding:2px 5px;border-radius:2px}`;
+document.head.append(style);

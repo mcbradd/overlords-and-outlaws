@@ -21,14 +21,14 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run test:ui
+      - name: Allocate the next evaluation build number
+        run: node scripts/build-identity.mjs --prepare-prod
       - run: npm run build
         env:
           PAGES_BASE_PATH: /overlords-and-outlaws-prod/
           VITE_SAVE_NAMESPACE: "prod:"
       - name: Identify the evaluated source revision
-        run: |
-          printf '{"branch":"prod","sha":"%s"}\n' "$GITHUB_SHA" > dist/revision.json
-          touch dist/.nojekyll
+        run: node scripts/build-identity.mjs --write-prod
       - name: Publish built files to the separate prod repository
         uses: peaceiris/actions-gh-pages@v4
         with:

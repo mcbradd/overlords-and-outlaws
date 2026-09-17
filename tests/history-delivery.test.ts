@@ -19,7 +19,7 @@ import {
 import { CONTENT_VERSION, MANIFEST } from "../src/history-engine/content";
 import { viewForSeat, viewForSpectator } from "../src/history-engine/view";
 import { chooseAction } from "../src/history-engine/ai";
-test("continuous teaching match includes real opposition, History, forfeiture and legal settlement", () => {
+test("continuous teaching match includes real opposition, History, protected succession and legal settlement", () => {
   const s = validateTutorial();
   assert.equal(s.result?.winner, 0);
   for (const type of [
@@ -30,7 +30,6 @@ test("continuous teaching match includes real opposition, History, forfeiture an
     "InterregnumAverted",
     "InterregnumActivated",
     "FragmentVeiled",
-    "CrownForfeited",
     "HeirInstalled",
   ])
     assert.ok(
@@ -38,8 +37,9 @@ test("continuous teaching match includes real opposition, History, forfeiture an
       type,
     );
   assert.equal(s.round, 4);
-  assert.equal(s.noblePast.includes("alba-3"), true);
-  assert.equal(s.players[1].hand.includes("alba-0"), true);
+  assert.equal(s.noblePast.includes("alba-0"), true);
+  assert.equal(s.players[1].hand.includes("alba-0"), false);
+  assert.equal(s.events.some(event => event.type === "CrownForfeited"), false);
 });
 test("every tutorial boundary round-trips through a versioned private save and preserves its continuation", () => {
   let s = createTutorial();
