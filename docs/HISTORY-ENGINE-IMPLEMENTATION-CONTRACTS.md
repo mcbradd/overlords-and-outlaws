@@ -1,5 +1,7 @@
 # History engine — delivery contracts and worked procedures
 
+**Next-design overlay, 17 September 2026:** the [R4 suit-and-rank appendix](SUIT-AND-RANK-DESIGN.md) supersedes this baseline's sealed Trade protocol, unranked contributions and Crown/Cover durations for the next implementation. Its migration section also requires explicit rank data, public binding offers, verified patron draws, projected Tudor deadlines and retained rank proof. These changes are not yet implemented; the worked R3 traces below remain historical baseline tests.
+
 Normative companion to [the implementation spec](HISTORY-ENGINE-IMPLEMENTATION-SPEC.md), 16 September 2026. Main-spec gameplay is authoritative; this file closes delivery, privacy, evidence and presentation details. Budgets come from the main spec's single Quality targets list. These are required future checks, not claims they have run.
 
 ## One phase machine

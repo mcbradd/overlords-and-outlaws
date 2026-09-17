@@ -1,5 +1,66 @@
 # Overlords & Outlaws — The Weight of the Crown
 
+## Master design update — suits and ranks, R4, 17 September 2026
+
+**Current design authority:** the user has clarified that each Dynasty is a thirteen-card suit, **Ace (1) through King (13)**, with individually distinct cards and a Dynasty theme loosely grounded in history. Playing a smaller card to draw out a larger answer, keeping specific ranks concealed, and choosing which person to expose must create consequential tactical choices. The former R3 assumption that same-Dynasty people may be mechanically interchangeable is superseded.
+
+**Status:** the suit/rank requirements are user direction; the concrete rules below are an iteratively reviewed **design candidate**, not user-approved numerical balance, implemented behavior, professional endorsement or tested enjoyment. The [full R4 suit-and-rank rules](SUIT-AND-RANK-DESIGN.md) are a normative part of this master design. The [design-session record](reviews/SUIT-RANK-DESIGN-SESSION-2026-09-17.md) records the simulated panel's competing proposals, defences, adoptions and remaining empirical questions.
+
+The playable prototype is still described by [current rules](RULES.md) and the authored runtime card text. R4 does not silently change a running game or existing save. Where this update and its appendix conflict with the retained R3 material below or its content/contracts appendices, **R4 controls the next design; runtime text controls the current playable version**. Unchanged R3 procedures continue as specified, subject to the subsequent card-language corrections. Immutable R3 review snapshots remain evidence of that earlier proposal.
+
+### What rank means
+
+Each Noble has one immutable printed Dynasty and one unique rank within that Dynasty. A=1, J=11, Q=12, K=13; Ace is low except for the stated Block exception. Rank is separate from historical title, marriage eligibility, branch and collector ID. It is not chronology, genealogical distance or a score of historical importance. The appendix supplies an explicit provisional 52-card paper-test mapping, preserving all retained identities and original artwork.
+
+The game remains a physical card-and-board game about family, disputed succession and shared History. Rank compares cards and creates patterns; it is not health, damage, money, aggregate power or victory points. Uniqueness comes from suit, rank, role and institutional context, without demanding 52 unrelated bespoke abilities. A manufactured deck and public procedure aids must suffice to execute every rule.
+
+### Rank changes every order's decision
+
+| Order or procedure | R4 rank interaction | Intended agency |
+|---|---|---|
+| Recruit | Native below current Ruler enters ready; other ranks sideways; rulerless recovery remains available | Small immediate helper versus larger exposed authority |
+| Draw | Blind one-card draw, or Lend a patron to inspect ordered top two and optionally reveal/take a second card strictly below its rank | Search and information versus temporary loss of a specific response |
+| Trade | Binding voluntary public one-for-one exact-card offer; accepted exchange may immediately Recruit the initiator's received lower native sideways | Pay higher leverage for a particular piece and deployment time |
+| Marry | Equal/neighbour ranks enter ready when the foreign spouse comes from hand; other ranks sideways | Fit a useful alliance now or accept delayed activity; no refresh of existing Court cards |
+| Withdraw | Optional lower same-suit native replacement enters sideways after departure consequences | Reclaim a high concealed tool while preserving a smaller Court presence; never repair a failed claim |
+| Recall | Lend any same-suit card against a rival Court Noble of that suit | Lead small to draw an answer, or commit a harder-to-answer rank |
+| Block | Same suit and strictly higher than the lead; Ace additionally answers J/Q/K, never 2–10 | Spend the smallest sufficient answer or preserve a scarce rank for later |
+| Help | Crisis specifies globally distinct contributed ranks or an equal-rank, different-suit pair | Negotiate which exact people fund a shared obligation |
+| Challenge | One ready low A–6 and one ready high 7–K fill two separate retained spaces | Small and large contributors remain complementary |
+| Cover | Discard rank at most fragment index, or matching painting suit, for R+2; other cards give R+1 | Sacrifice the right card for longer time or use an emergency cover |
+| Claim the Crown | Dynasty-specific rank arrangement earns one full reign round; other legal primary arrangements need two | Assemble a faster institution or start a slower, more exposed claim now |
+| Pass | Retains seals for the particular ranked answers still held; risks all-pass and returned rival loans | Invite a lead or accept the approaching History boundary; no artificial rank toll |
+| Lend | Exact committed suit/rank unavailable until normal return; retained event proof survives return | The same person cannot defend, search and fund a Crisis simultaneously |
+
+These are ten paid initiating orders plus Pass, the Block response and the Lend payment procedure. No extra seal, independent minigame score or nested response stack is introduced. The appendix gives costs, destinations, privacy, empty-state recovery and exact exceptions; this table is not a substitute for those procedures.
+
+### Distinct institutions using the same deck language
+
+All existing primary Law arrangements remain legal at any ranks. Rank changes settlement duration rather than making the Dynasty unwinnable after a key rank leaves circulation. Succession still occurs at the next normal start; short and long refer to the new Ruler's full reign rounds afterward.
+
+- **Alba:** two different-branch heirs on opposite sides of the Ruler's rank earn the short reign. Preserve the original choice between surviving candidates. Breadth among kindreds has value beyond collecting high relatives.
+- **Plantagenet:** a Witness below the heir earns the short reign. A smaller public guarantor becomes a vulnerable foundation of a larger successor's authority.
+- **Tudor:** a sealed heir below the departing Ruler earns the short reign. Keep both possible deadlines public until revelation; never leak the hidden rank through preview or AI state.
+- **Habsburg:** equal/neighbour ranks in the required Queen–foreign-heir marriage earn the short reign. Obtaining a specific foreign person matters while the exact supporting relationship remains vulnerable.
+
+Freeze public rank qualification when the claim is made; verify Tudor's originally sealed identity and comparison at transfer. Preserve existing failure conditions. Regency changes to **three full reign rounds**, preventing its simpler arrangement from making a two-round primary Law inferior for the same heir. The resulting 1/2/3-round progression is a tuning hypothesis that must survive the History clock, not proven balance. These are design metaphors derived from existing institutional themes, not newly established historical facts.
+
+### Trade must earn its place beside Draw
+
+The former private inspection followed by free rejection is removed from this candidate. An offer voluntarily exposes the initiator's exact card and names the exact requested card; the recipient may refuse without revealing anything. Acceptance is binding and exchanges cards immediately. A formal rejection consumes that opportunity as Pass; an initiator may approach each other player only once per round. Nobody can demand free hand inspection.
+
+The lower-native bundled Recruit is a proposed reason for the initiator to pay a seal and help an opponent. For example, Plantagenet offers Tudor Q for Plantagenet 4 and immediately recruits the 4; the recipient may value Tudor Q as a matching-suit long Cover more than its former foreign 4. This demonstrates a concrete competing valuation, not a claim that rational opponents generally accept trades. Draw remains a credible alternative. Test refusal-heavy and two-player play explicitly.
+
+### Design closure and next implementation boundary
+
+The panel must defend or adopt alternatives, test counterexamples, and revise until every order has a causal rank consequence and no unresolved procedure blocker remains. Agreement is not evidence of entertaining play. Evaluate low-card bait, high-card hoarding, exact-rank exchange, player comprehension, Crown survival and shared-clock pressure in actual 2/3/4-player games before claiming those benefits.
+
+Implementation must update the authored manifest, compiler/reducer, AI information model, save version, all twelve Crises, four Laws, tutorial and physical print aids together. Existing card wording, collector indices and tests do not implement or validate R4. This document update changes the design only; artwork generation and runtime work are separate deliverables. Main remains governed by the explicit release authorization rule.
+
+---
+
+## Retained R3 baseline and evidence
+
 > **Current playable revision:** [Read the card: sixth-grade language revision](CARD-LANGUAGE-REVISION.md) supersedes the original card wording, blank Noble faces, A2/P2 selectors and compiler architecture below. The remainder preserves the original design proposal and its evidence. The executable roster is in `src/history-engine/content.ts`.
 
 **Final implementation specification · 16 September 2026 · revision R3**

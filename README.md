@@ -17,7 +17,9 @@ The [playtest recovery plan](docs/PLAYTEST-RECOVERY-PLAN.md) governs the current
 
 Use click/tap or keyboard selection, review the cost and consequence, then Commit. Inspection is passive. No action requires dragging. Public registers expose retained evidence. Local privacy protects ordinary shared-device play; a device owner can inspect full saves/devtools.
 
-[Current rules](docs/RULES.md) · [Implementation and evidence](docs/HISTORY-ENGINE-IMPLEMENTATION-REPORT.md) · [R3 specification](docs/HISTORY-ENGINE-IMPLEMENTATION-SPEC.md) · [Physical direction](docs/PHYSICAL-GAME-DIRECTION.md)
+[Current rules](docs/RULES.md) · [Implementation and evidence](docs/HISTORY-ENGINE-IMPLEMENTATION-REPORT.md) · [Master design](docs/HISTORY-ENGINE-IMPLEMENTATION-SPEC.md) · [Physical direction](docs/PHYSICAL-GAME-DIRECTION.md)
+
+The [master design now includes the R4 suit-and-rank candidate](docs/HISTORY-ENGINE-IMPLEMENTATION-SPEC.md#master-design-update--suits-and-ranks-r4-17-september-2026): unique Ace–King Dynasty suits, ranked counterplay, exact-card bargaining and institution-specific succession patterns. See the [complete candidate](docs/SUIT-AND-RANK-DESIGN.md) and [iterative simulated design panel](docs/reviews/SUIT-RANK-DESIGN-SESSION-2026-09-17.md). These rules are not yet implemented in the playable prototype.
 
 ## Run and verify
 

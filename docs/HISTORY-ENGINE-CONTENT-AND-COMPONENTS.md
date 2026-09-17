@@ -1,5 +1,7 @@
 # History engine — normative content and physical inventory
 
+**Next-design overlay, 17 September 2026:** [R4 suit and rank](SUIT-AND-RANK-DESIGN.md) supplies an explicit proposed A–K mapping for these same 52 IDs and the additional physical evidence requirements. Collector slots below remain identifiers, not runtime rank values. R4 is not yet implemented; preserve this baseline and source art until the coordinated content migration.
+
 Companion to [the implementation spec](HISTORY-ENGINE-IMPLEMENTATION-SPEC.md), 16 September 2026. This is proposed implementation data, not a change to the current runtime, archive or source art. Preserve original `src/content.ts` IDs and portrait mapping through `src/character-art.ts`; every retained ID uses its existing mapped portrait as source, never overwrites that source. New derivatives receive ruleset/art revision IDs.
 
 ## The 52-person manifest

@@ -1,5 +1,7 @@
 # History engine v4 — current prototype rules
 
+**Design/runtime distinction (17 September 2026):** the [master design's R4 suit-and-rank candidate](SUIT-AND-RANK-DESIGN.md) proposes the next revision. It is not implemented by these current prototype rules. The R4 rank comparisons, Trade procedure and settlement durations must not be mixed into an existing game.
+
 The complete rules authority is the [R3 specification](HISTORY-ENGINE-IMPLEMENTATION-SPEC.md), [content inventory](HISTORY-ENGINE-CONTENT-AND-COMPONENTS.md), and [delivery contracts](HISTORY-ENGINE-IMPLEMENTATION-CONTRACTS.md). The [v3 rulebook](legacy/RULES-V3.md) is historical; some of its old capacity claims were already superseded before this overhaul.
 
 ## Inheritance
