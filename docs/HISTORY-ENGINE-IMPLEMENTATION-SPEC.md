@@ -1,5 +1,15 @@
 # Overlords & Outlaws — The Weight of the Crown
 
+## Binding Build 5 replacement — 17 September 2026
+
+The latest Build 4 playtest transcript supersedes R4 and the retained historical sections below. [Suit and rank — Build 5 binding core](SUIT-AND-RANK-DESIGN.md) is the single normative rule source for the next implementation. [Production plan](BUILD-5-PRODUCTION-PLAN.md) and [explicit test contract](BUILD-5-TEST-CONTRACT.md) must be written and frozen before implementation, then executed with evidence.
+
+Build 5 is explicitly the **Core succession prototype**: one leader/two initial hand cards, exact card commitments instead of seals, ranked Recall/Defend, native development and succession, exact-card Trade with a lower-native deployment option, and equal/neighbor foreign marriage succession. A full round of keeping the new ruler and named supporter wins. No universal toolbar, readiness, seal budget or unexplained advanced objects remain in this core. Each new round returns face-up Played cards and deals one new card per player; reversible consecutive passing survives. A visible twelve-round prototype cap yields an honest draw and is an empirical pacing gate.
+
+History/Eudoxia and separate institutional Laws remain deferred design material, not compatible implemented features. Reintroducing them requires a new seal-free design and complete plan/tests. The former runtime remains isolated for historical save compatibility and cannot be advertised as the current full game. The old R4/R3 rules, budgets, vocabulary and implementation milestones below are historical context wherever they conflict with this update; they do not silently impose seals, advanced tutorial objects or 1/2/3-round Crown clocks on Build 5.
+
+The [current panel session](reviews/SUIT-RANK-DESIGN-SESSION-2026-09-17.md) records actual agent proposals, objections and selected fixes. Claims of balance, enjoyment, full visual coverage or blind comprehension require executed observations. Main promotion remains separately authorized under RELEASE.md.
+
 ## Master design update — suits and ranks, R4, 17 September 2026
 
 **Current design authority:** the user has clarified that each Dynasty is a thirteen-card suit, **Ace (1) through King (13)**, with individually distinct cards and a Dynasty theme loosely grounded in history. Playing a smaller card to draw out a larger answer, keeping specific ranks concealed, and choosing which person to expose must create consequential tactical choices. The former R3 assumption that same-Dynasty people may be mechanically interchangeable is superseded.

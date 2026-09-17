@@ -1,5 +1,11 @@
 # Guided play and card presentation
 
+## Binding Build 5 replacement — 17 September 2026
+
+The latest user transcript supersedes the earlier tutorial recovery rules below. Use the exact legal fixture and action sequence in [Build 5 suit/rank rules](SUIT-AND-RANK-DESIGN.md). Start with one ruler and two hand cards, no prebuilt Court, seals, History, painting or event. One navy/gold guide teaches prerequisite concepts in order, full printed names, immediate purpose, card cost/destination, preview, legal action and outcome. Only the current taught interaction and Exit tutorial are operable. Do not invite alternative strategy during teaching. Continue changes only the guide cursor; every state change is an ordinary legal reducer action. Rival teaching moves are labeled scripted examples; normal-game AI is separate and has no tutorial immunity.
+
+The independent blind agent receives only the deployed URL and screen-visible information. The older solution-driven harnesses below remain regression evidence for earlier implementations and cannot count as blind learning or ten observed games. Apply [Build 5 production gates](BUILD-5-PRODUCTION-PLAN.md) to every guide state, keyboard/touch path and viewport.
+
 ## Latest playthrough correction — September 16
 
 [Playthrough 03 recovery](PLAYTHROUGH-03-RECOVERY.md) supersedes the interaction and presentation details below. Costs and consequences precede a single commitment click. Teaching uses the normal bottom action dock, with explanations of purpose and tradeoffs. Rival previews have a visible countdown, hover/focus pause and optional immediate advance. Real defensive threats remain marked on the table. Legal alternatives keep the match and position-based guidance; they do not silently turn guidance off. Chapter/decision counts are removed from the player's introduction. The demonstrated sequence still contains fifteen player actions, but that is test evidence, not the player's task list.

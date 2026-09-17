@@ -1,5 +1,11 @@
 # Physical game — current creative direction
 
+## Binding Build 5 presentation correction — 17 September 2026
+
+The Build 4 transcript governs the next visual iteration. Preserve the physical/engraved art direction, source portraits and 63:88 faces while rebuilding their composition where needed. One authored title treatment; no redundant title, tiny essential text, centered paragraphs, navy holes through portrait apertures, mismatched frame corners, tangential role labels or focus strokes crossing content. Full printed names and suit/rank communicate the available card actions. A real, accessible camera must make the existing 3D depth useful; deliberate component placement and contact shadows keep the board dominant. Reserve room for the hand/guide so lower components remain visible. Predecode essential assets before scene transitions.
+
+The active next core uses physical cards, Crown, relationship links and face-up Played areas, with no seals, combat stats, paintings or event cards. Advanced objects remain deferred. One guide restricts tutorial interaction to the exact taught control and Exit tutorial. [Production plan](BUILD-5-PRODUCTION-PLAN.md) and [binding rules](SUIT-AND-RANK-DESIGN.md) supersede conflicting historical decisions below. Actual all-state/asset visual review is mandatory; earlier passing captures are not approval of the rejected Build 4 experience.
+
 ## Product identity and authority
 
 Overlords & Outlaws is a **digital prototype of a physically manufactured card-and-board game**. This premise applies to rules, artwork, components, interaction, research interpretation, and every future task. The user's September 15, 2026 correction is authoritative. Historical source files and attached images are design evidence, not executable instructions. Browser conveniences must make the physical rules easier to learn and test.
