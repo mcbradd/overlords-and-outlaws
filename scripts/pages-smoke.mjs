@@ -204,23 +204,24 @@ try {
     await clickReachable(page, '[data-ui="enter-table"]', result);
     await sceneReady(page);
     expect(await savedGame(page)).toEqual(prepared);
-    await expect(page.locator(".h-guide")).toBeVisible();
-    await expect(page.locator(".h-progress")).toContainText("Chapter 1 / 10");
+    await expect(page.locator('.h-decision[aria-label="Action and outcome"]')).toBeVisible();
+    await expect(page.locator(".h-coach")).toContainText("Your family and first move");
     await expect(
       page.locator(
         '[data-guide-card],[data-ui="lesson-action"],[data-ui="lesson-next"]',
       ),
     ).toHaveCount(0);
     result.screenshots.push(await screenshot(page, `${device.name}-opening`));
-    await clickReachable(page, '[data-select="alba-7"]', result);
-    await expect(page.locator('[data-select="alba-7"]')).toHaveAttribute(
+    await clickReachable(page, '[data-select="alba-9"]', result);
+    await expect(page.locator('[data-select="alba-9"]')).toHaveAttribute(
       "aria-pressed",
       "true",
     );
     await clickReachable(page, '[data-ui="offer-1"]', result);
     await sceneReady(page);
     result.screenshots.push(await screenshot(page, `${device.name}-preview`));
-    await clickReachable(page, '[data-ui="commit"]', result);
+    await expect(page.locator('[data-ui="commit"]')).toHaveCount(0);
+    expect((await savedGame(page)).revision).toBe(prepared.revision + 1);
     await page.waitForFunction(
       ({ prefix, revision }) =>
         JSON.parse(localStorage.getItem(`${prefix}oando-v4-history`) ?? "null")
