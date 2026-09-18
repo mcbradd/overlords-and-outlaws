@@ -1,6 +1,7 @@
 import { chromium, expect } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
-import { createGame, viewForSeat } from "../src/core-game/engine";
+import { viewForSeat } from '../src/core-game/engine';
+import { createGame } from '../tests/core-established-fixture';
 import assert from "node:assert/strict";
 const output = process.env.DEPTH_OUTPUT ?? "artifacts/core/depth-after";
 mkdirSync(output, { recursive: true });

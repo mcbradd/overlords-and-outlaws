@@ -55,7 +55,7 @@ test("U28/U30 current save restores exact state and preserves historical keys", 
   assert.equal(values.get("prod:oando-v4-history"), "untouched-v4");
   assert.equal(values.get("prod:oando-v3"), "untouched-v3");
   assert.equal(values.get("prod:oando-v5-core"), "untouched-v5");
-  assert.equal(saveKey("prod:"), "prod:oando-v5-played-trades");
+  assert.equal(saveKey("prod:"), "prod:oando-v9-inheritance");
 });
 test("R01 tutorial saves accept every reached boundary and reject mismatched progress", () => {
   let game = createTutorial();

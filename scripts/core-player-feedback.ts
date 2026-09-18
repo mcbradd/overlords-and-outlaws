@@ -3,11 +3,11 @@ import { chromium, expect } from "@playwright/test";
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
 import {
-  createGame,
   applyAction,
   assertInvariants,
   type CoreState,
-} from "../src/core-game/engine";
+} from '../src/core-game/engine';
+import { createGame } from '../tests/core-established-fixture';
 import { CARDS, BY_ID } from "../src/core-game/content";
 import { encodeSave } from "../src/core-game/storage";
 import { clickReachable } from "./core-browser";
@@ -87,7 +87,7 @@ try {
     await clickReachable(page.locator('[data-do="close"]'));
     await playCard(page, "alba-6", "defend", undefined, viewport.width > 600);
     await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
-    await clickReachable(page.locator('[data-do="unlock"]'));
+    if(await page.locator('[data-do="unlock"]').count()) await clickReachable(page.locator('[data-do="unlock"]'));
     await expect(invalid).toBeEnabled();
     assert.equal(
       await invalid.evaluate((e) => Number(getComputedStyle(e).opacity)),
@@ -145,7 +145,7 @@ try {
     const stored = await page.evaluate(
       () =>
         Object.entries(localStorage).find(([k]) =>
-          k.endsWith("oando-v5-played-trades"),
+          k.endsWith("oando-v9-inheritance"),
         )?.[1],
     );
     const result = JSON.parse(stored!);
@@ -199,13 +199,13 @@ try {
       page.locator('[data-do="generic"]').filter({ hasText: "Accept trade" }),
     );
     await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
-    await clickReachable(page.locator('[data-do="unlock"]'));
+    if(await page.locator('[data-do="unlock"]').count()) await clickReachable(page.locator('[data-do="unlock"]'));
     await capture("trade-complete");
     const exchanged = await page.evaluate(
       () =>
         JSON.parse(
           Object.entries(localStorage).find(([k]) =>
-            k.endsWith("oando-v5-played-trades"),
+            k.endsWith("oando-v9-inheritance"),
           )![1],
         ).game,
     );

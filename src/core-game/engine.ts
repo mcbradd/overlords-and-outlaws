@@ -4,8 +4,8 @@ export type { CoreAction, CoreState, CoreView } from './types';
 
 const clone = <T>(value: T): T => structuredClone(value);
 const name = (id: string) => BY_ID[id].name;
-const seatName = (s: CoreState, seat: number) => s.dynasties[seat];
-const native = (id: string, dynasty: Dynasty) => BY_ID[id]?.dynasty === dynasty;
+const seatName = (s: CoreState, seat: number) => `Player ${seat + 1}`;
+const native = (id: string, dynasty: Dynasty | null) => BY_ID[id]?.dynasty === dynasty;
 const reject = (): never => { throw new Error('That action is unavailable or has changed. Choose again.'); };
 
 function seedValue(seed: string | number): number {
@@ -17,7 +17,7 @@ export function createGame(options: { seed: string | number; dynasties: readonly
   const dynasties = [...options.dynasties];
   if (dynasties.length < 2 || dynasties.length > 4 || new Set(dynasties).size !== dynasties.length ||
       dynasties.some(dynasty => !DYNASTIES.includes(dynasty))) throw new Error('Choose two to four distinct Dynasties.');
-  const deck = CARDS.filter(card => dynasties.includes(card.dynasty) && !card.founder).map(card => card.id);
+  const deck = CARDS.filter(card => dynasties.includes(card.dynasty)).map(card => card.id);
   let random = seedValue(options.seed);
   for (let i = deck.length - 1; i > 0; i--) {
     random = (Math.imul(random, 1664525) + 1013904223) >>> 0;
@@ -25,27 +25,25 @@ export function createGame(options: { seed: string | number; dynasties: readonly
     [deck[i], deck[j]] = [deck[j], deck[i]];
   }
   const s: CoreState = {
-    schema: 5, revision: 0, round: 1, first: 0, active: 0, phase: 'action', dynasties,
+    schema: 5, revision: 0, round: 1, first: 0, active: 0, phase: 'draft', dynasties, setup: { pass: 3, picks: {}, repairPile: [], repairCard: null },
     players: dynasties.map((dynasty, seat) => ({
-      seat, dynasty, hand: [], court: [`${dynasty}-0`], played: [], ruler: `${dynasty}-0`,
+      seat, dynasty: null, hand: [], court: [], played: [], ruler: null,
     })),
     deck, crown: null, marriages: [], passes: [], attempts: {}, offers: {}, pending: null,
-    result: null, events: ['Round 1 begins. Each family has a ruler and two private cards.'], knownHands: {},
+    result: null, events: ['Round 1 begins. Eight cards each. Pass three, two, then one clockwise before declaring a Dynasty.'], knownHands: {},
   };
-  for (let deal = 0; deal < 2; deal++) for (const player of s.players) player.hand.push(s.deck.shift()!);
+  for (let deal = 0; deal < 8; deal++) for (const player of s.players) player.hand.push(s.deck.shift()!);
   assertInvariants(s);
   return s;
 }
 
 export function createTutorial(): CoreState {
   const s = createGame({ seed: 'build-5-tutorial', dynasties: ['alba', 'plantagenet'] });
-  s.players[0].hand = ['alba-2', 'alba-4'];
-  s.players[1].hand = ['alba-3', 'plantagenet-2'];
-  const opening = s.players.flatMap(player => [...player.hand, ...player.court]);
-  const firstDraws = ['plantagenet-3', 'alba-5', 'alba-6', 'plantagenet-4'];
-  s.deck = [...firstDraws, ...CARDS.filter(card => s.dynasties.includes(card.dynasty) &&
-    !opening.includes(card.id) && !firstDraws.includes(card.id)).map(card => card.id)];
-  s.events = ['Prepared teaching deal. Each move follows the ordinary core rules.'];
+  s.players[0].hand = ['alba-0','alba-2','alba-4','alba-5','alba-6','plantagenet-6','plantagenet-7','plantagenet-8'];
+  s.players[1].hand = ['plantagenet-0','plantagenet-2','plantagenet-3','plantagenet-4','plantagenet-5','alba-3','alba-7','alba-8'];
+  const used=s.players.flatMap(p=>p.hand);
+  s.deck=CARDS.filter(c=>s.dynasties.includes(c.dynasty)&&!used.includes(c.id)).map(c=>c.id);
+  s.events=['Prepared eight-card teaching deal. No player has declared a Dynasty.'];
   assertInvariants(s);
   return s;
 }
@@ -61,6 +59,7 @@ export function viewForSeat(state: CoreState, seat: number): CoreView {
   // An explicit allowlist prevents future private state fields entering the view.
   return clone({ schema: state.schema, revision: state.revision, round: state.round,
     first: state.first, active: state.active, phase: state.phase, dynasties: state.dynasties,
+    setup: state.setup ? { ...state.setup, picks: { [seat]: state.setup.picks[seat] ?? [] } } : null,
     crown: state.crown, marriages: state.marriages, passes: state.passes,
     attempts: state.attempts, offers: state.offers, pending: state.pending,
     result: state.result, events: state.events, knownHands: state.knownHands,
@@ -85,6 +84,17 @@ export function legalActions(view: CoreView, seat: number): CoreAction[] {
   const player = view.players[seat];
   if (!player || view.viewer !== seat || !player.hand || view.phase === 'terminal') return [];
   const actions: CoreAction[] = [];
+  if (view.setup) {
+    if (seat !== view.active) return [];
+    const picks = view.setup.picks[seat] ?? [];
+    const available = player.hand.filter(id => !picks.includes(id));
+    const type = view.phase === 'draft' ? 'draft-pick' : view.phase === 'repair' ? 'repair' : 'declare-pick';
+    return available.filter(id => type === 'draft-pick' || (type === 'repair'
+      ? BY_ID[id].dynasty !== BY_ID[view.setup!.repairCard!].dynasty
+      : player.hand!.filter(other => BY_ID[other].dynasty === BY_ID[id].dynasty).length >= 3 &&
+        (!picks.length || BY_ID[id].dynasty === BY_ID[picks[0]].dynasty)))
+      .map(card => ({ type, card, seat, revision: view.revision }));
+  }
   const add = (action: Omit<CoreAction, 'seat' | 'revision'>) => actions.push({ ...action, seat, revision: view.revision });
   if (view.pending) {
     if (view.pending.other !== seat) return [];
@@ -96,6 +106,7 @@ export function legalActions(view: CoreView, seat: number): CoreAction[] {
   }
   if (view.phase !== 'action' || view.active !== seat) return [];
   add({ type: 'pass' });
+  for(const card of player.court) add({ type: 'withdraw', card });
   for (const id of player.hand) {
     const card = BY_ID[id];
     if (native(id, player.dynasty)) {
@@ -210,6 +221,57 @@ function pass(s: CoreState, seat: number): void {
   if (s.passes.length === s.players.length) boundary(s);
 }
 
+/** Private packets stay in hand until every player finishes that pass. */
+function setupPick(s: CoreState, action: CoreAction): void {
+  const setup = s.setup!, player = s.players[action.seat];
+  if (action.type === 'repair') {
+    removeFromHand(s, action.seat, action.card!);
+    setup.repairPile.push(action.card!);
+    s.events.push(`${seatName(s, action.seat)} sets aside ${name(action.card!)} after publicly drawing ${name(setup.repairCard!)}.`);
+    setup.repairCard = null;
+    s.phase = 'declare';
+    return;
+  }
+  const picks = setup.picks[action.seat] ??= [];
+  picks.push(action.card!);
+  const needed = s.phase === 'draft' ? setup.pass : 3;
+  if (picks.length < needed) return;
+  s.active++;
+  if (s.active < s.players.length) { prepareDeclaration(s); return; }
+  s.active = 0;
+  if (s.phase === 'draft') {
+    for (const p of s.players) for (const id of setup.picks[p.seat]) removeFromHand(s,p.seat,id);
+    for (const p of s.players) s.players[(p.seat+1)%s.players.length].hand.push(...setup.picks[p.seat]);
+    s.events.push(`Everyone passes ${setup.pass} cards clockwise at the same time.`);
+    setup.pass--; setup.picks = {};
+    if (!setup.pass) { s.phase = 'declare'; prepareDeclaration(s); }
+  } else {
+    for (const p of s.players) {
+      const declared=setup.picks[p.seat];
+      p.dynasty=BY_ID[declared[0]].dynasty;
+      for(const id of declared) removeFromHand(s,p.seat,id);
+      p.court=declared; p.ruler=declared[0];
+      s.events.push(`${seatName(s,p.seat)} declares ${p.dynasty} with ${declared.map(name).join(', ')}; ${name(p.ruler)} is ruler.`);
+    }
+    if(setup.repairPile.length) {
+      s.deck.push(...setup.repairPile);
+      let random=seedValue(s.deck.join(',')+s.revision);
+      for(let i=s.deck.length-1;i>0;i--) {random=(Math.imul(random,1664525)+1013904223)>>>0;const j=random%(i+1);[s.deck[i],s.deck[j]]=[s.deck[j],s.deck[i]];}
+    }
+    s.setup=null; s.phase='action'; s.active=s.first;
+    s.events.push('All Courts are revealed. Round 1 begins with five cards in each hand.');
+  }
+}
+function prepareDeclaration(s: CoreState): void {
+  if(s.phase !== 'declare') return;
+  const p=s.players[s.active];
+  if(p.hand.some(id=>p.hand.filter(other=>BY_ID[other].dynasty===BY_ID[id].dynasty).length>=3)) return;
+  const drawn=s.deck.shift()!;
+  p.hand.push(drawn); s.setup!.repairCard=drawn; s.phase='repair';
+  p.hand.forEach(id=>revealHand(s,p.seat,id));
+  s.events.push(`${seatName(s,p.seat)} has no matching trio. Reveal that hand, draw ${name(drawn)}, then set aside a different-Dynasty card.`);
+}
+
 /** Atomic reducer: invalid actions throw before any input or observation changes. */
 export function applyAction(state: CoreState, action: CoreAction): CoreState {
   if (!action || action.revision !== state.revision || !Number.isInteger(action.seat) ||
@@ -217,6 +279,13 @@ export function applyAction(state: CoreState, action: CoreAction): CoreState {
   const s = clone(state), player = s.players[action.seat];
   const id = action.card;
   switch (action.type) {
+    case 'draft-pick': case 'declare-pick': case 'repair':
+      setupPick(s, action); break;
+    case 'withdraw':
+      player.court.splice(player.court.indexOf(id!),1);
+      player.hand.push(id!); revealHand(s,action.seat,id!);
+      s.events.push(`${seatName(s,action.seat)} returns ${name(id!)} from Court to hand, spending their turn.`);
+      settle(s); s.passes=[]; nextTurn(s,action.seat); break;
     case 'pass':
       s.events.push(`${seatName(s, action.seat)} passes.`);
       pass(s, action.seat);
@@ -307,9 +376,9 @@ export function assertInvariants(s: CoreState): void {
   require(Array.isArray(s.marriages) && Array.isArray(s.passes) && record(s.attempts) && record(s.offers) && record(s.knownHands), 'procedure evidence');
   require(Object.keys(s.knownHands).every(key => String(Number(key)) === key && seat(Number(key))), 'known hand seats');
   require(Array.isArray(s.events) && s.events.every(event => typeof event === 'string'), 'events');
-  const ids: string[] = [...s.deck];
+  const ids: string[] = [...s.deck, ...(s.setup?.repairPile ?? [])];
   for (const [index, player] of s.players.entries()) {
-    require(player && player.seat === index && player.dynasty === s.dynasties[index], 'player identity');
+    require(player && player.seat === index && (player.dynasty === null ? !!s.setup : s.dynasties.includes(player.dynasty)), 'player identity');
     require(Array.isArray(player.hand) && Array.isArray(player.court) && Array.isArray(player.played), 'card zones');
     ids.push(...player.hand, ...player.court, ...player.played);
     require(player.ruler === null || typeof player.ruler === 'string' && player.court.includes(player.ruler), 'ruler location');
@@ -318,6 +387,24 @@ export function assertInvariants(s: CoreState): void {
   }
   require(ids.length === count * 13 && new Set(ids).size === ids.length &&
     ids.every(id => BY_ID[id] && s.dynasties.includes(BY_ID[id].dynasty)), 'card conservation');
+  require(s.setup === null || record(s.setup), 'setup');
+  if(s.setup) {
+    require(['draft','declare','repair'].includes(s.phase) && !s.pending && !s.crown && !s.marriages.length && !s.passes.length, 'setup phase');
+    require(Array.isArray(s.setup.repairPile), 'repair packet');
+    require(Number.isInteger(s.setup.pass) && s.setup.pass>=0 && s.setup.pass<=3 && record(s.setup.picks), 'draft pass');
+    require(s.players.every(p=>p.dynasty===null && !p.court.length && !p.played.length && p.ruler===null), 'undeclared Courts');
+    const needed=s.phase==='draft'?s.setup.pass:3;
+    require(s.phase==='draft' ? needed>0 && s.setup.repairCard===null : s.setup.pass===0, 'setup stage');
+    for(const [key,picks] of Object.entries(s.setup.picks)) {
+      const owner=Number(key);
+      require(seat(owner) && Array.isArray(picks) && new Set(picks).size===picks.length && picks.every(id=>s.players[owner].hand.includes(id)), 'private picks');
+      require(owner<s.active ? picks.length===needed : owner===s.active ? picks.length<needed : !picks.length, 'packet order');
+      if(s.phase!=='draft') require(picks.every(id=>BY_ID[id].dynasty===BY_ID[picks[0]].dynasty), 'matching declaration');
+    }
+    for(let seat=0;seat<s.active;seat++) require(s.setup.picks[seat]?.length===needed, 'completed packets');
+    for(const p of s.players) require(p.hand.length===(s.phase==='repair'&&p.seat===s.active?9:8), 'setup hand size');
+    require(s.phase==='repair' ? !!s.setup.repairCard && s.players[s.active].hand.includes(s.setup.repairCard) : s.setup.repairCard===null, 'repair draw');
+  } else require(!['draft','declare','repair'].includes(s.phase), 'missing setup');
   const paired = new Set<string>();
   for (const link of s.marriages) {
     require(link && seat(link.seat), 'marriage seat');
@@ -342,7 +429,7 @@ export function assertInvariants(s: CoreState): void {
     require(c.stage === 'notice' ? c.reignRound === null && player.ruler === c.oldRuler && supported(s, c.seat, c.oldRuler) :
       c.reignRound === s.round && player.ruler === c.heir, 'Crown timing');
   }
-  require(['action', 'recall', 'trade', 'terminal'].includes(s.phase), 'phase');
+  require(['draft', 'declare', 'repair', 'action', 'recall', 'trade', 'terminal'].includes(s.phase), 'phase');
   require(s.passes.length < count && new Set(s.passes).size === s.passes.length && s.passes.every(seat), 'pass sequence');
   for (const [owner, targets] of Object.entries(s.attempts)) require(seat(Number(owner)) && Array.isArray(targets) &&
     new Set(targets).size === targets.length && targets.every(id => !!BY_ID[id]), 'Recall marks');
@@ -359,7 +446,7 @@ export function assertInvariants(s: CoreState): void {
       s.players[pending.other].played.includes(pending.request) &&
       s.offers[pending.seat]?.includes(pending.other) && (!pending.recruit ||
       native(pending.request, s.players[pending.seat].dynasty) && BY_ID[pending.request].rank < BY_ID[pending.card].rank), 'Trade evidence');
-  } else require(s.phase === 'action' || s.phase === 'terminal', 'missing response');
+  } else require(!!s.setup || s.phase === 'action' || s.phase === 'terminal', 'missing response');
   require(s.phase === 'terminal' ? !!s.result && (s.result.winner === null || seat(s.result.winner)) &&
     typeof s.result.reason === 'string' && !s.pending : s.result === null, 'terminal result');
 }

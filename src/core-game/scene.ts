@@ -19,7 +19,7 @@ export interface CoreTableView {
   first?: number;
   players: {
     name?: string;
-    dynasty: string;
+    dynasty: string | null;
     court: string[];
     played: string[];
     ruler: string | null;
@@ -539,7 +539,7 @@ export class CoreTable {
             `<p class="core-fallback-link">Marriage: ${escapeHTML(BY_ID[pair.queen].name)} ↔ ${escapeHTML(BY_ID[pair.spouse].name)}</p>`,
         )
         .join("");
-      this.host.innerHTML = `<div class="core-fallback-scroll" tabindex="${this.cameraEnabled ? 0 : -1}" aria-label="Public Courts. Scroll for every card."><p class="core-fallback-note">Accessible table · ${view.deckCount ?? 0} cards in the draw pile. Scroll for all Courts and Played cards.</p>${pairs}${view.players.map((p, seat) => `<section class="core-fallback-court" data-fallback-seat="${seat}"><h3>${escapeHTML(p.name ?? p.dynasty)}${seat === view.active ? " · To act" : ""}</h3><div class="core-fallback-cards">${p.court.map((id) => cardButton(id, p.ruler)).join("")}</div><p>Played · returns to ${escapeHTML(p.name ?? p.dynasty)} next round</p><div class="core-fallback-cards">${p.played.map((id) => cardButton(id, null)).join("") || "<span>None</span>"}</div></section>`).join("")}</div>`;
+      this.host.innerHTML = `<div class="core-fallback-scroll" tabindex="${this.cameraEnabled ? 0 : -1}" aria-label="Public Courts. Scroll for every card."><p class="core-fallback-note">Accessible table · ${view.deckCount ?? 0} cards in the draw pile. Scroll for all Courts and Played cards.</p>${pairs}${view.players.map((p, seat) => `<section class="core-fallback-court" data-fallback-seat="${seat}"><h3>${escapeHTML(p.name ?? `Player ${seat + 1}`)}${seat === view.active ? " · To act" : ""}</h3><div class="core-fallback-cards">${p.court.map((id) => cardButton(id, p.ruler)).join("")}</div><p>Played · returns to ${escapeHTML(p.name ?? `Player ${seat + 1}`)} next round</p><div class="core-fallback-cards">${p.played.map((id) => cardButton(id, null)).join("") || "<span>None</span>"}</div></section>`).join("")}</div>`;
       this.host
         .querySelectorAll<HTMLButtonElement>("[data-table-card]")
         .forEach((button) =>
@@ -626,7 +626,7 @@ export class CoreTable {
         ((Math.min(courtColumns, Math.max(1, p.court.length)) - 1) * 176) / 2;
       this.seats.push(new THREE.Vector3(courtCenter, cy + seatH / 2 - 159, 0));
       const seatLabel = this.label(
-        `${p.name ?? p.dynasty[0].toUpperCase() + p.dynasty.slice(1)}`,
+        `${p.name ?? `Player ${seat + 1}`}`,
         courtCenter,
         cy + seatH / 2 - 15,
         9,
@@ -719,7 +719,7 @@ export class CoreTable {
           attempt.element.title = "Recall already attempted this round";
         });
       }
-      if (!p.court.length)
+      if (!p.court.length && p.dynasty !== null)
         this.label("No ruler · recruit to recover", cx - 40, cy, 8);
       // Exact public Played cards remain inspectable in an offset pile.
       const px = cx + seatW / 2 - 75,

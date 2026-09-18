@@ -1280,3 +1280,17 @@ a {
 .c-game.c-tabletop .c-hand {
   bottom: 20px;
 }
+
+.c-court-actions { position: fixed; z-index: 100; padding: 4px; background: #101e29; border: 1px solid #c5a76a; border-radius: 5px; box-shadow: 0 5px 18px #0009; }
+.c-court-actions button { min-height: 36px; }
+.c-locked-pick { filter: brightness(.5); }
+.c-locked-pick::after { content: 'Selected'; position: absolute; bottom: 20px; left: 10px; right: 10px; background: #101e29; color: #efd49b; text-align: center; pointer-events:none; }
+
+.c-game.c-tabletop .c-held-card:focus-within { z-index: 125; }
+.c-game.c-tabletop .c-held-card.c-locked-pick { pointer-events: none; z-index: calc(10 + var(--card-index)); }
+
+.c-game.c-tabletop .c-held-card.next-interaction { z-index: 120; }
+
+.c-pool { border: 1px solid #b69a62; margin: 12px 0; padding: 10px; }
+.c-pool label { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
+.c-pool input { width: 20px; min-height: 20px; }

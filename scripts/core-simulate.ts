@@ -1,5 +1,6 @@
 /** Supporting engine/policy evidence, never a substitute for screen-observed play. */
-import { createGame, applyAction, viewForSeat, assertInvariants } from '../src/core-game/engine';
+import { applyAction, viewForSeat, assertInvariants } from '../src/core-game/engine';
+import { createGame } from '../src/core-game/engine';
 import { chooseAction, type CorePolicy } from '../src/core-game/ai';
 import { DYNASTIES } from '../src/core-game/content';
 import type { Dynasty } from '../src/core-game/types';

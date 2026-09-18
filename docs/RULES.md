@@ -1,3 +1,5 @@
+> **Player correction, 17 September 2026 (Build 9):** Restore eight-card inheritance: pass 3, 2, then 1 clockwise, then declare a Dynasty by placing three matching Nobles. The first selected Noble is the chosen ruler; five cards remain private. Deck suits belong to the shared pool, never to seats. Duplicate declarations are allowed. A Court Noble may also return to hand as the player's turn action, resolving any broken marriage, office or Crown dependency. See [implementation and test evidence](reviews/INHERITANCE-AND-RETURN-2026-09-17.md).
+
 > **Current correction, 17 September 2026:** Use the succession core with marriage-only foreign Court entry and Trade targets restricted to rival Played piles. The unrestricted Add/no-marriage replacement was rejected. See [current scope](reviews/BUILD-5-PLAYER-FOLLOWUP-2026-09-17.md); the historical rules below remain reference evidence.
 
 # Current rules and historical archive

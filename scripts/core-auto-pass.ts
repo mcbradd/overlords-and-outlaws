@@ -1,7 +1,8 @@
 import { chromium, expect, type Page } from "@playwright/test";
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
-import { createGame, applyAction } from "../src/core-game/engine";
+import { applyAction } from '../src/core-game/engine';
+import { createGame } from '../tests/core-established-fixture';
 import { CARDS } from "../src/core-game/content";
 import { encodeSave } from "../src/core-game/storage";
 
@@ -11,6 +12,7 @@ mkdirSync(output, { recursive: true });
 const s = createGame({ seed: 501, dynasties: ["alba", "plantagenet"] });
 s.players[0].played.push(...s.players[0].hand);
 s.players[0].hand = [];
+s.players[0].played.push(...s.players[0].court); s.players[0].court=[]; s.players[0].ruler=null;
 async function load(page: Page, game = s, motion = true) {
   await page.goto(base);
   await page.locator('[data-do="setup"]').click();
@@ -35,7 +37,7 @@ const revision = (page: Page) =>
     () =>
       JSON.parse(
         Object.entries(localStorage).find(([k]) =>
-          k.endsWith("oando-v5-played-trades"),
+          k.endsWith("oando-v9-inheritance"),
         )![1],
       ).game.revision,
   );
@@ -119,6 +121,12 @@ try {
       1,
       "empty recipient retains trade decision",
     );
+    const withCourt=structuredClone(s);
+    withCourt.players[0].played=withCourt.players[0].played.filter(id=>id!=='alba-0');
+    withCourt.players[0].court=['alba-0'];withCourt.players[0].ruler='alba-0';
+    await load(page,withCourt);
+    await expect(page.locator('.c-auto-pass')).toHaveCount(0);
+    await page.waitForTimeout(2200);assert.equal(await revision(page),0,'Court withdrawal prevents forced pass');
     await page.close();
   }
   console.log(

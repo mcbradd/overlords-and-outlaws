@@ -2,7 +2,8 @@ import { chromium, expect, type Page } from "@playwright/test";
 import assert from "node:assert/strict";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
-import { createGame, assertInvariants } from "../src/core-game/engine";
+import { assertInvariants } from '../src/core-game/engine';
+import { createGame } from '../tests/core-established-fixture';
 import { CARDS, DYNASTIES } from "../src/core-game/content";
 import { encodeSave } from "../src/core-game/storage";
 import { playCard } from "./core-tabletop";
@@ -73,7 +74,7 @@ try {
                 game: state,
                 mode: "local",
                 names: state.players.map((p) =>
-                  p.seat === 0 ? "You" : p.dynasty,
+                  p.seat === 0 ? "You" : `Player ${p.seat + 1}`,
                 ),
                 lesson: null,
                 motion: false,

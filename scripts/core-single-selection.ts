@@ -8,36 +8,24 @@ try {
   await page.locator('[data-do="intro"]').click();
   await page.locator('[data-do="teach"]').click();
   await expect(
-    page.locator('[data-do="select"][data-card="alba-2"]'),
+    page.locator('[data-do="select"][data-card="plantagenet-6"]'),
   ).toBeEnabled();
   const revision = () =>
     page.evaluate(
       () =>
         JSON.parse(
           Object.entries(localStorage).find(([key]) =>
-            key.endsWith("oando-v5-played-trades"),
+            key.endsWith("oando-v9-inheritance"),
           )![1],
         ).game.revision,
     );
   assert.equal(await revision(), 0);
-  await page.locator('[data-do="select"][data-card="alba-2"]').click();
-  assert.equal(await revision(), 0, "choosing a card does not guess an action");
-  await page.locator('[data-do="arm"][data-type="recruit"]').click();
-  assert.equal(await revision(),0,'choosing the interaction awaits its destination');
-  await page.locator('.valid-drop[data-table-card]').first().click();
-  assert.equal(
-    await revision(),
-    1,
-    "choosing a valid destination commits immediately, exactly once",
-  );
-  await expect(
-    page.locator('[data-do="commit"],[data-do="cancel"]'),
-  ).toHaveCount(0);
-  await expect(page.locator('[data-do="continue"]')).toBeVisible();
-  await page.locator('[data-do="continue"]').click();
-  assert.equal(await revision(), 1, "Continue changes only the lesson cursor");
+  await page.locator('[data-do="select"][data-card="plantagenet-6"]').click();
+  assert.equal(await revision(), 1, 'draft choice commits exactly once');
+  await expect(page.locator('[data-do="commit"],[data-do="cancel"],[data-do="continue"]')).toHaveCount(0);
+  await expect(page.locator('.c-locked-pick')).toHaveCount(1);
   console.log(
-    "Single selection passed: immediate commit, no confirmation, cursor-only Continue.",
+    "Draft selection passed: immediate commit, no confirmation or Continue.",
   );
 } finally {
   await browser.close();

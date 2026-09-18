@@ -2,12 +2,12 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { CARDS } from "../src/core-game/content";
 import {
-  createGame,
   legalActions,
   viewForSeat,
   applyAction,
   assertInvariants,
-} from "../src/core-game/engine";
+} from '../src/core-game/engine';
+import { createGame } from '../tests/core-established-fixture';
 
 function table() {
   const s = createGame({ seed: 501, dynasties: ["alba", "plantagenet"] });

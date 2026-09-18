@@ -5,7 +5,8 @@ import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { dirname } from 'node:path';
-import { createGame, applyAction } from '../src/core-game/engine';
+import { applyAction } from '../src/core-game/engine';
+import { createGame } from '../tests/core-established-fixture';
 import { encodeSave } from '../src/core-game/storage';
 
 const base = process.env.BASE_URL ?? 'http://localhost:5173/';
@@ -32,11 +33,11 @@ async function teach(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'Learn at the table', exact: true }).click();
   await page.getByRole('button', { name: 'Take your seat', exact: true }).click();
   await expect(page.locator('#core-table')).toBeVisible({ timeout: 30000 });
-  await expect(page.locator('[data-do="select"][data-card="alba-2"]')).toBeEnabled({ timeout: 30000 });
+  await expect(page.locator('[data-do="select"][data-card="plantagenet-6"]')).toBeEnabled({ timeout: 30000 });
 }
 async function savedProgress(page: Page) {
   return page.evaluate(() => {
-    const key = Object.keys(localStorage).find(item => item.endsWith('oando-v5-played-trades'));
+    const key = Object.keys(localStorage).find(item => item.endsWith('oando-v9-inheritance'));
     if (!key) throw new Error('Expected generated test save');
     const save = JSON.parse(localStorage.getItem(key)!);
     return { revision: save.game.revision as number, phase: save.game.phase as string,
@@ -93,9 +94,8 @@ for (const fromExistingGame of [false, true]) {
 await run('APP-03 rival teaching has a reader-controlled legal action', async page => {
   await page.goto(base);
   await teach(page);
-  await playCard(page,'alba-2','recruit',undefined,false);
+  for(const card of ['plantagenet-6','plantagenet-7','plantagenet-8']) await playCard(page,card,'draft-pick',undefined,false);
   await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
-  await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Watch the rival move', exact: true })).toBeVisible();
   const before = await savedProgress(page);
   const explanation = await page.locator('.c-game .c-guide').innerText();
@@ -103,20 +103,15 @@ await run('APP-03 rival teaching has a reader-controlled legal action', async pa
   assert.deepEqual(await savedProgress(page), before, 'No timed rival action');
   assert.equal(await page.locator('.c-game .c-guide').innerText(), explanation, 'Explanation persists for the reader');
   await page.getByRole('button', { name: 'Watch the rival move', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Continue', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Continue', exact: true })).toHaveCount(0);
   const after = await savedProgress(page);
   assert.equal(after.revision, before.revision + 1);
-  assert.equal(after.phase, 'recall');
-  assert.equal(after.cursor, before.cursor);
-  assert.equal(after.done, true);
+  assert.equal(after.phase, 'draft');
+  assert.equal(after.cursor, before.cursor + 1);
+  assert.equal(after.done, false);
   await page.waitForTimeout(4500);
   assert.deepEqual(await savedProgress(page), after, 'No duplicate timer after watched action');
-  await page.getByRole('button', { name: 'Continue', exact: true }).click();
-  const continued = await savedProgress(page);
-  assert.equal(continued.revision, after.revision, 'Continue changes no board state');
-  assert.equal(continued.cursor, after.cursor + 1);
-  await expect(page.locator('.c-game .c-guide')).toContainText('William the Lion');
-  return { stableReadingMilliseconds: 4500, exactlyOneWatchedAction: true, continueCursorOnly: true, fullDefenderName: true };
+  return { stableReadingMilliseconds: 4500, exactlyOneWatchedAction: true, noConfirmation: true };
 });
 
 await browser.close();

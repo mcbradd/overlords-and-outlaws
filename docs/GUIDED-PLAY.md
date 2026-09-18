@@ -1,3 +1,5 @@
+> **Build 9 inheritance restoration:** Teach the ordinary eight-card 3–2–1 draft before declaration and succession. No preassigned Dynasty or ruler. Each setup card selection commits immediately and advances the guide without Continue. Continue between later completed teaching actions changes only the cursor. The first Noble in a matching declaration is the chosen ruler.
+
 > **Player correction, 17 September 2026:** The bottom hand/guide dashboard is superseded. Use the full-width hand fan and compact top teaching guide. Hover opens card actions; select an interaction then drag to a highlighted legal destination, or choose that destination by touch/keyboard. No confirmation. Camera pan and ordinary wheel zoom remain available during teaching.
 
 > **Single-selection instruction, 17 September 2026:** A complete action or target selection commits immediately. Never add a second confirmation. Card selection may expose alternative actions; Continue remains cursor-only. This overrides older confirmation/preview-commit requirements below. See [regression contract](reviews/SINGLE-SELECTION-2026-09-17.md).

@@ -8,7 +8,8 @@ import { pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
 import { TEACHING } from '../src/core-game/tutorial';
 import { CARDS, BY_ID } from '../src/core-game/content';
-import { createGame, applyAction, assertInvariants, type CoreState } from '../src/core-game/engine';
+import { applyAction, assertInvariants, type CoreState } from '../src/core-game/engine';
+import { createGame } from '../tests/core-established-fixture';
 import { encodeSave } from '../src/core-game/storage';
 
 // Instrumented regression: authored lesson expectations and imported fixtures.
@@ -28,7 +29,7 @@ const id = (dynasty:string,rank:number) => CARDS.find(card=>card.dynasty===dynas
 const a = (rank:number)=>id('alba',rank), p=(rank:number)=>id('plantagenet',rank);
 function baseFixture(count=2):CoreState {
   const state=createGame({seed:501,dynasties:dynastyList.slice(0,count)});
-  for(const player of state.players){player.hand=[];player.played=[];player.court=[id(player.dynasty,1)];player.ruler=player.court[0];}
+  for(const player of state.players){player.hand=[];player.played=[];player.court=[id(player.dynasty!,1)];player.ruler=player.court[0];}
   return conserve(state);
 }
 function conserve(state:CoreState):CoreState {
@@ -118,7 +119,7 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
     assert.deepEqual(unwanted,[],'tutorial exposes only taught interaction/Exit');
   }
   try{
-    await stage('opening-intro',async()=>{await load();await expect(page.locator('.c-showcase-card')).toHaveCount(3);await capture('opening');await clickReachable(page.locator('[data-do="intro"]'));await capture('introduction');await expect(page.locator('.c-intro')).toContainText('Kenneth MacAlpin');});
+    await stage('opening-intro',async()=>{await load();await expect(page.locator('.c-showcase-card')).toHaveCount(3);await capture('opening');await clickReachable(page.locator('[data-do="intro"]'));await capture('introduction');await expect(page.locator('.c-intro')).toContainText('eight cards and no Dynasty');});
     if(options.tutorial!==false)await stage('complete-tutorial',async()=>{
       if(!(await page.locator('[data-do="teach"]').count())){await load();await clickReachable(page.locator('[data-do="intro"]'));}
       await scrollReaderTo(page.locator('[data-do="teach"]'));await capture('introduction-action-after-deliberate-scroll');
@@ -134,11 +135,15 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
           if(index===1){await page.waitForTimeout(4200);await expect(page.locator('[data-do="continue"]')).toHaveCount(0);await expect(page.locator('.c-guide')).toContainText(step.explanation);await capture(`${prefix}-still-awaiting-watch`);}
           await clickReachable(page.locator('[data-do="watch"]'));
         }
+        if(['draft-pick','declare-pick','repair'].includes(step.type)) {
+          await expect(page.locator('[data-do="continue"]')).toHaveCount(0);
+          await capture(`${prefix}-selected`); continue;
+        }
         const advance=page.locator(index===TEACHING.length-1?'[data-do="finish"]':'[data-do="continue"]');
         await expect(advance).toBeVisible({timeout:15000});await expect(page.locator('.c-guide')).toContainText(step.outcome);await capture(`${prefix}-outcome`);
         if(index<TEACHING.length-1)await clickReachable(advance);
       }
-      await expect(page.locator('.c-game header')).toContainText('Round 3');await expect(page.locator('.c-guide')).toContainText('You win');report.tutorialCompleted=true;
+      await expect(page.locator('.c-game header')).toContainText('Round 2');await expect(page.locator('.c-guide')).toContainText('You win');report.tutorialCompleted=true;
       await clickReachable(page.locator('[data-do="finish"]'));await capture('post-lesson-reflection');
     });
     await stage('setup-input',async()=>{await load();await clickReachable(page.locator('[data-do="setup"]'));await capture('new-table-setup');await page.locator('#player-name').fill('Alexandra of the Long Historical House');await page.locator('#player-name').focus();await capture('name-entry-focused');});
@@ -157,8 +162,7 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
       await expect(page.locator('.c-game')).toBeVisible();await expect(page.locator('.core-table-card').first()).toBeAttached();await capture(name);
       assert.doesNotMatch(await page.locator('.c-game').innerText(),/\bseals?\b/i);
       if(name==='dense-four-courts') {
-        await expect(page.locator('.c-guide')).toContainText('Your hand is empty. Pass');
-        await expect(page.locator('.c-guide')).toContainText('automatically in 2 seconds');
+        await expect(page.locator('.c-auto-pass')).toHaveCount(0); // Court withdrawal is still a legal interaction.
         await expect(page.locator('[data-do="generic"]')).toHaveText('Pass');
       }
       if(name==='sparse-table'){
@@ -173,7 +177,7 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
           await clickReachable(page.locator('[data-do="generic"]').filter({hasText:text}));
         }
         await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
-        await expect(page.locator('[data-do="unlock"]')).toBeVisible();await capture(`${name}-response-handoff`);await clickReachable(page.locator('[data-do="unlock"]'));await capture(`${name}-resolved`);
+        if(await page.locator('[data-do="unlock"]').count()){await capture(`${name}-response-handoff`);await clickReachable(page.locator('[data-do="unlock"]'));}await capture(`${name}-resolved`);
       }
     });}
     await stage('invalid-save-recovery',async()=>{await load();await clickReachable(page.locator('[data-do="setup"]'));await page.locator('#save-file').setInputFiles({name:'broken.json',mimeType:'application/json',buffer:Buffer.from('{not valid')});await expect(page.locator('dialog [role="alert"]')).toBeVisible();await capture('invalid-save-recovery');});

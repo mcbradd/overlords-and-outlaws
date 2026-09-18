@@ -61,6 +61,14 @@ function score(view: CoreView, action: CoreAction, policy: CorePolicy): [number,
   const seat = action.seat, player = view.players[seat];
   const crown = view.crown, required = dependencies(view);
   switch (action.type) {
+    case 'withdraw': return [-20, 'Keep a Court person in place unless retreat is useful.'];
+    case 'draft-pick': {
+      const hand=player.hand!;
+      const count=hand.filter(id=>BY_ID[id].dynasty===BY_ID[action.card!].dynasty).length;
+      return [-count*20-BY_ID[action.card!].rank*.1, 'Preserve the largest matching group for declaration.'];
+    }
+    case 'declare-pick': return [BY_ID[action.card!].rank, 'Place three matching Nobles; the first is ruler.'];
+    case 'repair': return [-BY_ID[action.card!].rank, 'Set aside a different-Dynasty card to finish repair.'];
     case 'defend': {
       const target = view.pending!.target!;
       const critical = crown?.seat === seat && required.includes(target);

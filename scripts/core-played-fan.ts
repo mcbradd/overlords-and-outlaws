@@ -1,7 +1,8 @@
 import { chromium, expect } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 import assert from "node:assert/strict";
-import { createGame } from "../src/core-game/engine";
+import { } from '../src/core-game/engine';
+import { createGame } from '../tests/core-established-fixture';
 import { encodeSave } from "../src/core-game/storage";
 const base = process.env.BASE_URL ?? "http://localhost:5173";
 const output = process.env.FAN_OUTPUT ?? "artifacts/core/played-fan";
@@ -65,7 +66,7 @@ try {
       () =>
         JSON.parse(
           Object.entries(localStorage).find(([k]) =>
-            k.endsWith("oando-v5-played-trades"),
+            k.endsWith("oando-v9-inheritance"),
           )![1],
         ).game.revision,
     );

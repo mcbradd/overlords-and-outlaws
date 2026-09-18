@@ -55,19 +55,19 @@ export interface CoreSave {
   names: string[];
   motion: boolean;
 }
-export const saveKey = (namespace = "") => `${namespace}oando-v5-played-trades`;
+export const saveKey = (namespace = "") => `${namespace}oando-v9-inheritance`;
 export function encodeSave(save: CoreSave): string {
   return JSON.stringify({
     version: 5,
-    ruleset: "rank-core-played-trades-v2",
+    ruleset: "rank-core-inheritance-v3",
     ...save,
   });
 }
 export function decodeSave(text: string): CoreSave {
   const value = JSON.parse(text);
-  if (value?.version !== 5 || value.ruleset !== "rank-core-played-trades-v2")
+  if (value?.version !== 5 || value.ruleset !== "rank-core-inheritance-v3")
     throw new Error(
-      "This save uses different rules. Your original save is preserved; start a new table for Played-pile trades.",
+      "This save uses different rules. Your original save is preserved; start a new table for the restored inheritance draft.",
     );
   assertInvariants(value.game);
   if (
@@ -107,8 +107,8 @@ export function readSave(
     return {
       save: bytes ? decodeSave(bytes) : null,
       error:
-        !bytes && storage.getItem(`${namespace}oando-v5-core`)
-          ? "Your older table is preserved. Start a new table to use Played-pile trades."
+        !bytes && (storage.getItem(`${namespace}oando-v5-played-trades`) || storage.getItem(`${namespace}oando-v5-core`))
+          ? "Your older table is preserved. Start a new table for the restored inheritance draft."
           : null,
     };
   } catch (error) {

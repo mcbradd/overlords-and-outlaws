@@ -114,3 +114,11 @@ public information without revealing opponents' hands. Record exact candidate
 SHA, paths, dimensions, findings and fixes. Generated captures or passing DOM
 assertions alone do not satisfy this requirement. Apply this inspection to Prod
 candidates as well as Main releases; it does not authorize Main promotion.
+
+The restored inheritance opening additionally requires `core-inheritance.ts` and
+`core-inheritance.test.ts`: actual 2/3/4-player eight-card openings, every pass,
+private handoffs, declaration, duplicate-Dynasty and repair coverage, followed
+by Court-to-hand withdrawal. Desktop contextual action and compact touch
+inspection must both spend exactly one turn without a confirmation.
+Legacy post-setup action fixtures are explicitly constructed in
+`tests/core-established-fixture.ts`; they are not an alternative production opening.

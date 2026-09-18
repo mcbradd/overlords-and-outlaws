@@ -11,7 +11,7 @@ export interface CoreCard {
 }
 export interface CorePlayer {
   seat: number;
-  dynasty: Dynasty;
+  dynasty: Dynasty | null;
   hand: string[];
   court: string[];
   played: string[];
@@ -41,8 +41,10 @@ export interface CoreState {
   round: number;
   first: number;
   active: number;
-  phase: 'action' | 'recall' | 'trade' | 'terminal';
+  phase: 'draft' | 'declare' | 'repair' | 'action' | 'recall' | 'trade' | 'terminal';
+  /** Shared card pool, never assigned to seats. */
   dynasties: Dynasty[];
+  setup: { pass: number; picks: Record<string, string[]>; repairPile: string[]; repairCard: string | null } | null;
   players: CorePlayer[];
   deck: string[];
   crown: CoreCrown | null;
@@ -66,7 +68,7 @@ export interface CoreView extends Omit<CoreState, 'players' | 'deck'> {
   deckCount: number;
 }
 export interface CoreAction {
-  type: 'recruit' | 'recall' | 'defend' | 'decline' | 'pass' |
+  type: 'withdraw' | 'draft-pick' | 'declare-pick' | 'repair' | 'recruit' | 'recall' | 'defend' | 'decline' | 'pass' |
     'name-heir' | 'marry-heir' | 'trade' | 'accept';
   seat: number;
   revision: number;

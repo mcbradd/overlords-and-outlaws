@@ -63,6 +63,8 @@ let outcome = "";
 const dynastyName = (name: string) => name[0].toUpperCase() + name.slice(1);
 const nameOf = (id: string) => BY_ID[id]?.name ?? id;
 const label: Record<string, string> = {
+  withdraw: "Return to hand",
+  "draft-pick": "Pass clockwise", "declare-pick": "Declare", repair: "Set aside",
   recruit: "Recruit",
   recall: "Recall",
   defend: "Defend",
@@ -128,7 +130,7 @@ async function home() {
 function intro() {
   window.scrollTo(0, 0);
   dispose();
-  root.innerHTML = `<main class="c-intro"><section class="c-guide"><p class="c-kicker">LEARN AT THE TABLE</p><h1>Keep the Crown in your family.</h1><p class="c-intro-goal">Claim the Crown, pass it to an heir, then keep your new ruler and their supporter on the table for one full round.</p><p>We’ll teach each move at the table. A supporter is another person in your family’s Court—the cards you can all see.</p><p>You lead the Alba Dynasty with Kenneth MacAlpin. You begin with just two cards in your hand. Your rival has a ruler and a hidden hand too.</p><p>First, we’ll show one useful move and explain why it helps. Playing a card uses it for this round; keeping it may let you answer a rival.</p>${btn("Take your seat", "teach", 'class="primary"')}${btn("Return to title", "home")}</section></main>`;
+  root.innerHTML = `<main class="c-intro"><section class="c-guide"><p class="c-kicker">LEARN AT THE TABLE</p><h1>Keep the Crown in your family.</h1><p class="c-intro-goal">Claim the Crown, pass it to an heir, then keep your new ruler and their supporter on the table for one full round.</p><p>We’ll teach each move at the table. A supporter is another person in your family’s Court—the cards you can all see.</p><p>Begin with eight cards and no Dynasty. Pass three, two, then one clockwise. Play three matching Nobles to establish your Dynasty and Court; the first you choose is your ruler.</p><p>First, we’ll show one useful move and explain why it helps. Playing a card uses it for this round; keeping it may let you answer a rival.</p>${btn("Take your seat", "teach", 'class="primary"')}${btn("Return to title", "home")}</section></main>`;
   bind();
   void preloadCards([
     "alba-0",
@@ -145,8 +147,12 @@ function intro() {
 }
 function setup() {
   modal(
-    `<h2>Set a core table</h2><p>Build a family, claim the Crown and protect the succession. This prototype ends after 12 rounds if no succession wins.</p><label>Players<select id="players"><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label><label>Table<select id="mode"><option value="solo">You and computer rivals</option><option value="local">Shared device · private handoffs</option></select></label><label>Your Dynasty<select id="dynasty"><option value="alba">Alba</option><option value="plantagenet">Plantagenet</option><option value="tudor">Tudor</option><option value="habsburg">Habsburg</option></select></label><label>Your name<input id="player-name" autocomplete="off" maxlength="40" value="You"></label><label>Deal number<input id="seed" type="number" inputmode="numeric" min="1" max="999999" value="${Math.floor(Date.now() % 999999) + 1}"></label><p>Each seat uses a different Dynasty from the four-suit core set. Each player starts with one ruler and two cards.</p>${btn("Begin game", "begin", 'class="primary"')}<label class="c-file">Import a core save<input type="file" id="save-file" accept="application/json,.json"></label>`,
+    `<h2>Set a core table</h2><p>Build a family, claim the Crown and protect the succession. This prototype ends after 12 rounds if no succession wins.</p><label>Players<select id="players"><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label><label>Table<select id="mode"><option value="solo">You and computer rivals</option><option value="local">Shared device · private handoffs</option></select></label><fieldset class="c-pool"><legend>Dynasties in the shared deck</legend>${["alba","plantagenet","tudor","habsburg"].map((d,i)=>`<label><input type="checkbox" name="pool" value="${d}" ${i<2?"checked":""}>${dynastyName(d)}</label>`).join("")}</fieldset><label>Your name<input id="player-name" autocomplete="off" maxlength="40" value="You"></label><label>Deal number<input id="seed" type="number" inputmode="numeric" min="1" max="999999" value="${Math.floor(Date.now() % 999999) + 1}"></label><p>The shared deck uses one thirteen-card Dynasty set per player. The draft determines your Dynasty; players may declare the same Dynasty. Deal eight, pass 3–2–1, then play three matching Nobles. Five remain in hand.</p>${btn("Begin game", "begin", 'class="primary"')}<label class="c-file">Import a core save<input type="file" id="save-file" accept="application/json,.json"></label>`,
   );
+  document.querySelector('#players')!.addEventListener('change',event=>{
+    const count=Number((event.target as HTMLSelectElement).value);
+    document.querySelectorAll<HTMLInputElement>('[name="pool"]').forEach((el,i)=>el.checked=i<count);
+  });
 }
 async function start(
   state: CoreState,
@@ -237,9 +243,10 @@ function objective(): string {
     return game.result.winner === null
       ? "No succession secured the Crown within 12 rounds."
       : `${names[game.result.winner]} kept the new ruler and supporter through a full round.`;
+  if (game.setup) return game.phase === 'draft' ? `Inheritance · pass ${game.setup.pass} clockwise` : 'Play three matching Nobles to establish your Dynasty';
   const crown = game.crown;
   if (!crown)
-    return "Build a ruler and supporter, then play an heir to claim the Crown.";
+    return game.players[viewer].ruler && game.players[viewer].court.length >= 2 ? "Play an heir with a Court supporter to claim the Crown." : "Build a ruler and supporter, then play an heir to claim the Crown.";
   if (crown.stage === "notice")
     return `Crown claimed by ${names[crown.seat]}. ${nameOf(crown.heir)} succeeds next round; ${nameOf(crown.supporter)} must remain.`;
   return `${names[crown.seat]} ${names[crown.seat] === "You" ? "win" : "wins"} at this round’s end if ${nameOf(crown.heir)} and ${nameOf(crown.supporter)} both remain.`;
@@ -272,6 +279,7 @@ async function render() {
   const autoPass =
     humanTurn &&
     hand.length === 0 &&
+    !available.some(a => a.type === "withdraw") &&
     game.phase === "action" &&
     generic.some((a) => a.type === "pass");
   const pendingDescription = game.pending
@@ -279,11 +287,15 @@ async function render() {
       ? `Offer from ${names[game.pending.seat]}: ${nameOf(game.pending.card)} for ${nameOf(game.pending.request!)} in ${names[game.pending.other]}’s Played pile.${game.pending.recruit ? " On acceptance, the lower native card joins the rival’s Court." : " Accept to exchange them in Played until next round."}`
       : `${names[game.pending.seat]} uses ${nameOf(game.pending.card)} (rank ${BY_ID[game.pending.card].rank}) to Recall ${nameOf(game.pending.target!)}. Defend with a higher card of that Dynasty, or an Ace against J, Q or K. Let the person go to receive the attacking card in exchange next round.`
     : "";
+  const setupGuide = game.setup ? game.phase === 'draft'
+    ? `Select ${game.setup.pass - (game.setup.picks[viewer]?.length ?? 0)} more to pass clockwise. Packets move together after everyone chooses. Keep a matching trio.`
+    : game.phase === 'repair' ? 'No matching trio: your hand and the top draw are revealed. Select a different-Dynasty card to set aside.'
+    : `Select ${3 - (game.setup.picks[viewer]?.length ?? 0)} matching Nobles. The first is your ruler. All Courts reveal together; five cards stay in hand.` : '';
   const currentGuide = lesson
     ? lesson.done
       ? taught!.outcome
       : taught!.explanation
-    : selectedActions.length === 1
+    : setupGuide || (selectedActions.length === 1
       ? describe(selectedActions[0])
       : (autoPass
           ? "Your hand is empty. Passing automatically in 2 seconds."
@@ -292,7 +304,7 @@ async function render() {
         outcome ||
         (hand.length
           ? "Choose a card from your hand to see what that person can do. Keep a useful rank hidden if you expect to defend."
-          : `Your hand is empty. Pass to give the next player an opportunity. Played cards return next round.${game.deck.length ? " Each player then draws one card while the deck has cards." : " The draw pile is empty; no new cards will be drawn."}`);
+          : `Your hand is empty. Pass to give the next player an opportunity. Played cards return next round.${game.deck.length ? " Each player then draws one card while the deck has cards." : " The draw pile is empty; no new cards will be drawn."}`));
   const tableHost = root.querySelector<HTMLElement>("#core-table");
   const retained = tableHost?.parentElement ? tableHost : null;
   if (retained) retained.remove();
@@ -301,12 +313,12 @@ async function render() {
       const enabled = humanTurn && available.some((a) => a.card === id);
       const angle =
         hand.length < 2 ? 0 : (index / (hand.length - 1) - 0.5) * 14;
-      return `<div tabindex="0" aria-label="${esc(nameOf(id))}" class="c-held-card ${selected === id ? "selected" : ""} ${lesson && enabled ? "next-interaction" : ""}" style="--card-index:${index};--fan-angle:${angle}deg"><button class="c-card-pick" data-do="select" data-card="${id}" ${!enabled ? "disabled" : ""} aria-label="Select ${esc(nameOf(id))}, ${BY_ID[id].rank} ${esc(dynastyName(BY_ID[id].dynasty))}">${faceHTML(id)}</button>${`<div class="c-card-actions" aria-label="Actions for ${esc(nameOf(id))}">${renderCardActions(id, enabled ? available.filter((a) => a.card === id) : [])}${!lesson ? btn("Inspect", "inspect", `data-card="${id}"`) : ""}</div>`}</div>`;
+      return `<div tabindex="0" aria-label="${esc(nameOf(id))}" class="c-held-card ${game!.setup?.picks[viewer]?.includes(id) ? "c-locked-pick" : ""} ${selected === id ? "selected" : ""} ${lesson && enabled ? "next-interaction" : ""}" style="--card-index:${index};--fan-angle:${angle}deg"><button class="c-card-pick" data-do="select" data-card="${id}" ${!enabled ? "disabled" : ""} aria-label="Select ${esc(nameOf(id))}, ${BY_ID[id].rank} ${esc(dynastyName(BY_ID[id].dynasty))}">${faceHTML(id)}</button>${`<div class="c-card-actions" aria-label="Actions for ${esc(nameOf(id))}">${renderCardActions(id, enabled ? available.filter((a) => a.card === id) : [])}${!lesson ? btn("Inspect", "inspect", `data-card="${id}"`) : ""}</div>`}</div>`;
     })
     .join("");
   root.innerHTML = `<main class="c-game c-tabletop ${lesson ? "c-teaching-table" : ""} ${hand.length ? "has-hand" : ""}">
-    <header><strong>Round ${game.round} of 12</strong><p class="c-objective">${esc(objective())}</p>${lesson ? btn("Exit tutorial", "exit") : btn("Table menu", "menu")}</header>
-    <section class="c-guide" aria-label="Action and outcome"><h2 class="sr-only">${esc(lesson ? taught!.title : game.result ? "The game has ended" : selected ? nameOf(selected) : "Your choices")}</h2>${lesson || selected || game.pending || outcome || autoPass ? `<p>${esc(currentGuide)}</p>` : ""}${notice ? `<p class="c-error" role="alert">${esc(notice)}</p>` : ""}<div class="c-action-area">${lesson?.done && lesson.cursor === TEACHING.length - 1 ? btn("Finish lesson", "finish", 'class="primary"') : ""}${lesson?.done && lesson.cursor < TEACHING.length - 1 ? btn("Continue", "continue", 'class="primary"') : ""}${lesson && !lesson.done && taught!.seat !== viewer ? btn("Watch the rival move", "watch", 'class="primary next-interaction"') : ""}${!lesson?.done && humanTurn ? `${generic.map((a, i) => btn(a.type === "decline" && game!.phase === "trade" ? "Decline trade" : a.type === "pass" && autoPass ? "<span>Pass</span>" : label[a.type], "generic", `data-index="${i}" class="${lesson ? "next-interaction" : ""} ${a.type === "pass" && autoPass ? "c-auto-pass" : ""}"`)).join("")}` : ""}${game.result && !lesson ? btn("Play another game", "setup", 'class="primary"') : ""}</div></section>
+    <header><strong>${game.setup ? "Inheritance" : `Round ${game.round} of 12`}</strong><p class="c-objective">${esc(objective())}</p>${lesson ? btn("Exit tutorial", "exit") : btn("Table menu", "menu")}</header>
+    <section class="c-guide" aria-label="Action and outcome"><h2 class="sr-only">${esc(lesson ? taught!.title : game.result ? "The game has ended" : selected ? nameOf(selected) : "Your choices")}</h2>${game.setup || lesson || selected || game.pending || outcome || autoPass ? `<p>${esc(currentGuide)}</p>` : ""}${notice ? `<p class="c-error" role="alert">${esc(notice)}</p>` : ""}<div class="c-action-area">${lesson?.done && lesson.cursor === TEACHING.length - 1 ? btn("Finish lesson", "finish", 'class="primary"') : ""}${lesson?.done && lesson.cursor < TEACHING.length - 1 ? btn("Continue", "continue", 'class="primary"') : ""}${lesson && !lesson.done && taught!.seat !== viewer ? btn("Watch the rival move", "watch", 'class="primary next-interaction"') : ""}${!lesson?.done && humanTurn ? `${generic.map((a, i) => btn(a.type === "decline" && game!.phase === "trade" ? "Decline trade" : a.type === "pass" && autoPass ? "<span>Pass</span>" : label[a.type], "generic", `data-index="${i}" class="${lesson ? "next-interaction" : ""} ${a.type === "pass" && autoPass ? "c-auto-pass" : ""}"`)).join("")}` : ""}${game.result && !lesson ? btn("Play another game", "setup", 'class="primary"') : ""}</div></section>
     <section class="c-board-wrap" aria-label="Physical game table"><div class="c-table-nav">${btn("Table", "focus-all", 'aria-label="Whole table"')}${!lesson ? game.players.map((p) => btn(esc(names[p.seat]), "focus", `data-seat="${p.seat}"`)).join("") : ""}</div><div id="core-table"></div></section>
     <section class="c-hand" aria-label="Your hand" style="--hand-count:${hand.length}"><div class="c-hand-cards">${handHTML}</div></section></main>`;
   const freshHost = root.querySelector<HTMLElement>("#core-table")!;
@@ -549,8 +561,9 @@ async function commit(action: CoreAction) {
     selected = null;
     armed = null;
     outcome = game.events.at(-1) ?? describe(action);
-    if (lesson) lesson = { ...lesson, done: true };
-    if (mode === "local") privateLocked = true;
+    if (lesson) lesson = ['draft-pick','declare-pick','repair'].includes(action.type)
+      ? { cursor: lesson.cursor + 1, done: false } : { ...lesson, done: true };
+    if (mode === "local" && actingSeat() !== viewer) privateLocked = true;
     persist();
     await render();
   } catch (error) {
@@ -561,6 +574,35 @@ async function commit(action: CoreAction) {
     await render();
   }
 }
+// Court actions stay beside their physical source; inspection provides the touch path.
+let courtMenuTimer: ReturnType<typeof setTimeout> | null = null;
+function showCourtAction(event: Event) {
+  const target=event.target as HTMLElement;
+  const card=target.closest<HTMLElement>('[data-table-card]');
+  if(!card || !game || lesson || privateLocked) return;
+  const action=actions().find(a=>a.type==='withdraw'&&a.card===card.dataset.tableCard);
+  if(!action) { root.querySelector('.c-court-actions')?.remove(); return; }
+  root.querySelector('.c-court-actions')?.remove();
+  const menu=document.createElement('div'); menu.className='c-court-actions';
+  menu.innerHTML=btn('Return to hand · uses turn','withdraw',`data-card="${action.card}"`);
+  const place=()=>{
+  if(!menu.isConnected || !card.isConnected) return;
+  const rect=card.getBoundingClientRect();
+  menu.style.left=`${Math.max(8,Math.min(innerWidth-230,rect.left))}px`;
+  menu.style.top=`${Math.max(60,Math.min(innerHeight-52,rect.top-40))}px`;
+  requestAnimationFrame(place);
+  };
+  menu.querySelector('button')!.addEventListener('click',()=>{ void commit(action); });
+  root.append(menu); place();
+}
+root.addEventListener('pointerover', showCourtAction);
+root.addEventListener('focusin', showCourtAction);
+root.addEventListener('pointerout', event=>{
+  if(courtMenuTimer) clearTimeout(courtMenuTimer);
+  const next=event.relatedTarget as HTMLElement | null;
+  if(next?.closest?.('[data-table-card],.c-court-actions')) return;
+  courtMenuTimer=setTimeout(()=>{ if(!document.activeElement?.closest('[data-table-card],.c-court-actions')) root.querySelector('.c-court-actions')?.remove(); },200);
+});
 function modal(html: string) {
   stopTimer();
   const token = generation;
@@ -602,6 +644,7 @@ function modal(html: string) {
   });
 }
 function marriageHint(id: string): string {
+  if (game?.setup) return "";
   if (
     !game ||
     !game.players[viewer].hand.includes(id) ||
@@ -667,7 +710,7 @@ function inspect(id: string, pileSeat?: number) {
       ? ""
       : btn("Back to Played pile", "played-pile", `data-seat="${pileSeat}"`);
   modal(
-    `<h2>${esc(nameOf(id))}</h2>${back}${marriageHint(id)}<div class="c-inspection-card">${faceHTML(id, { reference: true })}</div><p>Printed rank ${BY_ID[id].rank} · ${esc(dynastyName(BY_ID[id].dynasty))}${BY_ID[id].queen ? " · Queen role" : ""}</p><p>A native card can join your Court or become an heir. Recall matches the target’s Dynasty; defense compares lead and answer. An undefended Recall exchanges the lead for the target. Both go to their new owners’ Played areas until next round.</p>${btn("Reference rules", "rules")}`,
+    `<h2>${esc(nameOf(id))}</h2>${back}${actions().some(a=>a.type==="withdraw"&&a.card===id)?btn("Return to hand · uses turn","withdraw",`data-card="${id}"`):""}${marriageHint(id)}<div class="c-inspection-card">${faceHTML(id, { reference: true })}</div><p>Printed rank ${BY_ID[id].rank} · ${esc(dynastyName(BY_ID[id].dynasty))}${BY_ID[id].queen ? " · Queen role" : ""}</p><p>A native card can join your Court or become an heir. Recall matches the target’s Dynasty; defense compares lead and answer. An undefended Recall exchanges the lead for the target. Both go to their new owners’ Played areas until next round.</p>${btn("Reference rules", "rules")}`,
   );
 }
 function rules() {
@@ -677,7 +720,7 @@ function rules() {
 }
 function menu() {
   modal(
-    `<h2>Your table</h2><p>${esc(objective())}</p><p>Play cards to develop your Court, Recall a rival’s person or offer a Trade for a rival’s face-up Played card. A played card is unavailable until next round. Defend with a higher same-Dynasty card; an Ace also answers J, Q or K.</p><p>Claim with a ruler, an existing native supporter and a new native heir. Or marry a equal- or neighboring-rank foreign heir to an existing native Queen. Keep the required people through transfer and the entire following round.</p><p>Everyone passing consecutively ends a round. Played cards return, then each player draws one new card. No deck reshuffle. The prototype ends as a draw after 12 rounds without a winner.</p>${btn("Reference rules", "rules")}${btn(motion ? "Reduce motion" : "Enable motion", "motion")}${btn("Export private save", "export")}${btn("Return to title", "home")}<p class="c-subtle">Private saves include all hands. Share only with people allowed to see them.</p>`,
+    `<h2>Your table</h2><p>Deal eight each; pass 3, then 2, then 1 clockwise. Play three matching Nobles to declare your Dynasty. The first is ruler; five stay in hand. Duplicate Dynasties are allowed.</p><p>${esc(objective())}</p><p>Play cards to develop your Court, Recall a rival’s person or offer a Trade for a rival’s face-up Played card. Return a Court Noble to hand to spend your turn. This may break a marriage or Crown claim. A card in Played is unavailable until next round. Defend with a higher same-Dynasty card; an Ace also answers J, Q or K.</p><p>Claim with a ruler, an existing native supporter and a new native heir. Or marry a equal- or neighboring-rank foreign heir to an existing native Queen. Keep the required people through transfer and the entire following round.</p><p>Everyone passing consecutively ends a round. Played cards return, then each player draws one new card. No round reshuffle. During setup only, a failed declaration reveals its hand, draws the top card and sets aside a different-Dynasty card. Shuffle those set-aside cards into the deck after declarations. The prototype ends as a draw after 12 rounds without a winner.</p>${btn("Reference rules", "rules")}${btn(motion ? "Reduce motion" : "Enable motion", "motion")}${btn("Export private save", "export")}${btn("Return to title", "home")}<p class="c-subtle">Private saves include all hands. Share only with people allowed to see them.</p>`,
   );
 }
 function bind(scope: ParentNode = root) {
@@ -722,7 +765,7 @@ function bind(scope: ParentNode = root) {
           return;
         }
         if (action === "teach") {
-          names = ["You", "Plantagenet rival"];
+          names = ["You", "Player 2"];
           await start(createTutorial(), "tutorial", { cursor: 0, done: false });
           return;
         }
@@ -745,25 +788,17 @@ function bind(scope: ParentNode = root) {
           );
           const nextMode = document.querySelector<HTMLSelectElement>("#mode")!
             .value as "solo" | "local";
-          const ownDynasty = document.querySelector<HTMLSelectElement>(
-            "#dynasty",
-          )!.value as CoreState["dynasties"][number];
-          const dynasties = [
-            ownDynasty,
-            ...(
-              [
-                "alba",
-                "plantagenet",
-                "tudor",
-                "habsburg",
-              ] as CoreState["dynasties"]
-            ).filter((d) => d !== ownDynasty),
-          ].slice(0, count);
+          const dynasties = Array.from(document.querySelectorAll<HTMLInputElement>('[name="pool"]:checked'),el=>el.value) as CoreState["dynasties"];
+          if(dynasties.length!==count) {
+            let error=document.querySelector('.c-pool-error');
+            if(!error){error=document.createElement('p');error.className='c-pool-error';error.setAttribute('role','alert');document.querySelector('.c-pool')!.append(error);}
+            error.textContent=`Choose ${count} Dynasty sets for the shared deck.`;return;
+          }
           names = [
             document
               .querySelector<HTMLInputElement>("#player-name")!
               .value.trim() || "You",
-            ...dynasties.slice(1).map((d) => `${dynastyName(d)} rival`),
+            ...dynasties.slice(1).map((_, i) => `Player ${i + 2}`),
           ].slice(0, count);
           if (!Number.isInteger(seed) || seed < 1 || seed > 999999) {
             document.querySelector<HTMLInputElement>("#seed")!.reportValidity();
@@ -856,6 +891,16 @@ function bind(scope: ParentNode = root) {
           URL.revokeObjectURL(url);
           return;
         }
+        if (action === "withdraw") {
+          const candidate=actions().find(a=>a.type==='withdraw'&&a.card===el.dataset.card);
+          if(candidate) { document.querySelector('dialog')?.close(); await commit(candidate); }
+          return;
+        }
+        if (action === "select" && game?.setup) {
+          const pick = actions().find(a => a.card === el.dataset.card);
+          if(pick) await commit(pick);
+          return;
+        }
         if (action === "select") {
           selected = el.dataset.card!;
           root
@@ -863,6 +908,11 @@ function bind(scope: ParentNode = root) {
             .forEach((card) =>
               card.classList.toggle("selected", card.contains(el)),
             );
+          return;
+        }
+        if (action === "arm" && game?.setup) {
+          const pick = actions().find(a => a.card === el.dataset.card);
+          if(pick) await commit(pick);
           return;
         }
         if (action === "arm") {

@@ -61,7 +61,7 @@ async function stage(name:string,viewport:Viewport,work:(page:Page,capture:(stat
 const load=async(page:Page)=>{await page.goto(base,{waitUntil:'domcontentloaded'});await expect(page.locator('[data-do="intro"]')).toBeVisible();};
 async function setup(page:Page){await load(page);await clickReachable(page.locator('[data-do="setup"]'));}
 async function localStart(page:Page,dynasty='alba'){
-  await setup(page);await page.locator('#mode').selectOption('local');await page.locator('#dynasty').selectOption(dynasty);await page.locator('#seed').fill('501');await clickReachable(page.locator('[data-do="begin"]'));await expect(page.locator('[data-do="unlock"]')).toBeVisible();await clickReachable(page.locator('[data-do="unlock"]'));await expect(page.locator('.c-game')).toBeVisible();
+  await setup(page);await page.locator('#mode').selectOption('local');await expect(page.locator('#dynasty')).toHaveCount(0);await page.locator('#seed').fill('501');await clickReachable(page.locator('[data-do="begin"]'));await expect(page.locator('[data-do="unlock"]')).toBeVisible();await clickReachable(page.locator('[data-do="unlock"]'));await expect(page.locator('.c-game')).toBeVisible();
 }
 try{
   for(const dynasty of ['alba','plantagenet','tudor','habsburg'])await stage(`dynasty-${dynasty}`,{width:1440,height:900},async(page,capture)=>{
@@ -69,16 +69,16 @@ try{
   });
   await stage('primary-hover-focus',{width:390,height:844},async(page,capture,row)=>{
     await load(page);const primary=page.locator('[data-do="intro"]');row.facts.normal=await contrast(primary);await primary.hover();row.facts.hover=await contrast(primary);await capture('hover');await page.mouse.move(0,0);await tabTo(page,'[data-do="intro"]');row.facts.focus=await contrast(primary);assert.notEqual((row.facts.focus as {outline:string}).outline,'none');await capture('keyboard-focus');
-    await page.keyboard.press('Enter');await clickReachable(page.locator('[data-do="teach"]'));await expect(page.locator('.c-game')).toBeVisible();await clickReachable(page.locator('[data-do="select"][data-card="alba-2"]'));const commit=page.locator('[data-do="arm"][data-type="recruit"]');await commit.hover();row.facts.actionHover=await contrast(commit);await capture('action-hover');
+    await page.keyboard.press('Enter');await clickReachable(page.locator('[data-do="teach"]'));await expect(page.locator('.c-game')).toBeVisible();await page.locator('[data-do="select"][data-card="plantagenet-6"]').focus();const commit=page.locator('[data-do="arm"][data-type="draft-pick"]');await commit.hover();row.facts.actionHover=await contrast(commit);await capture('action-hover');
   });
   await stage('reference-rules',{width:1440,height:900},async(page,capture,row)=>{
     await localStart(page);await clickReachable(page.locator('[data-do="menu"]'));await clickReachable(page.locator('[data-do="rules"]'));
-    const aids=page.locator('.core-reference-aid');await expect(aids).toHaveCount(12);row.facts.aids=await aids.locator('img').evaluateAll(images=>images.map(image=>({alt:(image as HTMLImageElement).alt,loaded:(image as HTMLImageElement).complete&&(image as HTMLImageElement).naturalWidth>0})));
+    const aids=page.locator('.core-reference-aid');await expect(aids).toHaveCount(14);row.facts.aids=await aids.locator('img').evaluateAll(images=>images.map(image=>({alt:(image as HTMLImageElement).alt,loaded:(image as HTMLImageElement).complete&&(image as HTMLImageElement).naturalWidth>0})));
     assert.ok((row.facts.aids as {loaded:boolean}[]).every(aid=>aid.loaded));const text=(row.facts.aids as {alt:string}[]).map(aid=>aid.alt).join('\n');assert.match(text,/exchange/i);assert.match(text,/Ace/);assert.match(text,/12/);assert.match(text,/supporter/i);
     // Deliberate reader scrolling is allowed for a long reference, unlike
     // moving a clipped game commitment into view to hide layout failures.
-    for(const aidId of ['1','2','3','4a','4b','5a','5b','6a','6b','7a','7b','8'])assert.ok((row.facts.aids as {alt:string}[]).some(aid=>aid.alt.startsWith(`Rule aid ${aidId}:`)),`missing rule topic/part ${aidId}`);
-    for(let index=0;index<12;index++){await aids.nth(index).scrollIntoViewIfNeeded();await capture(`aid-${index+1}`);}
+    for(const aidId of ['1','2','3','4a','4b','5a','5b','6a','6b','7a','7b','8','9','10'])assert.ok((row.facts.aids as {alt:string}[]).some(aid=>aid.alt.startsWith(`Rule aid ${aidId}:`)),`missing rule topic/part ${aidId}`);
+    for(let index=0;index<14;index++){await aids.nth(index).scrollIntoViewIfNeeded();await capture(`aid-${index+1}`);}
   });
   for(const [label,viewport,insets] of [
     ['portrait',{width:390,height:844},{top:47,right:0,bottom:34,left:0}],
@@ -86,7 +86,7 @@ try{
   ] as const)await stage(`safe-area-${label}`,viewport,async(page,capture,row)=>{
     const cdp=await page.context().newCDPSession(page);await cdp.send('Emulation.setSafeAreaInsetsOverride',{insets});row.facts.syntheticInsets=insets;
     await load(page);await capture('opening-first-screen');await scrollReadingSurface(page,'[data-do="intro"]');await capture('opening-action-after-deliberate-scroll');await clickReachable(page.locator('[data-do="intro"]'));await scrollReadingSurface(page,'[data-do="teach"]');await geometry(page.locator('[data-do="teach"]'),insets);await capture('introduction');
-    await clickReachable(page.locator('[data-do="teach"]'));await expect(page.locator('.c-game')).toBeVisible();await geometry(page.locator('[data-do="exit"]'),insets);await geometry(page.locator('[data-do="select"][data-card="alba-2"]'),insets);await capture('table');
+    await clickReachable(page.locator('[data-do="teach"]'));await expect(page.locator('.c-game')).toBeVisible();await geometry(page.locator('[data-do="exit"]'),insets);await geometry(page.locator('[data-do="select"][data-card="plantagenet-6"]'),insets);await capture('table');
     row.facts.actualPadding=await page.locator('.c-game').evaluate(element=>{const c=getComputedStyle(element);return{top:parseFloat(c.paddingTop),right:parseFloat(c.paddingRight),bottom:parseFloat(c.paddingBottom),left:parseFloat(c.paddingLeft)};});
     for(const edge of ['top','right','bottom','left'] as const)assert.ok((row.facts.actualPadding as Record<string,number>)[edge]>=insets[edge],`${edge} safe inset not applied`);
   });
@@ -111,12 +111,12 @@ try{
     await load(page);await page.addStyleTag({content:':root { font-size: 32px !important; }'});row.facts.simulation='Root font doubled from16 to32px; distinct from browser zoom';await capture('double-text-opening-first-screen');await scrollReadingSurface(page,'[data-do="intro"]');await capture('double-text-opening-action');await clickReachable(page.locator('[data-do="intro"]'));await scrollReadingSurface(page,'[data-do="teach"]');await geometry(page.locator('[data-do="teach"]'));await capture('double-text-introduction');
   });
   await stage('keyboard-first-move',{width:390,height:844},async(page,capture)=>{
-    await load(page);for(const selector of ['[data-do="intro"]','[data-do="teach"]','[data-do="select"][data-card="alba-2"]','[data-do="arm"][data-type="recruit"]','.valid-drop[data-table-card]']){await expect(page.locator(selector)).toBeAttached();await tabTo(page,selector);await capture(`focus-${selector.match(/data-do="([^"]+)/)?.[1]}`);await page.keyboard.press('Enter');}
-    await expect(page.locator('[data-do="continue"]')).toBeVisible();await expect(page.locator('.c-guide')).toContainText('Malcolm III now supports');await tabTo(page,'[data-do="continue"]');await capture('keyboard-outcome');
+    await load(page);for(const selector of ['[data-do="intro"]','[data-do="teach"]','[data-do="select"][data-card="plantagenet-6"]']){await expect(page.locator(selector)).toBeAttached();await tabTo(page,selector);await capture(`focus-${selector.match(/data-do="([^"]+)/)?.[1]}`);await page.keyboard.press('Enter');}
+    await expect(page.locator('[data-do="continue"]')).toHaveCount(0);await expect(page.locator('.c-locked-pick')).toHaveCount(1);await capture('keyboard-outcome');
   });
   await stage('touch-first-move',{width:390,height:844},async(page,capture)=>{
-    await load(page);for(const selector of ['[data-do="intro"]','[data-do="teach"]','[data-do="select"][data-card="alba-2"]','[data-do="arm"][data-type="recruit"]','.valid-drop[data-table-card]']){await geometry(page.locator(selector));await page.locator(selector).tap();}
-    await expect(page.locator('[data-do="continue"]')).toBeVisible();await expect(page.locator('.c-guide')).toContainText('Malcolm III now supports');await capture('touch-outcome');
+    await load(page);for(const selector of ['[data-do="intro"]','[data-do="teach"]','[data-do="select"][data-card="plantagenet-6"]']){await geometry(page.locator(selector));await page.locator(selector).tap();}
+    await expect(page.locator('[data-do="continue"]')).toHaveCount(0);await expect(page.locator('.c-locked-pick')).toHaveCount(1);await capture('touch-outcome');
   },true);
 }finally{await browser.close();report.finishedAt=new Date().toISOString();report.passed=report.rows.every(row=>row.status==='passed');save();}
 if(!report.passed)process.exitCode=1;

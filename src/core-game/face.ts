@@ -96,14 +96,24 @@ const RULE_AID_TOPICS = [
   {
     title: "Set the table",
     paragraphs: [
-      "Choose 2–4 different Dynasties. Use only their thirteen-card suits. Put each native Founder in Court as ruler. Shuffle the rest; deal two private cards each, clockwise.",
+      "Mix 2–4 Dynasty suits; deal eight each. Pass 3, then 2, then 1 clockwise. Play three matching Nobles: first is ruler, five stay hidden.",
       "A=1; J=11; Q=12; K=13. Rank is game allocation, not historical importance. Suit never changes with ownership or marriage.",
       "Courts, Played, Crown, marriage links, attempt and offer marks are public. Opponents' hand counts are public; unplayed identities stay private. Publicly revealed identities may be remembered.",
     ],
   },
+  { title: "Return to hand", paragraphs: [
+    "Spend your turn to move one of your Court Nobles into your hand. It is available from your next opportunity, including a defense. Clear consecutive passes.",
+    "Returning a ruler leaves that office empty. Returning a required person breaks the Crown claim. Returning either spouse breaks the marriage; an unsupported foreign spouse goes to Played.",
+    "The returned identity remains known, like every card seen in public.",
+  ] },
+  { title: "Inheritance details", paragraphs: [
+    "Pass 3, then 2, then 1 clockwise, all packets together. Received cards may be passed. Reveal all matching trios together. Duplicate Dynasties are allowed.",
+    "No trio? Reveal your hand, draw the top card, and set aside a different-Dynasty card. Choose your trio. Repair hands in first-player order.",
+    "After declarations, shuffle set-aside cards into the remaining deck. Ordinary round draws never reshuffle.",
+  ] },
 ] as const;
 export const RULE_AIDS = RULE_AID_TOPICS.flatMap((aid, index) => {
-  if (index < 3 || index === 7)
+  if (index < 3 || index >= 7)
     return [
       {
         id: String(index + 1),
@@ -133,7 +143,7 @@ const REFERENCE_INDEX = [
   "Same suit: Recall or Defend.",
   "Trade for a rival’s Played card.",
   "Foreign heir: match a native Queen.",
-  "Complete procedures: shared rule aids 1–8.",
+  "Complete procedures: shared rule aids 1–10.",
 ];
 let fonts: Promise<void> | undefined;
 function loadFonts(): Promise<void> {
