@@ -1,3 +1,5 @@
+> **Selection colors, 17 September 2026:** Green means selected; yellow means attention/next interaction. Selected cards rise within their fan and show a green outline, with no redundant selection text on the card. Apply the same meanings to drafting, declaration and ordinary card selection.
+
 > **Draft PASS correction, 17 September 2026:** Draft selections are reversible until the player presses PASS. Use the same reserved-space navy/gold draft dialog in ordinary play and teaching, with the live Select X More to Pass button. Highlight the next example card, then PASS. Exchange 3, 2, then 1 card per player, showing backs in flight. Draft help is optional through ?. Declaration and later actions keep their existing immediate commitment.
 
 > **Build 11 teaching correction:** Explain the purpose before naming the next card. The draft builds an eight-card starting hand through clockwise exchanges of 3, then 2, then 1. Keep a matching trio to establish a Dynasty and useful cards for later turns. Identify the fixed selections as examples, not universal strategy.

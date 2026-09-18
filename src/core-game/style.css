@@ -11,6 +11,8 @@
   --cream: #f7eed9;
   --gold: #dcc184;
   --navy: #102633;
+  --selected-green: #55d98b;
+  --attention-yellow: #ffe192;
   --core-viewport-height: 100dvh;
 }
 * {
@@ -57,12 +59,12 @@ button.primary:active:not(:disabled) {
 button:focus-visible,
 input:focus-visible,
 select:focus-visible {
-  outline: 3px solid #ffe5a0;
+  outline: 3px solid var(--attention-yellow);
   outline-offset: 4px;
 }
 button.next-interaction {
   box-shadow:
-    0 0 0 3px #e3c27d,
+    0 0 0 3px var(--attention-yellow),
     0 0 24px #edca7650;
 }
 h1,
@@ -392,9 +394,8 @@ a {
     transform: scaleX(0);
   }
 }
-.c-held-card.selected .c-card-pick,
 .c-held-card.next-interaction .c-card-pick {
-  outline: 3px solid #e2bd6d;
+  outline: 3px solid var(--attention-yellow);
   outline-offset: 4px;
 }
 .c-card-caption {
@@ -1283,8 +1284,7 @@ a {
 
 .c-court-actions { position: fixed; z-index: 100; padding: 4px; background: #101e29; border: 1px solid #c5a76a; border-radius: 5px; box-shadow: 0 5px 18px #0009; }
 .c-court-actions button { min-height: 36px; }
-.c-locked-pick { filter: brightness(.5); }
-.c-locked-pick::after { content: 'Selected'; position: absolute; bottom: 20px; left: 10px; right: 10px; background: #101e29; color: #efd49b; text-align: center; pointer-events:none; }
+.c-locked-pick .c-card-pick:disabled { opacity:1; filter:drop-shadow(3px 7px 5px #0009); }
 
 .c-game.c-tabletop .c-held-card:focus-within { z-index: 125; }
 .c-game.c-tabletop .c-held-card.c-locked-pick { pointer-events: none; z-index: calc(10 + var(--card-index)); }
@@ -1327,8 +1327,13 @@ a {
 .c-back-fan .c-card-back { position:absolute; left:calc(var(--i)*8px); transform:rotate(calc((var(--i) - 3.5)*3deg)); }
 .c-draft-flight { position:fixed; inset:0; z-index:9000; pointer-events:none; }
 .c-draft-flight .c-card-back { position:absolute; }
-.c-draft-selected { outline:3px solid #ffe3a3; border-radius:8px; }
-.c-draft-selected::after { content:'Selected to pass'; position:absolute; bottom:12px; left:4px; right:4px; background:#102630; color:#ffe3a3; text-align:center; pointer-events:none; }
+/* Green identifies a choice already made; yellow asks for the next interaction. */
+.c-game.c-tabletop .c-held-card:is(.selected,.c-draft-selected,.c-locked-pick) {
+  transform:translateX(-50%) translateY(-18px) rotate(var(--fan-angle));
+}
+.c-held-card:is(.selected,.c-draft-selected,.c-locked-pick) .c-card-pick {
+  outline:3px solid var(--selected-green); outline-offset:3px;
+}
 @media(max-width:600px) { .c-draft-modal { padding:8px 12px; gap:6px; flex-wrap:wrap; } .c-draft-modal h2 { font-size:18px; } .c-draft-modal .primary { width:100%; min-height:48px; font-size:18px; } .c-draft-hands { top:46px; } }
 @media(max-height:500px) { .c-draft-modal { padding:5px 12px; flex-wrap:nowrap; width:100%; } .c-draft-modal h2 { font-size:17px; } .c-draft-modal .primary { width:auto; min-height:44px; font-size:17px; } .c-draft-hands { top:40px; } .c-back-fan { transform:scale(.65); transform-origin:top center; height:42px; } }
 @media(max-height:500px) and (orientation:landscape) {
@@ -1336,6 +1341,9 @@ a {
   .c-game.c-tabletop:has(.c-draft-modal) .c-held-card .c-card-pick { width:100%; }
   .c-game.c-tabletop .c-draft-modal h2 { font-size:17px; }
   .c-game.c-tabletop .c-draft-modal .primary { min-height:44px; }
-  .c-game.c-tabletop:has(.c-draft-modal) .c-draft-selected::after { font-size:11px; bottom:5px; }
 }
 html:has(.c-draft-modal), body:has(.c-draft-modal) { height:100%; overflow:clip; }
+@media(max-height:500px) and (orientation:landscape) {
+  .c-game.c-tabletop:has(.c-draft-modal) .c-table-nav { left:8px; right:auto; transform:none; max-width:48%; }
+  .c-game.c-tabletop:has(.c-draft-modal) .c-draft-hands { top:4px; left:52%; right:12px; }
+}

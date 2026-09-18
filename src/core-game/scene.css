@@ -32,7 +32,7 @@
   box-shadow: 0 0 0 3px #e8cd7e;
 }
 .core-table-card:focus-visible {
-  outline: 5px solid #ffe192;
+  outline: 5px solid var(--attention-yellow);
   outline-offset: 4px;
 }
 .core-table-caption,
@@ -146,7 +146,7 @@
   opacity: 0.5;
 }
 .core-table-pager button:focus-visible {
-  outline: 3px solid #ffe192;
+  outline: 3px solid var(--attention-yellow);
   outline-offset: 1px;
 }
 .core-table-fallback {
@@ -191,7 +191,7 @@
   scroll-padding: 12px;
 }
 .core-fallback-scroll:focus-visible {
-  outline: 3px solid #ffe192;
+  outline: 3px solid var(--attention-yellow);
   outline-offset: -3px;
 }
 #core-table button.core-table-card:hover {
@@ -216,9 +216,9 @@
   padding: 5px 16px;
 }
 #core-table .valid-drop {
-  outline: 4px solid #f4d680;
+  outline: 4px solid var(--attention-yellow);
   outline-offset: 3px;
-  background: #f4d68030;
+  background: var(--attention-yellow)30;
   cursor: pointer;
 }
 .core-first-player {
