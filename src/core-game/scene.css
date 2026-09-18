@@ -194,4 +194,38 @@
   outline: 3px solid #ffe192;
   outline-offset: -3px;
 }
-#core-table button.core-table-card:hover { background: #f8e7aa12; }
+#core-table button.core-table-card:hover {
+  background: #f8e7aa12;
+}
+
+.c-tabletop .core-table-surface {
+  cursor: grab;
+  touch-action: none;
+}
+.c-tabletop .core-table-surface.is-grabbing {
+  cursor: grabbing;
+}
+.core-table-seat {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  min-height: 44px;
+}
+.core-table-seat.valid-drop {
+  pointer-events: auto;
+  padding: 5px 16px;
+}
+#core-table .valid-drop {
+  outline: 4px solid #f4d680;
+  outline-offset: 3px;
+  background: #f4d68030;
+  cursor: pointer;
+}
+.core-first-player {
+  color: #342811;
+  font:
+    700 15px/1.1 Manrope,
+    sans-serif;
+  pointer-events: none;
+  text-align: center;
+}

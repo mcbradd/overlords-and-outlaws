@@ -22,11 +22,13 @@ try {
   assert.equal(await revision(), 0);
   await page.locator('[data-do="select"][data-card="alba-2"]').click();
   assert.equal(await revision(), 0, "choosing a card does not guess an action");
-  await page.locator('[data-do="choice"]').click();
+  await page.locator('[data-do="arm"][data-type="recruit"]').click();
+  assert.equal(await revision(),0,'choosing the interaction awaits its destination');
+  await page.locator('.valid-drop[data-table-card]').first().click();
   assert.equal(
     await revision(),
     1,
-    "choosing Recruit commits immediately, exactly once",
+    "choosing a valid destination commits immediately, exactly once",
   );
   await expect(
     page.locator('[data-do="commit"],[data-do="cancel"]'),

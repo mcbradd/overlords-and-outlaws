@@ -1,3 +1,5 @@
+> **Player correction, 17 September 2026:** The bottom hand/guide dashboard is superseded. Use the full-width hand fan and compact top teaching guide. Hover opens card actions; select an interaction then drag to a highlighted legal destination, or choose that destination by touch/keyboard. No confirmation. Camera pan and ordinary wheel zoom remain available during teaching.
+
 > **Single-selection instruction, 17 September 2026:** A complete action or target selection commits immediately. Never add a second confirmation. Card selection may expose alternative actions; Continue remains cursor-only. This overrides older confirmation/preview-commit requirements below. See [regression contract](reviews/SINGLE-SELECTION-2026-09-17.md).
 
 > **Current correction, 17 September 2026:** The planned Build 6 unrestricted Add tutorial is superseded. Keep the legal succession teaching route while the replacement is redesigned around marriage-only foreign Court entry and Played-pile Trade. See [the correction](reviews/BUILD-5-PLAYER-FOLLOWUP-2026-09-17.md).

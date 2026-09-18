@@ -1,0 +1,53 @@
+{
+  "method": "Projected-view policy simulation; not browser play or human evidence.",
+  "seedsPerConfiguration": 64,
+  "gamesPerCandidate": 2176,
+  "twoPlayerRecordsIdentical": true,
+  "byPlayers": [
+    {
+      "players": 2,
+      "before": {
+        "games": 896,
+        "wins": 896,
+        "meanRounds": 4.936383928571429,
+        "meanRecalls": 9.415178571428571
+      },
+      "after": {
+        "games": 896,
+        "wins": 896,
+        "meanRounds": 4.936383928571429,
+        "meanRecalls": 9.415178571428571
+      }
+    },
+    {
+      "players": 3,
+      "before": {
+        "games": 896,
+        "wins": 889,
+        "meanRounds": 5.543526785714286,
+        "meanRecalls": 21.805803571428573
+      },
+      "after": {
+        "games": 896,
+        "wins": 896,
+        "meanRounds": 5.245535714285714,
+        "meanRecalls": 18.407366071428573
+      }
+    },
+    {
+      "players": 4,
+      "before": {
+        "games": 384,
+        "wins": 382,
+        "meanRounds": 6.078125,
+        "meanRecalls": 35.856770833333336
+      },
+      "after": {
+        "games": 384,
+        "wins": 384,
+        "meanRounds": 5.466145833333333,
+        "meanRecalls": 26.252604166666668
+      }
+    }
+  ]
+}

@@ -15,6 +15,8 @@ import {
 } from "./face";
 import "./scene.css";
 export interface CoreTableView {
+  viewer?: number;
+  first?: number;
   players: {
     name?: string;
     dynasty: string;
@@ -259,6 +261,7 @@ export class CoreTable {
     if (!this.cameraEnabled || (e.target as HTMLElement).closest("button"))
       return;
     this.dragging = { x: e.clientX, y: e.clientY };
+    this.host.classList.add("is-grabbing");
     this.host.setPointerCapture(e.pointerId);
   };
   private move = (e: PointerEvent) => {
@@ -305,12 +308,14 @@ export class CoreTable {
   };
   private up = () => {
     this.dragging = null;
+    this.host.classList.remove("is-grabbing");
   };
   private wheel = (e: WheelEvent) => {
-    if (!this.cameraEnabled || !e.ctrlKey) return;
+    if (!this.cameraEnabled) return;
     e.preventDefault();
     this.wantedDistance = THREE.MathUtils.clamp(
-      this.wantedDistance + e.deltaY,
+      this.wantedDistance *
+        Math.exp(e.deltaY * (e.deltaMode === 1 ? 0.02 : 0.001)),
       350,
       4500,
     );
@@ -425,15 +430,32 @@ export class CoreTable {
       this.target.copy(this.wantedTarget);
     }
   }
-  /** Tutorial restricts all incidental interaction without disabling semantic rendering. */
+  setDropTargets(ids: string[], court: number | null) {
+    const active = ids.length > 0 || court !== null;
+    this.labels.domElement.inert = !active && !this.inspectEnabled;
+    this.host
+      .querySelectorAll<HTMLElement>("[data-table-card],[data-court-seat]")
+      .forEach((el) => {
+        const valid =
+          ids.includes(el.dataset.tableCard ?? "") ||
+          (court !== null && el.dataset.courtSeat === String(court));
+        el.classList.toggle("valid-drop", valid);
+        if (el instanceof HTMLButtonElement)
+          el.disabled = !this.inspectEnabled && !valid;
+        if (el.dataset.courtSeat !== undefined) el.tabIndex = valid ? 0 : -1;
+      });
+  }
+  private inspectEnabled = true;
+  /** Tutorial restricts card inspection; looking around the table stays available. */
   setInteractive(value: boolean) {
-    this.cameraEnabled = value;
+    this.inspectEnabled = value;
+    this.cameraEnabled = true;
     this.host.classList.toggle(
       "core-table-focused",
       value && this.focused !== null,
     );
     this.pager.hidden = !value || this.focused === null;
-    this.host.tabIndex = value ? 0 : -1;
+    this.host.tabIndex = 0;
     this.host.setAttribute(
       "aria-label",
       value
@@ -458,7 +480,9 @@ export class CoreTable {
     z = 8,
     className = "core-table-caption",
   ): CSS3DObject {
-    const el = document.createElement("div");
+    const el = document.createElement(
+      className === "core-table-seat" ? "button" : "div",
+    );
     el.className = className;
     el.textContent = text;
     const obj = new CSS3DObject(el);
@@ -515,7 +539,7 @@ export class CoreTable {
             `<p class="core-fallback-link">Marriage: ${escapeHTML(BY_ID[pair.queen].name)} ↔ ${escapeHTML(BY_ID[pair.spouse].name)}</p>`,
         )
         .join("");
-      this.host.innerHTML = `<div class="core-fallback-scroll" tabindex="${this.cameraEnabled ? 0 : -1}" aria-label="Public Courts. Scroll for every card."><p class="core-fallback-note">Accessible table · ${view.deckCount ?? 0} cards in the draw pile. Scroll for all Courts and Played cards.</p>${pairs}${view.players.map((p, seat) => `<section class="core-fallback-court" data-fallback-seat="${seat}"><h3>${escapeHTML(p.name ?? p.dynasty)}${seat === view.active ? " · To act" : ""}</h3><div class="core-fallback-cards">${p.court.map((id) => cardButton(id, p.ruler)).join("")}</div><p>${p.handCount ?? p.hand?.length ?? 0} concealed in hand</p><p>Played · returns to ${escapeHTML(p.name ?? p.dynasty)} next round</p><div class="core-fallback-cards">${p.played.map((id) => cardButton(id, null)).join("") || "<span>None</span>"}</div></section>`).join("")}</div>`;
+      this.host.innerHTML = `<div class="core-fallback-scroll" tabindex="${this.cameraEnabled ? 0 : -1}" aria-label="Public Courts. Scroll for every card."><p class="core-fallback-note">Accessible table · ${view.deckCount ?? 0} cards in the draw pile. Scroll for all Courts and Played cards.</p>${pairs}${view.players.map((p, seat) => `<section class="core-fallback-court" data-fallback-seat="${seat}"><h3>${escapeHTML(p.name ?? p.dynasty)}${seat === view.active ? " · To act" : ""}</h3><div class="core-fallback-cards">${p.court.map((id) => cardButton(id, p.ruler)).join("")}</div><p>Played · returns to ${escapeHTML(p.name ?? p.dynasty)} next round</p><div class="core-fallback-cards">${p.played.map((id) => cardButton(id, null)).join("") || "<span>None</span>"}</div></section>`).join("")}</div>`;
       this.host
         .querySelectorAll<HTMLButtonElement>("[data-table-card]")
         .forEach((button) =>
@@ -529,7 +553,7 @@ export class CoreTable {
     const old = this.positions;
     this.positions = new Map();
     this.clear();
-    const columns = view.players.length === 2 ? 2 : 2,
+    const columns = this.width < 700 ? 1 : 2,
       rows = Math.ceil(view.players.length / columns);
     const largestCourt = Math.max(
       1,
@@ -588,7 +612,11 @@ export class CoreTable {
     for (let seat = 0; seat < view.players.length; seat++) {
       const p = view.players[seat],
         col = seat % columns,
-        row = Math.floor(seat / columns),
+        row =
+          columns === 1
+            ? (seat - (view.viewer ?? 0) - 1 + view.players.length) %
+              view.players.length
+            : Math.floor(seat / columns),
         cx = (col - (columns - 1) / 2) * (seatW + 80),
         cy = ((rows - 1) / 2 - row) * seatH;
       const courtCenter =
@@ -597,13 +625,43 @@ export class CoreTable {
         136 +
         ((Math.min(courtColumns, Math.max(1, p.court.length)) - 1) * 176) / 2;
       this.seats.push(new THREE.Vector3(courtCenter, cy + seatH / 2 - 159, 0));
-      this.label(
-        `${seat + 1} · ${p.name ?? p.dynasty[0].toUpperCase() + p.dynasty.slice(1)} · ${seat === (view.pending?.other ?? view.active) ? (view.pending ? "To answer" : "To act") : "Court"}`,
+      const seatLabel = this.label(
+        `${p.name ?? p.dynasty[0].toUpperCase() + p.dynasty.slice(1)}`,
         courtCenter,
         cy + seatH / 2 - 15,
         9,
         "core-table-seat",
       );
+      seatLabel.element.dataset.courtSeat = String(seat);
+      seatLabel.element.tabIndex = -1;
+      seatLabel.element.setAttribute(
+        "aria-label",
+        `${p.name ?? p.dynasty} Court`,
+      );
+      if (seat === (view.first ?? 0)) {
+        const x = cx - seatW / 2 + 45,
+          y = cy + seatH / 2 - 48;
+        const token = new THREE.Mesh(
+          new THREE.CylinderGeometry(25, 27, 5, 48),
+          new THREE.MeshStandardMaterial({
+            color: 0xd5b566,
+            metalness: 0.55,
+            roughness: 0.4,
+          }),
+        );
+        token.rotation.x = Math.PI / 2;
+        token.position.set(x, y, 3);
+        token.castShadow = true;
+        this.content.add(token);
+        const emblem = this.label("1st", x, y, 6, "core-first-player");
+        emblem.element.dataset.firstPlayer = String(seat);
+        emblem.element.setAttribute("role", "img");
+        emblem.element.setAttribute(
+          "aria-label",
+          `${p.name ?? p.dynasty} goes first this round`,
+        );
+        emblem.element.title = `${p.name ?? p.dynasty} goes first this round`;
+      }
       const startX = cx - seatW / 2 + 136,
         startY = cy + seatH / 2 - 179;
       for (let i = 0; i < p.court.length; i++) {
@@ -646,13 +704,19 @@ export class CoreTable {
           token.position.set(x + 64, y + 82 - index * 26, 19);
           token.castShadow = true;
           this.content.add(token);
-          this.label(
-            String(attacker + 1),
+          const attempt = this.label(
+            "×",
             x + 64,
             y + 82 - index * 26,
             22,
             "core-table-attempt",
           );
+          attempt.element.setAttribute("role", "img");
+          attempt.element.setAttribute(
+            "aria-label",
+            "Recall already attempted this round",
+          );
+          attempt.element.title = "Recall already attempted this round";
         });
       }
       if (!p.court.length)
@@ -679,16 +743,9 @@ export class CoreTable {
           seat,
         );
       }
-      const count = p.handCount ?? p.hand?.length ?? 0;
-      this.label(
-        `${count} concealed in hand`,
-        courtCenter,
-        cy + seatH / 2 - 44,
-        8,
-      );
     }
-    const deckX = 0,
-      deckY = 35;
+    const deckX = columns === 1 ? this.boardW / 2 - 55 : 0,
+      deckY = columns === 1 ? 0 : 35;
     const deckCount = view.deckCount ?? 0;
     if (deckCount > 0)
       for (let i = 0; i < Math.min(deckCount, 5); i++) {
@@ -700,7 +757,7 @@ export class CoreTable {
     const ct = canvasTexture(crownCanvas());
     this.textures.push(ct);
     const crown = this.stock(ct, 49);
-    crown.position.set(0, -this.boardH / 2 + 67, 12);
+    crown.position.set(columns === 1 ? deckX : 0, -this.boardH / 2 + 67, 12);
     this.content.add(crown);
     const crowned = view.crown;
     if (crowned) {
@@ -813,6 +870,7 @@ export class CoreTable {
     button.style.height = `${(w * 88) / 63}px`;
     button.addEventListener("click", () => this.onInspect(id));
     button.addEventListener("focus", () => {
+      if (button.classList.contains("valid-drop")) return;
       if (!this.cameraEnabled) return;
       this.wantedTarget.copy(to);
       const fov = THREE.MathUtils.degToRad(this.camera.fov);

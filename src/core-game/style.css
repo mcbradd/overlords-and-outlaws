@@ -1014,3 +1014,269 @@ a {
   outline: 3px solid #e4c87f;
   outline-offset: 5px;
 }
+
+/* Table-first play surface: no lower dashboard or repeated hand labels. */
+.c-game.c-tabletop {
+  --card-width: clamp(120px, 15vw, 184px);
+  --hand-height: calc(var(--card-width) * 1.397 + 28px);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr);
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 0 12px;
+  align-content: stretch;
+}
+.c-game.c-tabletop.has-hand {
+  padding-bottom: var(--hand-height);
+}
+.c-game.c-tabletop > header {
+  grid-area: auto;
+  display: flex;
+  gap: 16px;
+  padding: 8px 16px;
+}
+.c-game.c-tabletop > header strong {
+  white-space: nowrap;
+  font-size: 16px;
+}
+.c-game.c-tabletop .c-objective {
+  flex: 1;
+  font-size: 14px;
+}
+.c-game.c-tabletop > .c-guide {
+  grid-area: auto;
+  align-self: stretch;
+  margin: 0;
+  padding: 6px 16px;
+  border: 0;
+  border-bottom: 1px solid #8a744d;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  background: #102630;
+}
+.c-game.c-tabletop > .c-guide p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+  flex: 1;
+}
+.c-game.c-tabletop .c-action-area {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.c-game.c-tabletop .c-action-area button {
+  min-height: 44px;
+}
+.c-game.c-tabletop > .c-board-wrap,
+.c-game.c-tabletop > .c-board-wrap > #core-table {
+  grid-area: auto;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+}
+.c-game.c-tabletop .c-table-nav {
+  top: 4px;
+  gap: 5px;
+}
+.c-game.c-tabletop .c-table-nav button {
+  padding: 5px 10px;
+  font-size: 14px;
+}
+.c-game.c-tabletop .c-hand {
+  position: absolute;
+  z-index: 5;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  height: var(--hand-height);
+  padding: 0;
+  margin: 0;
+  pointer-events: none;
+}
+.c-game.c-tabletop .c-hand-cards {
+  --spread: min(
+    calc(var(--card-width) * 0.88),
+    calc((100vw - 36px - var(--card-width)) / max(1, var(--hand-count) - 1))
+  );
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+  padding: 0;
+  margin: 0;
+  max-height: none;
+}
+.c-game.c-tabletop .c-held-card {
+  position: absolute;
+  width: var(--card-width);
+  bottom: 0;
+  left: calc(
+    50% + (var(--card-index) - (var(--hand-count) - 1) / 2) * var(--spread)
+  );
+  transform: translateX(-50%) rotate(var(--fan-angle));
+  transform-origin: 50% 100%;
+  pointer-events: auto;
+  transition: transform 140ms ease;
+  z-index: calc(10 + var(--card-index));
+}
+.c-game.c-tabletop .c-held-card:hover,
+.c-game.c-tabletop .c-held-card:focus-within,
+.c-game.c-tabletop .c-held-card.selected {
+  transform: translateX(-50%) translateY(-14px) rotate(0deg);
+  z-index: 100;
+}
+.c-game.c-tabletop .c-card-pick {
+  width: 100%;
+  margin: 0;
+  touch-action: none;
+}
+.c-game.c-tabletop .c-card-actions {
+  display: none;
+  position: absolute;
+  bottom: calc(100% - 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px;
+  gap: 6px;
+  width: max-content;
+  max-width: min(300px, 92vw);
+  flex-wrap: wrap;
+  background: #102630;
+  border: 1px solid #c6a863;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px #0008;
+}
+.c-game.c-tabletop .c-held-card:hover .c-card-actions,
+.c-game.c-tabletop .c-held-card:focus-within .c-card-actions,
+.c-game.c-tabletop .c-held-card.selected .c-card-actions {
+  display: flex;
+}
+.c-game.c-tabletop .c-card-actions button {
+  min-height: 44px;
+  padding: 7px 10px;
+  font-size: 15px;
+}
+.c-drag-hint {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 90vw;
+  margin: 8px 0;
+  padding: 6px 12px;
+  background: #102630;
+  border: 1px solid #c6a863;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.c-drag-card {
+  position: fixed;
+  width: 140px;
+  z-index: 10000;
+  pointer-events: none;
+  transform: translate(-50%, -60%);
+  filter: drop-shadow(4px 10px 8px #0009);
+}
+.c-drag-card.can-drop {
+  outline: 3px solid #efd48c;
+  border-radius: 8px;
+}
+.c-target-fan {
+  position: absolute;
+  z-index: 4;
+  bottom: 0;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  overflow: auto;
+  padding: 12px;
+  background: #15352dea;
+  border-radius: 12px;
+}
+.c-target-fan button {
+  width: 110px;
+  min-width: 110px;
+  padding: 0;
+  border: 2px solid #efd48c;
+  background: transparent;
+}
+@media (max-width: 600px) {
+  .c-game.c-tabletop {
+    --card-width: 120px;
+  }
+  .c-game.c-tabletop > header {
+    gap: 8px;
+    padding: 5px 10px;
+    flex-wrap: wrap;
+  }
+  .c-game.c-tabletop .c-objective {
+    display: none;
+  }
+  .c-game.c-tabletop > header > button {
+    margin-left: auto;
+  }
+  .c-game.c-tabletop > .c-guide {
+    padding: 8px 10px;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .c-game.c-tabletop > .c-guide p {
+    flex-basis: 100%;
+    font-size: 14px;
+  }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .c-game.c-tabletop {
+    --card-width: 88px;
+  }
+  .c-game.c-tabletop .c-objective {
+    display: none;
+  }
+  .c-game.c-tabletop > .c-guide p {
+    font-size: 13px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .c-game.c-tabletop .c-held-card {
+    transition: none;
+  }
+}
+.c-game.c-tabletop .c-held-card .c-card-actions {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  max-width: min(280px, calc(100vw - 24px));
+}
+.c-game.c-tabletop .c-table-nav {
+  max-width: calc(100% - 16px);
+  overflow-x: auto;
+}
+.c-game.c-tabletop .c-table-nav button {
+  flex: 0 0 auto;
+}
+
+.c-game.c-tabletop.c-tabletop {
+  grid-template-rows: auto auto minmax(0, 1fr);
+  align-content: stretch;
+}
+.c-game.c-tabletop.c-tabletop > .c-board-wrap,
+.c-game.c-tabletop.c-tabletop > .c-board-wrap > #core-table {
+  height: 100%;
+  min-height: 0;
+}
+.c-game.c-tabletop .c-hand {
+  bottom: 20px;
+}

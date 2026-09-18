@@ -31,7 +31,7 @@ export const TEACHING: TeachingStep[] = [
     1,
     "recall",
     "A rival can take your supporter",
-    "Your rival uses David I (Alba 3) to Recall Malcolm III. Recall matches Dynasty, not target rank. If you let him go, you receive David I next round in exchange. Defend to keep your supporter in place. Each rival may try each person once per round.",
+    "Your rival uses David I (Alba 3) to Recall Malcolm III. Recall matches Dynasty, not target rank. If you let him go, you receive David I next round in exchange. Defend to keep your supporter in place. Each person may face one Recall attempt per round, shared by all rivals.",
     "Malcolm III is threatened. You now get one chance to defend him.",
     { card: "alba-3", target: "alba-2" },
   ),

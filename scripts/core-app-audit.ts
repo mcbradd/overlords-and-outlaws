@@ -1,3 +1,4 @@
+import { playCard } from './core-tabletop';
 /** Instrumented app regressions. No screenshot or blind-player acceptance is claimed. */
 import { chromium, expect, type Page } from '@playwright/test';
 import assert from 'node:assert/strict';
@@ -92,8 +93,7 @@ for (const fromExistingGame of [false, true]) {
 await run('APP-03 rival teaching has a reader-controlled legal action', async page => {
   await page.goto(base);
   await teach(page);
-  await page.locator('[data-do="select"][data-card="alba-2"]').click();
-  await page.getByRole('button', { name: 'Recruit', exact: true }).click();
+  await playCard(page,'alba-2','recruit',undefined,false);
   await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Watch the rival move', exact: true })).toBeVisible();

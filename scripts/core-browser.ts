@@ -1,3 +1,4 @@
+import { playCard } from './core-tabletop';
 import { chromium, expect, type Locator, type Page } from '@playwright/test';
 import assert from 'node:assert/strict';
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -113,7 +114,7 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
     await expect(page.locator('.c-game .c-guide')).toHaveCount(1);
     const text=await page.locator('.c-game').innerText();assert.doesNotMatch(text,/\bseals?\b/i);
     assert.equal(await page.locator('.c-game [data-do="menu"],.c-game [data-do="focus"],.c-game [data-do="inspect"]').count(),0);
-    const unwanted=await page.locator('.c-game button:not([disabled]),.c-game select:not([disabled])').evaluateAll(elements=>elements.filter(element=>!element.closest('[inert]')).map(element=>(element as HTMLElement).dataset.do??(element as HTMLElement).dataset.choiceType).filter(action=>!['exit','select','choice','generic','continue','finish','watch'].includes(action??'')));
+    const unwanted=await page.locator('.c-game button:not([disabled]),.c-game select:not([disabled])').evaluateAll(elements=>elements.filter(element=>!element.closest('[inert]')).map(element=>(element as HTMLElement).dataset.do??(element as HTMLElement).dataset.choiceType).filter(action=>!['exit','select','arm','generic','continue','finish','watch','focus-all'].includes(action??'')));
     assert.deepEqual(unwanted,[],'tutorial exposes only taught interaction/Exit');
   }
   try{
@@ -126,7 +127,7 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
         const prefix=`tutorial-${String(index+1).padStart(2,'0')}-${step.type}`;
         await expect(page.locator('.c-guide h2')).toHaveText(step.title);await tutorialContract();await capture(`${prefix}-explanation`);
         if(step.seat===0){
-          if(step.card){await clickReachable(page.locator(`[data-do="select"][data-card="${step.card}"]`));await capture(`${prefix}-selected`);await clickReachable(page.locator('[data-do="choice"]'));}
+          if(step.card){await playCard(page,step.card,step.type,step.target??step.supporter,viewport.width>600);}
           else await clickReachable(page.locator('[data-do="generic"]'));
           await expect(page.locator('[data-do="commit"],[data-do="cancel"]')).toHaveCount(0);
         }else{
@@ -162,11 +163,11 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
       }
       if(name==='sparse-table'){
         await clickReachable(page.locator('[data-do="menu"]'));await capture('rules-and-table-menu');await clickReachable(page.locator('[data-do="close"]'));
-        const inspect=page.locator('.c-hand [data-do="inspect"]').first();await clickReachable(inspect);await capture('reference-inspection');await clickReachable(page.locator('[data-do="close"]'));
+        await page.locator('.c-held-card').first().hover();const inspect=page.locator('.c-hand [data-do="inspect"]').first();await clickReachable(inspect);await capture('reference-inspection');await clickReachable(page.locator('[data-do="close"]'));
       }
       if(['incoming-recall','recall-decline','trade-offer','trade-decline'].includes(name)){
         if(name==='incoming-recall'){
-          await clickReachable(page.locator(`[data-do="select"][data-card="${a(8)}"]`));await capture('free-defense-selected');await clickReachable(page.locator('[data-do="choice"]'));
+          await playCard(page,a(8),'defend',undefined,viewport.width>600);
         }else{
           const text=name==='trade-offer'?'Accept trade':name==='trade-decline'?'Decline trade':'Let it happen';
           await clickReachable(page.locator('[data-do="generic"]').filter({hasText:text}));

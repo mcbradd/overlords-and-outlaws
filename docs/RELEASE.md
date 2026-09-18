@@ -99,3 +99,18 @@ guarded to run only on Main after a future authorized promotion. Main's existing
 workflow and source remain untouched during setup; its GitHub Pages environment
 must allow only Main so manually dispatching the old workflow on prod cannot
 replace Live.
+
+## Required player-count coverage — 17 September 2026
+
+Every game candidate requires 2-, 3- and 4-player coverage. The required suite
+includes `core-player-counts.ts`: actual desktop and compact-screen opening,
+legal action, dense Courts and readable Court-focus routes for each count.
+`core-policy-simulation` also runs all three counts; none may be silently skipped.
+
+For each player count, an actual reviewer must open the generated screenshots
+and review card/object readability, placement, overlap, hand fan, contextual
+actions, camera navigation, first-player emblem and important controls. Verify
+public information without revealing opponents' hands. Record exact candidate
+SHA, paths, dimensions, findings and fixes. Generated captures or passing DOM
+assertions alone do not satisfy this requirement. Apply this inspection to Prod
+candidates as well as Main releases; it does not authorize Main promotion.

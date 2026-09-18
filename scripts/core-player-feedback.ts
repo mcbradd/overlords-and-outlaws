@@ -1,3 +1,4 @@
+import { playCard } from "./core-tabletop";
 import { chromium, expect } from "@playwright/test";
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
@@ -78,25 +79,13 @@ try {
     console.log({ style, normal });
     assert.ok(style.opacity < normal, "unusable card must visibly dim");
     assert.match(style.filter, /grayscale\(/);
-    // Compact hands deliberately scroll within their own card well. Exercise
-    // that real wheel route; never scroll a clipped commitment into view.
-    if (viewport.width === 360) {
-      await page.locator(".c-hand-cards").hover();
-      await page.mouse.wheel(0, 260);
-      await page.waitForTimeout(150);
-    }
+    await invalid.locator("..").hover();
     await clickReachable(
       page.locator('[data-do="inspect"][data-card="plantagenet-4"]'),
     );
     await expect(page.locator("dialog")).toBeVisible();
     await clickReachable(page.locator('[data-do="close"]'));
-    if (viewport.width === 360) {
-      await page.locator(".c-hand-cards").hover();
-      await page.mouse.wheel(0, -260);
-      await page.waitForTimeout(150);
-    }
-    await clickReachable(valid);
-    await clickReachable(page.locator('[data-do="choice"]'));
+    await playCard(page, "alba-6", "defend", undefined, viewport.width > 600);
     await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
     await clickReachable(page.locator('[data-do="unlock"]'));
     await expect(invalid).toBeEnabled();
@@ -123,6 +112,10 @@ try {
     ).map((c) => c.id);
     assertInvariants(marriage);
     await load(marriage);
+    await page
+      .locator('[data-do="select"][data-card="plantagenet-13"]')
+      .locator("..")
+      .hover();
     await clickReachable(
       page.locator('[data-do="inspect"][data-card="plantagenet-13"]'),
     );
@@ -131,21 +124,17 @@ try {
     );
     await capture("marriage-inspection");
     await clickReachable(page.locator('[data-do="close"]'));
-    await clickReachable(
-      page.locator('[data-do="select"][data-card="plantagenet-13"]'),
-    );
     await expect(
-      page.locator('[data-do="choice"]').filter({ hasText: /^Recruit$/ }),
+      page.locator(
+        '[data-do="arm"][data-card="plantagenet-13"][data-type="recruit"]',
+      ),
     ).toHaveCount(0);
-    await expect(page.locator(".c-guide")).toContainText(
-      BY_ID["plantagenet-13"].name,
-    );
-    await expect(page.locator(".c-guide")).toContainText(BY_ID["alba-1"].name);
-    await capture("marriage-choice");
-    await clickReachable(
-      page
-        .locator('[data-do="choice"]')
-        .filter({ hasText: `Marry ${BY_ID["alba-1"].name}` }),
+    await playCard(
+      page,
+      "plantagenet-13",
+      "marry-heir",
+      "alba-1",
+      viewport.width > 600,
     );
     await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
     await clickReachable(page.locator('[data-do="unlock"]'));
@@ -170,6 +159,10 @@ try {
     marriage.deck.push("alba-1");
     assertInvariants(marriage);
     await load(marriage);
+    await page
+      .locator('[data-do="select"][data-card="plantagenet-13"]')
+      .locator("..")
+      .hover();
     await clickReachable(
       page.locator('[data-do="inspect"][data-card="plantagenet-13"]'),
     );
@@ -191,17 +184,13 @@ try {
     ).map((c) => c.id);
     assertInvariants(trade);
     await load(trade);
-    await clickReachable(
-      page.locator('[data-do="select"][data-card="alba-8"]'),
-    );
-    const options = page.locator('[data-choice-type="trade"] option');
-    await expect(options).toHaveCount(3); // prompt, rest, native Recruit
-    assert.ok(
-      (await options.allTextContents())
-        .slice(1)
-        .every((text) => text.includes(BY_ID["alba-2"].name)),
-    );
-    await page.locator('[data-choice-type="trade"]').selectOption({ index: 1 });
+    await page.locator('[data-do="select"][data-card="alba-8"]').focus();
+    await page
+      .locator('[data-do="arm"][data-type="trade"][data-recruit="false"]')
+      .click();
+    await expect(page.locator("[data-drop-card]")).toHaveCount(1);
+    await expect(page.locator('[data-drop-card="alba-2"]')).toBeVisible();
+    await playCard(page, "alba-8", "trade", "alba-2", viewport.width > 600);
     await capture("trade-selected-handoff");
     await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
     await clickReachable(page.locator('[data-do="unlock"]'));

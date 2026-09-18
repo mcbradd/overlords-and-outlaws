@@ -45,6 +45,14 @@ let motion = !matchMedia("(prefers-reduced-motion: reduce)").matches;
 let viewer = 0;
 let privateLocked = false;
 let selected: string | null = null;
+let armed: { card: string; type: string; recruit: boolean } | null = null;
+let drag: {
+  pointer: number;
+  x: number;
+  y: number;
+  moved: boolean;
+  ghost: HTMLElement;
+} | null = null;
 let table: CoreTable | null = null;
 let timer: ReturnType<typeof setTimeout> | null = null;
 let generation = 0;
@@ -97,6 +105,7 @@ async function home() {
   game = null;
   lesson = null;
   selected = null;
+  armed = null;
   root.innerHTML = `<main class="c-opening"><section>${logo()}<p class="c-kicker">THE WEIGHT OF THE CROWN</p><p class="c-opening-lead">A family can claim power.<br>Can it keep the succession?</p><p>Play historical people as visible allies or keep them hidden to answer a rival. The same card cannot do both.</p><div class="c-opening-actions">${btn("Learn at the table", "intro", 'class="primary"')}${btn("Play the core game", "setup")}${saved ? btn("Resume your table", "resume") : ""}</div><p class="c-subtle">Core succession prototype · 2–4 players<br>Physical cards. A shared table. Private intentions.</p>${notice ? `<p role="alert">${esc(notice)}</p>` : ""}</section><div class="c-showcase" aria-label="Collectible Dynasty cards"><p>Preparing the cards…</p></div><footer>Original concept © 2025 Malachy Murray</footer></main>`;
   bind();
   const current = generation;
@@ -149,6 +158,7 @@ async function start(
   mode = nextMode;
   lesson = nextLesson;
   selected = null;
+  armed = null;
   outcome = "";
   privateLocked = mode === "local";
   viewer = 0;
@@ -286,15 +296,19 @@ async function render() {
   const tableHost = root.querySelector<HTMLElement>("#core-table");
   const retained = tableHost?.parentElement ? tableHost : null;
   if (retained) retained.remove();
-  root.innerHTML = `<main class="c-game"><header><div><p class="c-kicker">${lesson ? "LEARNING AT THE TABLE" : "CORE SUCCESSION PROTOTYPE"}</p><strong>Round ${game.round} of 12</strong></div><p class="c-objective">${esc(objective())}</p>${lesson ? btn("Exit tutorial", "exit") : btn("Table menu", "menu")}</header><section class="c-board-wrap" aria-label="Physical game table"><div class="c-table-nav">${lesson ? `<span>${esc(names[actor])}${game.result ? "" : " · current opportunity"}</span>` : `${btn("Whole table", "focus-all")}${game.players.map((p) => btn(esc(names[p.seat]), "focus", `data-seat="${p.seat}"`)).join("")}`}</div><div id="core-table"></div></section><section class="c-table-edge ${game.phase === "trade" ? "c-trade-response" : ""}"><section class="c-hand" aria-label="Your private hand"><div class="c-hand-heading"><h2>${esc(names[viewer])} · ${esc(dynastyName(player.dynasty))}</h2><span>${hand.length} ${hand.length === 1 ? "card" : "cards"} in hand</span></div><div class="c-hand-cards">${
-    hand
-      .map((id) => {
-        const enabled = humanTurn && available.some((a) => a.card === id);
-        return `<div class="c-held-card ${selected === id ? "selected" : ""} ${lesson && enabled ? "next-interaction" : ""}"><button class="c-card-pick" data-do="select" data-card="${id}" ${!enabled ? "disabled" : ""} aria-label="Select ${esc(nameOf(id))}, ${BY_ID[id].rank} ${esc(dynastyName(BY_ID[id].dynasty))}">${faceHTML(id)}</button><div class="c-card-caption">${enabled ? [...new Set(available.filter((a) => a.card === id).map((a) => label[a.type]))].slice(0, 2).join(" · ") : game!.result ? "Game ended" : humanTurn ? "No valid play now" : "Wait for your turn"}${!lesson ? btn("Inspect", "inspect", `data-card="${id}"`) : ""}</div></div>`;
-      })
-      .join("") ||
-    '<p class="c-empty">Your hand is empty. Played cards return next round.</p>'
-  }</div></section><section class="c-guide" aria-label="Action and outcome"><p class="c-kicker">${lesson ? "ONE MOVE AT A TIME" : humanTurn ? "YOUR OPPORTUNITY" : "AT THE TABLE"}</p><h2>${esc(lesson ? taught!.title : game.result ? "The game has ended" : humanTurn ? (selected ? nameOf(selected) : "Your cards, your choices") : `${names[actor]} is considering a move`)}</h2><p>${esc(currentGuide)}</p>${notice ? `<p class="c-error" role="alert">${esc(notice)}</p>` : ""}<div class="c-action-area">${lesson?.done && lesson.cursor === TEACHING.length - 1 ? btn("Finish lesson", "finish", 'class="primary"') : ""}${lesson?.done && lesson.cursor < TEACHING.length - 1 ? btn("Continue", "continue", 'class="primary"') : ""}${lesson && !lesson.done && taught!.seat !== viewer ? btn("Watch the rival move", "watch", 'class="primary next-interaction"') : ""}${!lesson?.done && humanTurn ? `${renderChoices(selectedActions)}${generic.map((a, i) => btn(a.type === "decline" && game!.phase === "trade" ? "Decline trade" : a.type === "pass" && autoPass ? "<span>Pass</span>" : label[a.type], "generic", `data-index="${i}" class="${lesson ? "next-interaction" : ""} ${a.type === "pass" && autoPass ? "c-auto-pass" : ""}"`)).join("")}` : ""}${game.result && !lesson ? btn("Play another game", "setup", 'class="primary"') : ""}</div></section></section></main>`;
+  const handHTML = hand
+    .map((id, index) => {
+      const enabled = humanTurn && available.some((a) => a.card === id);
+      const angle =
+        hand.length < 2 ? 0 : (index / (hand.length - 1) - 0.5) * 14;
+      return `<div tabindex="0" aria-label="${esc(nameOf(id))}" class="c-held-card ${selected === id ? "selected" : ""} ${lesson && enabled ? "next-interaction" : ""}" style="--card-index:${index};--fan-angle:${angle}deg"><button class="c-card-pick" data-do="select" data-card="${id}" ${!enabled ? "disabled" : ""} aria-label="Select ${esc(nameOf(id))}, ${BY_ID[id].rank} ${esc(dynastyName(BY_ID[id].dynasty))}">${faceHTML(id)}</button>${`<div class="c-card-actions" aria-label="Actions for ${esc(nameOf(id))}">${renderCardActions(id, enabled ? available.filter((a) => a.card === id) : [])}${!lesson ? btn("Inspect", "inspect", `data-card="${id}"`) : ""}</div>`}</div>`;
+    })
+    .join("");
+  root.innerHTML = `<main class="c-game c-tabletop ${lesson ? "c-teaching-table" : ""} ${hand.length ? "has-hand" : ""}">
+    <header><strong>Round ${game.round} of 12</strong><p class="c-objective">${esc(objective())}</p>${lesson ? btn("Exit tutorial", "exit") : btn("Table menu", "menu")}</header>
+    <section class="c-guide" aria-label="Action and outcome"><h2 class="sr-only">${esc(lesson ? taught!.title : game.result ? "The game has ended" : selected ? nameOf(selected) : "Your choices")}</h2>${lesson || selected || game.pending || outcome || autoPass ? `<p>${esc(currentGuide)}</p>` : ""}${notice ? `<p class="c-error" role="alert">${esc(notice)}</p>` : ""}<div class="c-action-area">${lesson?.done && lesson.cursor === TEACHING.length - 1 ? btn("Finish lesson", "finish", 'class="primary"') : ""}${lesson?.done && lesson.cursor < TEACHING.length - 1 ? btn("Continue", "continue", 'class="primary"') : ""}${lesson && !lesson.done && taught!.seat !== viewer ? btn("Watch the rival move", "watch", 'class="primary next-interaction"') : ""}${!lesson?.done && humanTurn ? `${generic.map((a, i) => btn(a.type === "decline" && game!.phase === "trade" ? "Decline trade" : a.type === "pass" && autoPass ? "<span>Pass</span>" : label[a.type], "generic", `data-index="${i}" class="${lesson ? "next-interaction" : ""} ${a.type === "pass" && autoPass ? "c-auto-pass" : ""}"`)).join("")}` : ""}${game.result && !lesson ? btn("Play another game", "setup", 'class="primary"') : ""}</div></section>
+    <section class="c-board-wrap" aria-label="Physical game table"><div class="c-table-nav">${btn("Table", "focus-all", 'aria-label="Whole table"')}${!lesson ? game.players.map((p) => btn(esc(names[p.seat]), "focus", `data-seat="${p.seat}"`)).join("") : ""}</div><div id="core-table"></div></section>
+    <section class="c-hand" aria-label="Your hand" style="--hand-count:${hand.length}"><div class="c-hand-cards">${handHTML}</div></section></main>`;
   const freshHost = root.querySelector<HTMLElement>("#core-table")!;
   if (retained && table) freshHost.replaceWith(retained);
   else {
@@ -319,18 +333,13 @@ async function render() {
     });
     if (loadToken !== generation || renderToken !== renderSequence) return;
     table.setInteractive(!lesson);
-    if (lesson && innerWidth < 600) {
-      table.focus(viewer);
-      const rival = seatView.players.find((p) => p.seat !== viewer)!;
-      root.querySelector(".c-table-nav")!.innerHTML =
-        `<span>${esc(dynastyName(rival.dynasty))}: ${rival.handCount} hidden cards · ${actor === viewer ? "Your turn" : "Rival’s turn"}</span>`;
-    }
   } else {
     freshHost.className = "c-basic-table";
     freshHost.innerHTML = `<p>Basic table view · 3D is unavailable on this browser</p>${seatView.players.map((p) => `<section><h2>${esc(names[p.seat])}</h2><p>${p.handCount} concealed cards · Played: ${p.played.map(nameOf).map(esc).join(", ") || "none"} · returns next round</p><div>${p.court.map((id) => `<figure>${faceHTML(id)}<figcaption>${esc(nameOf(id))}${id === p.ruler ? " · ruler" : ""}${game!.crown?.heir === id ? " · heir" : ""}${game!.crown?.supporter === id ? " · supporter" : ""}</figcaption></figure>`).join("")}</div></section>`).join("")}`;
     root.querySelector(".c-table-nav")!.innerHTML = "";
   }
   bind();
+  showTargets();
   if (autoPass && !document.hidden && !document.querySelector("dialog[open]")) {
     const button = root.querySelector<HTMLButtonElement>(".c-auto-pass");
     const revision = game.revision;
@@ -364,24 +373,169 @@ async function render() {
     }, 1300);
   }
 }
-function renderChoices(list: CoreAction[]): string {
-  if (!list.length) return "";
-  const groups = [...new Set(list.map((a) => a.type))];
-  return groups
-    .map((type) => {
-      const subset = list.filter((a) => a.type === type);
-      if (subset.length === 1)
-        return btn(
-          type === "marry-heir"
-            ? `Marry ${nameOf(subset[0].supporter!)}`
-            : label[type],
-          "choice",
-          `data-index="${list.indexOf(subset[0])}" title="${esc(describe(subset[0]))}" class="primary ${lesson ? "next-interaction" : ""}"`,
-        );
-      return `<label>${label[type]}<select data-choice-type="${type}"><option value="">Choose ${type === "trade" ? "a bargain" : "a person"}</option>${subset.map((a) => `<option value="${list.indexOf(a)}">${esc(type === "trade" ? `${names[a.other!]}: ${nameOf(a.request!)}${a.recruit ? " · recruit now" : ""}` : nameOf(a.target ?? a.supporter!))}</option>`).join("")}</select></label>`;
+function renderCardActions(id: string, list: CoreAction[]): string {
+  const kinds = [...new Set(list.map((a) => `${a.type}:${!!a.recruit}`))];
+  return kinds
+    .map((key) => {
+      const a = list.find((a) => `${a.type}:${!!a.recruit}` === key)!;
+      return btn(
+        a.type === "trade" && a.recruit ? "Trade & recruit" : label[a.type],
+        "arm",
+        `data-card="${id}" data-type="${a.type}" data-recruit="${!!a.recruit}" class="primary"`,
+      );
     })
     .join("");
 }
+function armedActions() {
+  return armed
+    ? actions().filter(
+        (a) =>
+          a.card === armed!.card &&
+          a.type === armed!.type &&
+          !!a.recruit === armed!.recruit,
+      )
+    : [];
+}
+function targetId(a: CoreAction) {
+  return (
+    a.target ??
+    a.supporter ??
+    a.request ??
+    (a.type === "defend" ? game?.pending?.card : undefined)
+  );
+}
+function actionAt(element: Element | null) {
+  const target = element?.closest<HTMLElement>(
+    "[data-table-card],[data-court-seat],[data-drop-card]",
+  );
+  if (!target || !game) return;
+  const id = target.dataset.dropCard ?? target.dataset.tableCard;
+  return armedActions().find((a) =>
+    a.type === "recruit"
+      ? target.dataset.courtSeat === String(viewer) ||
+        (!!id && game!.players[viewer].court.includes(id))
+      : targetId(a) === id,
+  );
+}
+function showTargets() {
+  const choices = armedActions();
+  root
+    .querySelectorAll(".c-held-card")
+    .forEach((el) =>
+      el.classList.toggle(
+        "selected",
+        !!armed &&
+          el.querySelector<HTMLElement>("[data-card]")?.dataset.card ===
+            armed.card,
+      ),
+    );
+  table?.setDropTargets(
+    choices.flatMap((a) =>
+      a.type === "recruit"
+        ? game!.players[viewer].court
+        : targetId(a)
+          ? [targetId(a)!]
+          : [],
+    ),
+    choices.some((a) => a.type === "recruit") ? viewer : null,
+  );
+  root.querySelector(".c-target-fan")?.remove();
+  if (armed?.type === "trade") {
+    const ids = [...new Set(choices.map((a) => a.request!))];
+    const tray = document.createElement("div");
+    tray.className = "c-target-fan";
+    tray.setAttribute("aria-label", "Valid Played trade targets");
+    tray.innerHTML = ids
+      .map(
+        (id) =>
+          `<button data-drop-card="${id}" aria-label="Trade for ${esc(nameOf(id))}">${faceHTML(id)}</button>`,
+      )
+      .join("");
+    root.querySelector(".c-board-wrap")?.append(tray);
+  }
+  root.querySelector(".c-drag-hint")?.remove();
+  if (armed) {
+    const hint = document.createElement("p");
+    hint.className = "c-drag-hint";
+    hint.setAttribute("role", "status");
+    hint.textContent = `${label[armed.type as CoreAction["type"]]}: drag ${nameOf(armed.card)} to a highlighted ${armed.type === "recruit" ? "Court" : "card"}.`;
+    root.querySelector(".c-hand")?.prepend(hint);
+  }
+}
+root.addEventListener(
+  "click",
+  (event) => {
+    if (!armed) return;
+    const candidate = actionAt(event.target as Element);
+    if (candidate) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      void commit(candidate);
+    }
+  },
+  true,
+);
+root.addEventListener(
+  "keydown",
+  (event) => {
+    if (event.key === "Escape") {
+      armed = null;
+      selected = null;
+      showTargets();
+    }
+    if ((event.key === "Enter" || event.key === " ") && armed) {
+      const candidate = actionAt(event.target as Element);
+      if (candidate) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        void commit(candidate);
+      }
+    }
+  },
+  true,
+);
+root.addEventListener("pointerdown", (event) => {
+  const card = (event.target as Element).closest<HTMLElement>(".c-card-pick");
+  if (!armed || card?.dataset.card !== armed.card || event.button !== 0) return;
+  event.preventDefault();
+  const ghost = document.createElement("div");
+  ghost.className = "c-drag-card";
+  ghost.innerHTML = card.innerHTML;
+  document.body.append(ghost);
+  ghost.style.left = `${event.clientX}px`;
+  ghost.style.top = `${event.clientY}px`;
+  drag = {
+    pointer: event.pointerId,
+    x: event.clientX,
+    y: event.clientY,
+    moved: false,
+    ghost,
+  };
+  card.setPointerCapture(event.pointerId);
+});
+root.addEventListener("pointermove", (event) => {
+  if (!drag || drag.pointer !== event.pointerId) return;
+  drag.moved ||= Math.hypot(event.clientX - drag.x, event.clientY - drag.y) > 5;
+  drag.ghost.style.left = `${event.clientX}px`;
+  drag.ghost.style.top = `${event.clientY}px`;
+  drag.ghost.classList.toggle(
+    "can-drop",
+    !!actionAt(document.elementFromPoint(event.clientX, event.clientY)),
+  );
+});
+root.addEventListener("pointerup", (event) => {
+  if (!drag || drag.pointer !== event.pointerId) return;
+  const candidate = drag.moved
+    ? actionAt(document.elementFromPoint(event.clientX, event.clientY))
+    : undefined;
+  drag.ghost.remove();
+  drag = null;
+  if (candidate) void commit(candidate);
+});
+root.addEventListener("pointercancel", () => {
+  drag?.ghost.remove();
+  drag = null;
+});
 async function commit(action: CoreAction) {
   if (
     !game ||
@@ -393,6 +547,7 @@ async function commit(action: CoreAction) {
     game = applyAction(game, action);
     notice = "";
     selected = null;
+    armed = null;
     outcome = game.events.at(-1) ?? describe(action);
     if (lesson) lesson = { ...lesson, done: true };
     if (mode === "local") privateLocked = true;
@@ -418,7 +573,16 @@ function modal(html: string) {
   dialog.addEventListener("close", () => {
     const wasConnected = dialog.isConnected;
     dialog.remove();
-    if (wasConnected && game && !busy && token === generation) void render();
+    table?.setReducedMotion(!motion);
+    if (
+      wasConnected &&
+      game &&
+      !busy &&
+      token === generation &&
+      (game.players[viewer].hand.length === 0 ||
+        (!lesson && mode !== "local" && actingSeat() !== viewer))
+    )
+      void render();
   });
   bind(dialog);
   const file = dialog.querySelector<HTMLInputElement>("#save-file");
@@ -517,6 +681,20 @@ function menu() {
   );
 }
 function bind(scope: ParentNode = root) {
+  scope.querySelectorAll<HTMLElement>(".c-held-card").forEach((card) => {
+    const place = () => {
+      const menu = card.querySelector<HTMLElement>(".c-card-actions");
+      if (!menu) return;
+      menu.style.marginLeft = "0px";
+      requestAnimationFrame(() => {
+        const rect = menu.getBoundingClientRect();
+        menu.style.marginLeft = `${Math.max(0, 12 - rect.left) - Math.max(0, rect.right - innerWidth + 12)}px`;
+      });
+    };
+    card.addEventListener("pointerenter", place);
+    card.addEventListener("focusin", place);
+    card.addEventListener("transitionend", place);
+  });
   scope.querySelectorAll<HTMLButtonElement>("[data-do]").forEach(
     (el) =>
       (el.onclick = async () => {
@@ -680,30 +858,31 @@ function bind(scope: ParentNode = root) {
         }
         if (action === "select") {
           selected = el.dataset.card!;
-          await render();
+          root
+            .querySelectorAll(".c-held-card")
+            .forEach((card) =>
+              card.classList.toggle("selected", card.contains(el)),
+            );
           return;
         }
-        if (action === "choice" || action === "generic") {
-          const candidate =
-            action === "choice"
-              ? actions().filter(
-                  (a) => a.card === selected && a.type !== "pass",
-                )[Number(el.dataset.index)]
-              : actions().filter((a) => !a.card)[Number(el.dataset.index)];
+        if (action === "arm") {
+          selected = el.dataset.card!;
+          armed = {
+            card: selected,
+            type: el.dataset.type!,
+            recruit: el.dataset.recruit === "true",
+          };
+          showTargets();
+          return;
+        }
+        if (action === "generic") {
+          const candidate = actions().filter((a) => !a.card)[
+            Number(el.dataset.index)
+          ];
           if (candidate) await commit(candidate);
           return;
         }
         await render();
-      }),
-  );
-  scope.querySelectorAll<HTMLSelectElement>("[data-choice-type]").forEach(
-    (el) =>
-      (el.onchange = () => {
-        if (!el.isConnected || el.value === "") return;
-        const candidate = actions().filter(
-          (a) => a.card === selected && a.type !== "pass",
-        )[Number(el.value)];
-        if (candidate) void commit(candidate);
       }),
   );
 }

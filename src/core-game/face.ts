@@ -43,7 +43,7 @@ const RULE_AID_TOPICS = [
   {
     title: "Recall",
     paragraphs: [
-      "Play a hand card to Recall a rival Court person of the same printed Dynasty. Each rival may try each target once per round.",
+      "Recall a rival Court person with a hand card of their Dynasty. One attempt per person per round, across all rivals.",
       "Their controller gets one answer: Defend (aid 3) or let it happen.",
       "If undefended, exchange your lead for the target. Target goes to your Played; lead goes to their Played. Both return to their new owners next round.",
       "Resolve lost offices and marriage support immediately. An interrupted Crown does not resume.",

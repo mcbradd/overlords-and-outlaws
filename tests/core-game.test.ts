@@ -401,7 +401,7 @@ test('U45: a supported foreign ruler can initiate native succession after a fail
   assert.equal(s.crown?.heir,a(9));
 });
 
-test('U48: attempt mark is per attacker/target, not immunity from other players', () => {
+test('U48: a Recall attempt marks the target for all rivals until next round', () => {
   let s = fixture(3);
   s.players[0].hand = [p(2),p(3)];
   s.players[1].hand = [p(4)];
@@ -410,7 +410,8 @@ test('U48: attempt mark is per attacker/target, not immunity from other players'
   s = act(s,{type:'recall',seat:0,card:p(2),target:p(1)});
   s = act(s,{type:'defend',seat:1,card:p(4)});
   s = act(s,{type:'pass',seat:1});
-  assert.ok(legalActions(viewForSeat(s,2),2).some(action => action.type === 'recall' && action.target === p(1)));
+  assert.ok(!legalActions(viewForSeat(s,2),2).some(action => action.type === 'recall' && action.target === p(1)));
+  rejected(s,{type:'recall',seat:2,card:p(5),target:p(1)});
   s = act(s,{type:'pass',seat:2});
   rejected(s,{type:'recall',seat:0,card:p(3),target:p(1)});
 });
@@ -618,4 +619,22 @@ test('EMPTY-01/02/03: Trade excludes empty Played piles without inspecting hidde
   conserve(permuted);
   assert.deepEqual(viewForSeat(permuted, 0), occupiedView);
   assert.deepEqual(legalActions(viewForSeat(permuted, 0), 0), legalActions(occupiedView, 0));
+});
+
+for(const seats of [2,3,4]) test(`Recall exposure is one attempt per person per round at ${seats} players`,()=>{
+  let s=fixture(seats);
+  s.players[0].court.push(a(2));
+  s.players[0].hand=[a(13)];
+  for(let seat=1;seat<seats;seat++)s.players[seat].hand=[a(seat+2)];
+  s.active=1;conserve(s);
+  s=act(s,{type:'recall',seat:1,card:a(3),target:a(2)});
+  s=act(s,{type:'defend',seat:0,card:a(13)});
+  for(let seat=1;seat<seats;seat++) {
+    const probe=structuredClone(s);probe.active=seat;
+    assert.ok(!legalActions(viewForSeat(probe,seat),seat).some(a=>a.type==='recall'&&a.target===card('alba',2)));
+    if(seat>1)assert.ok(legalActions(viewForSeat(probe,seat),seat).some(a=>a.type==='recall'&&a.target===card('alba',1)),'untried people remain vulnerable');
+  }
+  s=passRound(s);
+  s.active=1;
+  assert.ok(legalActions(viewForSeat(s,1),1).some(a=>a.type==='recall'&&a.target===card('alba',2)),'a new round clears the attempt');
 });

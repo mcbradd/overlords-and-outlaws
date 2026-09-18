@@ -112,7 +112,7 @@ export function legalActions(view: CoreView, seat: number): CoreAction[] {
     }
     for (const rival of view.players) if (rival.seat !== seat) {
       for (const target of rival.court) if (BY_ID[target].dynasty === card.dynasty &&
-        !view.attempts[seat]?.includes(target)) add({ type: 'recall', card: id, target });
+        !Object.values(view.attempts).some(targets => targets.includes(target))) add({ type: 'recall', card: id, target });
       if (view.offers[seat]?.includes(rival.seat)) continue;
       for (const requestedId of rival.played) {
         const requested = BY_ID[requestedId];

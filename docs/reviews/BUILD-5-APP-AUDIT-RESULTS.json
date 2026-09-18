@@ -1,9 +1,9 @@
 {
   "method": "Instrumented headless Chrome DOM/runtime tests; not visual or blind-player acceptance.",
   "base": "http://localhost:5173/",
-  "completedAt": "2026-09-17T23:49:25.175Z",
+  "completedAt": "2026-09-18T00:11:17.927Z",
   "sourceHashes": {
-    "app": "0168726f822663bb54829c41538efffd3ef4e03f0acc581377987c2e52372fd0",
+    "app": "85a12ee91933bc0f015216b54898d4d5c1d0e268b3438a3eade02e6b2c8a4a0a",
     "storage": "92cbcb5ce4202802eb0b06ec7cd79796deae2b8065c726cf31979ee8caadd2a4",
     "tutorial": "600c1ab4149462608b197f75d62925b31d1de69170ab90860b30337f373550ad",
     "engine": "e4f0a13155ea280742d2767d0c433d733520616e64bdc1aab801248ef4937e47"

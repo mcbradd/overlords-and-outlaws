@@ -1,3 +1,5 @@
+> **Player correction, 17 September 2026:** Remove repeated turn/privacy labels and the bottom dashboard. The table dominates; the private hand fans across its front edge. Actions belong beside the card and resolve on a valid drop. Keep camera pan/zoom available and show a physical first-player token. Require 2-, 3- and 4-player desktop/compact visual inspection.
+
 > **Current correction, 17 September 2026:** Retain marriage and its physical links; foreign cards cannot freely enter Court. Trade targets only rival Played/Resting cards. The Build 6 no-marriage/mixed-Court candidate below is superseded by [the player correction](reviews/BUILD-5-PLAYER-FOLLOWUP-2026-09-17.md).
 
 # Physical game — current creative direction
