@@ -149,8 +149,8 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
         if(name==='incoming-recall'){
           await playCard(page,a(8),'defend',undefined,viewport.width>600);
         }else{
-          const text=name==='trade-offer'?'Accept trade':name==='trade-decline'?'Decline trade':'Let it happen';
-          await clickReachable(page.locator('[data-do="generic"]').filter({hasText:text}));
+          const text=name==='trade-offer'?'Accept':name==='trade-decline'?'Decline':'Retreat';
+          await clickReachable(page.locator('[data-do="generic"],[data-do="respond-retreat"]').filter({hasText:text}));
         }
         await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
         if(await page.locator('[data-do="unlock"]').count()){await capture(`${name}-response-handoff`);await clickReachable(page.locator('[data-do="unlock"]'));}await capture(`${name}-resolved`);

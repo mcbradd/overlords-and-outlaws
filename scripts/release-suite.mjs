@@ -21,6 +21,9 @@ const checks = [
   ["core-player-counts", script("core-player-counts.ts")],
   ["core-inheritance", script("core-inheritance.ts")],
   ["core-draft-presentation", script("core-draft-presentation.ts")],
+  ["core-challenge", script("core-challenge.ts")],
+  ["core-draft-ready", script("core-draft-ready.ts")],
+  ["core-hand-sort", script("core-hand-sort.ts")],
   ["core-tutorial-popover", script("core-tutorial-popover.ts")],
   ["core-policy-simulation", script("core-simulate.ts", "8")],
   ["core-browser", script("core-browser.ts")],
@@ -189,7 +192,7 @@ async function run(name, args) {
         ? 40
         : name === "decision-audit"
         ? 60
-        : (name.startsWith("playthrough") || name === "core-draft-presentation")
+        : (name.startsWith("playthrough") || name === "core-draft-presentation" || name === "core-challenge")
           ? 10
           : 5) * 60_000,
     );

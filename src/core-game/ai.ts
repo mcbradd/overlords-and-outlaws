@@ -97,7 +97,7 @@ function score(view: CoreView, action: CoreAction, policy: CorePolicy): [number,
       const strongest = retained.reduce((rank, id) => Math.max(rank, BY_ID[id].rank), 0);
       const exposed = !retained.length && view.players.some(other => other.seat !== seat && other.handCount > 0);
       return [70 + strongest * 0.6 - (exposed ? 22 : 0) - handValue(view, seat, action.card!) * 0.12,
-        action.type === 'marry-heir' ? 'Use this matching foreign marriage to begin succession, exposing both partners to Recall.' :
+        action.type === 'marry-heir' ? 'Use this matching foreign marriage to begin succession, exposing both partners to Challenge.' :
           'Begin the Crown attempt with the people already assembled; retain the remaining hand for answers.'];
     }
     case 'recruit': {
@@ -163,4 +163,18 @@ export function chooseAction(view: CoreView, seat: number, policy: CorePolicy = 
     if (total > bestScore) { best = action; bestScore = total; reason = explanation; }
   }
   return { action: best, reason, considered: actions.length, policyVersion: `core-5.0-${policy}` };
+}
+
+/** Lock a private draft packet using only this player's information. */
+export function chooseDraftPacket(source: CoreView): string[] {
+  if(source.phase !== 'draft' || !source.setup) return [];
+  const view=structuredClone(source);
+  view.active=view.viewer;
+  const picks=view.setup!.picks[view.viewer] ??= [];
+  while(picks.length<view.setup!.pass) {
+    const action=chooseAction(view,view.viewer).action;
+    if(!action?.card) break;
+    picks.push(action.card);
+  }
+  return [...picks];
 }

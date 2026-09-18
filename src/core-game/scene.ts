@@ -531,7 +531,7 @@ export class CoreTable {
               view.players[Number(attacker)]?.dynasty,
           )
           .join(", ");
-        return `<button data-table-card="${escapeHTML(id)}" ${!this.cameraEnabled ? "disabled" : ""}>${faceHTML(id)}<span>${escapeHTML(BY_ID[id].name)}${ruler === id ? " · Ruler" : ""}${view.crown?.heir === id ? " · Heir" : ""}${view.crown?.supporter === id ? " · Supporter" : ""}</span>${attempts ? `<span>Recall already tried this round: ${escapeHTML(attempts)}</span>` : ""}</button>`;
+        return `<button data-table-card="${escapeHTML(id)}" ${!this.cameraEnabled ? "disabled" : ""}>${faceHTML(id)}<span>${escapeHTML(BY_ID[id].name)}${ruler === id ? " · Ruler" : ""}${view.crown?.heir === id ? " · Heir" : ""}${view.crown?.supporter === id ? " · Supporter" : ""}</span>${attempts ? `<span>Challenge already tried this round: ${escapeHTML(attempts)}</span>` : ""}</button>`;
       };
       const pairs = (view.marriages ?? [])
         .map(
@@ -714,9 +714,9 @@ export class CoreTable {
           attempt.element.setAttribute("role", "img");
           attempt.element.setAttribute(
             "aria-label",
-            "Recall already attempted this round",
+            "Challenge already attempted this round",
           );
-          attempt.element.title = "Recall already attempted this round";
+          attempt.element.title = "Challenge already attempted this round";
         });
       }
       if (!p.court.length && p.dynasty !== null)

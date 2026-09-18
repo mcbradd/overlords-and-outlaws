@@ -5,7 +5,7 @@ import { createTutorial, applyAction, legalActions, viewForSeat, assertInvariant
 import { createGame } from '../tests/core-established-fixture';
 import { CARDS, BY_ID } from '../src/core-game/content';
 import { CARDS as ORIGINAL_CARDS } from '../src/content';
-import { chooseAction } from '../src/core-game/ai';
+import { chooseAction, chooseDraftPacket } from '../src/core-game/ai';
 
 // Acceptance cases written before the core implementation. U28–U32 require
 // storage/tutorial UI adapters and are deliberately not claimed by this file.
@@ -619,4 +619,20 @@ for(const seats of [2,3,4]) test(`Recall exposure is one attempt per person per 
   s=passRound(s);
   s.active=1;
   assert.ok(legalActions(viewForSeat(s,1),1).some(a=>a.type==='recall'&&a.target===card('alba',2)),'a new round clears the attempt');
+});
+
+
+test('Computer draft packets are preselected privately without changing the game',()=>{
+ const state=createTutorial();
+ for(const pass of [3,2,1]) {
+  state.setup!.pass=pass;
+  const before=structuredClone(state);
+  const view=viewForSeat(state,1);
+  const packet=chooseDraftPacket(view);
+  assert.equal(packet.length,pass);assert.equal(new Set(packet).size,pass);
+  assert.ok(packet.every(id=>state.players[1].hand.includes(id)));
+  assert.deepEqual(state,before);assert.deepEqual(view,viewForSeat(state,1));
+  const changed=structuredClone(state);changed.players[0].hand.reverse();changed.deck.reverse();
+  assert.deepEqual(chooseDraftPacket(viewForSeat(changed,1)),packet);
+ }
 });

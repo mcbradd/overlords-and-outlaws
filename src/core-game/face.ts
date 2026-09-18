@@ -41,10 +41,10 @@ const RULE_AID_TOPICS = [
     ],
   },
   {
-    title: "Recall",
+    title: "Challenge",
     paragraphs: [
-      "Recall a rival Court person with a hand card of their Dynasty. One attempt per person per round, across all rivals.",
-      "Their controller gets one answer: Defend (aid 3) or let it happen.",
+      "Challenge a rival Court person with a hand card of their Dynasty. One attempt per person per round, across all rivals.",
+      "Their controller gets one answer: Defend (aid 3) or Retreat.",
       "If undefended, exchange your lead for the target. Target goes to your Played; lead goes to their Played. Both return to their new owners next round.",
       "Resolve lost offices and marriage support immediately. An interrupted Crown does not resume.",
     ],
@@ -52,10 +52,10 @@ const RULE_AID_TOPICS = [
   {
     title: "Defend",
     paragraphs: [
-      "Only the target's controller answers a Recall. Use a hand card matching the lead's Dynasty and strictly higher rank.",
+      "Only the target's controller answers a challenge. Use a hand card matching the lead's Dynasty and strictly higher rank.",
       "Ace also answers J, Q or K. It cannot answer 2–10. Any 2–K answers Ace. Equal rank never answers.",
-      "Lead goes to attacker's Played; answer goes to defender's Played. Target stays in Court. Both cards return next round.",
-      "One answer only; no counter-answer. Declining gives you the attacking lead in exchange for the target (aid 2).",
+      "Lead goes to challenger's Played; answer goes to defender's Played. Target stays in Court. Both cards return next round.",
+      "One answer only; no counter-answer. Retreating gives you the challenging lead in exchange for the target (aid 2).",
     ],
   },
   {
@@ -101,7 +101,7 @@ const RULE_AID_TOPICS = [
       "Courts, Played, Crown, marriage links, attempt and offer marks are public. Opponents' hand counts are public; unplayed identities stay private. Publicly revealed identities may be remembered.",
     ],
   },
-  { title: "Return to hand", paragraphs: [
+  { title: "Recall", paragraphs: [
     "Spend your turn to move one of your Court Nobles into your hand. It is available from your next opportunity, including a defense. Clear consecutive passes.",
     "Returning a ruler leaves that office empty. Returning a required person breaks the Crown claim. Returning either spouse breaks the marriage; an unsupported foreign spouse goes to Played.",
     "The returned identity remains known, like every card seen in public.",
@@ -140,7 +140,7 @@ export const RULE_AIDS = RULE_AID_TOPICS.flatMap((aid, index) => {
 });
 const REFERENCE_INDEX = [
   "Native: Recruit or name an heir.",
-  "Same suit: Recall or Defend.",
+  "Same suit: Challenge or Defend.",
   "Trade for a rival’s Played card.",
   "Foreign heir: match a native Queen.",
   "Complete procedures: shared rule aids 1–10.",
@@ -252,18 +252,21 @@ async function compose(id: string): Promise<HTMLCanvasElement> {
       ctx.closePath();
       ctx.stroke();
     }
-  ctx.fillStyle = "#eee4cd";
-  rounded(ctx, 25, 25, 102, 163, 13);
-  ctx.fill();
-  ctx.strokeStyle = "#94723e";
-  ctx.lineWidth = 2;
-  ctx.stroke();
-  ctx.fillStyle = SUIT_INK[card.dynasty] ?? "#31594e";
-  ctx.textAlign = "center";
-  ctx.font = '700 72px "Core Print Body", sans-serif';
-  ctx.fillText(rankLabel(card.rank), 76, 105);
-  ctx.font = "43px Georgia, serif";
-  ctx.fillText(SUIT_SIGNS[card.dynasty] ?? "◆", 76, 158);
+  // A full-bleed heraldic index covers the ornament, as part of the printed face.
+  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(190,0); ctx.lineTo(190,258);
+  ctx.quadraticCurveTo(190,278,168,286); ctx.lineTo(95,314); ctx.lineTo(0,278); ctx.closePath();
+  ctx.fillStyle='#f5ecd5'; ctx.fill();
+  ctx.strokeStyle=SUIT_INK[card.dynasty]; ctx.lineWidth=9; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(179,0); ctx.lineTo(179,255); ctx.quadraticCurveTo(179,268,161,276); ctx.lineTo(95,301); ctx.lineTo(0,265);
+  ctx.strokeStyle='#b58c44'; ctx.lineWidth=3; ctx.stroke();
+  ctx.fillStyle=SUIT_INK[card.dynasty]; ctx.textAlign='center';
+  ctx.font=`800 ${card.rank===10?120:144}px "Core Print Body", sans-serif`;
+  ctx.fillText(rankLabel(card.rank),91,143);
+  ctx.strokeStyle='#b58c44'; ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(23,165);ctx.lineTo(72,165);ctx.moveTo(110,165);ctx.lineTo(158,165);ctx.stroke();
+  ctx.save();ctx.translate(91,165);ctx.rotate(Math.PI/4);ctx.fillStyle='#b58c44';ctx.fillRect(-5,-5,10,10);ctx.restore();
+  ctx.fillStyle=SUIT_INK[card.dynasty];ctx.font='96px Georgia, serif';
+  ctx.fillText(SUIT_SIGNS[card.dynasty]??'◆',91,265);
   ctx.textAlign = "left";
   ctx.fillStyle = "#202e27";
   let size = 70;
@@ -291,7 +294,7 @@ async function compose(id: string): Promise<HTMLCanvasElement> {
   ctx.stroke();
   ctx.fillStyle = "#29392d";
   ctx.font = '600 32px "Core Print Body", sans-serif';
-  ctx.fillText("Recruit · Recall · Trade", 49, 824);
+  ctx.fillText("Recruit · Challenge · Trade", 49, 824);
   ctx.restore();
   return c;
 }

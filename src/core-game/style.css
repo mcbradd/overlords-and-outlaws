@@ -1347,3 +1347,113 @@ html:has(.c-draft-modal), body:has(.c-draft-modal) { height:100%; overflow:clip;
   .c-game.c-tabletop:has(.c-draft-modal) .c-table-nav { left:8px; right:auto; transform:none; max-width:48%; }
   .c-game.c-tabletop:has(.c-draft-modal) .c-draft-hands { top:4px; left:52%; right:12px; }
 }
+/* Challenge responses sit immediately above the private hand, within thumb reach. */
+.c-game.c-tabletop:has(.c-response) { padding-bottom:calc(var(--hand-height) + var(--response-height, 116px) + 40px); }
+.c-response { position:absolute; z-index:130; bottom:calc(var(--hand-height) + 30px); left:50%; transform:translateX(-50%); width:min(740px,calc(100% - 24px)); padding:12px 16px; background:#102630; border:1px solid #c5a76a; border-radius:12px; box-shadow:0 5px 18px #0008; }
+.c-response h2 { font-size:22px; margin:0 0 5px; }
+.c-response p { margin:0 0 8px; font-size:14px; }
+.c-response-actions { display:flex; gap:10px; }
+.c-response-actions button { flex:1; min-height:52px; font-size:18px; }
+.c-game.c-tabletop:has(.c-response) .c-held-card .c-card-actions { display:none; }
+#core-table.single-action-drop { outline:3px solid var(--attention-yellow); outline-offset:-4px; }
+@media(max-width:600px) { .c-response { padding:10px 12px; } .c-response h2 { font-size:18px; } .c-response p { font-size:13px; } }
+@media(max-height:500px) and (orientation:landscape) {
+  .c-game.c-tabletop:has(.c-response) { --card-width:72px; }
+  .c-game.c-tabletop:has(.c-response) .c-held-card .c-card-pick { width:100%; }
+  .c-response { display:flex; align-items:center; gap:12px; padding:8px 12px; }
+  .c-response h2 { font-size:17px; } .c-response p { font-size:12px; margin:0; }
+  .c-response-actions { min-width:220px; } .c-response-actions button { min-height:48px; font-size:16px; }
+}
+/* The hand and every action share the lower table edge. No top interaction zone. */
+.c-game.c-tabletop.c-tabletop { grid-template-rows:auto minmax(0,1fr) var(--hand-height) auto; padding:0 0 max(8px,env(safe-area-inset-bottom)); }
+.c-game.c-tabletop:not(.has-hand) { --hand-height:0px; }
+.c-game.c-tabletop > header { grid-row:1; }
+.c-game.c-tabletop .c-objective { display:none; }
+.c-game.c-tabletop > .c-board-wrap { grid-row:2; }
+.c-game.c-tabletop .c-hand { position:relative; grid-row:3; bottom:auto; left:auto; right:auto; align-self:end; }
+.c-game.c-tabletop > .c-guide { grid-row:4; justify-content:center; flex-wrap:wrap; border:0; background:transparent; padding:8px 12px; min-height:64px; }
+.c-game.c-tabletop > .c-guide > p { flex-basis:100%; text-align:center; max-width:740px; }
+.c-game.c-tabletop .c-action-area { justify-content:center; align-items:center; }
+.c-game.c-tabletop .c-action-area > button { min-width:180px; min-height:52px; font-size:18px; }
+.c-selected-actions { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+.c-selected-actions:empty { display:none; }
+.c-selected-actions button { min-height:48px; }
+.c-game.c-tabletop:has(.c-response) > .c-guide { display:none; }
+.c-game.c-tabletop .c-response { position:relative; grid-row:4; bottom:auto; left:auto; transform:none; margin:4px auto 0; }
+.c-response-inspect { flex:0 0 auto !important; font-size:14px !important; }
+.c-game.c-tabletop .c-hand-cards { --spread:min(calc(var(--card-width) * .68),calc((100vw - 64px - var(--card-width)) / max(1,var(--hand-count) - 1))); }
+.c-game.c-tabletop .c-held-card:is(:hover,:focus-within,.selected,.next-interaction,.c-locked-pick,.c-draft-selected) { z-index:calc(10 + var(--card-index)); }
+.c-game.c-tabletop .c-held-card:is(:hover,:focus-within) { transform:translateX(-50%) translateY(-14px) rotate(var(--fan-angle)); }
+.c-game.c-tabletop .c-held-card:is(.selected,.c-draft-selected,.c-locked-pick) { transform:translateX(-50%) translateY(-18px) rotate(var(--fan-angle)); }
+.c-game.c-tabletop .c-card-pick:disabled { opacity:1; filter:drop-shadow(3px 7px 5px #0009); }
+.c-game.c-tabletop:not(:has(.c-draft-modal)) .c-held-card .c-card-actions { display:none; }
+.c-game.c-tabletop .c-drag-hint { position:static; transform:none; width:auto; margin:0; padding:0; border:0; background:none; flex-basis:100%; }
+html:has(.c-game.c-tabletop),body:has(.c-game.c-tabletop) { height:100%; overflow:clip; }
+@media(max-width:600px) { .c-game.c-tabletop .c-action-area > button { min-width:150px; } .c-game.c-tabletop > .c-guide > p { font-size:13px; } }
+@media(max-height:500px) and (orientation:landscape) { .c-game.c-tabletop { --card-width:72px; } .c-game.c-tabletop .c-held-card .c-card-pick { width:100%; } }
+
+/* Yellow invitation gently breathes while waiting; selections stay green. */
+@keyframes attention-button-pulse {
+  0%,100% { box-shadow:0 0 0 3px var(--attention-yellow),0 0 8px #ffe19230; }
+  50% { box-shadow:0 0 0 4px var(--attention-yellow),0 0 19px #ffe19270; }
+}
+button.next-interaction:not(:disabled):not(.c-card-pick) { animation:attention-button-pulse 2.2s ease-in-out infinite; }
+@media(prefers-reduced-motion:reduce) { button.next-interaction:not(:disabled):not(.c-card-pick) { animation:none; } }
+
+@media(hover:hover) and (pointer:fine) {
+ .c-game.c-tabletop:has(.c-response) .c-held-card:is(:hover,:focus-within) .c-card-actions { display:flex; }
+ .c-game.c-tabletop:has(.c-response) .c-held-card .c-card-actions { z-index:200; }
+}
+
+/* The tutorial occupies its own footer row; it never dims or covers the board. */
+.c-game.c-tabletop > .c-lesson-popover {
+ position:relative; inset:auto; grid-row:4; width:min(740px,calc(100vw - 24px));
+ margin:4px auto 0; max-height:32dvh; padding:12px 16px; z-index:5;
+}
+.c-game.c-tabletop:has(> .c-lesson-popover) > :is(.c-guide,.c-response) { display:none; }
+.c-lesson-popover::backdrop { background:transparent; backdrop-filter:none; }
+.c-game .c-lesson-content h2 { margin:0 56px 6px 0; clear:none; font-size:20px; }
+.c-game .c-lesson-content > p { margin:6px 0; line-height:1.35; }
+.c-game .c-lesson-preview { width:54px; margin:0 0 6px 12px; }
+.c-game .c-lesson-content .c-subtle { display:none; }
+.c-game .c-lesson-content .c-kicker { font-size:10px; margin:0 0 4px; }
+.c-game .c-lesson-content > .primary { clear:none; }
+@media(max-height:500px) and (min-width:600px) {
+ .c-game.c-tabletop > .c-lesson-popover { max-height:30dvh; }
+ .c-game .c-lesson-content { padding-right:150px; }
+ .c-game .c-lesson-content > .primary { position:absolute;right:16px;bottom:12px; }
+ .c-game .c-lesson-preview { display:none; }
+}
+
+.c-game .c-lesson-content { display:grid;grid-template-columns:minmax(0,1fr) 60px;gap:6px; }
+.c-game .c-lesson-content :is(.c-kicker,h2,.primary) { grid-column:1 / -1; }
+.c-game .c-lesson-content .c-lesson-preview { grid-column:2;grid-row:3;float:none;margin:0; }
+.c-game .c-lesson-content > p:not(.c-kicker):not(.c-subtle) { grid-column:1;grid-row:3;max-height:12dvh;overflow:auto;margin:0; }
+.c-game .c-lesson-content > .primary { grid-row:4;justify-self:start;min-width:140px; }
+@media(max-height:500px) and (min-width:600px) {
+ .c-game .c-lesson-content { display:block; }
+ .c-game .c-lesson-content > p:not(.c-kicker):not(.c-subtle) { max-height:9dvh; }
+}
+
+.c-game.reduced-motion button.next-interaction { animation:none; }
+
+.c-game > .c-lesson-popover > .c-close { position:absolute;top:10px;right:10px;float:none;margin:0;min-height:40px; }
+.c-game .c-lesson-content h2 { margin-right:90px; }
+
+.c-game.c-tabletop > .c-guide { flex-direction:column; gap:6px; }
+.c-game.c-tabletop .c-action-area { margin:0; }
+.c-game.c-tabletop .c-draft-modal { flex-direction:column;gap:6px;text-align:center; }
+.c-game.c-tabletop .c-draft-modal > button { width:min(320px,100%);min-height:52px;align-self:center; }
+
+.c-game.c-tabletop .c-hand-sort { position:fixed;bottom:max(8px,env(safe-area-inset-bottom));right:12px;z-index:8;min-height:36px;padding:6px 10px;font-size:12px;background:#0c2025;color:#eadcb8;border-color:#746442; }
+@media(max-width:600px) {
+ .c-game.c-tabletop.c-tabletop { grid-template-rows:auto minmax(0,1fr) var(--hand-height) auto auto; }
+ .c-game.c-tabletop .c-hand-sort { position:relative;grid-row:5;justify-self:end;right:auto;bottom:auto;margin:3px 12px 0; }
+}
+
+@media(max-height:500px) and (orientation:landscape) {
+ .c-game.c-tabletop:has(.c-draft-modal) { --card-width:60px; }
+ .c-game.c-tabletop .c-draft-modal { gap:3px;padding:4px 12px; }
+ .c-game.c-tabletop .c-draft-modal > button { min-height:44px;height:44px;padding:6px 12px; }
+ .c-game.c-tabletop .c-draft-hands .c-back-fan { transform:scale(.5);height:32px; }
+}

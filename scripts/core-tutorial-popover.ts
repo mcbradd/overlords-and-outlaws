@@ -8,6 +8,9 @@ export async function completePopoverTutorial(page:Page,capture:(name:string)=>P
  await expect(page.locator('.c-draft-modal')).toBeVisible();
  await page.locator('[data-do="lesson-help"]').click();
  await expect(page.locator('.c-lesson-popover')).toBeVisible();
+ const dock=await page.locator('.c-lesson-popover').evaluate(e=>({modal:e.matches(':modal'),top:e.getBoundingClientRect().top,boardBottom:document.querySelector('#core-table')!.getBoundingClientRect().bottom}));
+ assert.equal(dock.modal,false);assert.ok(dock.top>=dock.boardBottom);
+ await expect(page.locator('.c-lesson-popover .primary')).toHaveText('Continue');
  const before=await read();await capture('opening-popover');
  await page.locator('.c-lesson-popover [data-do="close"]').last().click();
  await expect(page.locator('.c-lesson-popover')).toHaveCount(0);
@@ -38,6 +41,7 @@ export async function completePopoverTutorial(page:Page,capture:(name:string)=>P
      }
      await page.locator('[data-do="draft-pass"]').click();
    }
+   else if(step.type==='decline') { await expect(page.locator('.c-response')).toContainText('Alexander III must retreat');await capture('forced-retreat-at-button');await page.locator('[data-do="respond-retreat"]').click(); }
    else if(step.card) await playCard(page,step.card,step.type,step.target??step.supporter,false);
    else await page.locator('[data-do="generic"]').click();
   }
@@ -54,7 +58,7 @@ if(process.argv[1]?.replaceAll('\\','/').endsWith('/core-tutorial-popover.ts')) 
  try{for(const viewport of [{width:1440,height:900},{width:390,height:844},{width:844,height:390}]) {
   const page=await browser.newPage({viewport,reducedMotion:'reduce'});
   await page.goto(process.env.BASE_URL??'http://localhost:5173');await page.locator('[data-do="intro"]').click();await page.locator('[data-do="teach"]').click();
-  await completePopoverTutorial(page,async name=>{const path=`${out}/${viewport.width}-${name}.png`;await page.screenshot({path});rows.push({viewport,name,path,inspected:false});});
+  await completePopoverTutorial(page,async name=>{const path=`${out}/${viewport.width}-${name}.png`;await page.waitForTimeout(750);await page.screenshot({path});rows.push({viewport,name,path,inspected:false});});
   await page.close();console.log(`Popover tutorial passed ${viewport.width}x${viewport.height}`);
  }}finally{writeFileSync(`${out}/report.json`,JSON.stringify({rows},null,2));await browser.close();}
 }

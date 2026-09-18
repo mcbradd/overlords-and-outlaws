@@ -40,7 +40,7 @@ export function createGame(options: { seed: string | number; dynasties: readonly
 export function createTutorial(): CoreState {
   const s = createGame({ seed: 'build-5-tutorial', dynasties: ['alba', 'plantagenet'] });
   s.players[0].hand = ['alba-0','alba-2','alba-4','alba-5','alba-6','plantagenet-6','plantagenet-7','plantagenet-8'];
-  s.players[1].hand = ['plantagenet-0','plantagenet-2','plantagenet-3','plantagenet-4','plantagenet-5','alba-3','alba-7','alba-8'];
+  s.players[1].hand = ['plantagenet-0','plantagenet-2','plantagenet-3','plantagenet-4','alba-12','alba-3','alba-7','alba-8'];
   const used=s.players.flatMap(p=>p.hand);
   s.deck=CARDS.filter(c=>s.dynasties.includes(c.dynasty)&&!used.includes(c.id)).map(c=>c.id);
   s.events=['Prepared eight-card teaching deal. No player has declared a Dynasty.'];
@@ -309,7 +309,7 @@ export function applyAction(state: CoreState, action: CoreAction): CoreState {
       (s.attempts[action.seat] ??= []).push(action.target!);
       s.pending = { type: 'recall', seat: action.seat, other, card: id!, target: action.target };
       s.phase = 'recall'; s.passes = [];
-      s.events.push(`${seatName(s, action.seat)} plays ${name(id!)} to Recall ${name(action.target!)}. Its controller may Defend once or let the person go.`);
+      s.events.push(`${seatName(s, action.seat)} Challenges with ${name(id!)} for ${name(action.target!)}. Its controller may Defend or Retreat.`);
       break;
     }
     case 'defend': {

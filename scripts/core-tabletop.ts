@@ -1,10 +1,24 @@
-import { chromium, expect, type Page } from "@playwright/test";
+import { chromium, expect, type Page, type Locator } from "@playwright/test";
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
 import { applyAction } from '../src/core-game/engine';
 import { createGame } from '../tests/core-established-fixture';
 import { CARDS } from "../src/core-game/content";
 import { encodeSave } from "../src/core-game/storage";
+
+export async function clickExposed(card: Locator) {
+  await card.focus();
+  await card.page().waitForTimeout(200);
+  const point=await card.evaluate(el=>{
+    const r=el.getBoundingClientRect();
+    for(const y of [.2,.35,.5,.7]) for(const x of [.12,.2,.3,.5,.8]) {
+      const px=r.left+r.width*x,py=r.top+r.height*y;
+      if(el.contains(document.elementFromPoint(px,py))) return {x:px,y:py};
+    }
+    throw Error('Card has no exposed clickable area');
+  });
+  await card.page().mouse.click(point.x,point.y);
+}
 
 export async function playCard(
   page: Page,
@@ -16,7 +30,11 @@ export async function playCard(
 ) {
   const card = page.locator(`[data-do="select"][data-card="${id}"]`);
   await card.focus();
-  if (["draft-pick","declare-pick","repair"].includes(type)) { await card.click(); return; }
+  if (["draft-pick","declare-pick","repair"].includes(type)) { await clickExposed(card); return; }
+  if(type==='defend') {
+    await clickExposed(card);await page.locator('[data-do="respond-defend"]').click();return;
+  }
+  await clickExposed(card);
   const action = page.locator(
     `[data-do="arm"][data-card="${id}"][data-type="${type}"][data-recruit="${recruit}"]`,
   );
