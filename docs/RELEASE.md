@@ -117,7 +117,7 @@ candidates as well as Main releases; it does not authorize Main promotion.
 
 The restored inheritance opening additionally requires `core-inheritance.ts` and
 `core-inheritance.test.ts`: actual 2/3/4-player eight-card openings, every pass,
-private handoffs, declaration, duplicate-Dynasty and repair coverage, followed
+private handoffs, empty Courts, founding, marriage, spouse succession and rank/gender parity, followed
 by Court-to-hand withdrawal. Desktop contextual action and compact touch
 inspection must both spend exactly one turn without a confirmation.
 Legacy post-setup action fixtures are explicitly constructed in

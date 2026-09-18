@@ -5,6 +5,7 @@ export interface CoreCard {
   dynasty: Dynasty;
   rank: number;
   name: string;
+  gender: 'male' | 'female';
   queen: boolean;
   founder: boolean;
   artRef: string;
@@ -25,6 +26,7 @@ export interface CoreCrown {
 
   reignRound: number | null;
 }
+/** queen is the legacy serialized name for the ruler who initiated this marriage. */
 export interface CoreMarriage { seat: number; queen: string; spouse: string }
 export interface CorePending {
   type: 'recall' | 'trade';

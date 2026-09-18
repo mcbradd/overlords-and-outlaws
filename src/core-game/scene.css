@@ -210,9 +210,10 @@
   padding: 0;
   border: 0;
   background: transparent;
-  min-height: 44px;
+  min-height: 0;
 }
 .core-table-seat.valid-drop {
+  min-height: 44px;
   pointer-events: auto;
   padding: 5px 16px;
 }

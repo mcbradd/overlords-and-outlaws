@@ -30,7 +30,7 @@ export function createGame(options: { seed: string | number; dynasties: readonly
       seat, dynasty: null, hand: [], court: [], played: [], ruler: null,
     })),
     deck, crown: null, marriages: [], passes: [], attempts: {}, offers: {}, pending: null,
-    result: null, events: ['Round 1 begins. Eight cards each. Pass three, two, then one clockwise before declaring a Dynasty.'], knownHands: {},
+    result: null, events: ['Round 1 begins. Eight cards each. Pass three, two, then one clockwise before playing your first ruler into an empty Court.'], knownHands: {},
   };
   for (let deal = 0; deal < 8; deal++) for (const player of s.players) player.hand.push(s.deck.shift()!);
   assertInvariants(s);
@@ -39,8 +39,8 @@ export function createGame(options: { seed: string | number; dynasties: readonly
 
 export function createTutorial(): CoreState {
   const s = createGame({ seed: 'build-5-tutorial', dynasties: ['alba', 'plantagenet'] });
-  s.players[0].hand = ['alba-0','alba-2','alba-4','alba-5','alba-6','plantagenet-6','plantagenet-7','plantagenet-8'];
-  s.players[1].hand = ['plantagenet-0','plantagenet-2','plantagenet-3','plantagenet-4','alba-12','alba-3','alba-7','alba-8'];
+  s.players[0].hand = ['alba-0','alba-4','alba-5','alba-14','alba-8','plantagenet-2','plantagenet-3','plantagenet-4'];
+  s.players[1].hand = ['plantagenet-0','plantagenet-5','plantagenet-6','plantagenet-14','alba-12','alba-2','alba-3','alba-15'];
   const used=s.players.flatMap(p=>p.hand);
   s.deck=CARDS.filter(c=>s.dynasties.includes(c.dynasty)&&!used.includes(c.id)).map(c=>c.id);
   s.events=['Prepared eight-card teaching deal. No player has declared a Dynasty.'];
@@ -74,9 +74,8 @@ export function viewForSeat(state: CoreState, seat: number): CoreView {
 function supported(view: CoreView | CoreState, seat: number, id: string | null): boolean {
   if (!id) return false;
   const player = view.players[seat];
-  return player.court.includes(id) && (native(id, player.dynasty) ||
-    view.marriages.some(link => link.seat === seat && link.spouse === id &&
-      player.court.includes(link.queen) && native(link.queen, player.dynasty) && BY_ID[link.queen].queen));
+  return player.court.includes(id) && (native(id, player.dynasty) || player.ruler===id || (view.result?.winner===seat && view.crown?.oldRuler===id) ||
+    view.marriages.some(link => link.seat===seat && [link.queen,link.spouse].includes(id) && player.court.includes(link.queen) && player.court.includes(link.spouse)));
 }
 
 /** Candidate generation never receives an opponent's private hand or deck order. */
@@ -109,17 +108,14 @@ export function legalActions(view: CoreView, seat: number): CoreAction[] {
   for(const card of player.court) add({ type: 'withdraw', card });
   for (const id of player.hand) {
     const card = BY_ID[id];
-    if (native(id, player.dynasty)) {
+    if (!player.court.length || native(id, player.dynasty)) {
       add({ type: 'recruit', card: id });
-      if (!view.crown && supported(view, seat, player.ruler)) {
+      if (!view.crown && supported(view, seat, player.ruler) && view.marriages.some(link=>link.seat===seat && [link.queen,link.spouse].includes(player.ruler!))) {
         add({ type: 'name-heir', card: id });
       }
-    } else if (!view.crown && player.ruler && native(player.ruler, player.dynasty)) {
-      for (const queen of player.court) if (queen !== player.ruler && native(queen, player.dynasty) &&
-        BY_ID[queen].queen && Math.abs(BY_ID[queen].rank - card.rank) <= 1 &&
-        !view.marriages.some(link => link.queen === queen || link.spouse === queen))
-        add({ type: 'marry-heir', card: id, supporter: queen });
     }
+    if(player.ruler && BY_ID[player.ruler].gender!==card.gender && !view.marriages.some(link=>link.seat===seat && [link.queen,link.spouse].includes(player.ruler!)))
+      add({type:'marry-heir',card:id,supporter:player.ruler});
     for (const rival of view.players) if (rival.seat !== seat) {
       for (const target of rival.court) if (BY_ID[target].dynasty === card.dynasty &&
         !Object.values(view.attempts).some(targets => targets.includes(target))) add({ type: 'recall', card: id, target });
@@ -151,6 +147,7 @@ function revealHand(s: CoreState, seat: number, id: string): void {
   if (!known.includes(id)) known.push(id);
 }
 function recruit(s: CoreState, seat: number, id: string): void {
+  if (!s.players[seat].court.length) s.players[seat].dynasty=BY_ID[id].dynasty;
   s.players[seat].court.push(id);
   if (!s.players[seat].ruler) s.players[seat].ruler = id;
 }
@@ -159,16 +156,15 @@ function recruit(s: CoreState, seat: number, id: string): void {
 function settle(s: CoreState): void {
   const intact = [] as CoreState['marriages'];
   for (const link of s.marriages) {
-    const owner = s.players[link.seat];
-    if (owner.court.includes(link.queen) && owner.court.includes(link.spouse)) intact.push(link);
-    else if (owner.court.includes(link.spouse)) {
-      owner.court.splice(owner.court.indexOf(link.spouse), 1);
-      owner.played.push(link.spouse);
-      s.events.push(`${name(link.spouse)} loses marriage support and moves to Played; returns next round.`);
+    const owner=s.players[link.seat];
+    if(owner.court.includes(link.queen) && owner.court.includes(link.spouse)) intact.push(link);
+    else if(owner.ruler && !owner.court.includes(owner.ruler) && [link.queen,link.spouse].includes(owner.ruler)) {
+      const successor=link.queen===owner.ruler?link.spouse:link.queen;
+      if(owner.court.includes(successor)) {owner.ruler=successor;s.events.push(`${name(successor)} succeeds their spouse as ruler.`);}
     }
   }
-  s.marriages = intact;
-  for (const player of s.players) if (player.ruler && !supported(s, player.seat, player.ruler)) player.ruler = null;
+  s.marriages=intact;
+  for(const player of s.players) if(player.ruler && !player.court.includes(player.ruler)) player.ruler=null;
   if (s.crown) {
     const crown = s.crown, player = s.players[crown.seat];
     const required = [crown.oldRuler, crown.heir];
@@ -243,7 +239,7 @@ function setupPick(s: CoreState, action: CoreAction): void {
     for (const p of s.players) s.players[(p.seat+1)%s.players.length].hand.push(...setup.picks[p.seat]);
     s.events.push(`Everyone passes ${setup.pass} cards clockwise at the same time.`);
     setup.pass--; setup.picks = {};
-    if (!setup.pass) { s.phase = 'declare'; prepareDeclaration(s); }
+    if (!setup.pass) { s.setup=null; s.phase='action'; s.active=s.first; s.events.push('The draft is complete. All Courts are empty. Your first Noble establishes your Dynasty and becomes ruler.'); }
   } else {
     for (const p of s.players) {
       const declared=setup.picks[p.seat];
@@ -294,17 +290,20 @@ export function applyAction(state: CoreState, action: CoreAction): CoreState {
       s.events.push(`${seatName(s, action.seat)} recruits ${name(id!)} from hand to Court.`);
       s.passes = []; nextTurn(s, action.seat);
       break;
-    case 'name-heir':
     case 'marry-heir':
+      removeFromHand(s,action.seat,id!);player.court.push(id!);
+      s.marriages.push({seat:action.seat,queen:player.ruler!,spouse:id!});
+      s.events.push(`${name(player.ruler!)} marries ${name(id!)}. An heir may now be played on a later turn.`);
+      s.passes=[];nextTurn(s,action.seat);break;
+    case 'name-heir':
       removeFromHand(s, action.seat, id!); player.court.push(id!);
-      if (action.type === 'marry-heir') s.marriages.push({ seat: action.seat, queen: action.supporter!, spouse: id! });
       s.crown = { seat: action.seat, stage: 'notice', oldRuler: player.ruler!, heir: id!, reignRound: null };
       s.events.push(`${seatName(s, action.seat)} names ${name(id!)} heir. Keep ruler ${name(player.ruler!)} and this heir through the whole of next round to secure succession.`);
       s.passes = []; nextTurn(s, action.seat);
       break;
     case 'recall': {
       const other = s.players.find(candidate => candidate.court.includes(action.target!))!.seat;
-      removeFromHand(s, action.seat, id!); player.played.push(id!);
+      removeFromHand(s, action.seat, id!);
       (s.attempts[action.seat] ??= []).push(action.target!);
       s.pending = { type: 'recall', seat: action.seat, other, card: id!, target: action.target };
       s.phase = 'recall'; s.passes = [];
@@ -314,6 +313,7 @@ export function applyAction(state: CoreState, action: CoreAction): CoreState {
     case 'defend': {
       const pending = s.pending!;
       removeFromHand(s, action.seat, id!); player.played.push(id!);
+      s.players[pending.seat].played.push(pending.card);
       s.events.push(`${name(id!)} defends against ${name(pending.card)}. ${name(pending.target!)} stays in Court.`);
       nextTurn(s, pending.seat);
       break;
@@ -342,7 +342,6 @@ export function applyAction(state: CoreState, action: CoreAction): CoreState {
       if (pending.type === 'recall') {
         player.court.splice(player.court.indexOf(pending.target!), 1);
         const attacker = s.players[pending.seat];
-        attacker.played.splice(attacker.played.indexOf(pending.card), 1);
         attacker.played.push(pending.target!);
         player.played.push(pending.card);
         s.events.push(`${name(pending.target!)} goes to ${seatName(s, pending.seat)} in exchange for ${name(pending.card)}, which goes to ${seatName(s, pending.other)}. Both enter Played and return to their new owners next round.`);
@@ -375,9 +374,9 @@ export function assertInvariants(s: CoreState): void {
   require(Array.isArray(s.marriages) && Array.isArray(s.passes) && record(s.attempts) && record(s.offers) && record(s.knownHands), 'procedure evidence');
   require(Object.keys(s.knownHands).every(key => String(Number(key)) === key && seat(Number(key))), 'known hand seats');
   require(Array.isArray(s.events) && s.events.every(event => typeof event === 'string'), 'events');
-  const ids: string[] = [...s.deck, ...(s.setup?.repairPile ?? [])];
+  const ids: string[] = [...s.deck, ...(s.setup?.repairPile ?? []), ...(s.pending?.type==='recall'?[s.pending.card]:[])];
   for (const [index, player] of s.players.entries()) {
-    require(player && player.seat === index && (player.dynasty === null ? !!s.setup : s.dynasties.includes(player.dynasty)), 'player identity');
+    require(player && player.seat === index && (player.dynasty === null ? !player.court.length && player.ruler===null : s.dynasties.includes(player.dynasty)), 'player identity');
     require(Array.isArray(player.hand) && Array.isArray(player.court) && Array.isArray(player.played), 'card zones');
     ids.push(...player.hand, ...player.court, ...player.played);
     require(player.ruler === null || typeof player.ruler === 'string' && player.court.includes(player.ruler), 'ruler location');
@@ -409,8 +408,7 @@ export function assertInvariants(s: CoreState): void {
     require(link && seat(link.seat), 'marriage seat');
     const player = s.players[link.seat];
     require(player.court.includes(link.queen) && player.court.includes(link.spouse) && link.queen !== link.spouse &&
-      native(link.queen, player.dynasty) && BY_ID[link.queen].queen && !native(link.spouse, player.dynasty) &&
-      Math.abs(BY_ID[link.queen].rank - BY_ID[link.spouse].rank) <= 1 &&
+      BY_ID[link.queen].gender!==BY_ID[link.spouse].gender &&
       !paired.has(link.queen) && !paired.has(link.spouse), 'marriage support');
     paired.add(link.queen); paired.add(link.spouse);
   }
@@ -438,7 +436,7 @@ export function assertInvariants(s: CoreState): void {
     const pending = s.pending;
     require((pending.type === 'recall' || pending.type === 'trade') && s.phase === pending.type &&
       seat(pending.seat) && seat(pending.other) && pending.seat !== pending.other && s.active === pending.seat, 'pending response');
-    if (pending.type === 'recall') require(s.players[pending.seat].played.includes(pending.card) &&
+    if (pending.type === 'recall') require(!s.players[pending.seat].played.includes(pending.card) &&
       !!pending.target && s.players[pending.other].court.includes(pending.target) &&
       BY_ID[pending.card].dynasty === BY_ID[pending.target].dynasty && s.attempts[pending.seat]?.includes(pending.target), 'Recall evidence');
     else require(s.players[pending.seat].hand.includes(pending.card) && !!pending.request && !!BY_ID[pending.request] &&

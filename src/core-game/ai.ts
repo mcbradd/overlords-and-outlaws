@@ -18,27 +18,13 @@ function dependencies(view: CoreView): string[] {
 function handValue(view: CoreView, seat: number, id: string): number {
   const player = view.players[seat], card = BY_ID[id];
   let value = card.rank * 0.18 + (card.rank === 1 ? 1.5 : 0);
-  if (card.dynasty === player.dynasty) {
-    value += !player.ruler ? 12 : player.court.filter(person => BY_ID[person].dynasty === player.dynasty).length < 2 ? 8 : 4;
-    if (card.queen) value += 2;
-  } else {
-    value += 2;
-    if (!view.crown && player.court.some(queen => BY_ID[queen].dynasty === player.dynasty && BY_ID[queen].queen &&
-      Math.abs(BY_ID[queen].rank - card.rank) <= 1 && !view.marriages.some(link => link.queen === queen))) value += 8;
-  }
+  if (card.dynasty === player.dynasty) value += !player.ruler ? 12 : 4;
+  if(player.ruler && card.gender!==BY_ID[player.ruler].gender && !view.marriages.some(link=>link.seat===seat&&[link.queen,link.spouse].includes(player.ruler!))) value+=8;
   return value;
 }
 
-function usefulDevelopment(view: CoreView, seat: number, id: string): boolean {
-  const player = view.players[seat];
-  if (!player.ruler || player.court.filter(person => BY_ID[person].dynasty === player.dynasty).length < 2) return true;
-  return !view.crown && BY_ID[id].queen && (player.hand ?? []).some(spouse =>
-    BY_ID[spouse].dynasty !== player.dynasty && Math.abs(BY_ID[spouse].rank - BY_ID[id].rank) <= 1) &&
-    !player.court.some(queen => BY_ID[queen].queen && nativeQueen(view, seat, queen));
-}
-function nativeQueen(view: CoreView, seat: number, id: string): boolean {
-  return BY_ID[id].dynasty === view.players[seat].dynasty &&
-    !view.marriages.some(link => link.queen === id || link.spouse === id);
+function usefulDevelopment(view:CoreView,seat:number,_id:string):boolean {
+ return !view.players[seat].ruler;
 }
 
 /** Estimate a response from public identities and remaining unknown cards only. */
@@ -65,7 +51,7 @@ function score(view: CoreView, action: CoreAction, policy: CorePolicy): [number,
     case 'draft-pick': {
       const hand=player.hand!;
       const count=hand.filter(id=>BY_ID[id].dynasty===BY_ID[action.card!].dynasty).length;
-      return [-count*20-BY_ID[action.card!].rank*.1, 'Preserve the largest matching group for declaration.'];
+      return [-count*20-BY_ID[action.card!].rank*.1, 'Preserve cards of your intended Dynasty for ruler, heir and defense.'];
     }
     case 'declare-pick': return [BY_ID[action.card!].rank, 'Place three matching Nobles; the first is ruler.'];
     case 'repair': return [-BY_ID[action.card!].rank, 'Set aside a different-Dynasty card to finish repair.'];
@@ -73,7 +59,7 @@ function score(view: CoreView, action: CoreAction, policy: CorePolicy): [number,
       const target = view.pending!.target!;
       const critical = crown?.seat === seat && required.includes(target);
       const ruler = target === player.ruler;
-      const supportsRuler = view.marriages.some(link => link.queen === target && link.spouse === player.ruler);
+      const supportsRuler = view.marriages.some(link => [link.queen,link.spouse].includes(target) && [link.queen,link.spouse].includes(player.ruler!));
       return [(critical ? 200 : ruler || supportsRuler ? 30 : 9) - handValue(view, seat, action.card!) * 0.35,
         critical ? 'Spend a legal ranked answer to keep the person required for your Crown.' :
           'Protect this public person while spending the least valuable sufficient answer.'];
@@ -89,28 +75,24 @@ function score(view: CoreView, action: CoreAction, policy: CorePolicy): [number,
       return [gain + 0.1 - (exposingCrownAnswer ? 7 : 0),
         'Compare the exact incoming person with the card surrendered, including the answers needed for your Crown.'];
     }
-    case 'name-heir':
-    case 'marry-heir': {
+    case 'marry-heir': return [45-handValue(view,seat,action.card!)*.3, 'Marry the ruler to establish succession; retain strong cards as concealed answers.'];
+    case 'name-heir': {
       const remaining = (player.hand ?? []).filter(id => id !== action.card);
       const requiredSuits = new Set([BY_ID[player.ruler!].dynasty, BY_ID[action.card!].dynasty]);
       const retained = remaining.filter(id => requiredSuits.has(BY_ID[id].dynasty));
       const strongest = retained.reduce((rank, id) => Math.max(rank, BY_ID[id].rank), 0);
       const exposed = !retained.length && view.players.some(other => other.seat !== seat && other.handCount > 0);
       return [70 + strongest * 0.6 - (exposed ? 22 : 0) - handValue(view, seat, action.card!) * 0.12,
-        action.type === 'marry-heir' ? 'Use this matching foreign marriage to begin succession, exposing both partners to Challenge.' :
-          'Begin the Crown attempt with the people already assembled; retain the remaining hand for answers.'];
+        'Begin the Crown attempt with the people already assembled; retain the remaining hand for answers.'];
     }
     case 'recruit': {
       const card = BY_ID[action.card!];
       const count = player.court.filter(id => BY_ID[id].dynasty === player.dynasty).length;
       const recovery = !player.ruler;
-      const queenMatch = card.queen && (player.hand ?? []).some(id => BY_ID[id].dynasty !== player.dynasty &&
-        Math.abs(BY_ID[id].rank - card.rank) <= 1);
       const useful = usefulDevelopment(view, seat, action.card!);
-      return [(recovery ? 32 : count < 2 ? 15 : useful ? 3 : -7) + (queenMatch ? 5 : 0) + (policy === 'builder' && useful ? 3 : 0) -
+      return [(recovery ? 32 : count < 2 ? 15 : useful ? 3 : -7) + (policy === 'builder' && useful ? 3 : 0) -
         handValue(view, seat, action.card!) * 0.2 - (crown?.seat === seat ? 20 : 0),
         recovery ? 'Put a native ruler back in Court so your family can pursue succession again.' :
-          queenMatch ? 'Expose this Queen to prepare a particular matching marriage from your hand.' :
             'Develop your public Court while giving up this card as a concealed answer.'];
     }
     case 'recall': {

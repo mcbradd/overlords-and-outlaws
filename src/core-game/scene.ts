@@ -17,6 +17,7 @@ import {
 import "./scene.css";
 export interface CoreTableView {
   viewer?: number;
+  setup?: unknown;
   first?: number;
   players: {
     name?: string;
@@ -161,7 +162,7 @@ function crownCanvas(): HTMLCanvasElement {
   const ctx = c.getContext("2d")!;
   ctx.fillStyle = "#eee4cd";
   ctx.beginPath();
-  ctx.roundRect(0, 0, 315, 440, 16);
+  ctx.roundRect(0, 0, 315, 440, 12.5);
   ctx.fill();
   ctx.strokeStyle = "#b18b43";
   ctx.lineWidth = 4;
@@ -652,6 +653,10 @@ export class CoreTable {
     woodTexture.wrapS = woodTexture.wrapT = THREE.RepeatWrapping;
     woodTexture.repeat.set(1 / 600, 1 / 600);
     this.textures.push(woodTexture);
+    // The surrounding council surface shares the board camera and vanishing point.
+    const surroundTexture=canvasTexture(walnutCanvas());surroundTexture.wrapS=surroundTexture.wrapT=THREE.RepeatWrapping;surroundTexture.repeat.set((this.boardW+500)/900,(this.boardH+400)/1200);this.textures.push(surroundTexture);
+    const surround=new THREE.Mesh(surface(this.boardW+500,this.boardH+400,32),new THREE.MeshStandardMaterial({map:surroundTexture,color:0xc9ac82,roughness:.65}));
+    surround.position.z=-90;surround.receiveShadow=true;this.content.add(surround);
     const wood = new THREE.Mesh(
       new THREE.ExtrudeGeometry(
         roundedShape(this.boardW + 70, this.boardH + 70, 40),
@@ -750,16 +755,18 @@ export class CoreTable {
         cy = ((rows - 1) / 2 - row) * seatH;
       const courtStart = cx - seatW / 2 + 664;
       const courtCenter = courtStart + 264;
-      this.seats.push(new THREE.Vector3(courtCenter, cy + seatH / 2 - 204, 0));
+      this.seats.push(new THREE.Vector3(courtCenter, cy + seatH / 2 - 280, 0));
       const seatLabel = this.label(
         `${p.name ?? `Player ${seat + 1}`}`,
-        courtStart,
+        courtCenter,
         cy + seatH / 2 - 64,
         9,
         "core-table-seat",
       );
       seatLabel.element.dataset.courtSeat = String(seat);
+      if(view.setup) seatLabel.element.style.visibility="hidden";
       seatLabel.userData.cardTop=cy+seatH/2-112;
+      seatLabel.userData.seatTop=cy+seatH/2-65;
       seatLabel.element.tabIndex = -1;
       seatLabel.element.setAttribute(
         "aria-label",
@@ -790,7 +797,12 @@ export class CoreTable {
         emblem.element.title = `${p.name ?? p.dynasty} goes first this round`;
       }
       const startX = courtStart,
-        startY = cy + seatH / 2 - 224;
+        startY = cy + seatH / 2 - 300;
+      if(!view.setup && seat!==view.viewer && (p.handCount??0)>0) {
+        const hx=startX-440,hy=startY+25;
+        for(let i=0;i<Math.min(3,p.handCount??0);i++) {const back=this.stock(backing,70);back.position.set(hx+i*22,hy,10+i*2);back.rotation.z=(i-1)*-.09;this.content.add(back);}
+        const anchor=this.label(`${p.handCount} cards`,hx+22,hy,12,'core-private-hand');anchor.element.dataset.handSeat=String(seat);
+      }
       for (let i = 0; i < p.court.length; i++) {
         const id = p.court[i],
           slot = this.courtSlots.get(id)!.slot,
@@ -812,7 +824,7 @@ export class CoreTable {
             ? "Ruler"
             : view.crown?.heir === id
               ? "Heir"
-              : null;
+              : view.marriages?.some(link=>[link.queen,link.spouse].includes(id)&&[link.queen,link.spouse].includes(p.ruler!)) ? "Spouse" : null;
         if (office) {
           const officeLabel=this.label(
             office,
@@ -859,13 +871,13 @@ export class CoreTable {
       // Each public name band remains exposed beside its owner's Court.
       const px = startX - 184,
         py = startY;
-      if (p.played.length) {
+      if(p.dynasty!==null) {
         const bar=new THREE.Mesh(new THREE.BoxGeometry(5,440,5),new THREE.MeshStandardMaterial({color:0xb7995c,metalness:.7,roughness:.35}));
         bar.position.set(startX-103,startY-105,5);this.content.add(bar);
         for(const y of [startY+123,startY-333]) {const tip=new THREE.Mesh(new THREE.OctahedronGeometry(9),new THREE.MeshStandardMaterial({color:0xc4a567,metalness:.7,roughness:.35}));tip.position.set(startX-103,y,6);this.content.add(tip);}
 
         const pileLabel = this.label(
-          "Played",
+          p.played.length?"Played":"Played · 0",
           px,
           py + 224,
           8,
@@ -955,7 +967,7 @@ export class CoreTable {
     const h = (w * 88) / 63,
       g = new THREE.Group();
     const body = new THREE.Mesh(
-      new THREE.ExtrudeGeometry(roundedShape(w, h, w * 0.041), {
+      new THREE.ExtrudeGeometry(roundedShape(w, h, w * (2.5 / 63)), {
         depth: 2.4,
         bevelEnabled: true,
         bevelSegments: 2,
@@ -969,7 +981,7 @@ export class CoreTable {
     body.receiveShadow = true;
     g.add(body);
     const face = new THREE.Mesh(
-      surface(w, h, w * 0.041),
+      surface(w, h, w * (2.5 / 63)),
       new THREE.MeshStandardMaterial({
         map: texture,
         roughness: 0.86,
@@ -1069,9 +1081,12 @@ export class CoreTable {
     const labelScale=Math.max(1,this.distance*2*Math.tan(THREE.MathUtils.degToRad(this.camera.fov)/2)/this.height*.9);
     const readableScale=labelScale*Math.min(1.6,Math.max(1,innerWidth/1920));
     for(const child of this.labelScene.children) if(child instanceof CSS3DObject && child.element.matches('.core-table-seat,.core-table-caption,.core-played-label,.core-table-office')) {
-      child.scale.setScalar(readableScale);
-      if(child.userData.anchorX!==undefined) child.position.x=child.userData.anchorX-readableScale*30;
-      if(child.userData.cardTop!==undefined) child.position.y=child.userData.cardTop+readableScale*(child.element.matches('.core-table-seat')?48:14);
+      const labelWidth=child.element.matches('.core-table-office')?156:child.element.matches('.core-played-label')?168:child.element.matches('.core-table-seat')?360:Infinity;
+      const scale=Math.min(readableScale,labelWidth/Math.max(1,child.element.offsetWidth));
+      child.scale.setScalar(scale);
+      if(child.userData.anchorX!==undefined) child.position.x=child.userData.anchorX-scale*30;
+      if(child.userData.cardTop!==undefined) child.position.y=child.userData.cardTop+scale*(child.element.matches('.core-table-seat')?48:14);
+      if(child.userData.seatTop!==undefined) child.position.y=Math.min(child.position.y,child.userData.seatTop);
     }
     this.renderer.render(this.scene, this.camera);
     this.labels.render(this.labelScene, this.camera);

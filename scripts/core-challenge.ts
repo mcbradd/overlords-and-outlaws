@@ -9,9 +9,10 @@ const base=process.env.BASE_URL??'http://localhost:5173';const out=process.env.C
 const browser=await chromium.launch({channel:'chrome'});
 function fixture(players=2,challenge=true,ambiguous=false,noDefense=false){
  let s=createGame({seed:501,dynasties:DYNASTIES.slice(0,players)});
- s.players[0].hand=noDefense?['plantagenet-6','plantagenet-7']:['alba-4','alba-6'];s.players[1].hand=['alba-3'];
+ s.players[0].hand=noDefense?['plantagenet-6','plantagenet-14']:['alba-4','alba-14'];s.players[1].hand=['alba-3'];
  s.players.slice(2).forEach(p=>p.hand=[]);
  if(challenge||ambiguous)s.players[0].court.push('alba-2');
+ if(ambiguous){s.players[0].court.push('alba-1');s.marriages.push({seat:0,queen:'alba-0',spouse:'alba-1'});}
  if(!challenge&&!ambiguous)s.players[0].ruler=null;
  const used=s.players.flatMap(p=>[...p.hand,...p.court]);s.deck=CARDS.filter(c=>s.dynasties.includes(c.dynasty)&&!used.includes(c.id)).map(c=>c.id);
  if(challenge){s.active=1;s=applyAction(s,legalActions(viewForSeat(s,1),1).find(a=>a.type==='recall'&&a.target==='alba-2')!);}
@@ -35,8 +36,8 @@ try {
    const disabled=await page.locator('[data-do="respond-defend"]').evaluate(e=>getComputedStyle(e).backgroundColor);assert.equal(disabled,'rgb(69, 73, 77)','Unavailable Defend is grey');
    await page.locator('[data-do="select"][data-card="alba-4"]').click();assert.deepEqual(await read(page),s);
    await expect(page.locator('[data-do="respond-defend"]')).toBeEnabled();
-   const geometry=await page.locator('.c-response').evaluate(e=>{const r=e.getBoundingClientRect();const hand=document.querySelector('.c-hand')!.getBoundingClientRect();return{top:r.top,bottom:r.bottom,hand:hand.bottom,screen:innerHeight,buttons:[...e.querySelectorAll('button')].map(b=>{const r=b.getBoundingClientRect();return{h:r.height,hit:b.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))};})};});
-   assert.ok(geometry.top>=geometry.hand-1&&geometry.bottom<=geometry.screen);assert.ok(geometry.buttons.every(b=>b.h>=44&&b.hit));
+   const geometry=await page.locator('.c-response').evaluate(e=>{const r=e.getBoundingClientRect();const hand=document.querySelector('.c-hand')!.getBoundingClientRect();return{top:r.top,bottom:r.bottom,hand:hand.top,handLeft:hand.left,right:r.right,screen:innerHeight,buttons:[...e.querySelectorAll('button')].map(b=>{const r=b.getBoundingClientRect();return{h:r.height,hit:b.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))};})};});
+   await page.screenshot({path:`${out}/geometry-${width}.png`});assert.ok(geometry.top>=0&&(geometry.bottom<=geometry.hand+1||geometry.right<=geometry.handLeft+1)&&geometry.bottom<=geometry.screen,JSON.stringify(geometry));assert.ok(geometry.buttons.every(b=>b.h>=44&&b.hit));
    await page.screenshot({path:`${out}/${players}p-${width}x${height}-response.png`});
    await page.locator('[data-do="respond-defend"]').click();
    const defense=legalActions(viewForSeat(s,0),0).find(a=>a.type==='defend'&&a.card==='alba-4')!;

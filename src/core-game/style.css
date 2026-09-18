@@ -1271,7 +1271,7 @@ a {
 .c-pool label { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
 .c-pool input { width: 20px; min-height: 20px; }
 
-.c-game.c-tabletop > .c-guide:not(:has(.c-action-area button, .c-error, > p, .c-draft-modal, .c-declaration)) { display:none; }
+.c-game.c-tabletop > .c-guide:not(:has(.c-action-area button, .c-error, > p, .c-draft-modal, .c-declaration)) { display:flex; }
 .c-game.c-tabletop .c-lesson-help { border-radius:50%; width:44px; min-width:44px; height:44px; padding:0; font-size:28px; font-weight:700; color:#ffe3a3; border:2px solid #d1ae68; box-shadow:0 0 0 3px #101e29; }
 .c-modal.c-lesson-popover { width:min(480px,calc(100vw - 32px)); max-height:calc(100dvh - 32px); padding:24px; }
 .c-lesson-content h2 { clear:both; margin-top:16px; }
@@ -1457,6 +1457,7 @@ button.next-interaction:not(:disabled):not(.c-card-pick) { animation:attention-b
 @keyframes tutorial-card-glow { 0%,100% { opacity:.55;transform:scale(.96); } 50% {opacity:1;transform:scale(1.05);} }
 .c-held-card.selected::before,.c-held-card.c-draft-selected::before { background:#55d98b99;box-shadow:0 0 30px #55d98baa; }
 .c-target-arcs { position:fixed;inset:0;z-index:150;pointer-events:none; }
+.c-target-arcs[hidden] {display:none!important;}
 .c-victory {position:fixed;inset:0;z-index:600;background:radial-gradient(ellipse at 50% 35%,#755b2de8,#071322f5 70%);display:grid;place-items:center;overflow:hidden;color:#fff1c9;}
 .c-victory-copy {position:relative;z-index:2;text-align:center;width:min(780px,94vw);animation:victory-arrive .65s ease-out;}
 .c-victory h1 {font-family:Georgia,serif;font-size:clamp(32px,5vw,76px);margin:4px 0 16px;text-shadow:0 4px 22px #e8b55755;}
@@ -1534,4 +1535,65 @@ body:has(.c-lesson-inline) .c-response > div:first-child,body:has(.c-lesson-inli
  .c-game.c-tabletop .c-draft-modal {flex-direction:column;justify-content:center;gap:4px;}
  .c-game.c-tabletop .c-draft-modal h2 {font-size:15px;margin:0;}
  .c-game.c-tabletop .c-draft-modal p {font-size:11px;margin:0;}
+}
+
+/* One restrained corner vocabulary: 2.5mm on 63×88mm cards, 4px on controls. */
+:root {--ui-corner:4px;}
+.c-game.c-tabletop :is(button,input,select,section),.c-modal,.c-modal button,.c-trade-offer button,.c-opening button,.c-intro button {border-radius:var(--ui-corner);}
+.c-game.c-tabletop .c-lesson-help {border-radius:var(--ui-corner);}
+.c-game .core-face,.c-inspect-display .core-face,.c-played-display .core-face,.c-trade-pair .core-face,.c-card-back {border-radius:3.968% / 2.841%;}
+.c-game.c-tabletop {background:radial-gradient(ellipse at 50% 30%,#28332f,#111b1b 68%,#091213);}
+.c-held-card.next-interaction:not(.c-draft-selected)::before {inset:-2px;border-radius:3.968% / 2.841%;box-shadow:0 0 9px 3px #ffd34c99;filter:blur(3px);}
+@keyframes tutorial-card-glow {0%,100%{opacity:.55;}50%{opacity:1;}}
+.c-game.c-tabletop .c-hand-sort {min-height:44px;align-self:end;margin-bottom:2px;}
+.c-game.c-tabletop.c-tabletop {grid-template-rows:76px minmax(0,1fr) var(--hand-height) 66px 132px;}
+.c-game.c-tabletop:has(.c-draft-modal) .c-held-card .c-card-actions,.c-game.c-tabletop:has(.c-declaration) .c-held-card .c-card-actions {display:none;}
+.c-game.c-tabletop .c-card-actions {background:none;border:0;box-shadow:none;padding:0;}
+.c-modal.c-inspect-display {position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:54px 16px 66px;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.c-inspect-display > .core-face {width:min(92vw,calc((100dvh - 130px) * 63 / 88));flex:none;box-shadow:0 10px 32px #0009;animation:played-card-arrive .18s ease-out;}
+.c-inspect-display .c-close {position:fixed;top:10px;right:16px;}
+.c-inspect-actions {position:fixed;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:12px;}
+.c-trade-offer {position:fixed;inset:0;z-index:240;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:18px;background:#07121bd9;padding:32px 16px;}
+.c-trade-offer h2 {margin:0;text-align:center;font-size:clamp(18px,2vw,30px);}
+.c-trade-pair {display:flex;gap:24px;align-items:flex-end;}
+.c-trade-pair figure {margin:0;width:min(38vw,calc((100dvh - 230px) * 63 / 88));}
+.c-trade-pair figcaption {font-size:14px;text-align:center;min-height:42px;}
+.c-trade-pair .core-face {width:100%;box-shadow:0 10px 28px #0009;}
+.c-trade-controls {display:flex;gap:18px;justify-content:center;}
+.c-trade-controls button {min-width:120px;min-height:48px;}
+body:has(.c-trade-offer) .c-game>.c-guide {visibility:hidden;}
+@media(max-width:600px) {.c-game.c-tabletop.c-tabletop {grid-template-rows:76px minmax(0,1fr) var(--hand-height) 66px 168px;}.c-trade-pair{gap:14px;}}
+@media(max-height:500px) and (min-width:600px) {
+ .c-game.c-tabletop.c-tabletop {grid-template-rows:50px minmax(100px,1fr) 56px 135px;}
+ .c-trade-offer {gap:8px;padding:12px;}.c-trade-pair figure {width:calc((100dvh - 142px)*63/88);}.c-trade-pair figcaption{min-height:30px;font-size:12px;}
+}
+.core-private-hand {color:#e3d2a6;font:16px Manrope,sans-serif;pointer-events:none;white-space:nowrap;}
+.c-game.c-tabletop > .c-guide:has(.c-draft-modal) {padding:8px 16px;justify-content:center;}
+.c-game.c-tabletop > .c-guide:has(.c-draft-modal) .c-action-area {display:none;}
+.c-game.c-tabletop > .c-guide .c-draft-modal {margin:0;max-height:100%;}
+.c-game.c-tabletop:has(.c-response) > .c-guide {display:flex;}
+.c-game.c-tabletop .c-response {position:fixed;grid-area:auto;z-index:130;top:var(--challenge-top);left:var(--challenge-left);bottom:auto;transform:translateX(-50%);width:var(--challenge-width);height:var(--challenge-height);max-height:none;margin:0;padding:8px 12px;display:grid;grid-template-rows:auto minmax(0,1fr) 48px;gap:8px;background:#10202bef;border:0;box-shadow:0 10px 36px #0009;}
+.c-response h2 {font-size:16px;margin:0;text-align:center;}
+.c-challenge-pair {display:flex;justify-content:center;gap:24px;min-height:0;}
+.c-challenge-pair figure {height:100%;margin:0;display:flex;flex-direction:column;align-items:center;min-width:0;}
+.c-challenge-pair figcaption {font-size:12px;line-height:20px;}
+.c-challenge-pair .core-face {height:calc(100% - 20px);width:auto;aspect-ratio:63/88;flex:none;}
+.c-game.c-tabletop .c-response-actions {width:100%;align-self:end;}
+body:has(.c-lesson-inline) .c-response > div:first-child {visibility:visible;}
+
+.core-private-hand { width:80px; height:70px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:0; }
+.c-game.c-tabletop .c-response { background:transparent; box-shadow:none; }
+.c-response h2,.c-challenge-pair figcaption {text-shadow:0 2px 4px #000,0 0 8px #000; }
+
+.c-game.c-tabletop > .c-guide {display:flex!important;}
+.c-modal.c-lesson-popover {z-index:190;}
+
+@media(min-width:601px) and (min-height:501px) and (max-height:850px) { .c-game.c-tabletop {--card-width:160px;} }
+@media(max-width:600px) and (max-height:740px) { .c-game.c-tabletop {--card-width:104px;} .c-game.c-tabletop.c-tabletop {grid-template-rows:76px minmax(0,1fr) var(--hand-height) 62px 132px;} .c-game.c-tabletop > .c-guide {height:132px;} }
+.c-game.c-tabletop .c-response {min-height:0;grid-template-columns:minmax(0,1fr);}
+
+.c-resolution-flight {position:fixed;inset:0;z-index:260;pointer-events:none;} .c-resolution-flight .core-face {width:100%;height:100%;}
+@media(max-width:600px) {
+ .c-game.c-tabletop > header [data-do="menu"] {position:absolute;top:8px;right:10px;min-height:36px;padding:8px;}
+ .c-game.c-tabletop .c-objective {top:48px!important;}
 }

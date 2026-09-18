@@ -47,7 +47,7 @@ export async function completePopoverTutorial(page:Page,capture:(name:string)=>P
      assert.deepEqual((await read()).game,beforeGame,'Declaration stays private and reversible before confirmation');
      await page.locator('[data-do="declare-confirm"]').click();
    }
-   else if(step.type==='decline') { await expect(page.locator('.c-response')).toContainText('Alexander III must retreat');await capture('forced-retreat-at-button');await page.locator('[data-do="respond-retreat"]').click(); }
+   else if(step.type==='decline') { await expect(page.locator('.c-response')).toContainText('Malcolm III must retreat');await capture('forced-retreat-at-button');await page.locator('[data-do="respond-retreat"]').click(); }
    else if(step.card) await playCard(page,step.card,step.type,step.target??step.supporter,false);
    else await page.locator('[data-do="generic"]').click();
   }

@@ -25,7 +25,7 @@ try {
           {
             dynasty: "alba",
             court: ["alba-0", "alba-2", "alba-4"],
-            played: ["alba-5", "alba-6", "alba-7"],
+            played: ["alba-5", "alba-14", "alba-15"],
             ruler: "alba-0",
           },
           {

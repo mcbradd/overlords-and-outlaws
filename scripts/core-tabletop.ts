@@ -39,7 +39,7 @@ export async function playCard(
     `[data-do="arm"][data-card="${id}"][data-type="${type}"][data-recruit="${recruit}"]`,
   );
   await action.click();
-  if(["name-heir","recruit"].includes(type)) return;
+  if(["name-heir","recruit","marry-heir"].includes(type)) return;
   const destination = target
     ? page
         .locator(

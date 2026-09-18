@@ -17,17 +17,25 @@ export class TargetArc {
  }
  show(from:Point,to:Point,reduced:boolean){
   this.reduced=reduced;this.renderer.domElement.hidden=false;
+  Object.assign(this.renderer.domElement.dataset,{fromX:String(from.x),fromY:String(from.y),toX:String(to.x),toY:String(to.y)});
   const key=[from.x,from.y,to.x,to.y,innerWidth,innerHeight].map(Math.round).join(':');if(key===this.key)return;this.key=key;
   this.group.traverse(o=>{if(o instanceof THREE.Mesh){o.geometry.dispose();(o.material as THREE.Material).dispose();}});this.group.clear();this.beads=[];
   this.renderer.setSize(innerWidth,innerHeight);Object.assign(this.camera,{left:-innerWidth/2,right:innerWidth/2,top:innerHeight/2,bottom:-innerHeight/2});this.camera.updateProjectionMatrix();
   const a=new THREE.Vector3(from.x-innerWidth/2,innerHeight/2-from.y,0),b=new THREE.Vector3(to.x-innerWidth/2,innerHeight/2-to.y,0);
   const middle=a.clone().lerp(b,.5);middle.y+=Math.min(170,a.distanceTo(b)*.24);middle.z=180;
   this.curve=new THREE.QuadraticBezierCurve3(a,middle,b);
-  const tube=new THREE.Mesh(new THREE.TubeGeometry(this.curve,64,5,12,false),new THREE.MeshStandardMaterial({color:0xffd46d,metalness:.65,roughness:.24,emissive:0x9b650e,emissiveIntensity:.45}));this.group.add(tube);
-  const head=new THREE.Mesh(new THREE.ConeGeometry(14,34,20),new THREE.MeshStandardMaterial({color:0xffe6a3,metalness:.5,roughness:.2,emissive:0x956915}));head.position.copy(b);head.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),this.curve.getTangent(1));this.group.add(head);
-  for(let i=0;i<3;i++){const bead=new THREE.Mesh(new THREE.SphereGeometry(7,12,8),new THREE.MeshBasicMaterial({color:0xfff6cb}));this.beads.push(bead);this.group.add(bead);}
+  const vertices:number[]=[],indices:number[]=[];
+  for(let i=0;i<=64;i++) {
+    const t=i/64,p=this.curve.getPoint(t),tangent=this.curve.getTangent(t),side=new THREE.Vector3(-tangent.y,tangent.x,0).normalize();
+    const width=t<.875?7:24*(1-t)/.125;
+    for(const z of [-2,2])for(const sign of [-1,1])vertices.push(p.x+side.x*width*sign,p.y+side.y*width*sign,p.z+z);
+    if(i<64){const k=i*4;indices.push(k+2,k+3,k+6,k+3,k+7,k+6,k,k+4,k+1,k+1,k+4,k+5,k,k+2,k+4,k+2,k+6,k+4,k+1,k+5,k+3,k+3,k+5,k+7);}
+  }
+  const ribbon=new THREE.BufferGeometry();ribbon.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));ribbon.setIndex(indices);ribbon.computeVertexNormals();
+  this.group.add(new THREE.Mesh(ribbon,new THREE.MeshStandardMaterial({color:0xffd46d,metalness:.6,roughness:.28,side:THREE.DoubleSide,emissive:0x77500b,emissiveIntensity:.35})));
+  for(let i=0;i<3;i++){const bead=new THREE.Mesh(new THREE.BoxGeometry(12,3,1),new THREE.MeshBasicMaterial({color:0xfff6cb}));this.beads.push(bead);this.group.add(bead);}
  }
- hide(){this.renderer.domElement.hidden=true;this.key='';}
- private tick=()=>{this.frame=requestAnimationFrame(this.tick);if(this.renderer.domElement.hidden)return;if(this.curve)this.beads.forEach((b,i)=>b.position.copy(this.curve!.getPoint(this.reduced?(i+1)/4:(performance.now()/1400+i/3)%1)));this.renderer.render(this.scene,this.camera);};
+ hide(){this.renderer.domElement.hidden=true;this.renderer.clear();this.key='';}
+ private tick=()=>{this.frame=requestAnimationFrame(this.tick);if(this.renderer.domElement.hidden)return;if(this.curve)this.beads.forEach((b,i)=>{const t=this.reduced?(i+1)/4:(performance.now()/1400+i/3)% .875;b.position.copy(this.curve!.getPoint(t));b.position.z+=3;const tangent=this.curve!.getTangent(t);b.rotation.z=Math.atan2(tangent.y,tangent.x)-Math.PI/2;});this.renderer.render(this.scene,this.camera);};
  dispose(){cancelAnimationFrame(this.frame);this.renderer.dispose();this.renderer.domElement.remove();}
 }

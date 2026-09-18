@@ -11,7 +11,7 @@ const script = (file, ...args) => [
   ...args,
 ];
 const checks = [
-  ["core-rules-and-storage", ["--import", "tsx", "--test", "tests/core-game.test.ts", "tests/core-storage.test.ts", "tests/core-player-feedback.test.ts", "tests/core-inheritance.test.ts"]],
+  ["core-rules-and-storage", ["--import", "tsx", "--test", "tests/core-game.test.ts", "tests/core-storage.test.ts", "tests/core-player-feedback.test.ts", "tests/core-inheritance.test.ts", "tests/core-roster.test.ts"]],
   ["core-player-feedback", script("core-player-feedback.ts")],
   ["core-single-selection", script("core-single-selection.ts")],
   ["core-auto-pass", script("core-auto-pass.ts")],
@@ -23,6 +23,8 @@ const checks = [
   ["core-inheritance", script("core-inheritance.ts")],
   ["core-draft-presentation", script("core-draft-presentation.ts")],
   ["core-challenge", script("core-challenge.ts")],
+  ["core-offer-presentation", script("core-offer-presentation.ts")],
+  ["core-challenge-return-regression", script("core-challenge-return-regression.ts")],
   ["core-draft-ready", script("core-draft-ready.ts")],
   ["core-hand-sort", script("core-hand-sort.ts")],
   ["core-tutorial-popover", script("core-tutorial-popover.ts")],

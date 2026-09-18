@@ -95,7 +95,7 @@ test("MARRIAGE-01: a foreign held card cannot enter Court without marriage", () 
     !options.some(
       (a) =>
         a.card === "plantagenet-13" &&
-        ["recruit", "name-heir", "marry-heir"].includes(a.type),
+        ["recruit", "name-heir"].includes(a.type),
     ),
   );
   assert.throws(() =>
@@ -114,10 +114,10 @@ test("MARRIAGE-01: a foreign held card cannot enter Court without marriage", () 
     seat: 0,
     revision: 0,
     card: "plantagenet-13",
-    supporter: "alba-1",
+    supporter: "alba-0",
   });
   assert.ok(next.players[0].court.includes("plantagenet-13"));
   assert.deepEqual(next.marriages, [
-    { seat: 0, queen: "alba-1", spouse: "plantagenet-13" },
+    { seat: 0, queen: "alba-0", spouse: "plantagenet-13" },
   ]);
 });

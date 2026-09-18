@@ -16,7 +16,7 @@ const base = process.env.BASE_URL ?? "http://localhost:5173";
 const output = process.env.FEEDBACK_OUTPUT ?? "artifacts/core/player-feedback";
 mkdirSync(output, { recursive: true });
 const s = createGame({ seed: 501, dynasties: ["alba", "plantagenet"] });
-s.players[0].hand = ["alba-6", "plantagenet-4"];
+s.players[0].hand = ["alba-14", "plantagenet-4"];
 s.players[1].hand = ["alba-5"];
 s.active = 1;
 s.deck = CARDS.filter(
@@ -65,7 +65,7 @@ try {
     const invalid = page.locator(
       '[data-do="select"][data-card="plantagenet-4"]',
     );
-    const valid = page.locator('[data-do="select"][data-card="alba-6"]');
+    const valid = page.locator('[data-do="select"][data-card="alba-14"]');
     await expect(invalid).toBeDisabled();
     await expect(valid).toBeEnabled();
     await capture("response");
@@ -85,7 +85,7 @@ try {
     );
     await expect(page.locator("dialog")).toBeVisible();
     await clickReachable(page.locator('[data-do="close"]'));
-    await playCard(page, "alba-6", "defend", undefined, viewport.width > 600);
+    await playCard(page, "alba-14", "defend", undefined, viewport.width > 600);
     await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
     if(await page.locator('[data-do="unlock"]').count()) await clickReachable(page.locator('[data-do="unlock"]'));
     await expect(invalid).toBeEnabled();

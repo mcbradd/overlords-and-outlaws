@@ -3,7 +3,7 @@
   width: 100%;
   aspect-ratio: 63/88;
   overflow: hidden;
-  border-radius: 4.1%;
+  border-radius: 3.968% / 2.841%;
   background: #eee4cd;
   color: #22362d;
   box-shadow:
@@ -63,5 +63,5 @@
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 4.1%;
+  border-radius: 3.968% / 2.841%;
 }

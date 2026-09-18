@@ -126,7 +126,7 @@ test("Played-pile rules reject old hand-trade saves without modifying their byte
     ruleset: "rank-core-v1",
     game: createTutorial(),
   });
-  assert.throws(() => decodeSave(original), /different rules/);
+  assert.throws(() => decodeSave(original), /earlier roster or ruleset/);
   const values = new Map([["prod:oando-v5-core", original]]);
   const loaded = readSave(
     { getItem: (key) => values.get(key) ?? null },

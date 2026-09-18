@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createTutorial, applyAction, legalActions, viewForSeat, assertInvariants, canDefend } from '../src/core-game/engine';
 import { createGame } from '../tests/core-established-fixture';
-import { CARDS, BY_ID } from '../src/core-game/content';
+import { CARDS, BY_ID, ROSTER_ADDITIONS } from '../src/core-game/content';
 import { CARDS as ORIGINAL_CARDS } from '../src/content';
 import { chooseAction, chooseDraftPacket } from '../src/core-game/ai';
 
@@ -58,8 +58,11 @@ function passRound(state: State): State {
   assert.ok(state.round !== round || state.phase === 'terminal');
   return state;
 }
+function married(s:State):State {
+ s.players[0].court.push(a(12));s.marriages.push({seat:0,queen:s.players[0].ruler!,spouse:a(12)});return conserve(s);
+}
 function nativeNotice(): State {
-  const s = fixture();
+  const s = married(fixture());
   s.players[0].court.push(a(2));
   s.players[0].hand = [a(4)];
   conserve(s);
@@ -77,12 +80,9 @@ function removeByRecall(state: State, target: string, lead: string): State {
   return act(state, { type: 'decline', seat: 0 });
 }
 function marriageNotice(): State {
-  const s = fixture();
-  assert.equal(BY_ID[a(12)].queen, true);
-  s.players[0].court.push(a(12));
-  s.players[0].hand = [p(11)];
-  conserve(s);
-  return act(s, { type: 'marry-heir', seat: 0, card: p(11), supporter: a(12) });
+  let s=fixture();s.players[0].hand=[p(11),a(4)];conserve(s);
+  s=act(s,{type:'marry-heir',seat:0,card:p(11),supporter:a(1)});
+  s=act(s,{type:'pass',seat:1});return act(s,{type:'name-heir',seat:0,card:a(4)});
 }
 
 test('U01/U02: explicit immutable rank allocation preserves original identities and names', () => {
@@ -92,7 +92,7 @@ test('U01/U02: explicit immutable rank allocation preserves original identities 
     assert.deepEqual(CARDS.filter(c => c.dynasty === dynasty).map(c => c.rank).sort((x,y) => x-y), Array.from({length:13}, (_,i) => i+1));
     assert.equal(BY_ID[card(dynasty, 1)].founder, true);
   }
-  for (const c of CARDS) assert.equal(c.name, ORIGINAL_CARDS.find(original => original.id === c.id)?.name);
+  for (const c of CARDS) assert.equal(c.name, ROSTER_ADDITIONS[c.id]?.name ?? ORIGINAL_CARDS.find(original => original.id === c.id)?.name);
   assert.equal(a(13), 'alba-9', 'rank is not collector/id order');
   assert.equal(p(13), 'plantagenet-5');
   assert.ok(CARDS.some(c => c.queen && c.rank !== 12), 'Queen is a separate role');
@@ -100,7 +100,7 @@ test('U01/U02: explicit immutable rank allocation preserves original identities 
   assert.equal(canDefend(a(13), a(12)), false);
 });
 
-test('U03/U47: seeded setup has one native Founder and two cards, selected suits only, no seals', () => {
+test('U03/U47: explicit established-table fixture conserves the selected suits', () => {
   for (const count of [2,3,4]) {
     const options = { seed: 901, dynasties: dynasties.slice(0,count) };
     const state = createGame(options);
@@ -150,7 +150,9 @@ test('U06/U07/U08/U09/U11/U12: Recall commits before a single atomic response', 
   rejected(s,{type:'recall',seat:0,card:a(3),target:a(1)});
   const pending = act(s,{type:'recall',seat:0,card:p(3),target:p(1)});
   assert.equal(pending.phase,'recall');
-  assert.ok(pending.players[0].played.includes(p(3)));
+  assert.ok(!pending.players[0].played.includes(p(3)),'The Challenger stays in the pending challenge until resolution');
+  assert.ok(!pending.players[0].hand.includes(p(3)));
+  assert.equal(pending.pending?.card,p(3));
   assert.ok(pending.players[1].court.includes(p(1)));
   for (const answer of [p(2),a(4)]) rejected(pending,{type:'defend',seat:1,card:answer});
   rejected(pending,{type:'pass',seat:0});
@@ -159,6 +161,7 @@ test('U06/U07/U08/U09/U11/U12: Recall commits before a single atomic response', 
   const defended = act(pending,{type:'defend',seat:1,card:p(4)});
   assert.equal(defended.phase,'action');
   assert.equal(defended.active,1);
+  assert.ok(defended.players[0].played.includes(p(3)),'Resolved Challenger enters its owner’s Played pile');
   assert.ok(defended.players[1].played.includes(p(4)));
   assert.ok(defended.players[1].court.includes(p(1)));
   rejected(defended,{type:'defend',seat:1,card:p(4)});
@@ -210,7 +213,7 @@ test('U13/U14/U15/U24/U46: pass rhythm, return ownership and unconditional one-c
 });
 
 test('U16/U17/U18/U21: ruler and heir must survive the entire next round', () => {
-  const s=fixture();s.players[0].hand=[a(4)];conserve(s);
+  const s=married(fixture());s.players[0].hand=[a(4)];conserve(s);
   let claim=act(s,{type:'name-heir',seat:0,card:a(4)});
   assert.ok(!('supporter' in claim.crown!));
   assert.equal(claim.result,null);
@@ -331,68 +334,30 @@ test('U38: binding lower-native Trade recruitment is optional and cannot claim',
   assert.equal(act(offered,{type:'accept',seat:1}).players[0].ruler,a(2));
 });
 
-test('U40/U41: foreign succession requires actual Queen role and equal/adjacent rank', () => {
-  for (const rank of [11,12,13]) {
-    const s = fixture();
-    s.players[0].court.push(a(12));
-    s.players[0].hand = [p(rank)];
-    conserve(s);
-    const next = act(s,{type:'marry-heir',seat:0,card:p(rank),supporter:a(12)});
-    assert.equal(next.marriages[0].queen,a(12));
-    assert.equal(next.crown?.heir,p(rank));
-    assert.ok(next.marriages.some(link => link.queen === a(12) && link.spouse === p(rank)));
-  }
-  const invalid = fixture();
-  invalid.players[0].court.push(a(12));
-  invalid.players[0].hand = [p(10),p(2)];
-  conserve(invalid);
-  rejected(invalid,{type:'marry-heir',seat:0,card:p(10),supporter:a(12)});
-  rejected(invalid,{type:'marry-heir',seat:0,card:p(2),supporter:a(1)});
-  const nonQueen = fixture();
-  nonQueen.players[0].court.push(a(4));
-  nonQueen.players[0].hand = [p(4)];
-  conserve(nonQueen);
-  assert.equal(BY_ID[a(4)].queen,false);
-  rejected(nonQueen,{type:'marry-heir',seat:0,card:p(4),supporter:a(4)});
-  const alreadyPaired = marriageNotice();
-  alreadyPaired.crown = null;
-  alreadyPaired.active = 0;
-  alreadyPaired.players[0].hand.push(p(13));
-  conserve(alreadyPaired);
-  rejected(alreadyPaired,{type:'marry-heir',seat:0,card:p(13),supporter:a(12)});
+test('U40/U41: Marriage requires opposite gender, any rank or Dynasty, and precedes Claim',()=>{
+ for(const partner of [a(6),a(8),a(11),p(8),p(11),p(12)]) {
+  let s=fixture();s.players[0].hand=[partner,a(4)];conserve(s);
+  rejected(s,{type:'name-heir',seat:0,card:a(4)});
+  s=act(s,{type:'marry-heir',seat:0,card:partner,supporter:a(1)});
+  assert.equal(s.crown,null);assert.equal(s.active,1);assert.equal(s.marriages[0].spouse,partner);
+  s=act(s,{type:'pass',seat:1});s=act(s,{type:'name-heir',seat:0,card:a(4)});assert.equal(s.crown?.heir,a(4));
+ }
+ const s=fixture();s.players[0].hand=[a(4),p(2)];conserve(s);
+ for(const card of s.players[0].hand) rejected(s,{type:'marry-heir',seat:0,card,supporter:a(1)});
+ const paired=married(fixture());paired.players[0].hand=[p(11)];conserve(paired);rejected(paired,{type:'marry-heir',seat:0,card:p(11),supporter:a(1)});
 });
-
-test('U42/U43/U44: marriage support and captured ownership remain physically truthful', () => {
-  for (const transfer of [false,true]) {
-    const starting = transfer ? passRound(marriageNotice()) : marriageNotice();
-    const failed = removeByRecall(starting,a(12),a(7));
-    assert.equal(failed.crown,null);
-    assert.ok(failed.players[0].played.includes(p(11)));
-    assert.ok(!failed.players[0].court.includes(p(11)));
-    assert.notEqual(failed.players[0].ruler,p(11));
-    assert.equal(failed.marriages.length,0);
-  }
-  const captured = removeByRecall(marriageNotice(),p(11),p(7));
-  assert.ok(captured.players[1].played.includes(p(11)));
-  assert.ok(!captured.players[0].played.includes(p(11)));
-  assert.equal(captured.marriages.length,0);
-  const retained = removeByRecall(passRound(marriageNotice()),a(1),a(7));
-  assert.equal(retained.crown,null);
-  assert.equal(retained.players[0].ruler,null);
+test('U42/U43/U44: surviving spouse becomes ruler without changing Court Dynasty; Claim breaks',()=>{
+ for(const base of [marriageNotice(),passRound(marriageNotice())]) {
+  const next=removeByRecall(base,a(1),a(7));assert.equal(next.players[0].ruler,p(11));assert.equal(next.players[0].dynasty,'alba');assert.equal(next.crown,null);assert.equal(next.marriages.length,0);assert.ok(next.players[0].court.includes(p(11)));
+ }
+ const spouseLost=removeByRecall(marriageNotice(),p(11),p(7));assert.equal(spouseLost.players[0].ruler,a(1));assert.equal(spouseLost.marriages.length,0);assert.ok(spouseLost.crown,'Marriage is required to play the heir, not a third hold dependency');
 });
-
-test('U45: a supported foreign ruler can initiate native succession after a failed claim', () => {
-  let s = passRound(marriageNotice());
-  // A supported foreign ruler is a valid recovered table state.
-  s.players[0].ruler=p(11);
-  s.crown = null;
-  s.active = 0;
-  s.players[0].court.push(a(8));
-  s.players[0].hand.push(a(9));
-  conserve(s);
-  s = act(s,{type:'name-heir',seat:0,card:a(9)});
-  assert.equal(s.crown?.oldRuler,p(11));
-  assert.equal(s.crown?.heir,a(9));
+test('U45: a widowed foreign ruler must remarry before a new native Claim',()=>{
+ let s=removeByRecall(marriageNotice(),a(1),a(7));s.active=0;s.players[0].hand.push(a(9),a(3));conserve(s);
+ rejected(s,{type:'name-heir',seat:0,card:a(9)});
+ s=act(s,{type:'marry-heir',seat:0,card:a(3),supporter:p(11)});s=act(s,{type:'pass',seat:1});s=act(s,{type:'name-heir',seat:0,card:a(9)});assert.equal(s.crown?.oldRuler,p(11));
+ s=removeByRecall(s,a(3),a(8));assert.ok(s.crown);s=passRound(s);s=passRound(s);
+ assert.equal(s.result?.winner,0);assert.ok(s.players[0].court.includes(p(11)),'The surviving foreign ruler stays in the winning Court');assertInvariants(s);
 });
 
 test('U48: a Recall attempt marks the target for all rivals until next round', () => {
@@ -410,7 +375,7 @@ test('U48: a Recall attempt marks the target for all rivals until next round', (
   rejected(s,{type:'recall',seat:0,card:p(3),target:p(1)});
 });
 
-test('U33/U49: draft and declaration lead to a legal full-round teaching victory', () => {
+test('U33/U49: draft, founding, marriage and Claim lead to a legal full-round teaching victory', () => {
  let s=createTutorial();
  assert.equal(s.phase,'draft'); assert.ok(s.players.every(p=>p.dynasty===null&&p.hand.length===8&&!p.court.length));
  const initial=structuredClone(s);
@@ -491,7 +456,8 @@ test('A02/A03: successful Recall exchanges its exact lead and permits earned nat
   assert.equal(s.players[1].hand.length,0);
   assert.equal(s.players[1].ruler,null);
   rejected(s,{type:'decline',seat:1});
-  assert.ok(pending.players[0].played.includes(p(3)), 'pending input unchanged');
+  assert.equal(pending.pending?.card, p(3), 'pending input unchanged');
+  assert.ok(!pending.players[0].played.includes(p(3)), 'Challenger stays pending until resolved');
   s = passRound(s);
   assert.deepEqual(s.players[1].hand,[p(3)]);
   assert.equal(s.players[1].ruler,null,'boundary does not restore office');
@@ -502,10 +468,10 @@ test('A02/A03: successful Recall exchanges its exact lead and permits earned nat
 });
 
 test('A04/A05: capture exchanges lead without inheriting relationships; Defend retains both original owners', () => {
-  const queenLost = removeByRecall(marriageNotice(),a(12),a(7));
+  const queenLost = removeByRecall(marriageNotice(),a(1),a(7));
   assert.ok(queenLost.players[0].played.includes(a(7)));
-  assert.ok(queenLost.players[0].played.includes(p(11)));
-  assert.ok(queenLost.players[1].played.includes(a(12)));
+  assert.equal(queenLost.players[0].ruler,p(11));
+  assert.ok(queenLost.players[1].played.includes(a(1)));
   assert.ok(!queenLost.players[1].played.includes(a(7)));
   assert.equal(queenLost.marriages.length,0);
   const spouseLost = removeByRecall(marriageNotice(),p(11),p(7));
@@ -540,7 +506,7 @@ test('A06: AI prices a costly high-for-low seizure differently when the target b
 });
 
 test('A07: AI retains ranked answers instead of needless extra native deployment', () => {
-  const s = fixture();
+  const s = married(fixture());
   s.players[0].court.push(a(2));
   s.players[0].hand = [a(3),a(10)];
   conserve(s);

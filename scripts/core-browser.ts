@@ -46,9 +46,9 @@ export function coverageFixtures():Map<string,CoreState>{
   const dense=baseFixture(4);for(const player of dense.players)player.court=CARDS.filter(card=>card.dynasty===player.dynasty).map(card=>card.id);fixtures.set('dense-four-courts',conserve(dense));
   const full=baseFixture(4);full.players[0].hand=[...full.deck];fixtures.set('maximal-hand',conserve(full));
   const empty=baseFixture();empty.players[0].played=[...empty.deck];fixtures.set('empty-deck',conserve(empty));
-  let notice=baseFixture();notice.players[0].court.push(a(2));notice.players[0].hand=[a(4),a(8)];notice.players[1].hand=[a(7)];conserve(notice);notice=perform(notice,{type:'name-heir',seat:0,card:a(4)});fixtures.set('native-notice',notice);fixtures.set('native-reign',nextRound(notice));
+  let notice=baseFixture();notice.players[0].court.push(a(2),a(6));notice.marriages=[{seat:0,queen:a(1),spouse:a(6)}];notice.players[0].hand=[a(4),a(8)];notice.players[1].hand=[a(7)];conserve(notice);notice=perform(notice,{type:'name-heir',seat:0,card:a(4)});fixtures.set('native-notice',notice);fixtures.set('native-reign',nextRound(notice));
   let failed=perform(notice,{type:'recall',seat:1,card:a(7),target:a(2)});fixtures.set('incoming-recall',failed);fixtures.set('recall-decline',failed);failed=perform(failed,{type:'decline',seat:0});fixtures.set('failed-claim',failed);
-  let marriage=baseFixture();marriage.players[0].court.push(a(12));marriage.players[0].hand=[p(11)];conserve(marriage);marriage=perform(marriage,{type:'marry-heir',seat:0,card:p(11),supporter:a(12)});fixtures.set('marriage-notice',marriage);fixtures.set('foreign-reign',nextRound(marriage));
+  let marriage=baseFixture();marriage.players[0].hand=[p(11),a(4)];conserve(marriage);marriage=perform(marriage,{type:'marry-heir',seat:0,card:p(11),supporter:a(1)});fixtures.set('marriage-notice',marriage);marriage=perform(marriage,{type:'pass',seat:1});marriage=perform(marriage,{type:'name-heir',seat:0,card:a(4)});fixtures.set('foreign-reign',nextRound(marriage));
   let trade=baseFixture();trade.players[0].hand=[a(8)];trade.players[1].played=[a(2)];conserve(trade);trade=perform(trade,{type:'trade',seat:0,card:a(8),other:1,request:a(2),recruit:true});fixtures.set('trade-offer',trade);fixtures.set('trade-decline',trade);
   const cap=baseFixture();cap.round=12;fixtures.set('cap-draw',nextRound(cap));
   for(const state of fixtures.values())assertInvariants(state);return fixtures;
@@ -150,7 +150,7 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
           await playCard(page,a(8),'defend',undefined,viewport.width>600);
         }else{
           const text=name==='trade-offer'?'Accept':name==='trade-decline'?'Decline':'Retreat';
-          await clickReachable(page.locator('[data-do="generic"],[data-do="respond-retreat"]').filter({hasText:text}));
+          await clickReachable(page.locator('[data-do="generic"]:visible,[data-do="respond-retreat"]:visible').filter({hasText:text}));
         }
         await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
         if(await page.locator('[data-do="unlock"]').count()){await capture(`${name}-response-handoff`);await clickReachable(page.locator('[data-do="unlock"]'));}await capture(`${name}-resolved`);

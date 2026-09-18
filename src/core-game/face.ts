@@ -35,7 +35,7 @@ const RULE_AID_TOPICS = [
   {
     title: "Recruit",
     paragraphs: [
-      "Play a card of your Dynasty from hand into your Court. If you have no supported ruler, it becomes your ruler. Otherwise it joins your Court.",
+      "An empty Court accepts any Noble: their Dynasty establishes the Court and they become Ruler. Otherwise Recruit a Noble of your Court’s Dynasty.",
       "A Court card cannot use hand abilities. Rank stays printed; a higher number grants no extra office.",
       "Playing removes this card from hand. Played cards cannot act. They return to that area's owner next round. A captured card belongs to its new owner.",
     ],
@@ -70,19 +70,19 @@ const RULE_AID_TOPICS = [
   {
     title: "Claim",
     paragraphs: [
-      "With a vacant Crown and your ruler in Court, play a native hand card as heir. No supporter is required.",
+      "With a vacant Crown and your Ruler married to a spouse in Court, play a native hand card as Heir. Marriage and Claim are separate turns.",
       "The ruler keeps the Crown. At the next round start, begin the full-round hold; the heir inherits only after both survive that entire round.",
       "Keep BOTH ruler and heir through the entire next round to win at its end. Losing either ends the claim.",
       "Losing a required person immediately ends the claim. Replacing them never restores it; a new attempt needs a new qualifying heir.",
     ],
   },
   {
-    title: "Marriage heir",
+    title: "Marriage",
     paragraphs: [
-      "With vacant Crown, a native ruler and a different unpaired native Queen already in Court, play a foreign heir equal or adjacent to the Queen's rank. A and K are not adjacent.",
-      "Link the married pair; follow aid 5's Crown clock. There is no separate supporter role.",
-      "Either partner leaving breaks the pair. Capture sends that person to the captor's Played. If Queen leaves, an unsupported foreign spouse goes to its controller's Played and loses any office. The claim fails.",
-      "Queen is a role, separate from rank Q.",
+      "Play a Noble of the opposite gender from hand as your Ruler’s spouse. Rank and Dynasty do not restrict marriage. The Ruler may have one spouse at a time.",
+      "Link the pair. Marriage enables a later Claim; it does not itself play an Heir or start the Crown clock.",
+      "If the Ruler leaves Court, the spouse immediately succeeds as Ruler. The Court keeps its Dynasty. Losing either partner breaks the marriage; a new spouse is needed before another Claim.",
+      "A spouse can be native or foreign. An existing Claim still requires its original Ruler and Heir to survive.",
     ],
   },
   {
@@ -96,7 +96,7 @@ const RULE_AID_TOPICS = [
   {
     title: "Set the table",
     paragraphs: [
-      "Mix 2–4 Dynasty suits; deal eight each. Pass 3, then 2, then 1 clockwise. Play three matching Nobles: first is ruler, five stay hidden.",
+      "Mix 2–4 Dynasty suits; deal eight each. Pass 3, then 2, then 1 clockwise. Courts start empty; keep all eight cards in hand.",
       "A=1; J=11; Q=12; K=13. Rank is game allocation, not historical importance. Suit never changes with ownership or marriage.",
       "Courts, Played, Crown, marriage links, attempt and offer marks are public. Opponents' hand counts are public; unplayed identities stay private. Publicly revealed identities may be remembered.",
     ],
@@ -105,16 +105,16 @@ const RULE_AID_TOPICS = [
     title: "Recall",
     paragraphs: [
       "Spend your turn to move one of your Court Nobles into your hand. It is available from your next opportunity, including a defense. Clear consecutive passes.",
-      "Returning a ruler leaves that office empty. Returning a required person breaks the Crown claim. Returning either spouse breaks the marriage; an unsupported foreign spouse goes to Played.",
+      "Returning a Ruler promotes their spouse, if present. Otherwise the office becomes empty. Returning a required Ruler or Heir breaks the Claim. Returning either partner ends their marriage.",
       "The returned identity remains known, like every card seen in public.",
     ],
   },
   {
     title: "Inheritance details",
     paragraphs: [
-      "Pass 3, then 2, then 1 clockwise, all packets together. Received cards may be passed. Reveal all matching trios together. Duplicate Dynasties are allowed.",
-      "No trio? Reveal your hand, draw the top card, and set aside a different-Dynasty card. Choose your trio. Repair hands in first-player order.",
-      "After declarations, shuffle set-aside cards into the remaining deck. Ordinary round draws never reshuffle.",
+      "Pass 3, then 2, then 1 clockwise, all packets together. Received cards may be passed. No Nobles enter Court during setup.",
+      "Your first Recruit into an empty Court establishes its Dynasty and becomes Ruler. Different players may establish the same Dynasty.",
+      "Marry your Ruler to an opposite-gender Noble before playing an Heir. Ordinary round draws never reshuffle.",
     ],
   },
 ] as const;
@@ -148,7 +148,7 @@ const REFERENCE_INDEX = [
   "Native: Recruit or name an heir.",
   "Same suit: Challenge or Defend.",
   "Trade for a rival’s Played card.",
-  "Foreign heir: match a native Queen.",
+  "Marry an opposite-gender Noble first.",
   "Complete procedures: shared rule aids 1–10.",
 ];
 let fonts: Promise<void> | undefined;
@@ -224,7 +224,7 @@ async function compose(id: string): Promise<HTMLCanvasElement> {
   c.height = 880;
   const ctx = c.getContext("2d")!;
   ctx.save();
-  rounded(ctx, 0, 0, 630, 880, 26);
+  rounded(ctx, 0, 0, 630, 880, 25);
   ctx.clip();
   // The name band stays exposed when physical Played cards overlap vertically.
   ctx.fillStyle = "#eee4cd";
@@ -330,7 +330,7 @@ async function compose(id: string): Promise<HTMLCanvasElement> {
   ctx.fillStyle = SUIT_INK[card.dynasty] ?? "#31594e";
   ctx.font = '600 30px "Core Print Body", sans-serif';
   ctx.fillText(
-    `${card.dynasty[0].toUpperCase() + card.dynasty.slice(1)} · ${card.queen ? "Queen" : card.founder ? "Founder" : "Noble"}`,
+    `${card.dynasty[0].toUpperCase() + card.dynasty.slice(1)} · ${card.gender === "female" ? "Female Noble" : "Male Noble"}`,
     49,
     800,
   );
@@ -354,7 +354,7 @@ function referencePaper(): {
   canvas.width = 630;
   canvas.height = 880;
   const ctx = canvas.getContext("2d")!;
-  rounded(ctx, 0, 0, 630, 880, 26);
+  rounded(ctx, 0, 0, 630, 880, 25);
   ctx.clip();
   ctx.fillStyle = "#eee4cd";
   ctx.fillRect(0, 0, 630, 880);
@@ -435,7 +435,7 @@ async function composeReference(id: string): Promise<HTMLCanvasElement> {
   ctx.fillStyle = SUIT_INK[card.dynasty];
   ctx.font = '600 32px "Core Print Body", sans-serif';
   ctx.fillText(
-    `${card.dynasty[0].toUpperCase() + card.dynasty.slice(1)} · ${card.queen ? "Queen" : card.founder ? "Founder" : "Noble"}`,
+    `${card.dynasty[0].toUpperCase() + card.dynasty.slice(1)} · ${card.gender === "female" ? "Female Noble" : "Male Noble"}`,
     46,
     440,
   );
@@ -521,7 +521,7 @@ export function faceHTML(id: string, options: FaceOptions = {}): string {
   const card = BY_ID[id];
   if (!card)
     return '<span class="core-face core-face-loading" role="status">Card unavailable</span>';
-  const label = `${card.name}, ${card.dynasty}, rank ${rankLabel(card.rank)}, ${card.queen ? "Queen" : card.founder ? "Founder" : "Noble"}${options.reference ? `. Reference ability index. ${REFERENCE_INDEX.join(" ")}` : ""}`;
+  const label = `${card.name}, ${card.dynasty}, rank ${rankLabel(card.rank)}, ${card.gender === "female" ? "Female Noble" : "Male Noble"}${options.reference ? `. Reference ability index. ${REFERENCE_INDEX.join(" ")}` : ""}`;
   const src = urls.get(options.reference ? `${id}:reference` : id);
   return `<span class="core-face${options.reference ? " core-face-reference" : ""}" data-card-face="${escapeHTML(id)}">${src ? `<img src="${src}" alt="${escapeHTML(label)}" width="630" height="880" draggable="false">` : `<span class="core-face-loading" role="status">Preparing ${escapeHTML(card.name)}…</span>`}</span>`;
 }
@@ -538,7 +538,7 @@ export function cardBackCanvas(): HTMLCanvasElement {
   c.width = 630;
   c.height = 880;
   const ctx = c.getContext("2d")!;
-  rounded(ctx, 0, 0, 630, 880, 26);
+  rounded(ctx, 0, 0, 630, 880, 25);
   ctx.clip();
   ctx.fillStyle = "#203d35";
   ctx.fillRect(0, 0, 630, 880);

@@ -2,7 +2,7 @@ import { chromium,expect } from '@playwright/test';
 import assert from 'node:assert/strict';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {chooseAction} from '../src/core-game/ai';
-import {clickExposed} from './core-tabletop';
+import {clickExposed,playCard} from './core-tabletop';
 import {viewForSeat,applyAction,type CoreState} from '../src/core-game/engine';
 const base=process.env.BASE_URL??'http://localhost:5173';
 const out=process.env.INHERITANCE_OUTPUT??'artifacts/core/inheritance';mkdirSync(out,{recursive:true});
@@ -51,8 +51,10 @@ try {
    s=await read();assert.deepEqual(s,expected);
    if(s.active!==oldSeat) {await expect(page.locator('.c-hand')).toHaveCount(0);await page.locator('[data-do="unlock"]').click();}
   }
-  assert.ok(s.players.every(p=>p.court.length===3&&p.hand.length===5));await expect(page.locator('[data-table-card]')).toHaveCount(players*3);await capture('declared');
-  const id=s.players[s.active].court[1];
+  assert.ok(s.players.every(p=>p.court.length===0&&p.hand.length===8&&p.dynasty===null));await expect(page.locator('[data-table-card]')).toHaveCount(0);await capture('empty-courts');
+  const id=s.players[s.active].hand[0];await playCard(page,id,'recruit',undefined,false);await page.locator('[data-do="unlock"]').click();
+  while((await read()).active!==0){await page.locator('[data-do="generic"]').filter({hasText:'Pass'}).click();await page.locator('[data-do="unlock"]').click();}
+  s=await read();assert.equal(s.players[0].ruler,id);await capture('first-ruler');
   await page.locator('[data-do="focus"][data-seat="0"]').click();
   const court=page.locator(`[data-table-card="${id}"]`);await court.focus();await page.waitForTimeout(350);
   if(width===390) {
