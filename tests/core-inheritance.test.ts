@@ -40,10 +40,10 @@ test('return to hand spends the turn, discloses identity, clears passes and brea
  let s=fixture({seed:1,dynasties:['alba','plantagenet']});
  s.players[0].court=['alba-0','alba-2'];s.players[0].hand=['alba-5'];s.players[1].hand=[];
  const used=s.players.flatMap(p=>[...p.hand,...p.court]);s.deck=CARDS.filter(c=>s.dynasties.includes(c.dynasty)&&!used.includes(c.id)).map(c=>c.id);
- s=applyAction(s,{type:'name-heir',seat:0,card:'alba-5',supporter:'alba-2',revision:s.revision});
+ s=applyAction(s,{type:'name-heir',seat:0,card:'alba-5',revision:s.revision});
  s=applyAction(s,{type:'pass',seat:1,revision:s.revision});
- s=applyAction(s,{type:'withdraw',seat:0,card:'alba-2',revision:s.revision});
- assert.equal(s.active,1);assert.equal(s.crown,null);assert.deepEqual(s.passes,[]);assert.ok(s.players[0].hand.includes('alba-2'));assert.ok(s.knownHands[0].includes('alba-2'));
+ s=applyAction(s,{type:'withdraw',seat:0,card:'alba-5',revision:s.revision});
+ assert.equal(s.active,1);assert.equal(s.crown,null);assert.deepEqual(s.passes,[]);assert.ok(s.players[0].hand.includes('alba-5'));assert.ok(s.knownHands[0].includes('alba-5'));
  assert.throws(()=>applyAction(s,{type:'withdraw',seat:1,card:'alba-0',revision:s.revision}));
 });
 

@@ -2,6 +2,7 @@ import { chromium,expect } from '@playwright/test';
 import assert from 'node:assert/strict';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {chooseAction} from '../src/core-game/ai';
+import {clickExposed} from './core-tabletop';
 import {viewForSeat,applyAction,type CoreState} from '../src/core-game/engine';
 const base=process.env.BASE_URL??'http://localhost:5173';
 const out=process.env.INHERITANCE_OUTPUT??'artifacts/core/inheritance';mkdirSync(out,{recursive:true});
@@ -20,13 +21,23 @@ try {
   while(s.setup) {
    const phase=`${s.phase}-${s.setup.pass}`;
    if(!seen.has(phase)) {seen.add(phase);await capture(phase);}
-   const oldSeat=s.active; let expected=s;
+   const oldSeat=s.active; let expected=s;let lastPick='';
    do {
      const action=chooseAction(viewForSeat(expected,expected.active),expected.active).action;
+     lastPick=action.card!;
      const card=page.locator(`[data-do="select"][data-card="${action.card}"]`);
-     await card.focus();await card.click();
+     await clickExposed(card);
      expected=applyAction(expected,action);
-   } while(s.phase==='draft' && expected.active===oldSeat && expected.setup?.pass===s.setup?.pass);
+   } while(expected.phase===s.phase && expected.active===oldSeat && expected.setup?.pass===s.setup?.pass);
+   if(s.phase==='declare') {
+     assert.deepEqual(await read(),s,'Choosing nobles must wait for explicit confirmation');
+     const last=lastPick;
+     await clickExposed(page.locator(`[data-do="select"][data-card="${last}"]`));
+     await expect(page.locator('[data-do="declare-confirm"]')).toBeDisabled();
+     assert.deepEqual(await read(),s,'Changing the selection must not alter the Court');
+     await clickExposed(page.locator(`[data-do="select"][data-card="${last}"]`));
+     await page.locator('[data-do="declare-confirm"]').click();
+   }
    if(s.phase==='draft') {
      await page.locator('[data-do="draft-pass"]').click();
      if(process.env.DRAFT_MOTION && s.setup!.pass !== expected.setup?.pass) {

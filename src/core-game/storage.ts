@@ -59,15 +59,15 @@ export const saveKey = (namespace = "") => `${namespace}oando-v9-inheritance`;
 export function encodeSave(save: CoreSave): string {
   return JSON.stringify({
     version: 5,
-    ruleset: "rank-core-inheritance-v3",
+    ruleset: "rank-core-succession-v4",
     ...save,
   });
 }
 export function decodeSave(text: string): CoreSave {
   const value = JSON.parse(text);
-  if (value?.version !== 5 || value.ruleset !== "rank-core-inheritance-v3")
+  if (value?.version !== 5 || value.ruleset !== "rank-core-succession-v4")
     throw new Error(
-      "This save uses different rules. Your original save is preserved; start a new table for the restored inheritance draft.",
+      "This save uses different rules. Your original save is preserved; start a new table for the ruler-and-heir succession rules.",
     );
   assertInvariants(value.game);
   if (
@@ -108,7 +108,7 @@ export function readSave(
       save: bytes ? decodeSave(bytes) : null,
       error:
         !bytes && (storage.getItem(`${namespace}oando-v5-played-trades`) || storage.getItem(`${namespace}oando-v5-core`))
-          ? "Your older table is preserved. Start a new table for the restored inheritance draft."
+          ? "Your older table is preserved. Start a new table for the ruler-and-heir succession rules."
           : null,
     };
   } catch (error) {

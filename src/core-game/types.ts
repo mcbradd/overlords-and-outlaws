@@ -22,7 +22,7 @@ export interface CoreCrown {
   stage: 'notice' | 'reign';
   oldRuler: string;
   heir: string;
-  supporter: string;
+
   reignRound: number | null;
 }
 export interface CoreMarriage { seat: number; queen: string; spouse: string }

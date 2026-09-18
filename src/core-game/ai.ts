@@ -13,7 +13,7 @@ export interface CoreDecision {
 function dependencies(view: CoreView): string[] {
   const crown = view.crown;
   if (!crown) return [];
-  return crown.stage === 'notice' ? [crown.oldRuler, crown.heir, crown.supporter] : [crown.heir, crown.supporter];
+  return [crown.oldRuler, crown.heir];
 }
 function handValue(view: CoreView, seat: number, id: string): number {
   const player = view.players[seat], card = BY_ID[id];
@@ -92,7 +92,7 @@ function score(view: CoreView, action: CoreAction, policy: CorePolicy): [number,
     case 'name-heir':
     case 'marry-heir': {
       const remaining = (player.hand ?? []).filter(id => id !== action.card);
-      const requiredSuits = new Set([BY_ID[player.ruler!].dynasty, BY_ID[action.supporter!].dynasty, BY_ID[action.card!].dynasty]);
+      const requiredSuits = new Set([BY_ID[player.ruler!].dynasty, BY_ID[action.card!].dynasty]);
       const retained = remaining.filter(id => requiredSuits.has(BY_ID[id].dynasty));
       const strongest = retained.reduce((rank, id) => Math.max(rank, BY_ID[id].rank), 0);
       const exposed = !retained.length && view.players.some(other => other.seat !== seat && other.handCount > 0);
@@ -111,7 +111,7 @@ function score(view: CoreView, action: CoreAction, policy: CorePolicy): [number,
         handValue(view, seat, action.card!) * 0.2 - (crown?.seat === seat ? 20 : 0),
         recovery ? 'Put a native ruler back in Court so your family can pursue succession again.' :
           queenMatch ? 'Expose this Queen to prepare a particular matching marriage from your hand.' :
-            'Develop a public supporter while giving up this card as a concealed answer.'];
+            'Develop your public Court while giving up this card as a concealed answer.'];
     }
     case 'recall': {
       const targetSeat = view.players.find(other => other.court.includes(action.target!))!.seat;

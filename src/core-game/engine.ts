@@ -112,8 +112,7 @@ export function legalActions(view: CoreView, seat: number): CoreAction[] {
     if (native(id, player.dynasty)) {
       add({ type: 'recruit', card: id });
       if (!view.crown && supported(view, seat, player.ruler)) {
-        for (const supporter of player.court) if (supporter !== player.ruler && native(supporter, player.dynasty))
-          add({ type: 'name-heir', card: id, supporter });
+        add({ type: 'name-heir', card: id });
       }
     } else if (!view.crown && player.ruler && native(player.ruler, player.dynasty)) {
       for (const queen of player.court) if (queen !== player.ruler && native(queen, player.dynasty) &&
@@ -172,8 +171,8 @@ function settle(s: CoreState): void {
   for (const player of s.players) if (player.ruler && !supported(s, player.seat, player.ruler)) player.ruler = null;
   if (s.crown) {
     const crown = s.crown, player = s.players[crown.seat];
-    const required = crown.stage === 'notice' ? [crown.oldRuler, crown.heir, crown.supporter] : [crown.heir, crown.supporter];
-    const expectedRuler = crown.stage === 'notice' ? crown.oldRuler : crown.heir;
+    const required = [crown.oldRuler, crown.heir];
+    const expectedRuler = s.result?.winner === crown.seat ? crown.heir : crown.oldRuler;
     if (player.ruler !== expectedRuler || required.some(id => !supported(s, crown.seat, id))) {
       s.crown = null;
       s.events.push('The Crown attempt fails because a required person has left. The Crown is available again.');
@@ -188,7 +187,8 @@ function nextTurn(s: CoreState, initiatingSeat: number): void {
 function boundary(s: CoreState): void {
   settle(s);
   if (s.crown?.stage === 'reign' && s.crown.reignRound === s.round) {
-    s.result = { winner: s.crown.seat, reason: 'Succession secured: the new ruler and supporter stayed for one full round.' };
+    s.players[s.crown.seat].ruler=s.crown.heir;
+    s.result = { winner: s.crown.seat, reason: 'Succession secured: the ruler and heir stayed in Court for one full round.' };
     s.events.push(`${seatName(s, s.crown.seat)} wins. ${s.result.reason}`);
     s.phase = 'terminal'; s.passes = []; return;
   }
@@ -210,8 +210,7 @@ function boundary(s: CoreState): void {
   s.events.push(`Round ${s.round}: Played cards return, each family draws one card if available, and the starting player rotates.`);
   if (s.crown?.stage === 'notice') {
     s.crown.stage = 'reign'; s.crown.reignRound = s.round;
-    s.players[s.crown.seat].ruler = s.crown.heir;
-    s.events.push(`${name(s.crown.heir)} inherits the Crown. Keep this ruler and ${name(s.crown.supporter)} through all of round ${s.round} to win.`);
+    s.events.push(`The full-round hold begins. Keep ${name(s.crown.oldRuler)} and heir ${name(s.crown.heir)} through all of round ${s.round} to win.`);
   }
   s.attempts = {}; s.offers = {}; s.passes = []; s.active = s.first;
 }
@@ -299,8 +298,8 @@ export function applyAction(state: CoreState, action: CoreAction): CoreState {
     case 'marry-heir':
       removeFromHand(s, action.seat, id!); player.court.push(id!);
       if (action.type === 'marry-heir') s.marriages.push({ seat: action.seat, queen: action.supporter!, spouse: id! });
-      s.crown = { seat: action.seat, stage: 'notice', oldRuler: player.ruler!, heir: id!, supporter: action.supporter!, reignRound: null };
-      s.events.push(`${seatName(s, action.seat)} names ${name(id!)} heir, supported by ${name(action.supporter!)}. ${name(player.ruler!)} claims the Crown; succession begins next round.`);
+      s.crown = { seat: action.seat, stage: 'notice', oldRuler: player.ruler!, heir: id!, reignRound: null };
+      s.events.push(`${seatName(s, action.seat)} names ${name(id!)} heir. Keep ruler ${name(player.ruler!)} and this heir through the whole of next round to secure succession.`);
       s.passes = []; nextTurn(s, action.seat);
       break;
     case 'recall': {
@@ -422,12 +421,12 @@ export function assertInvariants(s: CoreState): void {
   if (s.crown) {
     const c = s.crown;
     require(seat(c.seat) && ['notice', 'reign'].includes(c.stage), 'Crown stage');
-    require(new Set([c.oldRuler, c.heir, c.supporter]).size === 3 &&
-      [c.oldRuler, c.heir, c.supporter].every(id => !!BY_ID[id]), 'Crown identities');
+    require(new Set([c.oldRuler, c.heir]).size === 2 &&
+      [c.oldRuler, c.heir].every(id => !!BY_ID[id]), 'Crown identities');
     const player = s.players[c.seat];
-    require(native(c.supporter, player.dynasty) && supported(s, c.seat, c.supporter) && supported(s, c.seat, c.heir), 'Crown dependencies');
+    require(supported(s, c.seat, c.oldRuler) && supported(s, c.seat, c.heir), 'Crown dependencies');
     require(c.stage === 'notice' ? c.reignRound === null && player.ruler === c.oldRuler && supported(s, c.seat, c.oldRuler) :
-      c.reignRound === s.round && player.ruler === c.heir, 'Crown timing');
+      c.reignRound === s.round && player.ruler === (s.result?.winner===c.seat?c.heir:c.oldRuler), 'Crown timing');
   }
   require(['draft', 'declare', 'repair', 'action', 'recall', 'trade', 'terminal'].includes(s.phase), 'phase');
   require(s.passes.length < count && new Set(s.passes).size === s.passes.length && s.passes.every(seat), 'pass sequence');

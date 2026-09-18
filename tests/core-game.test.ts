@@ -63,7 +63,7 @@ function nativeNotice(): State {
   s.players[0].court.push(a(2));
   s.players[0].hand = [a(4)];
   conserve(s);
-  return act(s, { type: 'name-heir', seat: 0, card: a(4), supporter: a(2) });
+  return act(s, { type: 'name-heir', seat: 0, card: a(4) });
 }
 function removeByRecall(state: State, target: string, lead: string): State {
   // Legal adversarial position: assign an unused deck card to the opponent,
@@ -209,33 +209,24 @@ test('U13/U14/U15/U24/U46: pass rhythm, return ownership and unconditional one-c
   assert.ok(empty.players[0].hand.every(Boolean));
 });
 
-test('U16/U17/U18/U21: three distinct people, notice, next-start succession and full reign', () => {
-  const s = fixture();
-  s.players[0].hand = [a(4)];
-  conserve(s);
-  rejected(s,{type:'name-heir',seat:0,card:a(4),supporter:a(1)});
-  rejected(s,{type:'name-heir',seat:0,card:a(4),supporter:a(2)});
-  let claim = nativeNotice();
-  assert.equal(claim.crown?.stage,'notice');
+test('U16/U17/U18/U21: ruler and heir must survive the entire next round', () => {
+  const s=fixture();s.players[0].hand=[a(4)];conserve(s);
+  let claim=act(s,{type:'name-heir',seat:0,card:a(4)});
+  assert.ok(!('supporter' in claim.crown!));
   assert.equal(claim.result,null);
-  assert.equal(claim.players[0].ruler,a(1));
-  claim = passRound(claim);
-  assert.equal(claim.crown?.stage,'reign');
-  assert.equal(claim.players[0].ruler,a(4));
-  assert.equal(claim.result,null);
-  claim = removeByRecall(claim,a(1),a(7));
-  assert.equal(claim.crown?.heir,a(4));
-  claim = passRound(claim);
-  assert.equal(claim.result?.winner,0);
-  assert.equal(claim.round,2);
+  claim=passRound(claim);assert.equal(claim.crown?.stage,'reign');
+  assert.equal(claim.players[0].ruler,a(1));assert.equal(claim.result,null);
+  const lost=removeByRecall(claim,a(1),a(7));assert.equal(lost.crown,null);
+  claim=passRound(claim);assert.equal(claim.result?.winner,0);assert.equal(claim.players[0].ruler,a(4));assert.equal(claim.round,2);
+  const extra=removeByRecall(nativeNotice(),a(2),a(7));assert.ok(extra.crown,'An unrelated Court card is not a succession dependency');
 });
 
 test('U19/U20: each required dependency fails immediately and later development cannot restore it', () => {
-  for (const target of [a(1),a(2),a(4)]) {
+  for (const target of [a(1),a(4)]) {
     const failed = removeByRecall(nativeNotice(),target,a(7));
     assert.equal(failed.crown,null, `notice loses ${target}`);
   }
-  for (const target of [a(2),a(4)]) {
+  for (const target of [a(1),a(4)]) {
     let failed = removeByRecall(passRound(nativeNotice()),target,a(7));
     assert.equal(failed.crown,null, `reign loses ${target}`);
     failed.players[0].hand.push(a(8));
@@ -347,7 +338,7 @@ test('U40/U41: foreign succession requires actual Queen role and equal/adjacent 
     s.players[0].hand = [p(rank)];
     conserve(s);
     const next = act(s,{type:'marry-heir',seat:0,card:p(rank),supporter:a(12)});
-    assert.equal(next.crown?.supporter,a(12));
+    assert.equal(next.marriages[0].queen,a(12));
     assert.equal(next.crown?.heir,p(rank));
     assert.ok(next.marriages.some(link => link.queen === a(12) && link.spouse === p(rank)));
   }
@@ -386,19 +377,20 @@ test('U42/U43/U44: marriage support and captured ownership remain physically tru
   assert.ok(!captured.players[0].played.includes(p(11)));
   assert.equal(captured.marriages.length,0);
   const retained = removeByRecall(passRound(marriageNotice()),a(1),a(7));
-  assert.equal(retained.crown?.heir,p(11));
-  assert.equal(retained.players[0].ruler,p(11));
+  assert.equal(retained.crown,null);
+  assert.equal(retained.players[0].ruler,null);
 });
 
 test('U45: a supported foreign ruler can initiate native succession after a failed claim', () => {
   let s = passRound(marriageNotice());
-  // A failed earlier claim can leave an independently supported foreign ruler.
+  // A supported foreign ruler is a valid recovered table state.
+  s.players[0].ruler=p(11);
   s.crown = null;
   s.active = 0;
   s.players[0].court.push(a(8));
   s.players[0].hand.push(a(9));
   conserve(s);
-  s = act(s,{type:'name-heir',seat:0,card:a(9),supporter:a(8)});
+  s = act(s,{type:'name-heir',seat:0,card:a(9)});
   assert.equal(s.crown?.oldRuler,p(11));
   assert.equal(s.crown?.heir,a(9));
 });
@@ -472,7 +464,7 @@ test('I05: AI contests an imminent rival succession and defends its own required
   const chosen = chooseAction(viewForSeat(s,1),1);
   assert.ok(chosen);
   assert.equal(chosen.action.type,'recall');
-  assert.ok([a(2),a(4)].includes(chosen.action.target!));
+  assert.ok([a(1),a(4)].includes(chosen.action.target!));
   s.players[0].hand.push(a(8));
   conserve(s);
   s = act(s,{type:'recall',seat:1,card:a(7),target:a(4)});
@@ -539,12 +531,12 @@ test('A06: AI prices a costly high-for-low seizure differently when the target b
   const quiet = chooseAction(viewForSeat(s,0),0);
   assert.ok(!(quiet.action.type === 'recall' && quiet.action.target === p(1)), 'do not pay a King merely to remove a lone nonclaiming Founder');
   s.players[1].court.push(p(2),p(4));
-  s.players[1].ruler = p(4);
-  s.crown = {seat:1,stage:'reign',oldRuler:p(1),heir:p(4),supporter:p(2),reignRound:1};
+  s.players[1].ruler = p(1);
+  s.crown = {seat:1,stage:'reign',oldRuler:p(1),heir:p(4),reignRound:1};
   conserve(s);
   const urgent = chooseAction(viewForSeat(s,0),0);
   assert.equal(urgent.action.type,'recall');
-  assert.ok([p(2),p(4)].includes(urgent.action.target!));
+  assert.ok([p(1),p(4)].includes(urgent.action.target!));
 });
 
 test('A07: AI retains ranked answers instead of needless extra native deployment', () => {
@@ -559,7 +551,7 @@ test('A07: AI retains ranked answers instead of needless extra native deployment
   waiting.players[0].court.push(a(2));
   waiting.players[0].hand = [a(4)];
   waiting.players[1].court.push(p(2),p(4));
-  waiting.crown = {seat:1,stage:'notice',oldRuler:p(1),heir:p(4),supporter:p(2),reignRound:null};
+  waiting.crown = {seat:1,stage:'notice',oldRuler:p(1),heir:p(4),reignRound:null};
   conserve(waiting);
   const reserve = chooseAction(viewForSeat(waiting,0),0);
   assert.notEqual(reserve.action.type,'recruit');

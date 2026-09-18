@@ -35,7 +35,7 @@ const RULE_AID_TOPICS = [
   {
     title: "Recruit",
     paragraphs: [
-      "Play a card of your Dynasty from hand into your Court. If you have no supported ruler, it becomes your ruler. Otherwise it is a supporter.",
+      "Play a card of your Dynasty from hand into your Court. If you have no supported ruler, it becomes your ruler. Otherwise it joins your Court.",
       "A Court card cannot use hand abilities. Rank stays printed; a higher number grants no extra office.",
       "Playing removes this card from hand. Played cards cannot act. They return to that area's owner next round. A captured card belongs to its new owner.",
     ],
@@ -68,11 +68,11 @@ const RULE_AID_TOPICS = [
     ],
   },
   {
-    title: "Name heir",
+    title: "Claim",
     paragraphs: [
-      "With vacant Crown, choose a supported ruler and a different native supporter already in your Court. Play a further native hand card as heir; all three must differ.",
-      "Crown goes to old ruler. Keep all three until next start, then move Crown and ruler office to heir.",
-      "Keep the new ruler and original supporter for that entire round to win at its end. Old ruler is no longer required.",
+      "With a vacant Crown and your ruler in Court, play a native hand card as heir. No supporter is required.",
+      "The ruler keeps the Crown. At the next round start, begin the full-round hold; the heir inherits only after both survive that entire round.",
+      "Keep BOTH ruler and heir through the entire next round to win at its end. Losing either ends the claim.",
       "Losing a required person immediately ends the claim. Replacing them never restores it; a new attempt needs a new qualifying heir.",
     ],
   },
@@ -80,7 +80,7 @@ const RULE_AID_TOPICS = [
     title: "Marriage heir",
     paragraphs: [
       "With vacant Crown, a native ruler and a different unpaired native Queen already in Court, play a foreign heir equal or adjacent to the Queen's rank. A and K are not adjacent.",
-      "Queen becomes supporter. Link the pair; follow aid 5's Crown clock.",
+      "Link the married pair; follow aid 5's Crown clock. There is no separate supporter role.",
       "Either partner leaving breaks the pair. Capture sends that person to the captor's Played. If Queen leaves, an unsupported foreign spouse goes to its controller's Played and loses any office. The claim fails.",
       "Queen is a role, separate from rank Q.",
     ],

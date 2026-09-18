@@ -12,6 +12,7 @@ function fixture(players=2,challenge=true,ambiguous=false,noDefense=false){
  s.players[0].hand=noDefense?['plantagenet-6','plantagenet-7']:['alba-4','alba-6'];s.players[1].hand=['alba-3'];
  s.players.slice(2).forEach(p=>p.hand=[]);
  if(challenge||ambiguous)s.players[0].court.push('alba-2');
+ if(!challenge&&!ambiguous)s.players[0].ruler=null;
  const used=s.players.flatMap(p=>[...p.hand,...p.court]);s.deck=CARDS.filter(c=>s.dynasties.includes(c.dynasty)&&!used.includes(c.id)).map(c=>c.id);
  if(challenge){s.active=1;s=applyAction(s,legalActions(viewForSeat(s,1),1).find(a=>a.type==='recall'&&a.target==='alba-2')!);}
  return s;
@@ -22,7 +23,7 @@ async function drag(page:Page,id:string,valid=true,touch=false){
  await page.waitForTimeout(300);
  const card=page.locator(`[data-do="select"][data-card="${id}"]`);const a=await card.boundingBox(),b=await page.locator('#core-table').boundingBox();assert.ok(a&&b);const from={x:a.x+a.width*.5,y:a.y+a.height*.45},to=valid?{x:b.x+b.width*.15,y:b.y+b.height*.7}:{x:4,y:4};
  if(touch){const c=await page.context().newCDPSession(page);await c.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[from]});for(let i=1;i<=12;i++)await c.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:from.x+(to.x-from.x)*i/12,y:from.y+(to.y-from.y)*i/12}]});await c.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await c.detach();}
- else {await page.mouse.move(from.x,from.y);await page.mouse.down();await page.mouse.move(to.x,to.y,{steps:12});await page.mouse.up();}
+ else {await page.mouse.move(from.x,from.y);await page.mouse.down();await page.mouse.move(to.x,to.y,{steps:12});if(valid&&(await read(page)).pending){await expect(page.locator('.c-target-arcs')).toBeVisible();await expect(page.locator('.c-drag-anchor img,.c-drag-anchor .core-face')).toHaveCount(0);await page.screenshot({path:`${out}/${page.viewportSize()!.width}-drag-arc.png`});}await page.mouse.up();}
 }
 try {
  for(const [width,height] of (process.env.CHALLENGE_VIEWPORTS?JSON.parse(process.env.CHALLENGE_VIEWPORTS):[[1920,1080],[1366,768],[1440,900],[360,800],[375,667],[390,844],[414,896],[430,932],[844,390]])) {
@@ -31,6 +32,7 @@ try {
    const s=fixture(players);await load(page,s);
    await expect(page.locator('#challenge-title')).toHaveText('Player 2 Challenges with David I');
    await expect(page.locator('[data-do="respond-defend"]')).toBeDisabled();
+   const disabled=await page.locator('[data-do="respond-defend"]').evaluate(e=>getComputedStyle(e).backgroundColor);assert.equal(disabled,'rgb(69, 73, 77)','Unavailable Defend is grey');
    await page.locator('[data-do="select"][data-card="alba-4"]').click();assert.deepEqual(await read(page),s);
    await expect(page.locator('[data-do="respond-defend"]')).toBeEnabled();
    const geometry=await page.locator('.c-response').evaluate(e=>{const r=e.getBoundingClientRect();const hand=document.querySelector('.c-hand')!.getBoundingClientRect();return{top:r.top,bottom:r.bottom,hand:hand.bottom,screen:innerHeight,buttons:[...e.querySelectorAll('button')].map(b=>{const r=b.getBoundingClientRect();return{h:r.height,hit:b.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))};})};});

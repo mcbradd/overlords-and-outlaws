@@ -25,8 +25,8 @@ try {for(const [width,height] of (process.env.DRAFT_VIEWPORTS ? JSON.parse(proce
   await page.emulateMedia({reducedMotion:'reduce'});
   await expect(page.locator('[data-do="draft-pass"]')).toHaveCSS('animation-name','none');
   await page.emulateMedia({reducedMotion:'no-preference'});
-  const layout=await page.evaluate(()=>({header:document.querySelector('.c-game > header')!.getBoundingClientRect().top,hand:Math.min(...[...document.querySelectorAll('.c-card-pick')].map(e=>e.getBoundingClientRect().top)),opponents:Math.max(...[...document.querySelectorAll('[data-draft-hand]')].map(e=>e.getBoundingClientRect().bottom))}));
-  if(layout.header < -1 || layout.opponents>layout.hand) throw Error(`Clipped header or overlapping hands: ${JSON.stringify(layout)}`);
+  const layout=await page.evaluate(()=>({header:document.querySelector('.c-game > header')!.getBoundingClientRect().top,overlap:[...document.querySelectorAll('.c-card-pick')].some(card=>{const a=card.getBoundingClientRect();return [...document.querySelectorAll('[data-draft-hand]')].some(hand=>{const b=hand.getBoundingClientRect();return a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;});})}));
+  if(layout.header < -1 || layout.overlap) throw Error(`Clipped header or overlapping hands: ${JSON.stringify(layout)}`);
   await page.screenshot({path:`${out}/${width}x${height}-${count}-selected.png`});
   await page.locator('[data-do="draft-pass"]').click();
   await expect(page.locator('.c-draft-flight .c-card-back')).toHaveCount(count*2,{timeout:12000});

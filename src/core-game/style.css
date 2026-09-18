@@ -1271,7 +1271,7 @@ a {
 .c-pool label { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
 .c-pool input { width: 20px; min-height: 20px; }
 
-.c-game.c-tabletop > .c-guide:not(:has(.c-action-area button, .c-error, > p, .c-draft-modal)) { display:none; }
+.c-game.c-tabletop > .c-guide:not(:has(.c-action-area button, .c-error, > p, .c-draft-modal, .c-declaration)) { display:none; }
 .c-game.c-tabletop .c-lesson-help { border-radius:50%; width:44px; min-width:44px; height:44px; padding:0; font-size:28px; font-weight:700; color:#ffe3a3; border:2px solid #d1ae68; box-shadow:0 0 0 3px #101e29; }
 .c-modal.c-lesson-popover { width:min(480px,calc(100vw - 32px)); max-height:calc(100dvh - 32px); padding:24px; }
 .c-lesson-content h2 { clear:both; margin-top:16px; }
@@ -1381,36 +1381,6 @@ button.next-interaction:not(:disabled):not(.c-card-pick) { animation:attention-b
  .c-game.c-tabletop:has(.c-response) .c-held-card .c-card-actions { z-index:200; }
 }
 
-/* The tutorial occupies its own footer row; it never dims or covers the board. */
-.c-game.c-tabletop > .c-lesson-popover {
- position:relative; inset:auto; grid-row:4; width:min(740px,calc(100vw - 24px));
- margin:4px auto 0; max-height:32dvh; padding:12px 16px; z-index:5;
-}
-.c-game.c-tabletop:has(> .c-lesson-popover) > :is(.c-guide,.c-response) { display:none; }
-.c-lesson-popover::backdrop { background:transparent; backdrop-filter:none; }
-.c-game .c-lesson-content h2 { margin:0 56px 6px 0; clear:none; font-size:20px; }
-.c-game .c-lesson-content > p { margin:6px 0; line-height:1.35; }
-.c-game .c-lesson-preview { width:54px; margin:0 0 6px 12px; }
-.c-game .c-lesson-content .c-subtle { display:none; }
-.c-game .c-lesson-content .c-kicker { font-size:10px; margin:0 0 4px; }
-.c-game .c-lesson-content > .primary { clear:none; }
-@media(max-height:500px) and (min-width:600px) {
- .c-game.c-tabletop > .c-lesson-popover { max-height:30dvh; }
- .c-game .c-lesson-content { padding-right:150px; }
- .c-game .c-lesson-content > .primary { position:absolute;right:16px;bottom:12px; }
- .c-game .c-lesson-preview { display:none; }
-}
-
-.c-game .c-lesson-content { display:grid;grid-template-columns:minmax(0,1fr) 60px;gap:6px; }
-.c-game .c-lesson-content :is(.c-kicker,h2,.primary) { grid-column:1 / -1; }
-.c-game .c-lesson-content .c-lesson-preview { grid-column:2;grid-row:3;float:none;margin:0; }
-.c-game .c-lesson-content > p:not(.c-kicker):not(.c-subtle) { grid-column:1;grid-row:3;max-height:12dvh;overflow:auto;margin:0; }
-.c-game .c-lesson-content > .primary { grid-row:4;justify-self:start;min-width:140px; }
-@media(max-height:500px) and (min-width:600px) {
- .c-game .c-lesson-content { display:block; }
- .c-game .c-lesson-content > p:not(.c-kicker):not(.c-subtle) { max-height:9dvh; }
-}
-
 .c-game.reduced-motion button.next-interaction { animation:none; }
 
 .c-game > .c-lesson-popover > .c-close { position:absolute;top:10px;right:10px;float:none;margin:0;min-height:40px; }
@@ -1460,3 +1430,108 @@ button.next-interaction:not(:disabled):not(.c-card-pick) { animation:attention-b
 @keyframes played-backdrop-arrive { from { background:transparent; } to { background:#050910e8; } }
 @media(prefers-reduced-motion:reduce) { .c-played-display,.c-played-display::backdrop { animation:none!important;transition:none!important; } }
 .c-played-display.reduced-motion,.c-played-display.reduced-motion::backdrop { animation:none!important;transition:none!important; }
+
+/* One real-game layout. Teaching is a separate, non-modal overlay. */
+.c-game.c-tabletop.c-tabletop { grid-template-rows:76px minmax(0,1fr) var(--hand-height) 132px 44px; }
+.c-game.c-tabletop > header { height:76px;box-sizing:border-box;position:relative; }
+.c-game.c-tabletop .c-objective { display:block;position:absolute;top:10px;left:50%;transform:translateX(-50%);width:min(52vw,780px);text-align:center;font-size:clamp(14px,1vw,22px);margin:0;color:#f4d994; }
+.c-game.c-tabletop .c-hand-sort { position:relative;inset:auto;grid-row:5;justify-self:center;align-self:center;margin:0;min-height:38px;font-size:14px; }
+.c-game.c-tabletop > .c-guide { height:132px;box-sizing:border-box;align-self:start;justify-content:center; }
+.c-game.c-tabletop > .c-response { height:132px;box-sizing:border-box;margin:0 auto; }
+.c-game.c-tabletop > header :is([data-do="lesson-help"],[data-do="exit"]) { position:fixed;z-index:180;right:12px;top:12px; }
+.c-game.c-tabletop > header [data-do="exit"] { right:64px;font-size:12px; }
+.c-modal.c-lesson-popover { position:fixed;inset:auto;margin:0;width:min(340px,calc(100vw - 24px));height:auto;max-height:none;padding:14px 16px;border:1px solid #baa16c;background:#102331f5;box-shadow:0 10px 35px #0009;z-index:170;overflow:visible; }
+.c-lesson-popover::backdrop { background:transparent; }
+.c-lesson-popover .c-close { position:absolute;right:8px;top:8px;float:none;min-height:36px;font-size:12px; }
+.c-lesson-content { display:block; }
+.c-lesson-content .c-kicker { font-size:10px;margin:0 70px 6px 0; }
+.c-lesson-content h2 { font-size:20px;line-height:1.1;margin:10px 0; }
+.c-lesson-content > p { font-size:15px;line-height:1.35;margin:8px 0; }
+.c-lesson-content .c-subtle,.c-lesson-preview { display:none; }
+.c-lesson-content > button { min-height:40px;margin:4px 0 0; }
+.c-declaration { text-align:center; }
+.c-declaration p { margin:0 0 8px;font-size:14px; }
+.c-declaration button { min-width:200px;min-height:48px; }
+.c-response button:disabled { background:#45494d!important;color:#a4a7aa!important;border-color:#676b70!important;box-shadow:none!important;opacity:1!important;animation:none!important;cursor:not-allowed; }
+.c-held-card.next-interaction:not(.c-draft-selected)::before { content:'';position:absolute;inset:-12px;z-index:-1;border-radius:14px;background:#ffe17bcc;box-shadow:0 0 24px 13px #ffd34c99,0 0 60px 22px #ffbe3555;filter:blur(9px);animation:tutorial-card-glow 1.7s ease-in-out infinite;pointer-events:none; }
+@keyframes tutorial-card-glow { 0%,100% { opacity:.55;transform:scale(.96); } 50% {opacity:1;transform:scale(1.05);} }
+.c-held-card.selected::before,.c-held-card.c-draft-selected::before { background:#55d98b99;box-shadow:0 0 30px #55d98baa; }
+.c-target-arcs { position:fixed;inset:0;z-index:150;pointer-events:none; }
+.c-victory {position:fixed;inset:0;z-index:600;background:radial-gradient(ellipse at 50% 35%,#755b2de8,#071322f5 70%);display:grid;place-items:center;overflow:hidden;color:#fff1c9;}
+.c-victory-copy {position:relative;z-index:2;text-align:center;width:min(780px,94vw);animation:victory-arrive .65s ease-out;}
+.c-victory h1 {font-family:Georgia,serif;font-size:clamp(32px,5vw,76px);margin:4px 0 16px;text-shadow:0 4px 22px #e8b55755;}
+.c-victory p {font-size:clamp(15px,1.4vw,23px);}
+.c-victory-crown {font-size:clamp(60px,8vh,120px);color:#ffd575;filter:drop-shadow(0 0 22px #edb547);}
+.c-victory-pair {display:flex;justify-content:center;gap:18px;margin:18px 0;}
+.c-victory-pair img {width:min(23vw,17vh);height:auto;filter:drop-shadow(0 8px 12px #0009);}
+.c-victory button {min-height:48px;margin:8px;}
+.c-victory-rays {position:absolute;inset:-100%;background:repeating-conic-gradient(from 0deg,#e6bd5515 0deg 8deg,transparent 8deg 24deg);animation:crown-rays 40s linear infinite;}
+.c-gold-petal {position:absolute;top:-10%;left:calc(mod(var(--i) * 17,100) * 1%);width:8px;height:16px;background:#e5bc62;animation:gold-fall 5s linear infinite;animation-delay:calc(var(--i) * -.17s);}
+@keyframes crown-rays {to {transform:rotate(360deg);}}
+@keyframes gold-fall {to {transform:translate3d(80px,120vh,0) rotate(680deg);}}
+@keyframes victory-arrive {from {opacity:0;transform:translateY(24px) scale(.96);}to {opacity:1;transform:none;}}
+@media(max-width:600px) {
+ .c-game.c-tabletop .c-objective {top:52px;width:95vw;font-size:12px;line-height:1.15;}
+ .c-game.c-tabletop > .c-guide > p {font-size:12px;margin:0;}
+ .c-lesson-content h2 {font-size:18px;}.c-lesson-content > p {font-size:13px;}
+ .c-modal.c-lesson-popover {width:min(290px,calc(100vw - 24px));padding:12px;}
+}
+@media(max-height:500px) { .c-game.c-tabletop.c-tabletop {grid-template-rows:50px minmax(0,1fr) var(--hand-height) 75px 36px;} .c-game.c-tabletop > header {height:50px;} .c-game.c-tabletop > .c-guide,.c-game.c-tabletop > .c-response {height:75px;padding:3px;} .c-game.c-tabletop .c-draft-modal {flex-direction:row;} .c-modal.c-lesson-popover {width:300px;} .c-lesson-content > p {font-size:12px;} .c-lesson-content h2 {font-size:16px;margin:6px 0;} .c-victory-pair {display:none;} }
+@media(prefers-reduced-motion:reduce) { .c-held-card::before,.c-victory * {animation:none!important;transition:none!important;} }
+.c-game.reduced-motion .c-held-card::before,.c-victory.reduced-motion * {animation:none!important;transition:none!important;}
+
+.c-game.c-tabletop { background:linear-gradient(#06101a33,#07111c55),var(--council-room) center/cover; }
+
+.c-game.c-tabletop.c-tabletop {grid-template-rows:76px minmax(0,1fr) var(--hand-height) 44px 132px;}
+.c-game.c-tabletop > .c-guide,.c-game.c-tabletop .c-response {grid-row:5;}
+.c-game.c-tabletop .c-hand-sort {grid-row:4;}
+@media(max-height:500px) {.c-game.c-tabletop.c-tabletop {grid-template-rows:50px minmax(0,1fr) var(--hand-height) 36px 75px;}}
+
+.c-lesson-content .c-lesson-exit {margin-left:8px;font-size:12px;background:transparent;}
+@media(max-width:600px) { .c-game.c-tabletop > header [data-do="lesson-help"] {left:12px;right:auto;top:82px;min-height:36px;width:36px;height:36px;} }
+
+.c-lesson-content > .primary {display:inline-block;clear:none;}
+
+.c-victory-pair > .core-face {flex:0 0 auto;width:min(22vw,18vh);}
+.c-victory-pair .core-face img {width:100%;height:100%;}
+.c-game.c-tabletop > .c-board-wrap,.c-game.c-tabletop .c-board-wrap > #core-table {height:100%;min-height:0;}
+
+.c-modal.c-lesson-inline {border:0;background:#102331;box-shadow:none;padding:4px 8px;}
+.c-lesson-inline .c-lesson-content :is(.c-kicker,.primary,.c-lesson-exit) {display:none;}
+.c-lesson-inline .c-lesson-content h2 {font-size:17px;margin:0 70px 4px 0;clear:none;}
+.c-lesson-inline .c-lesson-content > p {font-size:13px;line-height:1.3;margin:0;}
+.c-lesson-inline > .c-close {min-height:28px;height:28px;font-size:11px;padding:3px 8px;top:2px;right:4px;}
+body:has(.c-lesson-inline) .c-response > div:first-child,body:has(.c-lesson-inline) .c-guide > p {visibility:hidden;}
+.c-game.c-tabletop > .c-guide {justify-content:flex-end;}
+.c-game.c-tabletop .c-response {display:flex;flex-direction:column;justify-content:space-between;}
+.c-response-actions {width:100%;}
+@media(max-width:600px) {.c-game.c-tabletop.c-tabletop {grid-template-rows:76px minmax(0,1fr) var(--hand-height) 44px 168px;} .c-game.c-tabletop > .c-guide,.c-game.c-tabletop .c-response {height:168px;} }
+@media(max-height:500px) and (min-width:600px) {
+ .c-game.c-tabletop .c-response {display:flex;flex-direction:row;align-items:center;gap:16px;}
+ .c-response > div:first-child {flex:1;}.c-response-actions {width:45%;}
+ .c-modal.c-lesson-inline {width:45vw!important;left:12px!important;}
+ .c-lesson-inline .c-lesson-content h2 {font-size:14px;}.c-lesson-inline .c-lesson-content > p {font-size:11px;}
+}
+
+.c-modal.c-lesson-inline {max-width:none;padding:2px 8px;}
+
+@media(max-height:500px) and (min-width:600px) { .c-modal.c-lesson-popover:not(.c-lesson-inline) {width:190px;padding:10px;} .c-lesson-content > button {font-size:12px;padding:6px 8px;} .c-lesson-content h2 {font-size:15px;} }
+
+/* Short landscape screens keep a full-height table beside the hand. */
+@media(max-height:500px) and (min-width:600px) {
+ .c-game.c-tabletop.c-tabletop {grid-template-columns:55% 45%;grid-template-rows:50px minmax(100px,1fr) 36px 135px;--card-width:72px;}
+ .c-game.c-tabletop > header {grid-column:1 / -1;}
+ .c-game.c-tabletop > .c-board-wrap {grid-column:1;grid-row:2 / 5;}
+ .c-game.c-tabletop .c-hand {grid-column:2;grid-row:2;height:100%;}
+ .c-game.c-tabletop .c-hand-cards {--spread:min(calc(var(--card-width) * .68),calc((45vw - 36px - var(--card-width)) / max(1,var(--hand-count) - 1)));}
+ .c-game.c-tabletop .c-hand-sort {grid-column:2;grid-row:3;}
+ .c-game.c-tabletop > .c-guide,.c-game.c-tabletop .c-response {grid-column:2;grid-row:4;width:100%;height:135px;max-width:none;box-sizing:border-box;}
+ .c-game.c-tabletop .c-response {flex-direction:column;align-items:stretch;gap:0;}
+ .c-response-actions {width:100%;}
+ .c-game.c-tabletop .c-table-nav {left:8px;right:auto;transform:none;max-width:100%;}
+ .c-modal.c-lesson-inline {width:calc(45vw - 24px)!important;left:calc(55vw + 12px)!important;}
+ .c-game.c-tabletop .c-objective {left:250px;transform:none;width:calc(100% - 320px);text-align:left;font-size:12px;}
+ .c-game.c-tabletop .c-draft-modal {flex-direction:column;justify-content:center;gap:4px;}
+ .c-game.c-tabletop .c-draft-modal h2 {font-size:15px;margin:0;}
+ .c-game.c-tabletop .c-draft-modal p {font-size:11px;margin:0;}
+}

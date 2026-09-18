@@ -13,6 +13,9 @@ import {
 import { CARDS, BY_ID, DYNASTIES } from "./content";
 import { chooseAction, chooseDraftPacket } from "./ai";
 import { CoreTable } from "./scene";
+import { TargetArc } from "./target-arc";
+let targetArc:TargetArc|null=null;
+let arrowFrame=0;
 import {
   faceHTML,
   preloadCards,
@@ -29,6 +32,7 @@ import {
 } from "./storage";
 
 const root = document.querySelector<HTMLDivElement>("#app")!;
+root.style.setProperty('--council-room',`url("${assetUrl('art/table/council-chamber-v1.png')}")`);
 const namespace = import.meta.env?.VITE_SAVE_NAMESPACE ?? "";
 // Resolve the browser property inside readSave's guarded call: even the getter
 // can throw when the browser disallows storage.
@@ -53,6 +57,8 @@ function compareHand(a:string,b:string) {
 }
 let privateLocked = false;
 let draftPacket: string[] = [];
+let declaration: string[] = [];
+const computerPlans = new Map<number,{key:string;action:CoreAction}>();
 let computerDraftKey="";
 let computerDraftPackets: Record<number,string[]> = {};
 let selected: string | null = null;
@@ -97,8 +103,9 @@ function stopTimer() {
 }
 function dispose() {
   generation++;
+  cancelAnimationFrame(arrowFrame);targetArc?.dispose();targetArc=null;
   responseObserver?.disconnect();
-  draftPacket = [];
+  draftPacket = []; declaration=[]; computerPlans.clear();
   computerDraftKey=""; computerDraftPackets={};
   stopTimer();
   table?.dispose();
@@ -147,7 +154,7 @@ async function home() {
 function intro() {
   window.scrollTo(0, 0);
   dispose();
-  root.innerHTML = `<main class="c-intro"><section class="c-guide"><p class="c-kicker">LEARN AT THE TABLE</p><h1>Keep the Crown in your family.</h1><p class="c-intro-goal">Claim the Crown, pass it to an heir, then keep your new ruler and their supporter on the table for one full round.</p><p>We’ll teach each move at the table. A supporter is another person in your family’s Court—the cards you can all see.</p><p>Begin with eight cards and no Dynasty. Pass three, two, then one clockwise. Play three matching Nobles to establish your Dynasty and Court; the first you choose is your ruler.</p><p>First, we’ll show one useful move and explain why it helps. Playing a card uses it for this round; keeping it may let you answer a rival.</p>${btn("Take your seat", "teach", 'class="primary"')}${btn("Return to title", "home")}</section></main>`;
+  root.innerHTML = `<main class="c-intro"><section class="c-guide"><p class="c-kicker">LEARN AT THE TABLE</p><h1>Keep the Crown in your family.</h1><p class="c-intro-goal">Choose an heir and claim the Crown. Keep your ruler AND heir in Court for the whole of the next round to win.</p><p>Lose either one and your claim ends. Keep useful cards in hand to defend them.</p><p>Begin with eight cards and no Dynasty. Pass three, two, then one clockwise. Play three matching Nobles to establish your Dynasty and Court; the first you choose is your ruler.</p><p>First, we’ll show one useful move and explain why it helps. Playing a card uses it for this round; keeping it may let you answer a rival.</p>${btn("Take your seat", "teach", 'class="primary"')}${btn("Return to title", "home")}</section></main>`;
   bind();
   void preloadCards([
     "alba-0",
@@ -224,7 +231,7 @@ function actions(): CoreAction[] {
   if (!game || privateLocked || lesson?.done) return [];
   const available = legalActions(viewForSeat(game, viewer), viewer);
   return lesson
-    ? available.filter((action) => (game!.phase === "recall" && action.type === "decline") || isTeachingAction(action, lesson!.cursor + (game!.phase === "draft" ? draftPacket.length : 0)))
+    ? available.filter((action) => (game!.phase === "recall" && action.type === "decline") || isTeachingAction(action, lesson!.cursor + (game!.phase === "draft" ? draftPacket.length : game!.phase === "declare" ? declaration.length : 0)))
     : available;
 }
 function describe(action: CoreAction): string {
@@ -238,9 +245,9 @@ function describe(action: CoreAction): string {
     case "defend":
       return `Commit ${card} to Played until next round. The threatened person stays on the table.`;
     case "name-heir":
-      return `${card} becomes your heir; ${nameOf(action.supporter!)} is the named supporter. Keep the ruler, heir and supporter until next round. Then keep the new ruler and supporter for that whole round.`;
+      return `${card} becomes your heir. Keep your ruler and this heir in Court through the whole of next round to win.`;
     case "marry-heir":
-      return `${card} marries ${nameOf(action.supporter!)} and becomes your heir. Keep the linked pair throughout the succession.`;
+      return `${card} marries ${nameOf(action.supporter!)} and becomes your heir. Keep your ruler and heir through the whole next round, preserving the marriage link.`;
     case "trade":
       return `Offer ${card} to ${names[action.other!] ?? "the rival"} for ${nameOf(action.request!)}. Choose from their face-up Played pile; they may accept or refuse.${action.recruit ? " If accepted, recruit the lower native card immediately." : " If accepted, both cards enter their new owners’ Played areas until next round."}`;
     case "accept":
@@ -256,24 +263,26 @@ function describe(action: CoreAction): string {
   }
 }
 function objective(): string {
-  if (!game) return "";
-  if (game.result)
-    return game.result.winner === null
-      ? "No succession secured the Crown within 12 rounds."
-      : `${names[game.result.winner]} kept the new ruler and supporter through a full round.`;
-  if (game.setup) return game.phase === 'draft' ? `Inheritance · pass ${game.setup.pass} clockwise` : 'Play three matching Nobles to establish your Dynasty';
-  const crown = game.crown;
-  if (!crown)
-    return game.players[viewer].ruler && game.players[viewer].court.length >= 2 ? "Play an heir with a Court supporter to claim the Crown." : "Build a ruler and supporter, then play an heir to claim the Crown.";
-  if (crown.stage === "notice")
-    return `Crown claimed by ${names[crown.seat]}. ${nameOf(crown.heir)} succeeds next round; ${nameOf(crown.supporter)} must remain.`;
-  return `${names[crown.seat]} ${names[crown.seat] === "You" ? "win" : "wins"} at this round’s end if ${nameOf(crown.heir)} and ${nameOf(crown.supporter)} both remain.`;
+  if (!game) return '';
+  if(game.result) return game.result.winner===null ? 'The Crown remains contested.' : `${names[game.result.winner]} protected ruler and heir for a full round.`;
+  if(game.setup) return 'Win by protecting your ruler and heir for one full round.';
+  const crown=game.crown;
+  if(!crown) return 'Claim with an heir. Protect ruler + heir through the whole next round to win.';
+  return `${names[crown.seat]} · ${nameOf(crown.oldRuler)} + ${nameOf(crown.heir)} · ${crown.stage==='notice' ? `Hold all of round ${game.round+1} to win` : `Win when round ${game.round} ends — keep BOTH in Court`}`;
+}
+function prepareComputer(seat:number) {
+  const view=viewForSeat(game!,seat);view.active=seat;
+  const key=JSON.stringify({...view,revision:0,passes:[]});
+  let plan=computerPlans.get(seat);
+  if(plan?.key!==key && legalActions(view,seat).length) {plan={key,action:chooseAction(view,seat).action};computerPlans.set(seat,plan);}
+  return plan ? {...plan.action,revision:game!.revision} : undefined;
 }
 async function render() {
   if (!game || busy) return;
   const renderToken = ++renderSequence;
   const loadToken = generation;
   stopTimer();
+  document.querySelector(".c-lesson-popover")?.remove();
   const actor = actingSeat();
   if (mode === "local" && privateLocked && !game.result) {
     table?.dispose();
@@ -291,6 +300,7 @@ async function render() {
         lesson ? TEACHING.slice(lesson.cursor).filter(a=>a.type==='draft-pick'&&a.seat===p.seat).slice(0,game!.setup!.pass).map(a=>a.card!) : chooseDraftPacket(viewForSeat(game!,p.seat))]));
     }
   }
+  if(!lesson && mode!=="local" && game.phase==="action" && !game.result) for(const p of game.players) if(p.seat!==viewer) prepareComputer(p.seat);
   const available = actions();
   const player = game.players[viewer];
   const taught = lesson ? TEACHING[lesson.cursor] : null;
@@ -333,15 +343,15 @@ async function render() {
   if (retained) retained.remove();
   const handHTML = hand
     .map((id, index) => {
-      const enabled = humanTurn && (draftPacket.includes(id) || available.some((a) => a.card === id));
+      const enabled = humanTurn && (draftPacket.includes(id) || declaration.includes(id) || available.some((a) => a.card === id)) && (game!.phase!=="declare" || !declaration.length || BY_ID[id].dynasty===BY_ID[declaration[0]].dynasty);
       const angle =
         hand.length < 2 ? 0 : (index / (hand.length - 1) - 0.5) * 14;
-      return `<div tabindex="0" aria-label="${esc(nameOf(id))}" class="c-held-card ${game!.setup?.picks[viewer]?.includes(id) ? "c-locked-pick" : ""} ${draftPacket.includes(id) ? "c-draft-selected" : ""} ${selected === id ? "selected" : ""} ${lesson && enabled && !draftPacket.includes(id) && (game!.phase !== "draft" || draftPacket.length < game!.setup!.pass) ? "next-interaction" : ""}" style="--card-index:${index};--fan-angle:${angle}deg"><button class="c-card-pick" data-do="select" data-card="${id}" ${!enabled ? "disabled" : ""} aria-pressed="${draftPacket.includes(id)}" aria-label="Select ${esc(nameOf(id))}, ${BY_ID[id].rank} ${esc(dynastyName(BY_ID[id].dynasty))}">${faceHTML(id)}</button>${`<div class="c-card-actions" aria-label="Actions for ${esc(nameOf(id))}">${responding ? renderCardActions(id, available.filter(a=>a.type==="defend"&&a.card===id)) : ""}${btn("Inspect", "inspect", `data-card="${id}"`)}</div>`}</div>`;
+      return `<div tabindex="0" aria-label="${esc(nameOf(id))}" class="c-held-card ${game!.setup?.picks[viewer]?.includes(id) ? "c-locked-pick" : ""} ${draftPacket.includes(id) || declaration.includes(id) ? "c-draft-selected" : ""} ${selected === id ? "selected" : ""} ${lesson && enabled && !draftPacket.includes(id) && !declaration.includes(id) && (game!.phase !== "draft" || draftPacket.length < game!.setup!.pass) ? "next-interaction" : ""}" style="--card-index:${index};--fan-angle:${angle}deg"><button class="c-card-pick" data-do="select" data-card="${id}" ${!enabled ? "disabled" : ""} aria-pressed="${draftPacket.includes(id)}" aria-label="Select ${esc(nameOf(id))}, ${BY_ID[id].rank} ${esc(dynastyName(BY_ID[id].dynasty))}">${faceHTML(id)}</button>${`<div class="c-card-actions" aria-label="Actions for ${esc(nameOf(id))}">${responding ? renderCardActions(id, available.filter(a=>a.type==="defend"&&a.card===id)) : ""}${btn("Inspect", "inspect", `data-card="${id}"`)}</div>`}</div>`;
     })
     .join("");
   root.innerHTML = `<main class="c-game c-tabletop ${!motion ? "reduced-motion" : ""} ${lesson ? "c-teaching-table" : ""} ${hand.length ? "has-hand" : ""}">
-    <header><strong>${game.setup ? "Inheritance" : `Round ${game.round} of 12`}</strong><p class="c-objective">${esc(objective())}</p>${btn("Table menu", "menu")}${lesson ? btn("?", "lesson-help", 'class="c-lesson-help" aria-label="Read tutorial step" title="Read tutorial step"') + btn("Exit tutorial", "exit") : ""}</header>
-    <section class="c-guide" aria-label="Action and outcome">${game.phase === "draft" ? `<section class="c-draft-modal" role="dialog" aria-labelledby="draft-title"><div><h2 id="draft-title">All Players Select ${game.setup!.pass} ${game.setup!.pass === 1 ? "Card" : "Cards"} to pass</h2><p>Round ${4-game.setup!.pass} of 3 · Clockwise${lesson && humanTurn ? ` · ${draftPacket.length === game.setup!.pass ? "Press PASS" : `Select ${esc(nameOf(TEACHING[lesson.cursor + draftPacket.length].card!))}`}` : ""}</p></div>${btn(humanTurn ? (draftPacket.length + (game.setup!.picks[viewer]?.length ?? 0) === game.setup!.pass ? "PASS" : `Select ${game.setup!.pass - draftPacket.length - (game.setup!.picks[viewer]?.length ?? 0)} More to Pass`) : "Waiting for players…", "draft-pass", `class="primary ${draftPacket.length === game.setup!.pass ? "next-interaction" : ""}" ${!humanTurn || draftPacket.length + (game.setup!.picks[viewer]?.length ?? 0) !== game.setup!.pass ? "disabled" : ""}`)}</section>` : ""}<h2 class="sr-only">${esc(lesson ? taught!.title : game.result ? "The game has ended" : selected ? nameOf(selected) : "Your choices")}</h2>${!lesson && !responding && game.phase !== "draft" && (game.setup || selected || game.pending || outcome || autoPass) ? `<p>${esc(currentGuide)}</p>` : ""}${notice ? `<p class="c-error" role="alert">${esc(notice)}</p>` : ""}<div class="c-action-area"><div class="c-selected-actions"></div>${!lesson?.done && humanTurn && !responding ? `${generic.map((a, i) => btn(a.type === "decline" && game!.phase === "trade" ? "Decline" : a.type === "pass" && autoPass ? "<span>Pass</span>" : label[a.type], "generic", `data-index="${i}" class="${lesson ? "next-interaction" : ""} ${a.type === "pass" && autoPass ? "c-auto-pass" : ""}"`)).join("")}` : ""}${game.result && !lesson ? btn("Play another game", "setup", 'class="primary"') : ""}</div></section>
+    <header><strong>${game.setup ? "Inheritance" : `Round ${game.round} of 12`}</strong><p class="c-objective">${esc(objective())}</p>${btn("Table menu", "menu")}${lesson ? btn("?", "lesson-help", 'class="c-lesson-help" aria-label="Read tutorial step" title="Read tutorial step"') : ""}</header>
+    <section class="c-guide" aria-label="Action and outcome">${game.phase === "draft" ? `<section class="c-draft-modal" role="dialog" aria-labelledby="draft-title"><div><h2 id="draft-title">All Players Select ${game.setup!.pass} ${game.setup!.pass === 1 ? "Card" : "Cards"} to pass</h2><p>Round ${4-game.setup!.pass} of 3 · Clockwise${lesson && humanTurn ? ` · ${draftPacket.length === game.setup!.pass ? "Press PASS" : `Select ${esc(nameOf(TEACHING[lesson.cursor + draftPacket.length].card!))}`}` : ""}</p></div>${btn(humanTurn ? (draftPacket.length + (game.setup!.picks[viewer]?.length ?? 0) === game.setup!.pass ? "PASS" : `Select ${game.setup!.pass - draftPacket.length - (game.setup!.picks[viewer]?.length ?? 0)} More to Pass`) : "Waiting for players…", "draft-pass", `class="primary ${draftPacket.length === game.setup!.pass ? "next-interaction" : ""}" ${!humanTurn || draftPacket.length + (game.setup!.picks[viewer]?.length ?? 0) !== game.setup!.pass ? "disabled" : ""}`)}</section>` : ""}<h2 class="sr-only">${esc(lesson ? taught!.title : game.result ? "The game has ended" : selected ? nameOf(selected) : "Your choices")}</h2>${!responding && game.phase !== "draft" && game.phase !== "declare" && (game.setup || selected || game.pending || outcome || autoPass) ? `<p>${esc(currentGuide)}</p>` : ""}${notice ? `<p class="c-error" role="alert">${esc(notice)}</p>` : ""}${game.phase === "declare" ? `<div class="c-declaration"><p>${declaration.length ? `${esc(nameOf(declaration[0]))} will rule. ${declaration.length}/3 selected.` : "Choose three Nobles of one Dynasty. First choice is your ruler."} You can change your choices.</p>${btn(declaration.length===3?"Declare":`Select ${3-declaration.length} More`,"declare-confirm",`class="primary ${declaration.length===3?"next-interaction":""}" ${declaration.length!==3||!humanTurn?"disabled":""}`)}</div>` : ""}<div class="c-action-area"><div class="c-selected-actions"></div>${!lesson?.done && humanTurn && !responding ? `${generic.map((a, i) => btn(a.type === "decline" && game!.phase === "trade" ? "Decline" : a.type === "pass" && autoPass ? "<span>Pass</span>" : label[a.type], "generic", `data-index="${i}" class="${lesson ? "next-interaction" : ""} ${a.type === "pass" && autoPass ? "c-auto-pass" : ""}"`)).join("")}` : ""}${game.result && !lesson ? btn("Play another game", "setup", 'class="primary"') : ""}</div></section>
     <section class="c-board-wrap" aria-label="Physical game table"><div class="c-table-nav">${btn("Table", "focus-all", 'aria-label="Whole table"')}${game.players.map((p) => btn(esc(names[p.seat]), "focus", `data-seat="${p.seat}"`)).join("")}</div>${game.phase === "draft" ? `<div class="c-draft-hands">${game.players.filter(p=>p.seat!==viewer).sort((a,b)=>(a.seat-viewer+game!.players.length)%game!.players.length-(b.seat-viewer+game!.players.length)%game!.players.length).map(p=>`<div data-draft-hand="${p.seat}"><span>${esc(names[p.seat])}</span><div class="c-back-fan">${Array.from({length:p.hand.length},(_,i)=>`<i class="c-card-back" style="--i:${i}" aria-hidden="true"></i>`).join("")}</div><small>${p.hand.length} cards</small></div>`).join("")}</div>` : ""}<div id="core-table"></div></section>
     ${responding ? responseHTML() : ""}
     <section class="c-hand" aria-label="Your hand" style="--hand-count:${hand.length}"><div class="c-hand-cards">${handHTML}</div></section>${btn(`Sorted by ${handSort.toUpperCase()}`,"sort-hand",'class="c-hand-sort" aria-label="Change hand sort order"')}</main>`;
@@ -371,7 +381,7 @@ async function render() {
     table.setInteractive(true);
   } else {
     freshHost.className = "c-basic-table";
-    freshHost.innerHTML = `<p>Basic table view · 3D is unavailable on this browser</p>${seatView.players.map((p) => `<section><h2>${esc(names[p.seat])}</h2><p>${p.handCount} concealed cards · Played: ${p.played.map(nameOf).map(esc).join(", ") || "none"} · returns next round</p><div>${p.court.map((id) => `<figure>${faceHTML(id)}<figcaption>${esc(nameOf(id))}${id === p.ruler ? " · ruler" : ""}${game!.crown?.heir === id ? " · heir" : ""}${game!.crown?.supporter === id ? " · supporter" : ""}</figcaption></figure>`).join("")}</div></section>`).join("")}`;
+    freshHost.innerHTML = `<p>Basic table view · 3D is unavailable on this browser</p>${seatView.players.map((p) => `<section><h2>${esc(names[p.seat])}</h2><p>${p.handCount} concealed cards · Played: ${p.played.map(nameOf).map(esc).join(", ") || "none"} · returns next round</p><div>${p.court.map((id) => `<figure>${faceHTML(id)}<figcaption>${esc(nameOf(id))}${id === p.ruler ? " · ruler" : ""}${game!.crown?.heir === id ? " · heir" : ""}</figcaption></figure>`).join("")}</div></section>`).join("")}`;
     root.querySelector(".c-table-nav")!.innerHTML = "";
   }
   bind();
@@ -405,29 +415,30 @@ async function render() {
     const revision = game.revision;
     timer = setTimeout(() => {
       if (!game || game.revision !== revision || busy) return;
-      const action = chooseAction(viewForSeat(game, actor), actor).action;
+      const action = prepareComputer(actor);
       if (!action) {
         notice = "The next move could not be prepared. Your game is saved.";
         void render();
         return;
       }
       void commit(action);
-    }, 1300);
+    }, motion ? 180 : 0);
   }
-  if (lesson) {
-    if (motion) await new Promise(resolve=>setTimeout(resolve,750));
-    if (loadToken !== generation || renderToken !== renderSequence) return;
-    const key = lessonKey();
-    if(game.phase !== "draft" && TEACHING[lesson.cursor]?.type !== "decline" && shownLesson !== key && !document.querySelector('dialog[open]')) showLesson();
-    else if(!lesson.done && actor !== viewer && !document.querySelector('dialog[open]')) {
+  if (lesson && !game.result) {
+    if(actor!==viewer && !lesson.done) {
       const revision=game.revision;
       timer=setTimeout(()=>{
-        if(!game || game.revision!==revision || !lesson || document.querySelector('dialog[open]') || document.hidden) return;
+        if(!game || game.revision!==revision || !lesson || document.hidden) return;
         const action=legalActions(viewForSeat(game,actor),actor).find(a=>isTeachingAction(a,lesson!.cursor));
         if(action) void commit(action);
-      },900);
+      },game.setup?0:motion?700:0);
+    } else {
+      if(motion) await new Promise(resolve=>setTimeout(resolve,700));
+      if(loadToken!==generation || renderToken!==renderSequence) return;
+      if(shownLesson!==lessonKey()) showLesson();
     }
   }
+  if(game.result) showVictory();
 
 }
 function responseHTML() {
@@ -492,7 +503,20 @@ function actionAt(element: Element | null) {
       : targetId(a) === id,
   );
 }
+function updateArc(pointer?:{x:number;y:number}) {
+  cancelAnimationFrame(arrowFrame);
+  const fromId=armed?.card??game?.pending?.card;
+  const targets=armedActions();
+  const toId=pointer ? undefined : targets.length===1?targetId(targets[0]):game?.pending?.target;
+  const from=fromId ? document.querySelector<HTMLElement>(`[data-do="select"][data-card="${fromId}"], [data-table-card="${fromId}"]`)?.getBoundingClientRect() : null;
+  const dest=toId ? document.querySelector<HTMLElement>(`[data-table-card="${toId}"]`)?.getBoundingClientRect() : null;
+  if(from && (pointer||dest)) {
+    try {targetArc??=new TargetArc();targetArc.show({x:from.x+from.width/2,y:from.y+from.height/2},pointer??{x:dest!.x+dest!.width/2,y:dest!.y+dest!.height/2},!motion);}catch { /* Rules and click targets remain available without WebGL. */ }
+    if(!pointer)arrowFrame=requestAnimationFrame(()=>updateArc());
+  } else {targetArc?.hide();if(fromId && toId) arrowFrame=requestAnimationFrame(()=>updateArc());}
+}
 function showTargets() {
+  updateArc();
   root.querySelector(".c-game")?.classList.toggle("is-choosing-target", !!armed);
   const choices = armedActions();
   root.querySelector("#core-table")?.classList.toggle("single-action-drop", choices.length === 1);
@@ -589,7 +613,7 @@ root.addEventListener("pointerdown", (event) => {
     armed={card:action.card!,type:action.type,recruit:!!action.recruit};
   }
   selected=card.dataset.card!;
-  const ghost=document.createElement('div'); ghost.className='c-drag-card'; ghost.innerHTML=card.innerHTML; ghost.hidden=true;
+  const ghost=document.createElement('div'); ghost.className='c-drag-anchor'; ghost.hidden=true;
   document.body.append(ghost);
   drag={pointer:event.pointerId,x:event.clientX,y:event.clientY,moved:false,ghost,previousArmed};
   card.setPointerCapture(event.pointerId);
@@ -600,12 +624,11 @@ root.addEventListener("pointermove", (event) => {
   drag.moved ||= Math.hypot(event.clientX - drag.x, event.clientY - drag.y) > 5;
   drag.ghost.hidden = !drag.moved;
   if(drag.moved && !wasMoving) showTargets();
-  drag.ghost.style.left = `${event.clientX}px`;
-  drag.ghost.style.top = `${event.clientY}px`;
-  drag.ghost.classList.toggle(
-    "can-drop",
-    !!actionAt(document.elementFromPoint(event.clientX, event.clientY)),
-  );
+  const target=document.elementFromPoint(event.clientX,event.clientY);
+  const action=actionAt(target);const id=action&&targetId(action);
+  const box=id?document.querySelector<HTMLElement>(`[data-table-card="${id}"]`)?.getBoundingClientRect():null;
+  if(drag.moved) updateArc(box?{x:box.x+box.width/2,y:box.y+box.height/2}:{x:event.clientX,y:event.clientY});
+
 });
 root.addEventListener("pointerup", (event) => {
   if (!drag || drag.pointer !== event.pointerId) return;
@@ -634,6 +657,7 @@ async function commit(action: CoreAction, deferRender = false) {
     return;
   try {
     if(lesson && action.type === "decline" && game.phase === "recall" && !isTeachingAction(action,lesson.cursor)) lesson=null;
+    document.querySelector(".c-lesson-popover")?.remove();
     const before = game;
     const next = applyAction(game, action);
     if (before.phase === "draft" && before.setup!.pass !== next.setup?.pass) {
@@ -706,13 +730,38 @@ function lessonKey(): string {
   return lesson.done ? `done:${lesson.cursor}` : game.setup
     ? `${game.phase}:${game.setup.pass}:${actingSeat()}` : `step:${lesson.cursor}`;
 }
+function positionLesson(panel:HTMLElement) {
+  if(game && !game.setup) {
+    const host=root.querySelector<HTMLElement>('.c-response')??root.querySelector<HTMLElement>('.c-guide');
+    if(host){const r=host.getBoundingClientRect(),w=Math.min(740,r.width-24);panel.classList.add('c-lesson-inline');panel.style.width=`${w}px`;panel.style.left=`${r.x+(r.width-w)/2}px`;panel.style.top=`${r.y+2}px`;return;}
+  }
+  const size=panel.getBoundingClientRect();
+  const obstacles=[...root.querySelectorAll<HTMLElement>('.c-held-card,.c-guide,.c-response,.c-table-nav,[data-draft-hand],.core-table-caption,.core-table-seat,[data-table-card]')].map(e=>e.getBoundingClientRect());
+  const candidates=[];
+  for(let y=80;y+size.height<innerHeight-12;y+=24) for(const x of [12,Math.max(12,(innerWidth-size.width)/2),Math.max(12,innerWidth-size.width-12)]) {
+    const score=obstacles.reduce((n,r)=>n+Math.max(0,Math.min(x+size.width,r.right)-Math.max(x,r.left))*Math.max(0,Math.min(y+size.height,r.bottom)-Math.max(y,r.top)),0);
+    candidates.push({x,y,score});
+  }
+  const best=candidates.sort((a,b)=>a.score-b.score)[0]??{x:12,y:80};
+  panel.style.left=`${best.x}px`;panel.style.top=`${best.y}px`;
+}
+function showVictory() {
+  if(!game?.result || document.querySelector('.c-victory'))return;
+  const win=game.result.winner,success=win===viewer;
+  const layer=document.createElement('section');layer.className=`c-victory ${!motion?'reduced-motion':''}`;layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label','Game result');
+  layer.innerHTML=`<div class="c-victory-rays"></div><div class="c-victory-copy"><div class="c-victory-crown" aria-hidden="true">♛</div><p class="c-kicker">${win===null?'THE CROWN AWAITS':'A DYNASTY ENDURES'}</p><h1>${success?'Long live your Dynasty!':win===null?'The Crown is still contested':`${esc(names[win])} secures the Crown`}</h1><p>${success?'You protected your ruler and heir for a full round. Your succession is secure.':esc(game.result.reason)}</p>${game.crown?`<div class="c-victory-pair">${faceHTML(game.crown.oldRuler)}${faceHTML(game.crown.heir)}</div>`:''}${btn('Play again','victory-again','class="primary next-interaction"')}${btn('View table','victory-close')}</div>${Array.from({length:48},(_,i)=>`<i class="c-gold-petal" style="--i:${i}"></i>`).join('')}`;
+  document.body.append(layer);root.inert=true;
+  layer.querySelector('[data-do="victory-close"]')!.addEventListener('click',()=>{layer.remove();root.inert=false;});
+  layer.querySelector('[data-do="victory-again"]')!.addEventListener('click',()=>{layer.remove();root.inert=false;setup();});
+  layer.querySelector<HTMLButtonElement>('button')!.focus();
+}
 function showLesson() {
-  if(!lesson || !game) return;
+  if(!lesson || !game || (!lesson.done && actingSeat()!==viewer)) return;
   shownLesson=lessonKey();
   const step=TEACHING[lesson.cursor];
-  modal(`<section class="c-lesson-content" aria-labelledby="lesson-title"><p class="c-kicker">LEARN AT THE TABLE</p><h2 id="lesson-title">${esc(step.title)}</h2>${step.card && !lesson.done ? `<div class="c-lesson-preview">${faceHTML(step.card)}</div>` : ''}<p>${esc(lesson.done ? step.outcome : step.explanation)}</p>${lesson.done ? (lesson.cursor===TEACHING.length-1 ? btn("Finish lesson","finish",'class="primary next-interaction"') : btn("Next step","continue",'class="primary next-interaction"')) : btn(step.seat===viewer ? "Continue" : "Watch the table","close",'class="primary next-interaction"')}<p class="c-subtle">Use the circled ? to read this step again.</p></section>`, true);
+  modal(`<section class="c-lesson-content" aria-labelledby="lesson-title"><p class="c-kicker">LEARN AT THE TABLE</p><h2 id="lesson-title">${esc(step.title)}</h2>${step.card && !lesson.done ? `<div class="c-lesson-preview">${faceHTML(step.card)}</div>` : ''}<p>${esc(lesson.done ? step.outcome : step.explanation)}</p>${lesson.done ? (lesson.cursor===TEACHING.length-1 ? btn("Finish lesson","finish",'class="primary next-interaction"') : btn("Next step","continue",'class="primary next-interaction"')) : btn("Continue","close",'class="primary next-interaction"')}${btn("Exit tutorial","exit",'class="c-lesson-exit"')}<p class="c-subtle">Use the circled ? to read this step again.</p></section>`, true);
   const dialog=document.querySelector('dialog')!;
-  dialog.classList.add('c-lesson-popover');dialog.setAttribute('aria-labelledby','lesson-title');
+  dialog.classList.add('c-lesson-popover');dialog.style.visibility='hidden';requestAnimationFrame(()=>requestAnimationFrame(()=>{positionLesson(dialog);dialog.style.visibility='visible';}));dialog.setAttribute('aria-labelledby','lesson-title');
   dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
 }
 function modal(html: string, lessonGuide = false) {
@@ -724,7 +773,7 @@ function modal(html: string, lessonGuide = false) {
   dialog.innerHTML = `${btn("Close", "close", 'class="c-close"')}${html}`;
   if(lessonGuide) {
     dialog.classList.add("c-lesson-popover");
-    root.querySelector(".c-game")!.append(dialog);
+    document.body.append(dialog);
     dialog.show();
   } else { document.body.append(dialog); dialog.showModal(); }
   dialog.addEventListener("close", () => {
@@ -871,7 +920,7 @@ function rules() {
 }
 function menu() {
   modal(
-    `<h2>Your table</h2><p>Deal eight each; pass 3, then 2, then 1 clockwise. Play three matching Nobles to declare your Dynasty. The first is ruler; five stay in hand. Duplicate Dynasties are allowed.</p><p>${esc(objective())}</p><p>Play cards to develop your Court, challenge a rival’s Noble or offer a Trade for a rival’s face-up Played card. Return a Court Noble to hand to spend your turn. This may break a marriage or Crown claim. A card in Played is unavailable until next round. Defend with a higher same-Dynasty card; an Ace also answers J, Q or K.</p><p>Claim with a ruler, an existing native supporter and a new native heir. Or marry a equal- or neighboring-rank foreign heir to an existing native Queen. Keep the required people through transfer and the entire following round.</p><p>Everyone passing consecutively ends a round. Played cards return, then each player draws one new card. No round reshuffle. During setup only, a failed declaration reveals its hand, draws the top card and sets aside a different-Dynasty card. Shuffle those set-aside cards into the deck after declarations. The prototype ends as a draw after 12 rounds without a winner.</p>${btn("Reference rules", "rules")}${btn(motion ? "Reduce motion" : "Enable motion", "motion")}${btn("Export private save", "export")}${btn("Return to title", "home")}<p class="c-subtle">Private saves include all hands. Share only with people allowed to see them.</p>`,
+    `<h2>Your table</h2><p>Deal eight each; pass 3, then 2, then 1 clockwise. Play three matching Nobles to declare your Dynasty. The first is ruler; five stay in hand. Duplicate Dynasties are allowed.</p><p>${esc(objective())}</p><p>Play cards to develop your Court, challenge a rival’s Noble or offer a Trade for a rival’s face-up Played card. Return a Court Noble to hand to spend your turn. This may break a marriage or Crown claim. A card in Played is unavailable until next round. Defend with a higher same-Dynasty card; an Ace also answers J, Q or K.</p><p>Claim with your ruler and a new native heir. Or marry an equal- or neighboring-rank foreign heir to an existing native Queen. Keep your ruler and heir in Court through the whole next round to win.</p><p>Everyone passing consecutively ends a round. Played cards return, then each player draws one new card. No round reshuffle. During setup only, a failed declaration reveals its hand, draws the top card and sets aside a different-Dynasty card. Shuffle those set-aside cards into the deck after declarations. The prototype ends as a draw after 12 rounds without a winner.</p>${btn("Reference rules", "rules")}${btn(motion ? "Reduce motion" : "Enable motion", "motion")}${btn("Export private save", "export")}${btn("Return to title", "home")}<p class="c-subtle">Private saves include all hands. Share only with people allowed to see them.</p>`,
   );
 }
 const actionHints: Record<string,string> = {
@@ -884,7 +933,7 @@ const actionHints: Record<string,string> = {
  decline:"Decline this offer without exchanging cards.",
  pass:"End your opportunity without playing a card. When everyone passes consecutively, the round ends.",
  'draft-pass':"Lock your selected cards and pass them clockwise. Everyone exchanges their packet together.",
- 'name-heir':"Play this native Noble as your heir and choose a supporter to begin a Crown claim.",
+ 'name-heir':"Play this Noble as heir. Keep ruler and heir through the whole next round to win.",
  'marry-heir':"Marry this foreign Noble to a matching Queen in your Court to begin a Crown claim.",
  trade:"Offer this card for a rival’s face-up Played card. They choose whether to accept.",
  accept:"Accept the proposed card exchange.",
@@ -1107,6 +1156,17 @@ function bind(scope: ParentNode = root) {
           root.querySelector<HTMLButtonElement>(`[data-do="select"][data-card="${id}"]`)?.focus();
           return;
         }
+        if(action === "declare-confirm" && game.phase==='declare' && declaration.length===3) {
+          const packet=[...declaration];declaration=[];
+          for(const card of packet) await commit({type:'declare-pick',seat:viewer,card,revision:game!.revision},true);
+          await render();return;
+        }
+        if(action==='select' && game.phase==='declare') {
+          const id=el.dataset.card!;
+          if(declaration.includes(id)) declaration=lesson?declaration.slice(0,declaration.indexOf(id)):declaration.filter(c=>c!==id);
+          else if(declaration.length<3 && actions().some(a=>a.card===id) && (!declaration.length || BY_ID[id].dynasty===BY_ID[declaration[0]].dynasty)) declaration.push(id);
+          await render();return;
+        }
         if (action === "select" && game?.setup) {
           const pick = actions().find(a => a.card === el.dataset.card);
           if(pick) await commit(pick);
@@ -1146,6 +1206,8 @@ function bind(scope: ParentNode = root) {
           return;
         }
         if (action === "arm") {
+          const direct=actions().filter(a=>a.type===el.dataset.type&&a.card===el.dataset.card);
+          if(direct.length===1 && ['name-heir','recruit'].includes(direct[0].type)) {await commit(direct[0]);return;}
           selected = el.dataset.card!;
           armed = {
             card: selected,
@@ -1182,6 +1244,7 @@ function updateViewport() {
 }
 window.visualViewport?.addEventListener("resize", updateViewport);
 window.addEventListener("resize", updateViewport);
+window.addEventListener("resize",()=>{const guide=document.querySelector<HTMLElement>(".c-lesson-popover");if(guide) positionLesson(guide);});
 updateViewport();
 void home();
 

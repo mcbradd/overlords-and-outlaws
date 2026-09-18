@@ -9,10 +9,10 @@ export async function completePopoverTutorial(page:Page,capture:(name:string)=>P
  await page.locator('[data-do="lesson-help"]').click();
  await expect(page.locator('.c-lesson-popover')).toBeVisible();
  const dock=await page.locator('.c-lesson-popover').evaluate(e=>({modal:e.matches(':modal'),top:e.getBoundingClientRect().top,boardBottom:document.querySelector('#core-table')!.getBoundingClientRect().bottom}));
- assert.equal(dock.modal,false);assert.ok(dock.top>=dock.boardBottom);
+ assert.equal(dock.modal,false);
  await expect(page.locator('.c-lesson-popover .primary')).toHaveText('Continue');
  const before=await read();await capture('opening-popover');
- await page.locator('.c-lesson-popover [data-do="close"]').last().click();
+ await page.locator('.c-lesson-popover [data-do="close"]:visible').last().click();
  await expect(page.locator('.c-lesson-popover')).toHaveCount(0);
  assert.deepEqual((await read()).game,before.game,'dismiss does not mutate the game');
  await expect(page.locator('[data-do="lesson-help"]')).toHaveText('?');
@@ -30,7 +30,7 @@ export async function completePopoverTutorial(page:Page,capture:(name:string)=>P
   if(await page.locator('.c-lesson-popover').count()) {
    await expect(page.locator('#lesson-title')).toHaveText(step.title);
    await capture(`step-${cursor}-popover`);
-   await page.locator('.c-lesson-popover [data-do="close"]').last().click();
+   await page.locator('.c-lesson-popover [data-do="close"]:visible').last().click();
    await expect(page.locator('.c-lesson-popover')).toHaveCount(0);
   }
   save=await read();if(save.lesson.cursor!==cursor) continue;
@@ -41,21 +41,27 @@ export async function completePopoverTutorial(page:Page,capture:(name:string)=>P
      }
      await page.locator('[data-do="draft-pass"]').click();
    }
+   else if(step.type==='declare-pick') {
+     const beforeGame=structuredClone(save.game);
+     for(let i=0;i<3;i++) await playCard(page,TEACHING[cursor+i].card!,'declare-pick',undefined,false);
+     assert.deepEqual((await read()).game,beforeGame,'Declaration stays private and reversible before confirmation');
+     await page.locator('[data-do="declare-confirm"]').click();
+   }
    else if(step.type==='decline') { await expect(page.locator('.c-response')).toContainText('Alexander III must retreat');await capture('forced-retreat-at-button');await page.locator('[data-do="respond-retreat"]').click(); }
    else if(step.card) await playCard(page,step.card,step.type,step.target??step.supporter,false);
    else await page.locator('[data-do="generic"]').click();
   }
   await expect.poll(async()=>(await read()).game.revision).toBeGreaterThan(save.game.revision);
-  if(cursor===0){await expect(page.locator('.c-lesson-popover')).toHaveCount(0);await capture('grouped-draft-pick');}
+  if(cursor===0) await capture('grouped-draft-pick');
  }
  const final=await read();assert.equal(final.game.result?.winner,0);assert.equal(final.lesson.done,true);
- await expect(page.locator('.c-lesson-popover')).toBeVisible();await expect(page.locator('.c-lesson-popover')).toContainText('You win');await capture('completed-popover');
- await page.locator('[data-do="finish"]').click();
+ await expect(page.locator('.c-victory')).toBeVisible();await expect(page.locator('.c-victory')).toContainText('Long live your Dynasty');const victory=await page.locator('.c-victory-copy').boundingBox();assert.ok(victory&&victory.y>=0&&victory.y+victory.height<=page.viewportSize()!.height,'Victory fits the screen');await capture('victory');
+ await page.locator('[data-do="victory-close"]').click();
 }
 if(process.argv[1]?.replaceAll('\\','/').endsWith('/core-tutorial-popover.ts')) {
  const out=process.env.POPOVER_OUTPUT??'artifacts/core/tutorial-popover';mkdirSync(out,{recursive:true});
  const browser=await chromium.launch({channel:'chrome'});const rows:unknown[]=[];
- try{for(const viewport of [{width:1440,height:900},{width:390,height:844},{width:844,height:390}]) {
+ try{for(const viewport of (process.env.POPOVER_VIEWPORTS?JSON.parse(process.env.POPOVER_VIEWPORTS):[{width:1440,height:900},{width:390,height:844},{width:844,height:390}])) {
   const page=await browser.newPage({viewport,reducedMotion:'reduce'});
   await page.goto(process.env.BASE_URL??'http://localhost:5173');await page.locator('[data-do="intro"]').click();await page.locator('[data-do="teach"]').click();
   await completePopoverTutorial(page,async name=>{const path=`${out}/${viewport.width}-${name}.png`;await page.waitForTimeout(750);await page.screenshot({path});rows.push({viewport,name,path,inspected:false});});

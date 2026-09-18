@@ -1,5 +1,5 @@
 import { completePopoverTutorial } from './core-tutorial-popover';
-import { playCard } from './core-tabletop';
+import { playCard, clickExposed } from './core-tabletop';
 import { chromium, expect, type Locator, type Page } from '@playwright/test';
 import assert from 'node:assert/strict';
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -46,7 +46,7 @@ export function coverageFixtures():Map<string,CoreState>{
   const dense=baseFixture(4);for(const player of dense.players)player.court=CARDS.filter(card=>card.dynasty===player.dynasty).map(card=>card.id);fixtures.set('dense-four-courts',conserve(dense));
   const full=baseFixture(4);full.players[0].hand=[...full.deck];fixtures.set('maximal-hand',conserve(full));
   const empty=baseFixture();empty.players[0].played=[...empty.deck];fixtures.set('empty-deck',conserve(empty));
-  let notice=baseFixture();notice.players[0].court.push(a(2));notice.players[0].hand=[a(4),a(8)];notice.players[1].hand=[a(7)];conserve(notice);notice=perform(notice,{type:'name-heir',seat:0,card:a(4),supporter:a(2)});fixtures.set('native-notice',notice);fixtures.set('native-reign',nextRound(notice));
+  let notice=baseFixture();notice.players[0].court.push(a(2));notice.players[0].hand=[a(4),a(8)];notice.players[1].hand=[a(7)];conserve(notice);notice=perform(notice,{type:'name-heir',seat:0,card:a(4)});fixtures.set('native-notice',notice);fixtures.set('native-reign',nextRound(notice));
   let failed=perform(notice,{type:'recall',seat:1,card:a(7),target:a(2)});fixtures.set('incoming-recall',failed);fixtures.set('recall-decline',failed);failed=perform(failed,{type:'decline',seat:0});fixtures.set('failed-claim',failed);
   let marriage=baseFixture();marriage.players[0].court.push(a(12));marriage.players[0].hand=[p(11)];conserve(marriage);marriage=perform(marriage,{type:'marry-heir',seat:0,card:p(11),supporter:a(12)});fixtures.set('marriage-notice',marriage);fixtures.set('foreign-reign',nextRound(marriage));
   let trade=baseFixture();trade.players[0].hand=[a(8)];trade.players[1].played=[a(2)];conserve(trade);trade=perform(trade,{type:'trade',seat:0,card:a(8),other:1,request:a(2),recruit:true});fixtures.set('trade-offer',trade);fixtures.set('trade-decline',trade);
@@ -143,7 +143,7 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
       }
       if(name==='sparse-table'){
         await clickReachable(page.locator('[data-do="menu"]'));await capture('rules-and-table-menu');await clickReachable(page.locator('[data-do="close"]'));
-        await page.locator('.c-held-card').first().hover();const inspect=page.locator('.c-hand [data-do="inspect"]').first();await clickReachable(inspect);await capture('reference-inspection');await clickReachable(page.locator('[data-do="close"]'));
+        await clickExposed(page.locator('.c-hand [data-do="select"]').first());const inspect=page.locator('[data-do="inspect-selected"]');await clickReachable(inspect);await capture('reference-inspection');await clickReachable(page.locator('[data-do="close"]'));
       }
       if(['incoming-recall','recall-decline','trade-offer','trade-decline'].includes(name)){
         if(name==='incoming-recall'){

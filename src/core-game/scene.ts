@@ -35,7 +35,6 @@ export interface CoreTableView {
     seat: number;
     oldRuler: string;
     heir: string;
-    supporter: string;
     stage?: string;
   } | null;
   marriages?: readonly { queen: string; spouse: string }[];
@@ -582,7 +581,7 @@ export class CoreTable {
               view.players[Number(attacker)]?.dynasty,
           )
           .join(", ");
-        return `<button data-table-card="${escapeHTML(id)}" ${!this.cameraEnabled ? "disabled" : ""}>${faceHTML(id)}<span>${escapeHTML(BY_ID[id].name)}${ruler === id ? " · Ruler" : ""}${view.crown?.heir === id ? " · Heir" : ""}${view.crown?.supporter === id ? " · Supporter" : ""}</span>${attempts ? `<span>Challenge already tried this round: ${escapeHTML(attempts)}</span>` : ""}</button>`;
+        return `<button data-table-card="${escapeHTML(id)}" ${!this.cameraEnabled ? "disabled" : ""}>${faceHTML(id)}<span>${escapeHTML(BY_ID[id].name)}${ruler === id ? " · Ruler" : ""}${view.crown?.heir === id ? " · Heir" : ""}</span>${attempts ? `<span>Challenge already tried this round: ${escapeHTML(attempts)}</span>` : ""}</button>`;
       };
       const pairs = (view.marriages ?? [])
         .map(
@@ -760,6 +759,7 @@ export class CoreTable {
         "core-table-seat",
       );
       seatLabel.element.dataset.courtSeat = String(seat);
+      seatLabel.userData.cardTop=cy+seatH/2-112;
       seatLabel.element.tabIndex = -1;
       seatLabel.element.setAttribute(
         "aria-label",
@@ -812,17 +812,17 @@ export class CoreTable {
             ? "Ruler"
             : view.crown?.heir === id
               ? "Heir"
-              : view.crown?.supporter === id
-                ? "Supporter"
-                : null;
-        if (office)
-          this.label(
+              : null;
+        if (office) {
+          const officeLabel=this.label(
             office,
-            x + 24,
-            y + 48,
+            x,
+            y + 126,
             15 + Math.floor(slot / courtColumns) * 3.6,
             "core-table-office",
           );
+          officeLabel.userData.cardTop=y+112;
+        }
         const attemptedBy = Object.entries(view.attempts ?? {})
           .filter(([, targets]) => targets.includes(id))
           .map(([attacker]) => Number(attacker));
@@ -860,36 +860,41 @@ export class CoreTable {
       const px = startX - 184,
         py = startY;
       if (p.played.length) {
+        const bar=new THREE.Mesh(new THREE.BoxGeometry(5,440,5),new THREE.MeshStandardMaterial({color:0xb7995c,metalness:.7,roughness:.35}));
+        bar.position.set(startX-103,startY-105,5);this.content.add(bar);
+        for(const y of [startY+123,startY-333]) {const tip=new THREE.Mesh(new THREE.OctahedronGeometry(9),new THREE.MeshStandardMaterial({color:0xc4a567,metalness:.7,roughness:.35}));tip.position.set(startX-103,y,6);this.content.add(tip);}
+
         const pileLabel = this.label(
-          `${p.name ?? `Player ${seat + 1}`} · Played`,
+          "Played",
           px,
-          py + 143,
+          py + 224,
           8,
           "core-played-label",
         );
         pileLabel.element.dataset.playedOwner = String(seat);
+        pileLabel.userData.anchorX=px;
         pileLabel.element.title =
           "These cards return to this player next round.";
       }
       for (let i = 0; i < p.played.length; i++) {
         const id = p.played[i],
           slot = this.playedSlots.get(id)!.slot,
-          t = canvasTexture(faces.get(id)!);
+          t = canvasTexture(this.playedFace(faces.get(id)!));
         this.textures.push(t);
         this.addCard(
           id,
           t,
           px - Math.floor(slot / 8) * 176,
-          py - (slot % 8) * 48,
+          py - (slot % 8) * 36,
           9 + (slot % 8) * 3.6,
-          160,
+          112,
           old.get(id) ?? new THREE.Vector3(cx, cy - seatH / 2 + 20, 18),
           seat,
         );
       }
     }
-    const deckX = columns === 1 ? this.boardW / 2 - 55 : 0,
-      deckY = columns === 1 ? 0 : 35;
+    const deckX = -this.boardW / 2 + 300,
+      deckY = -this.boardH / 2 + 160;
     const deckCount = view.deckCount ?? 0;
     if (deckCount > 0)
       for (let i = 0; i < Math.min(deckCount, 5); i++) {
@@ -910,7 +915,7 @@ export class CoreTable {
     const crowned = view.crown;
     if (crowned) {
       const point = this.positions.get(
-        crowned.stage === "reign" ? crowned.heir : crowned.oldRuler,
+        crowned.oldRuler,
       );
       if (point) {
         crown.position.set(point.x + 44, point.y + 28, 27);
@@ -937,28 +942,14 @@ export class CoreTable {
         this.content.add(link);
       }
     }
-    const lead = view.pending?.lead ?? view.pending?.card,
-      target = view.pending?.target;
-    if (lead && target) {
-      const a = this.positions.get(lead),
-        b = this.positions.get(target);
-      if (a && b) {
-        const dir = new THREE.Vector3().subVectors(b, a);
-        const arrow = new THREE.ArrowHelper(
-          dir.clone().normalize(),
-          a.clone().setZ(40),
-          dir.length(),
-          0xefc567,
-          20,
-          11,
-        );
-        this.content.add(arrow);
-      }
-    }
     if (layoutChanged || !this.framed) {
       this.fit();
       this.framed = true;
     }
+  }
+  private playedFace(source:HTMLCanvasElement) {
+    const canvas=document.createElement('canvas');canvas.width=source.width;canvas.height=source.height;
+    const ctx=canvas.getContext('2d')!;ctx.filter='saturate(.12) brightness(.85)';ctx.drawImage(source,0,0);return canvas;
   }
   private stock(texture: THREE.Texture, w: number): THREE.Group {
     const h = (w * 88) / 63,
@@ -1074,6 +1065,13 @@ export class CoreTable {
       if (p.from.distanceToSquared(p.to) > 1)
         p.mesh.position.z += Math.sin(Math.PI * t) * 45;
       p.hit.position.copy(p.mesh.position).add(new THREE.Vector3(0, 0, 4));
+    }
+    const labelScale=Math.max(1,this.distance*2*Math.tan(THREE.MathUtils.degToRad(this.camera.fov)/2)/this.height*.9);
+    const readableScale=labelScale*Math.min(1.6,Math.max(1,innerWidth/1920));
+    for(const child of this.labelScene.children) if(child instanceof CSS3DObject && child.element.matches('.core-table-seat,.core-table-caption,.core-played-label,.core-table-office')) {
+      child.scale.setScalar(readableScale);
+      if(child.userData.anchorX!==undefined) child.position.x=child.userData.anchorX-readableScale*30;
+      if(child.userData.cardTop!==undefined) child.position.y=child.userData.cardTop+readableScale*(child.element.matches('.core-table-seat')?48:14);
     }
     this.renderer.render(this.scene, this.camera);
     this.labels.render(this.labelScene, this.camera);
