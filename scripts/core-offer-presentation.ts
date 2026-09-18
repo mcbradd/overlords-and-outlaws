@@ -16,7 +16,7 @@ try {for(const [width,height] of [[1440,900],[3840,2160],[375,667],[390,844],[84
   await page.goto(process.env.BASE_URL??'http://localhost:4174');await page.locator('[data-do="setup"]').click();await page.locator('#save-file').setInputFiles({name:'offer.json',mimeType:'application/json',buffer:Buffer.from(encodeSave({game:pending,mode:'solo',names:['You','Rival'],lesson:null,motion:true}))});
   const pair=page.locator(type==='trade'?'.c-trade-pair':'.c-challenge-pair');await expect(pair).toBeVisible();await page.waitForTimeout(800);
   assert.doesNotMatch(await page.locator('body').innerText(),/You[’']s/);
-  const boxes=await pair.locator('.core-face').evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect();return{x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width};}));assert.equal(boxes.length,2);assert.ok(boxes[0].right<=boxes[1].x);assert.ok(boxes.every(r=>r.x>=0&&r.right<=width&&r.y>=0&&r.bottom<=height));
+  const boxes=await pair.locator('.core-face').evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect();return{x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height};}));assert.equal(boxes.length,2);assert.ok(boxes.every(r=>r.height>=70),'Both offer cards have readable physical height');assert.ok(boxes[0].right<=boxes[1].x);assert.ok(boxes.every(r=>r.x>=0&&r.right<=width&&r.y>=0&&r.bottom<=height));
   if(type==='recall') {
    const board=await page.locator('.c-board-wrap').boundingBox();assert.ok(board);assert.ok(Math.abs((boxes[0].x+boxes[1].right)/2-(board.x+board.width/2))<2,'Challenge pair is centered over the table');
    await expect(page.locator('[data-table-card="alba-3"]')).toHaveCount(0);
