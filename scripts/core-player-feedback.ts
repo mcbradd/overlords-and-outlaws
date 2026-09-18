@@ -190,7 +190,7 @@ try {
       .click();
     await expect(page.locator("[data-drop-card]")).toHaveCount(1);
     await expect(page.locator('[data-drop-card="alba-2"]')).toBeVisible();
-    await playCard(page, "alba-8", "trade", "alba-2", viewport.width > 600);
+    await page.locator('[data-drop-card="alba-2"]').click();
     await capture("trade-selected-handoff");
     await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
     await clickReachable(page.locator('[data-do="unlock"]'));

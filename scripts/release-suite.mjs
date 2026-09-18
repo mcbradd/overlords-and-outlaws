@@ -20,6 +20,7 @@ const checks = [
   ["core-tabletop", script("core-tabletop.ts")],
   ["core-player-counts", script("core-player-counts.ts")],
   ["core-inheritance", script("core-inheritance.ts")],
+  ["core-tutorial-popover", script("core-tutorial-popover.ts")],
   ["core-policy-simulation", script("core-simulate.ts", "8")],
   ["core-browser", script("core-browser.ts")],
   ["core-browser-extended", script("core-browser-extended.ts")],

@@ -41,6 +41,7 @@ let game: CoreState | null = null;
 let mode: CoreSave["mode"] = "solo";
 let names = ["You", "Rival"];
 let lesson: CoreSave["lesson"] = null;
+let shownLesson: string | null = null;
 let motion = !matchMedia("(prefers-reduced-motion: reduce)").matches;
 let viewer = 0;
 let privateLocked = false;
@@ -163,6 +164,7 @@ async function start(
   game = state;
   mode = nextMode;
   lesson = nextLesson;
+  shownLesson = null;
   selected = null;
   armed = null;
   outcome = "";
@@ -291,11 +293,7 @@ async function render() {
     ? `Select ${game.setup.pass - (game.setup.picks[viewer]?.length ?? 0)} more to pass clockwise. Packets move together after everyone chooses. Keep a matching trio.`
     : game.phase === 'repair' ? 'No matching trio: your hand and the top draw are revealed. Select a different-Dynasty card to set aside.'
     : `Select ${3 - (game.setup.picks[viewer]?.length ?? 0)} matching Nobles. The first is your ruler. All Courts reveal together; five cards stay in hand.` : '';
-  const currentGuide = lesson
-    ? lesson.done
-      ? taught!.outcome
-      : taught!.explanation
-    : setupGuide || (selectedActions.length === 1
+  const currentGuide = setupGuide || (selectedActions.length === 1
       ? describe(selectedActions[0])
       : (autoPass
           ? "Your hand is empty. Passing automatically in 2 seconds."
@@ -313,13 +311,13 @@ async function render() {
       const enabled = humanTurn && available.some((a) => a.card === id);
       const angle =
         hand.length < 2 ? 0 : (index / (hand.length - 1) - 0.5) * 14;
-      return `<div tabindex="0" aria-label="${esc(nameOf(id))}" class="c-held-card ${game!.setup?.picks[viewer]?.includes(id) ? "c-locked-pick" : ""} ${selected === id ? "selected" : ""} ${lesson && enabled ? "next-interaction" : ""}" style="--card-index:${index};--fan-angle:${angle}deg"><button class="c-card-pick" data-do="select" data-card="${id}" ${!enabled ? "disabled" : ""} aria-label="Select ${esc(nameOf(id))}, ${BY_ID[id].rank} ${esc(dynastyName(BY_ID[id].dynasty))}">${faceHTML(id)}</button>${`<div class="c-card-actions" aria-label="Actions for ${esc(nameOf(id))}">${renderCardActions(id, enabled ? available.filter((a) => a.card === id) : [])}${!lesson ? btn("Inspect", "inspect", `data-card="${id}"`) : ""}</div>`}</div>`;
+      return `<div tabindex="0" aria-label="${esc(nameOf(id))}" class="c-held-card ${game!.setup?.picks[viewer]?.includes(id) ? "c-locked-pick" : ""} ${selected === id ? "selected" : ""} ${lesson && enabled ? "next-interaction" : ""}" style="--card-index:${index};--fan-angle:${angle}deg"><button class="c-card-pick" data-do="select" data-card="${id}" ${!enabled ? "disabled" : ""} aria-label="Select ${esc(nameOf(id))}, ${BY_ID[id].rank} ${esc(dynastyName(BY_ID[id].dynasty))}">${faceHTML(id)}</button>${`<div class="c-card-actions" aria-label="Actions for ${esc(nameOf(id))}">${renderCardActions(id, enabled ? available.filter((a) => a.card === id) : [])}${btn("Inspect", "inspect", `data-card="${id}"`)}</div>`}</div>`;
     })
     .join("");
   root.innerHTML = `<main class="c-game c-tabletop ${lesson ? "c-teaching-table" : ""} ${hand.length ? "has-hand" : ""}">
-    <header><strong>${game.setup ? "Inheritance" : `Round ${game.round} of 12`}</strong><p class="c-objective">${esc(objective())}</p>${lesson ? btn("Exit tutorial", "exit") : btn("Table menu", "menu")}</header>
-    <section class="c-guide" aria-label="Action and outcome"><h2 class="sr-only">${esc(lesson ? taught!.title : game.result ? "The game has ended" : selected ? nameOf(selected) : "Your choices")}</h2>${game.setup || lesson || selected || game.pending || outcome || autoPass ? `<p>${esc(currentGuide)}</p>` : ""}${notice ? `<p class="c-error" role="alert">${esc(notice)}</p>` : ""}<div class="c-action-area">${lesson?.done && lesson.cursor === TEACHING.length - 1 ? btn("Finish lesson", "finish", 'class="primary"') : ""}${lesson?.done && lesson.cursor < TEACHING.length - 1 ? btn("Continue", "continue", 'class="primary"') : ""}${lesson && !lesson.done && taught!.seat !== viewer ? btn("Watch the rival move", "watch", 'class="primary next-interaction"') : ""}${!lesson?.done && humanTurn ? `${generic.map((a, i) => btn(a.type === "decline" && game!.phase === "trade" ? "Decline trade" : a.type === "pass" && autoPass ? "<span>Pass</span>" : label[a.type], "generic", `data-index="${i}" class="${lesson ? "next-interaction" : ""} ${a.type === "pass" && autoPass ? "c-auto-pass" : ""}"`)).join("")}` : ""}${game.result && !lesson ? btn("Play another game", "setup", 'class="primary"') : ""}</div></section>
-    <section class="c-board-wrap" aria-label="Physical game table"><div class="c-table-nav">${btn("Table", "focus-all", 'aria-label="Whole table"')}${!lesson ? game.players.map((p) => btn(esc(names[p.seat]), "focus", `data-seat="${p.seat}"`)).join("") : ""}</div><div id="core-table"></div></section>
+    <header><strong>${game.setup ? "Inheritance" : `Round ${game.round} of 12`}</strong><p class="c-objective">${esc(objective())}</p>${btn("Table menu", "menu")}${lesson ? btn("?", "lesson-help", 'class="c-lesson-help" aria-label="Read tutorial step" title="Read tutorial step"') + btn("Exit tutorial", "exit") : ""}</header>
+    <section class="c-guide" aria-label="Action and outcome"><h2 class="sr-only">${esc(lesson ? taught!.title : game.result ? "The game has ended" : selected ? nameOf(selected) : "Your choices")}</h2>${!lesson && (game.setup || selected || game.pending || outcome || autoPass) ? `<p>${esc(currentGuide)}</p>` : ""}${notice ? `<p class="c-error" role="alert">${esc(notice)}</p>` : ""}<div class="c-action-area">${!lesson?.done && humanTurn ? `${generic.map((a, i) => btn(a.type === "decline" && game!.phase === "trade" ? "Decline trade" : a.type === "pass" && autoPass ? "<span>Pass</span>" : label[a.type], "generic", `data-index="${i}" class="${lesson ? "next-interaction" : ""} ${a.type === "pass" && autoPass ? "c-auto-pass" : ""}"`)).join("")}` : ""}${game.result && !lesson ? btn("Play another game", "setup", 'class="primary"') : ""}</div></section>
+    <section class="c-board-wrap" aria-label="Physical game table"><div class="c-table-nav">${btn("Table", "focus-all", 'aria-label="Whole table"')}${game.players.map((p) => btn(esc(names[p.seat]), "focus", `data-seat="${p.seat}"`)).join("")}</div><div id="core-table"></div></section>
     <section class="c-hand" aria-label="Your hand" style="--hand-count:${hand.length}"><div class="c-hand-cards">${handHTML}</div></section></main>`;
   const freshHost = root.querySelector<HTMLElement>("#core-table")!;
   if (retained && table) freshHost.replaceWith(retained);
@@ -327,7 +325,7 @@ async function render() {
     table?.dispose();
     try {
       table = new CoreTable(freshHost, (id) => {
-        if (!lesson) {
+        {
           const seat = game!.players.findIndex((p) => p.played.includes(id));
           if (seat >= 0) playedPile(seat);
           else inspect(id);
@@ -344,7 +342,7 @@ async function render() {
       players: seatView.players.map((p) => ({ ...p, name: names[p.seat] })),
     });
     if (loadToken !== generation || renderToken !== renderSequence) return;
-    table.setInteractive(!lesson);
+    table.setInteractive(true);
   } else {
     freshHost.className = "c-basic-table";
     freshHost.innerHTML = `<p>Basic table view · 3D is unavailable on this browser</p>${seatView.players.map((p) => `<section><h2>${esc(names[p.seat])}</h2><p>${p.handCount} concealed cards · Played: ${p.played.map(nameOf).map(esc).join(", ") || "none"} · returns next round</p><div>${p.court.map((id) => `<figure>${faceHTML(id)}<figcaption>${esc(nameOf(id))}${id === p.ruler ? " · ruler" : ""}${game!.crown?.heir === id ? " · heir" : ""}${game!.crown?.supporter === id ? " · supporter" : ""}</figcaption></figure>`).join("")}</div></section>`).join("")}`;
@@ -384,6 +382,19 @@ async function render() {
       void commit(action);
     }, 1300);
   }
+  if (lesson) {
+    const key = lessonKey();
+    if(shownLesson !== key && !document.querySelector('dialog[open]')) showLesson();
+    else if(!lesson.done && actor !== viewer && !document.querySelector('dialog[open]')) {
+      const revision=game.revision;
+      timer=setTimeout(()=>{
+        if(!game || game.revision!==revision || !lesson || document.querySelector('dialog[open]') || document.hidden) return;
+        const action=legalActions(viewForSeat(game,actor),actor).find(a=>isTeachingAction(a,lesson!.cursor));
+        if(action) void commit(action);
+      },900);
+    }
+  }
+
 }
 function renderCardActions(id: string, list: CoreAction[]): string {
   const kinds = [...new Set(list.map((a) => `${a.type}:${!!a.recruit}`))];
@@ -430,6 +441,7 @@ function actionAt(element: Element | null) {
   );
 }
 function showTargets() {
+  root.querySelector(".c-game")?.classList.toggle("is-choosing-target", !!armed);
   const choices = armedActions();
   root
     .querySelectorAll(".c-held-card")
@@ -487,9 +499,10 @@ root.addEventListener(
   },
   true,
 );
-root.addEventListener(
+document.addEventListener(
   "keydown",
   (event) => {
+    if (document.querySelector("dialog[open]")) return;
     if (event.key === "Escape") {
       armed = null;
       selected = null;
@@ -561,7 +574,7 @@ async function commit(action: CoreAction) {
     selected = null;
     armed = null;
     outcome = game.events.at(-1) ?? describe(action);
-    if (lesson) lesson = ['draft-pick','declare-pick','repair'].includes(action.type)
+    if (lesson) lesson = lesson.cursor < TEACHING.length - 1
       ? { cursor: lesson.cursor + 1, done: false } : { ...lesson, done: true };
     if (mode === "local" && actingSeat() !== viewer) privateLocked = true;
     persist();
@@ -603,6 +616,20 @@ root.addEventListener('pointerout', event=>{
   if(next?.closest?.('[data-table-card],.c-court-actions')) return;
   courtMenuTimer=setTimeout(()=>{ if(!document.activeElement?.closest('[data-table-card],.c-court-actions')) root.querySelector('.c-court-actions')?.remove(); },200);
 });
+function lessonKey(): string {
+  if(!lesson || !game) return '';
+  return lesson.done ? `done:${lesson.cursor}` : game.setup
+    ? `${game.phase}:${game.setup.pass}:${actingSeat()}` : `step:${lesson.cursor}`;
+}
+function showLesson() {
+  if(!lesson || !game) return;
+  shownLesson=lessonKey();
+  const step=TEACHING[lesson.cursor];
+  modal(`<section class="c-lesson-content" aria-labelledby="lesson-title"><p class="c-kicker">LEARN AT THE TABLE</p><h2 id="lesson-title">${esc(step.title)}</h2>${step.card && !lesson.done ? `<div class="c-lesson-preview">${faceHTML(step.card)}</div>` : ''}<p>${esc(lesson.done ? step.outcome : step.explanation)}</p>${lesson.done ? (lesson.cursor===TEACHING.length-1 ? btn("Finish lesson","finish",'class="primary"') : btn("Next step","continue",'class="primary"')) : btn(step.seat===viewer ? "Let me play" : "Watch the table","close",'class="primary"')}<p class="c-subtle">Use the circled ? to read this step again.</p></section>`);
+  const dialog=document.querySelector('dialog')!;
+  dialog.classList.add('c-lesson-popover');dialog.setAttribute('aria-labelledby','lesson-title');
+  dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
+}
 function modal(html: string) {
   stopTimer();
   const token = generation;
@@ -621,7 +648,7 @@ function modal(html: string) {
       game &&
       !busy &&
       token === generation &&
-      (game.players[viewer].hand.length === 0 ||
+      ((lesson && !lesson.done && actingSeat() !== viewer) || game.players[viewer].hand.length === 0 ||
         (!lesson && mode !== "local" && actingSeat() !== viewer))
     )
       void render();
@@ -755,6 +782,7 @@ function bind(scope: ParentNode = root) {
           setup();
           return;
         }
+        if (action === "lesson-help") { showLesson(); return; }
         if (action === "close") {
           el.closest("dialog")?.close();
           return;
@@ -821,6 +849,7 @@ function bind(scope: ParentNode = root) {
           return;
         }
         if (action === "continue" && lesson?.done) {
+          document.querySelector("dialog")?.remove();
           lesson = { cursor: lesson.cursor + 1, done: false };
           outcome = "";
           persist();

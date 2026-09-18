@@ -69,7 +69,7 @@ try{
   });
   await stage('primary-hover-focus',{width:390,height:844},async(page,capture,row)=>{
     await load(page);const primary=page.locator('[data-do="intro"]');row.facts.normal=await contrast(primary);await primary.hover();row.facts.hover=await contrast(primary);await capture('hover');await page.mouse.move(0,0);await tabTo(page,'[data-do="intro"]');row.facts.focus=await contrast(primary);assert.notEqual((row.facts.focus as {outline:string}).outline,'none');await capture('keyboard-focus');
-    await page.keyboard.press('Enter');await clickReachable(page.locator('[data-do="teach"]'));await expect(page.locator('.c-game')).toBeVisible();await page.locator('[data-do="select"][data-card="plantagenet-6"]').focus();const commit=page.locator('[data-do="arm"][data-type="draft-pick"]');await commit.hover();row.facts.actionHover=await contrast(commit);await capture('action-hover');
+    await page.keyboard.press('Enter');await clickReachable(page.locator('[data-do="teach"]'));await expect(page.locator('.c-game')).toBeVisible();await page.locator('.c-lesson-popover .primary[data-do="close"]').click();await page.locator('[data-do="select"][data-card="plantagenet-6"]').focus();const commit=page.locator('[data-do="arm"][data-type="draft-pick"]');await commit.hover();row.facts.actionHover=await contrast(commit);await capture('action-hover');
   });
   await stage('reference-rules',{width:1440,height:900},async(page,capture,row)=>{
     await localStart(page);await clickReachable(page.locator('[data-do="menu"]'));await clickReachable(page.locator('[data-do="rules"]'));
@@ -111,11 +111,11 @@ try{
     await load(page);await page.addStyleTag({content:':root { font-size: 32px !important; }'});row.facts.simulation='Root font doubled from16 to32px; distinct from browser zoom';await capture('double-text-opening-first-screen');await scrollReadingSurface(page,'[data-do="intro"]');await capture('double-text-opening-action');await clickReachable(page.locator('[data-do="intro"]'));await scrollReadingSurface(page,'[data-do="teach"]');await geometry(page.locator('[data-do="teach"]'));await capture('double-text-introduction');
   });
   await stage('keyboard-first-move',{width:390,height:844},async(page,capture)=>{
-    await load(page);for(const selector of ['[data-do="intro"]','[data-do="teach"]','[data-do="select"][data-card="plantagenet-6"]']){await expect(page.locator(selector)).toBeAttached();await tabTo(page,selector);await capture(`focus-${selector.match(/data-do="([^"]+)/)?.[1]}`);await page.keyboard.press('Enter');}
+    await load(page);for(const selector of ['[data-do="intro"]','[data-do="teach"]','.c-lesson-popover .primary[data-do="close"]','[data-do="select"][data-card="plantagenet-6"]']){await expect(page.locator(selector)).toBeAttached();await tabTo(page,selector);await capture(`focus-${selector.match(/data-do="([^"]+)/)?.[1]}`);await page.keyboard.press('Enter');}
     await expect(page.locator('[data-do="continue"]')).toHaveCount(0);await expect(page.locator('.c-locked-pick')).toHaveCount(1);await capture('keyboard-outcome');
   });
   await stage('touch-first-move',{width:390,height:844},async(page,capture)=>{
-    await load(page);for(const selector of ['[data-do="intro"]','[data-do="teach"]','[data-do="select"][data-card="plantagenet-6"]']){await geometry(page.locator(selector));await page.locator(selector).tap();}
+    await load(page);for(const selector of ['[data-do="intro"]','[data-do="teach"]','.c-lesson-popover .primary[data-do="close"]','[data-do="select"][data-card="plantagenet-6"]']){await geometry(page.locator(selector));await page.locator(selector).tap();}
     await expect(page.locator('[data-do="continue"]')).toHaveCount(0);await expect(page.locator('.c-locked-pick')).toHaveCount(1);await capture('touch-outcome');
   },true);
 }finally{await browser.close();report.finishedAt=new Date().toISOString();report.passed=report.rows.every(row=>row.status==='passed');save();}

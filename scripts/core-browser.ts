@@ -1,3 +1,4 @@
+import { completePopoverTutorial } from './core-tutorial-popover';
 import { playCard } from './core-tabletop';
 import { chromium, expect, type Locator, type Page } from '@playwright/test';
 import assert from 'node:assert/strict';
@@ -6,7 +7,6 @@ import { execFileSync } from 'node:child_process';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
-import { TEACHING } from '../src/core-game/tutorial';
 import { CARDS, BY_ID } from '../src/core-game/content';
 import { applyAction, assertInvariants, type CoreState } from '../src/core-game/engine';
 import { createGame } from '../tests/core-established-fixture';
@@ -111,40 +111,16 @@ export async function runCoreBrowser(options:{base?:string;width?:number;height?
   }
   async function stage(name:string,work:()=>Promise<void>){try{await work();report.stages.push({name,passed:true});}catch(error){const message=String(error);report.failures.push(`${name}: ${message}`);report.stages.push({name,passed:false,error:message});await capture(`FAILED-${name.replace(/[^a-z0-9-]/gi,'-')}`).catch(()=>{});}save();}
   async function load(){await page.goto(base);await expect(page.locator('[data-do="intro"]')).toBeVisible();}
-  async function tutorialContract(){
-    await expect(page.locator('.c-game .c-guide')).toHaveCount(1);
-    const text=await page.locator('.c-game').innerText();assert.doesNotMatch(text,/\bseals?\b/i);
-    assert.equal(await page.locator('.c-game [data-do="menu"],.c-game [data-do="focus"],.c-game [data-do="inspect"]').count(),0);
-    const unwanted=await page.locator('.c-game button:not([disabled]),.c-game select:not([disabled])').evaluateAll(elements=>elements.filter(element=>!element.closest('[inert]')).map(element=>(element as HTMLElement).dataset.do??(element as HTMLElement).dataset.choiceType).filter(action=>!['exit','select','arm','generic','continue','finish','watch','focus-all'].includes(action??'')));
-    assert.deepEqual(unwanted,[],'tutorial exposes only taught interaction/Exit');
-  }
+
   try{
     await stage('opening-intro',async()=>{await load();await expect(page.locator('.c-showcase-card')).toHaveCount(3);await capture('opening');await clickReachable(page.locator('[data-do="intro"]'));await capture('introduction');await expect(page.locator('.c-intro')).toContainText('eight cards and no Dynasty');});
     if(options.tutorial!==false)await stage('complete-tutorial',async()=>{
       if(!(await page.locator('[data-do="teach"]').count())){await load();await clickReachable(page.locator('[data-do="intro"]'));}
       await scrollReaderTo(page.locator('[data-do="teach"]'));await capture('introduction-action-after-deliberate-scroll');
       await clickReachable(page.locator('[data-do="teach"]'));await expect(page.locator('.c-game')).toBeVisible();
-      for(const [index,step] of TEACHING.entries()){
-        const prefix=`tutorial-${String(index+1).padStart(2,'0')}-${step.type}`;
-        await expect(page.locator('.c-guide h2')).toHaveText(step.title);await tutorialContract();await capture(`${prefix}-explanation`);
-        if(step.seat===0){
-          if(step.card){await playCard(page,step.card,step.type,step.target??step.supporter,viewport.width>600);}
-          else await clickReachable(page.locator('[data-do="generic"]'));
-          await expect(page.locator('[data-do="commit"],[data-do="cancel"]')).toHaveCount(0);
-        }else{
-          if(index===1){await page.waitForTimeout(4200);await expect(page.locator('[data-do="continue"]')).toHaveCount(0);await expect(page.locator('.c-guide')).toContainText(step.explanation);await capture(`${prefix}-still-awaiting-watch`);}
-          await clickReachable(page.locator('[data-do="watch"]'));
-        }
-        if(['draft-pick','declare-pick','repair'].includes(step.type)) {
-          await expect(page.locator('[data-do="continue"]')).toHaveCount(0);
-          await capture(`${prefix}-selected`); continue;
-        }
-        const advance=page.locator(index===TEACHING.length-1?'[data-do="finish"]':'[data-do="continue"]');
-        await expect(advance).toBeVisible({timeout:15000});await expect(page.locator('.c-guide')).toContainText(step.outcome);await capture(`${prefix}-outcome`);
-        if(index<TEACHING.length-1)await clickReachable(advance);
-      }
-      await expect(page.locator('.c-game header')).toContainText('Round 2');await expect(page.locator('.c-guide')).toContainText('You win');report.tutorialCompleted=true;
-      await clickReachable(page.locator('[data-do="finish"]'));await capture('post-lesson-reflection');
+      await completePopoverTutorial(page,capture);
+      report.tutorialCompleted=true;
+      await capture('post-lesson-reflection');
     });
     await stage('setup-input',async()=>{await load();await clickReachable(page.locator('[data-do="setup"]'));await capture('new-table-setup');await page.locator('#player-name').fill('Alexandra of the Long Historical House');await page.locator('#player-name').focus();await capture('name-entry-focused');});
     await stage('simulated-keyboard',async()=>{

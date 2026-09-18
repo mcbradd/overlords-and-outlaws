@@ -7,6 +7,7 @@ try {
   await page.goto(process.env.BASE_URL ?? "http://localhost:5173");
   await page.locator('[data-do="intro"]').click();
   await page.locator('[data-do="teach"]').click();
+  await page.locator('.c-lesson-popover .primary[data-do="close"]').click();
   await expect(
     page.locator('[data-do="select"][data-card="plantagenet-6"]'),
   ).toBeEnabled();

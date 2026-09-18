@@ -34,6 +34,7 @@ async function teach(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'Take your seat', exact: true }).click();
   await expect(page.locator('#core-table')).toBeVisible({ timeout: 30000 });
   await expect(page.locator('[data-do="select"][data-card="plantagenet-6"]')).toBeEnabled({ timeout: 30000 });
+  await page.locator('.c-lesson-popover .primary[data-do="close"]').click();
 }
 async function savedProgress(page: Page) {
   return page.evaluate(() => {
@@ -96,22 +97,14 @@ await run('APP-03 rival teaching has a reader-controlled legal action', async pa
   await teach(page);
   for(const card of ['plantagenet-6','plantagenet-7','plantagenet-8']) await playCard(page,card,'draft-pick',undefined,false);
   await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
-  await expect(page.getByRole('button', { name: 'Watch the rival move', exact: true })).toBeVisible();
-  const before = await savedProgress(page);
-  const explanation = await page.locator('.c-game .c-guide').innerText();
-  await page.waitForTimeout(4500);
-  assert.deepEqual(await savedProgress(page), before, 'No timed rival action');
-  assert.equal(await page.locator('.c-game .c-guide').innerText(), explanation, 'Explanation persists for the reader');
-  await page.getByRole('button', { name: 'Watch the rival move', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Continue', exact: true })).toHaveCount(0);
-  const after = await savedProgress(page);
-  assert.equal(after.revision, before.revision + 1);
-  assert.equal(after.phase, 'draft');
-  assert.equal(after.cursor, before.cursor + 1);
-  assert.equal(after.done, false);
-  await page.waitForTimeout(4500);
-  assert.deepEqual(await savedProgress(page), after, 'No duplicate timer after watched action');
-  return { stableReadingMilliseconds: 4500, exactlyOneWatchedAction: true, noConfirmation: true };
+  await expect(page.locator('.c-lesson-popover')).toBeVisible();
+  const before=await savedProgress(page);
+  await page.waitForTimeout(2000);
+  assert.deepEqual(await savedProgress(page),before,'Reading pauses rival play');
+  await page.locator('.c-lesson-popover .primary[data-do="close"]').click();
+  await expect.poll(async()=>(await savedProgress(page)).revision).toBeGreaterThan(before.revision);
+  return { readingPausesRival: true, dismissalLetsRivalPlay: true };
+
 });
 
 await browser.close();
