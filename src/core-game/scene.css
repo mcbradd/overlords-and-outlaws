@@ -218,7 +218,7 @@
 #core-table .valid-drop {
   outline: 4px solid var(--attention-yellow);
   outline-offset: 3px;
-  background: var(--attention-yellow)30;
+  background: rgb(255 225 146 / 19%);
   cursor: pointer;
 }
 .core-first-player {
@@ -229,3 +229,4 @@
   pointer-events: none;
   text-align: center;
 }
+
