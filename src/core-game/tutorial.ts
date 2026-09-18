@@ -20,16 +20,16 @@ const step = (
   detail: Pick<TeachingStep, "card" | "target" | "supporter"> = {},
 ): TeachingStep => ({ seat, type, title, explanation, outcome, ...detail });
 const pickSteps = (seat: number, type: string, cards: string[], explanation: string) => cards.map(card =>
-  step(seat,type,type==='draft-pick'?'Shape your inheritance':'Declare your Dynasty',`Select ${BY_ID[card].name}. ${explanation}`,
+  step(seat,type,type==='draft-pick'?'Draft your starting hand':'Declare your Dynasty',`${explanation} ${seat === 0 ? 'For this example, select' : 'The rival selects'} ${BY_ID[card].name}.`,
     'Selection placed. The group moves automatically when all players finish.',{card}));
 export const TEACHING: TeachingStep[] = [
-  ...pickSteps(0,'draft-pick',['plantagenet-6','plantagenet-7','plantagenet-8'],'Eight Nobles, no Dynasty yet. Keep a matching trio. Select these three Plantagenet cards to pass clockwise; all packets move together.'),
-  ...pickSteps(1,'draft-pick',['alba-3','alba-7','alba-8'],'The rival also selects three cards privately. Neither packet moves until both players finish.'),
-  ...pickSteps(0,'draft-pick',['alba-3','alba-8'],'Now pass two. You may pass cards just received. Keep three matching Nobles to establish your Court.'),
-  ...pickSteps(1,'draft-pick',['plantagenet-7','plantagenet-8'],'The rival selects two, then both packets move clockwise.'),
-  ...pickSteps(0,'draft-pick',['plantagenet-8'],'Pass one card to finish the 3–2–1 draft.'),
-  ...pickSteps(1,'draft-pick',['alba-8'],'The final one-card packets move together.'),
-  ...pickSteps(0,'declare-pick',['alba-0','alba-2','alba-6'],'Play three Nobles of one Dynasty to establish your Court. Your first choice is your ruler. In this teaching hand, choose Kenneth MacAlpin, then Malcolm III and Alexander III.'),
+  ...pickSteps(0,'draft-pick',['plantagenet-6','plantagenet-7','plantagenet-8'],'You are drafting your starting hand. From eight Nobles, pass 3 cards clockwise and receive 3; then exchange 2, then 1. Your goal is to keep three Nobles of one Dynasty to start your Court, plus useful cards for later turns. Here, keep your Alba trio and pass three Plantagenet Nobles. Everyone chooses privately before cards move.'),
+  ...pickSteps(1,'draft-pick',['alba-3','alba-7','alba-8'],'Your rival is shaping a starting hand too. Once everyone has chosen three cards to pass, each packet moves clockwise. You receive as many cards as you give, so your hand stays at eight.'),
+  ...pickSteps(0,'draft-pick',['alba-3','alba-8'],'The second exchange is two cards each. Compare the cards you received with the hand you want to keep. Protect your matching trio; you may pass newly received cards. In this example, pass these two Alba Nobles while keeping your chosen trio.'),
+  ...pickSteps(1,'draft-pick',['plantagenet-7','plantagenet-8'],'The rival also chooses two cards to pass. Each exchange is a chance to improve a starting hand; both packets move only when everyone is ready.'),
+  ...pickSteps(0,'draft-pick',['plantagenet-8'],'The last exchange is one card each. Keep your matching trio and useful cards for claiming or defending the Crown. Pass this Plantagenet Noble to finish shaping your eight-card starting hand.'),
+  ...pickSteps(1,'draft-pick',['alba-8'],'The final cards move together, completing the 3–2–1 draft. Next, each player will reveal three matching Nobles to establish a Dynasty; the other five cards stay private.'),
+  ...pickSteps(0,'declare-pick',['alba-0','alba-2','alba-6'],'Your draft has built a starting hand. Now play three Nobles of one Dynasty to establish your Court and choose that Dynasty. The first is your ruler; five cards stay in hand. Our Alba trio is Kenneth MacAlpin as ruler, then Malcolm III and Alexander III.'),
   ...pickSteps(1,'declare-pick',['plantagenet-0','plantagenet-2','plantagenet-4'],'The rival chooses a matching trio. Both Courts reveal together, leaving five private cards each.'),
   step(0,'name-heir','Claim the Crown','Your three played Alba Nobles established your Dynasty. Play Alexander II as heir, with Malcolm III as supporter. The Crown passes to the heir next round.', 'The Crown is claimed. Keep the ruler, heir and supporter until succession.',{card:'alba-5',supporter:'alba-2'}),
   step(1,'recall','A rival challenges the heir','The rival plays David I to Recall your heir. Recall matches Dynasty. Each person faces at most one attempt per round across all rivals.','Your heir is threatened.',{card:'alba-3',target:'alba-5'}),

@@ -1,3 +1,5 @@
+> **Build 11 teaching correction:** Explain the purpose before naming the next card. The draft builds an eight-card starting hand through clockwise exchanges of 3, then 2, then 1. Keep a matching trio to establish a Dynasty and useful cards for later turns. Identify the fixed selections as examples, not universal strategy.
+
 > **Current tutorial correction (Build 10):** Use the standard gameplay table and controls. Tutorial instructions live in a dismissible popover, never a persistent top bar. An obvious circled ? reopens the current step without changing state. Dismiss before acting; highlight the next legal interaction. Group consecutive draft picks into one reading pause. Rival play waits while a modal is open and proceeds on the table after dismissal.
 
 > **Build 9 inheritance restoration:** Teach the ordinary eight-card 3–2–1 draft before declaration and succession. No preassigned Dynasty or ruler. Each setup card selection commits immediately and advances the guide without Continue. Continue between later completed teaching actions changes only the cursor. The first Noble in a matching declaration is the chosen ruler.
