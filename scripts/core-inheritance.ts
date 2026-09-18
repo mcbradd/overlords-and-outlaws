@@ -9,7 +9,7 @@ const browser=await chromium.launch({channel:'chrome'});
 const rows: unknown[]=[];
 try {
  for(const players of [2,3,4]) for(const width of [1440,390]) {
-  const page=await browser.newPage({viewport:{width,height:width===390?844:900},reducedMotion:'reduce',hasTouch:width===390});
+  const page=await browser.newPage({viewport:{width,height:width===390?844:900},reducedMotion:process.env.DRAFT_MOTION ? 'no-preference' : 'reduce',hasTouch:width===390});
   const read=()=>page.evaluate(()=>JSON.parse(Object.entries(localStorage).find(([k])=>k.endsWith('oando-v9-inheritance'))![1]).game as CoreState);
   const capture=async(stage:string)=>{await page.waitForTimeout(450);const path=`${out}/${players}p-${width}-${stage}.png`;await page.screenshot({path});rows.push({players,width,stage,path,inspected:false});};
   await page.goto(base);await page.locator('[data-do="setup"]').click();
@@ -20,10 +20,22 @@ try {
   while(s.setup) {
    const phase=`${s.phase}-${s.setup.pass}`;
    if(!seen.has(phase)) {seen.add(phase);await capture(phase);}
-   const action=chooseAction(viewForSeat(s,s.active),s.active).action;
-   const oldSeat=s.active, expected=applyAction(s,action);
-   const card=page.locator(`[data-do="select"][data-card="${action.card}"]`);
-   await card.focus();await card.click();
+   const oldSeat=s.active; let expected=s;
+   do {
+     const action=chooseAction(viewForSeat(expected,expected.active),expected.active).action;
+     const card=page.locator(`[data-do="select"][data-card="${action.card}"]`);
+     await card.focus();await card.click();
+     expected=applyAction(expected,action);
+   } while(s.phase==='draft' && expected.active===oldSeat && expected.setup?.pass===s.setup?.pass);
+   if(s.phase==='draft') {
+     await page.locator('[data-do="draft-pass"]').click();
+     if(process.env.DRAFT_MOTION && s.setup!.pass !== expected.setup?.pass) {
+       await expect(page.locator('.c-draft-flight .c-card-back')).toHaveCount(players*s.setup!.pass);
+       for(let seat=0;seat<players;seat++) await expect(page.locator(`.c-draft-flight [data-from="${seat}"][data-to="${(seat+1)%players}"]`)).toHaveCount(s.setup!.pass);
+       await expect(page.locator('.c-draft-flight img,.c-draft-flight [data-card]')).toHaveCount(0);
+       await capture(`flight-${s.setup!.pass}`);
+     }
+   }
    await expect.poll(async()=>(await read()).revision).toBe(expected.revision);
    s=await read();assert.deepEqual(s,expected);
    if(s.active!==oldSeat) {await expect(page.locator('.c-hand')).toHaveCount(0);await page.locator('[data-do="unlock"]').click();}

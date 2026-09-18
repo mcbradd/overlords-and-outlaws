@@ -5,6 +5,8 @@ import assert from 'node:assert/strict';
 import {mkdirSync,writeFileSync} from 'node:fs';
 export async function completePopoverTutorial(page:Page,capture:(name:string)=>Promise<void>) {
  const read=()=>page.evaluate(()=>JSON.parse(Object.entries(localStorage).find(([k])=>k.endsWith('oando-v9-inheritance'))![1]));
+ await expect(page.locator('.c-draft-modal')).toBeVisible();
+ await page.locator('[data-do="lesson-help"]').click();
  await expect(page.locator('.c-lesson-popover')).toBeVisible();
  const before=await read();await capture('opening-popover');
  await page.locator('.c-lesson-popover [data-do="close"]').last().click();
@@ -30,7 +32,13 @@ export async function completePopoverTutorial(page:Page,capture:(name:string)=>P
   }
   save=await read();if(save.lesson.cursor!==cursor) continue;
   if(step.seat===0) {
-   if(step.card) await playCard(page,step.card,step.type,step.target??step.supporter,false);
+   if(step.type==='draft-pick') {
+     for(let i=0;i<save.game.setup.pass-(save.game.setup.picks[0]?.length??0);i++) {
+       await playCard(page,TEACHING[cursor+i].card!,'draft-pick',undefined,false);
+     }
+     await page.locator('[data-do="draft-pass"]').click();
+   }
+   else if(step.card) await playCard(page,step.card,step.type,step.target??step.supporter,false);
    else await page.locator('[data-do="generic"]').click();
   }
   await expect.poll(async()=>(await read()).game.revision).toBeGreaterThan(save.game.revision);

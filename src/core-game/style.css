@@ -1295,7 +1295,7 @@ a {
 .c-pool label { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
 .c-pool input { width: 20px; min-height: 20px; }
 
-.c-game.c-tabletop > .c-guide:not(:has(.c-action-area button, .c-error, > p)) { display:none; }
+.c-game.c-tabletop > .c-guide:not(:has(.c-action-area button, .c-error, > p, .c-draft-modal)) { display:none; }
 .c-game.c-tabletop .c-lesson-help { border-radius:50%; width:44px; min-width:44px; height:44px; padding:0; font-size:28px; font-weight:700; color:#ffe3a3; border:2px solid #d1ae68; box-shadow:0 0 0 3px #101e29; }
 .c-modal.c-lesson-popover { width:min(480px,calc(100vw - 32px)); max-height:calc(100dvh - 32px); padding:24px; }
 .c-lesson-content h2 { clear:both; margin-top:16px; }
@@ -1314,3 +1314,28 @@ a {
   .c-lesson-content h2 { margin-top: 8px; }
   .c-lesson-content p { margin-top: 10px; margin-bottom: 10px; line-height: 1.4; }
 }
+.c-game.c-tabletop > .c-guide:has(.c-draft-modal) { display:flex; padding:8px 12px; background:transparent; border:0; }
+.c-draft-modal { display:flex; align-items:center; justify-content:space-between; gap:16px; width:min(760px,100%); margin:auto; padding:12px 18px; background:#102630; border:1px solid #c5a76a; border-radius:12px; box-shadow:0 5px 15px #0006; }
+.c-draft-modal h2 { font-size:22px; margin:0 0 4px; }
+.c-draft-modal .primary { min-height:54px; min-width:220px; font-size:20px; }
+.c-draft-modal button:disabled { opacity:.75; }
+.c-draft-hands { position:absolute; top:48px; left:5%; right:5%; display:flex; justify-content:space-around; z-index:3; pointer-events:none; }
+.c-draft-hands > div { text-align:center; color:#ffe3a3; font-size:14px; }
+.c-back-fan { position:relative; width:100px; height:64px; margin:5px auto; }
+.c-card-back { display:block; background:repeating-linear-gradient(45deg,#192f40 0 5px,#253d4d 5px 7px); border:2px solid #c5a76a; border-radius:5px; box-shadow:2px 4px 5px #0008; width:45px; height:63px; }
+.c-card-back::after { content:'\265b'; display:grid; place-items:center; height:100%; color:#e4c87f; font-size:24px; }
+.c-back-fan .c-card-back { position:absolute; left:calc(var(--i)*8px); transform:rotate(calc((var(--i) - 3.5)*3deg)); }
+.c-draft-flight { position:fixed; inset:0; z-index:9000; pointer-events:none; }
+.c-draft-flight .c-card-back { position:absolute; }
+.c-draft-selected { outline:3px solid #ffe3a3; border-radius:8px; }
+.c-draft-selected::after { content:'Selected to pass'; position:absolute; bottom:12px; left:4px; right:4px; background:#102630; color:#ffe3a3; text-align:center; pointer-events:none; }
+@media(max-width:600px) { .c-draft-modal { padding:8px 12px; gap:6px; flex-wrap:wrap; } .c-draft-modal h2 { font-size:18px; } .c-draft-modal .primary { width:100%; min-height:48px; font-size:18px; } .c-draft-hands { top:46px; } }
+@media(max-height:500px) { .c-draft-modal { padding:5px 12px; flex-wrap:nowrap; width:100%; } .c-draft-modal h2 { font-size:17px; } .c-draft-modal .primary { width:auto; min-height:44px; font-size:17px; } .c-draft-hands { top:40px; } .c-back-fan { transform:scale(.65); transform-origin:top center; height:42px; } }
+@media(max-height:500px) and (orientation:landscape) {
+  .c-game.c-tabletop:has(.c-draft-modal) { --card-width:72px; }
+  .c-game.c-tabletop:has(.c-draft-modal) .c-held-card .c-card-pick { width:100%; }
+  .c-game.c-tabletop .c-draft-modal h2 { font-size:17px; }
+  .c-game.c-tabletop .c-draft-modal .primary { min-height:44px; }
+  .c-game.c-tabletop:has(.c-draft-modal) .c-draft-selected::after { font-size:11px; bottom:5px; }
+}
+html:has(.c-draft-modal), body:has(.c-draft-modal) { height:100%; overflow:clip; }

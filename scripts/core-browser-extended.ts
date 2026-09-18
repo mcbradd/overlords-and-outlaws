@@ -69,7 +69,7 @@ try{
   });
   await stage('primary-hover-focus',{width:390,height:844},async(page,capture,row)=>{
     await load(page);const primary=page.locator('[data-do="intro"]');row.facts.normal=await contrast(primary);await primary.hover();row.facts.hover=await contrast(primary);await capture('hover');await page.mouse.move(0,0);await tabTo(page,'[data-do="intro"]');row.facts.focus=await contrast(primary);assert.notEqual((row.facts.focus as {outline:string}).outline,'none');await capture('keyboard-focus');
-    await page.keyboard.press('Enter');await clickReachable(page.locator('[data-do="teach"]'));await expect(page.locator('.c-game')).toBeVisible();await page.locator('.c-lesson-popover .primary[data-do="close"]').click();await page.locator('[data-do="select"][data-card="plantagenet-6"]').focus();const commit=page.locator('[data-do="arm"][data-type="draft-pick"]');await commit.hover();row.facts.actionHover=await contrast(commit);await capture('action-hover');
+    await page.keyboard.press('Enter');await clickReachable(page.locator('[data-do="teach"]'));await expect(page.locator('.c-game')).toBeVisible();await page.locator('[data-do="select"][data-card="plantagenet-6"]').focus();const commit=page.locator('[data-do="draft-pass"]');await commit.hover();row.facts.actionHover=await contrast(commit);await capture('action-hover');
   });
   await stage('reference-rules',{width:1440,height:900},async(page,capture,row)=>{
     await localStart(page);await clickReachable(page.locator('[data-do="menu"]'));await clickReachable(page.locator('[data-do="rules"]'));

@@ -34,6 +34,7 @@ async function teach(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'Take your seat', exact: true }).click();
   await expect(page.locator('#core-table')).toBeVisible({ timeout: 30000 });
   await expect(page.locator('[data-do="select"][data-card="plantagenet-6"]')).toBeEnabled({ timeout: 30000 });
+  await page.locator('[data-do="lesson-help"]').click();
   await page.locator('.c-lesson-popover .primary[data-do="close"]').click();
 }
 async function savedProgress(page: Page) {
@@ -96,6 +97,8 @@ await run('APP-03 rival teaching has a reader-controlled legal action', async pa
   await page.goto(base);
   await teach(page);
   for(const card of ['plantagenet-6','plantagenet-7','plantagenet-8']) await playCard(page,card,'draft-pick',undefined,false);
+  await page.locator('[data-do="draft-pass"]').click();
+  await page.locator('[data-do="lesson-help"]').click();
   await expect(page.locator('[data-do="commit"]')).toHaveCount(0);
   await expect(page.locator('.c-lesson-popover')).toBeVisible();
   const before=await savedProgress(page);

@@ -45,6 +45,7 @@ let shownLesson: string | null = null;
 let motion = !matchMedia("(prefers-reduced-motion: reduce)").matches;
 let viewer = 0;
 let privateLocked = false;
+let draftPacket: string[] = [];
 let selected: string | null = null;
 let armed: { card: string; type: string; recruit: boolean } | null = null;
 let drag: {
@@ -84,6 +85,7 @@ function stopTimer() {
 }
 function dispose() {
   generation++;
+  draftPacket = [];
   stopTimer();
   table?.dispose();
   table = null;
@@ -208,7 +210,7 @@ function actions(): CoreAction[] {
   if (!game || privateLocked || lesson?.done) return [];
   const available = legalActions(viewForSeat(game, viewer), viewer);
   return lesson
-    ? available.filter((action) => isTeachingAction(action, lesson!.cursor))
+    ? available.filter((action) => isTeachingAction(action, lesson!.cursor + (game!.phase === "draft" ? draftPacket.length : 0)))
     : available;
 }
 function describe(action: CoreAction): string {
@@ -308,16 +310,16 @@ async function render() {
   if (retained) retained.remove();
   const handHTML = hand
     .map((id, index) => {
-      const enabled = humanTurn && available.some((a) => a.card === id);
+      const enabled = humanTurn && (draftPacket.includes(id) || available.some((a) => a.card === id));
       const angle =
         hand.length < 2 ? 0 : (index / (hand.length - 1) - 0.5) * 14;
-      return `<div tabindex="0" aria-label="${esc(nameOf(id))}" class="c-held-card ${game!.setup?.picks[viewer]?.includes(id) ? "c-locked-pick" : ""} ${selected === id ? "selected" : ""} ${lesson && enabled ? "next-interaction" : ""}" style="--card-index:${index};--fan-angle:${angle}deg"><button class="c-card-pick" data-do="select" data-card="${id}" ${!enabled ? "disabled" : ""} aria-label="Select ${esc(nameOf(id))}, ${BY_ID[id].rank} ${esc(dynastyName(BY_ID[id].dynasty))}">${faceHTML(id)}</button>${`<div class="c-card-actions" aria-label="Actions for ${esc(nameOf(id))}">${renderCardActions(id, enabled ? available.filter((a) => a.card === id) : [])}${btn("Inspect", "inspect", `data-card="${id}"`)}</div>`}</div>`;
+      return `<div tabindex="0" aria-label="${esc(nameOf(id))}" class="c-held-card ${game!.setup?.picks[viewer]?.includes(id) ? "c-locked-pick" : ""} ${draftPacket.includes(id) ? "c-draft-selected" : ""} ${selected === id ? "selected" : ""} ${lesson && enabled && !draftPacket.includes(id) && (game!.phase !== "draft" || draftPacket.length < game!.setup!.pass) ? "next-interaction" : ""}" style="--card-index:${index};--fan-angle:${angle}deg"><button class="c-card-pick" data-do="select" data-card="${id}" ${!enabled ? "disabled" : ""} aria-pressed="${draftPacket.includes(id)}" aria-label="Select ${esc(nameOf(id))}, ${BY_ID[id].rank} ${esc(dynastyName(BY_ID[id].dynasty))}">${faceHTML(id)}</button>${`<div class="c-card-actions" aria-label="Actions for ${esc(nameOf(id))}">${renderCardActions(id, enabled && game!.phase !== "draft" ? available.filter((a) => a.card === id) : [])}${btn("Inspect", "inspect", `data-card="${id}"`)}</div>`}</div>`;
     })
     .join("");
   root.innerHTML = `<main class="c-game c-tabletop ${lesson ? "c-teaching-table" : ""} ${hand.length ? "has-hand" : ""}">
     <header><strong>${game.setup ? "Inheritance" : `Round ${game.round} of 12`}</strong><p class="c-objective">${esc(objective())}</p>${btn("Table menu", "menu")}${lesson ? btn("?", "lesson-help", 'class="c-lesson-help" aria-label="Read tutorial step" title="Read tutorial step"') + btn("Exit tutorial", "exit") : ""}</header>
-    <section class="c-guide" aria-label="Action and outcome"><h2 class="sr-only">${esc(lesson ? taught!.title : game.result ? "The game has ended" : selected ? nameOf(selected) : "Your choices")}</h2>${!lesson && (game.setup || selected || game.pending || outcome || autoPass) ? `<p>${esc(currentGuide)}</p>` : ""}${notice ? `<p class="c-error" role="alert">${esc(notice)}</p>` : ""}<div class="c-action-area">${!lesson?.done && humanTurn ? `${generic.map((a, i) => btn(a.type === "decline" && game!.phase === "trade" ? "Decline trade" : a.type === "pass" && autoPass ? "<span>Pass</span>" : label[a.type], "generic", `data-index="${i}" class="${lesson ? "next-interaction" : ""} ${a.type === "pass" && autoPass ? "c-auto-pass" : ""}"`)).join("")}` : ""}${game.result && !lesson ? btn("Play another game", "setup", 'class="primary"') : ""}</div></section>
-    <section class="c-board-wrap" aria-label="Physical game table"><div class="c-table-nav">${btn("Table", "focus-all", 'aria-label="Whole table"')}${game.players.map((p) => btn(esc(names[p.seat]), "focus", `data-seat="${p.seat}"`)).join("")}</div><div id="core-table"></div></section>
+    <section class="c-guide" aria-label="Action and outcome">${game.phase === "draft" ? `<section class="c-draft-modal" role="dialog" aria-labelledby="draft-title"><div><h2 id="draft-title">All Players Select ${game.setup!.pass} ${game.setup!.pass === 1 ? "Card" : "Cards"} to pass</h2><p>Round ${4-game.setup!.pass} of 3 · Clockwise${lesson && humanTurn ? ` · ${draftPacket.length === game.setup!.pass ? "Press PASS" : `Select ${esc(nameOf(TEACHING[lesson.cursor + draftPacket.length].card!))}`}` : ""}</p></div>${btn(humanTurn ? (draftPacket.length + (game.setup!.picks[viewer]?.length ?? 0) === game.setup!.pass ? "PASS" : `Select ${game.setup!.pass - draftPacket.length - (game.setup!.picks[viewer]?.length ?? 0)} More to Pass`) : "Waiting for players…", "draft-pass", `class="primary ${lesson && draftPacket.length === game.setup!.pass ? "next-interaction" : ""}" ${!humanTurn || draftPacket.length + (game.setup!.picks[viewer]?.length ?? 0) !== game.setup!.pass ? "disabled" : ""}`)}</section>` : ""}<h2 class="sr-only">${esc(lesson ? taught!.title : game.result ? "The game has ended" : selected ? nameOf(selected) : "Your choices")}</h2>${!lesson && game.phase !== "draft" && (game.setup || selected || game.pending || outcome || autoPass) ? `<p>${esc(currentGuide)}</p>` : ""}${notice ? `<p class="c-error" role="alert">${esc(notice)}</p>` : ""}<div class="c-action-area">${!lesson?.done && humanTurn ? `${generic.map((a, i) => btn(a.type === "decline" && game!.phase === "trade" ? "Decline trade" : a.type === "pass" && autoPass ? "<span>Pass</span>" : label[a.type], "generic", `data-index="${i}" class="${lesson ? "next-interaction" : ""} ${a.type === "pass" && autoPass ? "c-auto-pass" : ""}"`)).join("")}` : ""}${game.result && !lesson ? btn("Play another game", "setup", 'class="primary"') : ""}</div></section>
+    <section class="c-board-wrap" aria-label="Physical game table"><div class="c-table-nav">${btn("Table", "focus-all", 'aria-label="Whole table"')}${game.players.map((p) => btn(esc(names[p.seat]), "focus", `data-seat="${p.seat}"`)).join("")}</div>${game.phase === "draft" ? `<div class="c-draft-hands">${game.players.filter(p=>p.seat!==viewer).sort((a,b)=>(a.seat-viewer+game!.players.length)%game!.players.length-(b.seat-viewer+game!.players.length)%game!.players.length).map(p=>`<div data-draft-hand="${p.seat}"><span>${esc(names[p.seat])}</span><div class="c-back-fan">${Array.from({length:p.hand.length},(_,i)=>`<i class="c-card-back" style="--i:${i}" aria-hidden="true"></i>`).join("")}</div><small>${p.hand.length} cards</small></div>`).join("")}</div>` : ""}<div id="core-table"></div></section>
     <section class="c-hand" aria-label="Your hand" style="--hand-count:${hand.length}"><div class="c-hand-cards">${handHTML}</div></section></main>`;
   const freshHost = root.querySelector<HTMLElement>("#core-table")!;
   if (retained && table) freshHost.replaceWith(retained);
@@ -384,7 +386,7 @@ async function render() {
   }
   if (lesson) {
     const key = lessonKey();
-    if(shownLesson !== key && !document.querySelector('dialog[open]')) showLesson();
+    if(game.phase !== "draft" && shownLesson !== key && !document.querySelector('dialog[open]')) showLesson();
     else if(!lesson.done && actor !== viewer && !document.querySelector('dialog[open]')) {
       const revision=game.revision;
       timer=setTimeout(()=>{
@@ -561,7 +563,7 @@ root.addEventListener("pointercancel", () => {
   drag?.ghost.remove();
   drag = null;
 });
-async function commit(action: CoreAction) {
+async function commit(action: CoreAction, deferRender = false) {
   if (
     !game ||
     busy ||
@@ -569,7 +571,14 @@ async function commit(action: CoreAction) {
   )
     return;
   try {
-    game = applyAction(game, action);
+    const before = game;
+    const next = applyAction(game, action);
+    if (before.phase === "draft" && before.setup!.pass !== next.setup?.pass) {
+      busy = true; stopTimer(); root.inert = true;
+      try { await animateDraft(before.setup!.pass, before.players.length); }
+      finally { busy = false; root.inert = false; }
+    }
+    game = next;
     notice = "";
     selected = null;
     armed = null;
@@ -578,7 +587,7 @@ async function commit(action: CoreAction) {
       ? { cursor: lesson.cursor + 1, done: false } : { ...lesson, done: true };
     if (mode === "local" && actingSeat() !== viewer) privateLocked = true;
     persist();
-    await render();
+    if (!deferRender) await render();
   } catch (error) {
     notice =
       error instanceof Error
@@ -586,6 +595,19 @@ async function commit(action: CoreAction) {
         : "That move is no longer available.";
     await render();
   }
+}
+async function animateDraft(count: number, players: number) {
+  const anchors = Array.from({length:players},(_,seat)=>root.querySelector<HTMLElement>(seat===viewer ? '.c-hand' : `[data-draft-hand="${seat}"]`)?.getBoundingClientRect());
+  const layer=document.createElement('div'); layer.className='c-draft-flight'; layer.setAttribute('aria-label', `All players pass ${count} cards clockwise`); document.body.append(layer);
+  const flights: Animation[]=[];
+  for(let seat=0;seat<players;seat++) for(let i=0;i<count;i++) {
+    const a=anchors[seat], b=anchors[(seat+1)%players]; if(!a||!b) continue;
+    const card=document.createElement('i'); card.className='c-card-back'; card.dataset.from=String(seat);card.dataset.to=String((seat+1)%players);layer.append(card);
+    const x=a.x+a.width/2-25+i*12, y=a.y+a.height/2-35;
+    card.style.left=`${x}px`;card.style.top=`${y}px`;
+    flights.push(card.animate([{transform:'translate(0,0) rotate(-8deg)',opacity:1},{transform:`translate(${(b.x+b.width/2-25+i*12-x)*.5}px,${(b.y+b.height/2-35-y)*.5-35}px) rotate(5deg)`,opacity:1},{transform:`translate(${b.x+b.width/2-25+i*12-x}px,${b.y+b.height/2-35-y}px) rotate(0deg)`,opacity:1}],{duration:motion?950:1,delay:motion?i*140:0,fill:'both',easing:'ease-in-out'}));
+  }
+  await Promise.all(flights.map(a=>a.finished.catch(()=>{}))); layer.remove();
 }
 // Court actions stay beside their physical source; inspection provides the touch path.
 let courtMenuTimer: ReturnType<typeof setTimeout> | null = null;
@@ -923,6 +945,20 @@ function bind(scope: ParentNode = root) {
         if (action === "withdraw") {
           const candidate=actions().find(a=>a.type==='withdraw'&&a.card===el.dataset.card);
           if(candidate) { document.querySelector('dialog')?.close(); await commit(candidate); }
+          return;
+        }
+        if (action === "draft-pass" && game.phase === "draft" && !busy) {
+          if(draftPacket.length + (game.setup!.picks[viewer]?.length ?? 0) !== game.setup!.pass) return;
+          const packet = [...draftPacket]; draftPacket = [];
+          for(const card of packet) await commit({type:"draft-pick",seat:viewer,card,revision:game!.revision}, true);
+          await render(); return;
+        }
+        if (action === "select" && game.phase === "draft" && !busy) {
+          const id = el.dataset.card!;
+          if(draftPacket.includes(id)) draftPacket = lesson ? draftPacket.slice(0,draftPacket.indexOf(id)) : draftPacket.filter(card=>card!==id);
+          else if(actions().some(a=>a.card===id) && draftPacket.length + (game.setup!.picks[viewer]?.length ?? 0) < game.setup!.pass) draftPacket.push(id);
+          await render();
+          root.querySelector<HTMLButtonElement>(`[data-do="select"][data-card="${id}"]`)?.focus();
           return;
         }
         if (action === "select" && game?.setup) {
