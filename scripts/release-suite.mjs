@@ -189,7 +189,7 @@ async function run(name, args) {
         ? 40
         : name === "decision-audit"
         ? 60
-        : name.startsWith("playthrough")
+        : (name.startsWith("playthrough") || name === "core-draft-presentation")
           ? 10
           : 5) * 60_000,
     );
