@@ -390,7 +390,7 @@ async function render() {
   responseObserver?.disconnect();
   const response = root.querySelector<HTMLElement>('.c-response');
   if(response) {
-    const sizeResponse = () => {const board=root.querySelector('.c-board-wrap')!.getBoundingClientRect(),height=Math.min(560,Math.max(100,board.height-60));response.style.setProperty('--challenge-top',`${board.top+Math.max(54,(board.height-height)/2)}px`);response.style.setProperty('--challenge-left',`${board.left+board.width/2}px`);response.style.setProperty('--challenge-height',`${height}px`);response.style.setProperty('--challenge-width',`${Math.min(660,board.width-20)}px`);};
+    const sizeResponse = () => {const board=root.querySelector('.c-board-wrap')!.getBoundingClientRect(),height=Math.min(560,Math.max(100,board.height-96));response.style.setProperty('--challenge-top',`${board.top+Math.max(54,(board.height-height)/2)}px`);response.style.setProperty('--challenge-left',`${board.left+board.width/2}px`);response.style.setProperty('--challenge-height',`${height}px`);response.style.setProperty('--challenge-width',`${Math.min(660,board.width-20)}px`);};
     sizeResponse(); responseObserver = new ResizeObserver(sizeResponse); responseObserver.observe(root.querySelector('.c-board-wrap')!);
     animateOfferCards(response);
   }
