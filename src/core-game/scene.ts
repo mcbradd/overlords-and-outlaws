@@ -755,7 +755,7 @@ export class CoreTable {
         cy = ((rows - 1) / 2 - row) * seatH;
       const courtStart = cx - seatW / 2 + 664;
       const courtCenter = courtStart + 264;
-      this.seats.push(new THREE.Vector3(courtCenter, cy + seatH / 2 - 280, 0));
+      this.seats.push(new THREE.Vector3(courtCenter, cy + seatH / 2 - 310, 0));
       const seatLabel = this.label(
         `${p.name ?? `Player ${seat + 1}`}`,
         courtCenter,
@@ -797,7 +797,7 @@ export class CoreTable {
         emblem.element.title = `${p.name ?? p.dynasty} goes first this round`;
       }
       const startX = courtStart,
-        startY = cy + seatH / 2 - 300;
+        startY = cy + seatH / 2 - 330;
       if(!view.setup && seat!==view.viewer && (p.handCount??0)>0) {
         const hx=startX-440,hy=startY+25;
         for(let i=0;i<Math.min(3,p.handCount??0);i++) {const back=this.stock(backing,70);back.position.set(hx+i*22,hy,10+i*2);back.rotation.z=(i-1)*-.09;this.content.add(back);}
@@ -1082,7 +1082,8 @@ export class CoreTable {
     const readableScale=labelScale*Math.min(1.6,Math.max(1,innerWidth/1920));
     for(const child of this.labelScene.children) if(child instanceof CSS3DObject && child.element.matches('.core-table-seat,.core-table-caption,.core-played-label,.core-table-office')) {
       const labelWidth=child.element.matches('.core-table-office')?156:child.element.matches('.core-played-label')?168:child.element.matches('.core-table-seat')?360:Infinity;
-      const scale=Math.min(readableScale,labelWidth/Math.max(1,child.element.offsetWidth));
+      const labelHeight=child.element.matches('.core-table-seat')?90:Infinity;
+      const scale=Math.min(readableScale,labelWidth/Math.max(1,child.element.offsetWidth),labelHeight/Math.max(1,child.element.offsetHeight));
       child.scale.setScalar(scale);
       if(child.userData.anchorX!==undefined) child.position.x=child.userData.anchorX-scale*30;
       if(child.userData.cardTop!==undefined) child.position.y=child.userData.cardTop+scale*(child.element.matches('.core-table-seat')?48:14);
