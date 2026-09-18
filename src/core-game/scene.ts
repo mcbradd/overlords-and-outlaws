@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { assetUrl } from "../assets";
 import {
   CSS3DObject,
   CSS3DRenderer,
@@ -82,39 +83,76 @@ function canvasTexture(canvas: HTMLCanvasElement): THREE.CanvasTexture {
   t.anisotropy = 4;
   return t;
 }
-function boardCanvas(w: number, h: number): HTMLCanvasElement {
+let clothPromise: Promise<HTMLImageElement | null> | null = null;
+function loadCloth() {
+  return (clothPromise ??= new Promise<HTMLImageElement | null>((resolve) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => resolve(null);
+    image.src = assetUrl("art/table/council-damask-v1.png");
+  }));
+}
+function boardCanvas(
+  w: number,
+  h: number,
+  cloth: HTMLImageElement | null,
+): HTMLCanvasElement {
   const c = document.createElement("canvas");
-  c.width = 1536;
-  c.height = Math.max(512, Math.round((1536 * h) / w));
+  c.width = 2048;
+  c.height = Math.max(512, Math.round((2048 * h) / w));
   const ctx = c.getContext("2d")!;
-  ctx.fillStyle = "#294c40";
+  ctx.fillStyle = "#101d2a";
   ctx.fillRect(0, 0, c.width, c.height);
-  // Fine woven/engraved material detail, never an unexplained game symbol.
-  for (let y = 0; y < c.height; y += 4) {
-    ctx.strokeStyle = y % 8 ? "#fff00003" : "#0000000b";
+  if (cloth) {
+    const tile = document.createElement("canvas");
+    tile.width = tile.height = Math.max(160, Math.round((700 / w) * c.width));
+    tile.getContext("2d")!.drawImage(cloth, 0, 0, tile.width, tile.height);
+    ctx.globalAlpha = 0.72;
+    ctx.fillStyle = ctx.createPattern(tile, "repeat")!;
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.globalAlpha = 1;
+  }
+  const light = ctx.createRadialGradient(
+    c.width * 0.48,
+    c.height * 0.35,
+    0,
+    c.width * 0.5,
+    c.height * 0.5,
+    Math.max(c.width, c.height) * 0.65,
+  );
+  light.addColorStop(0, "#789bad0d");
+  light.addColorStop(1, "#0000004d");
+  ctx.fillStyle = light;
+  ctx.fillRect(0, 0, c.width, c.height);
+  // Fine stitched edge lives outside the content inset, not underneath labels.
+  const inset = (14 / w) * c.width;
+  ctx.strokeStyle = "#a1875055";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.roundRect(inset, inset, c.width - inset * 2, c.height - inset * 2, 18);
+  ctx.stroke();
+  return c;
+}
+function walnutCanvas(): HTMLCanvasElement {
+  const c = document.createElement("canvas");
+  c.width = c.height = 768;
+  const ctx = c.getContext("2d")!;
+  ctx.fillStyle = "#35251e";
+  ctx.fillRect(0, 0, 768, 768);
+  for (let i = 0; i < 280; i++) {
+    ctx.strokeStyle = i % 3 === 0 ? "#b6875030" : "#0e07052e";
+    ctx.lineWidth = i % 5 === 0 ? 2 : 0.7;
     ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(c.width, y);
+    for (let x = 0; x <= 768; x += 8) {
+      const y =
+        i * 2.9 +
+        Math.sin(x * 0.012 + i * 0.17) * 3 +
+        Math.sin(x * 0.006 + i * 0.4) * 6;
+      if (x === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
     ctx.stroke();
   }
-  ctx.strokeStyle = "#b4a16b";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.roundRect(24, 24, c.width - 48, c.height - 48, 25);
-  ctx.stroke();
-  ctx.strokeStyle = "#879273";
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.roundRect(32, 32, c.width - 64, c.height - 64, 20);
-  ctx.stroke();
-  for (const x of [48, c.width - 48])
-    for (const y of [48, c.height - 48]) {
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(Math.PI / 4);
-      ctx.strokeRect(-6, -6, 12, 12);
-      ctx.restore();
-    }
   return c;
 }
 function crownCanvas(): HTMLCanvasElement {
@@ -162,6 +200,11 @@ export class CoreTable {
   private pieces: Piece[] = [];
   private textures: THREE.Texture[] = [];
   private positions = new Map<string, THREE.Vector3>();
+  private courtSlots = new Map<string, { seat: number; slot: number }>();
+  private playedSlots = new Map<string, { seat: number; slot: number }>();
+  private layoutKey = "";
+  private framed = false;
+  private seatingViewer = 0;
   private seats: THREE.Vector3[] = [];
   private width = 1280;
   private height = 720;
@@ -322,6 +365,8 @@ export class CoreTable {
   };
   private resize = () => {
     if (this.fallback) return;
+    const previousWidth = this.width,
+      previousHeight = this.height;
     const bounds = this.host.getBoundingClientRect();
     this.width = Math.max(1, bounds.width);
     const top = this.cameraEnabled ? 48 : 0;
@@ -333,7 +378,12 @@ export class CoreTable {
     this.labels.setSize(this.width, this.height);
     this.camera.aspect = this.width / this.height;
     this.camera.updateProjectionMatrix();
-    this.fit();
+    if (!this.framed || Math.abs(previousWidth - this.width) > 1) this.fit();
+    else if (previousHeight > 0) {
+      const ratio = this.height / previousHeight;
+      this.distance *= ratio;
+      this.wantedDistance *= ratio;
+    }
   };
   private fit() {
     const fov = THREE.MathUtils.degToRad(this.camera.fov);
@@ -399,6 +449,7 @@ export class CoreTable {
     this.yaw = 0;
     this.tilt = 0.22;
     this.resize();
+    this.fit();
   }
   private renderPager() {
     this.pager.hidden = !this.cameraEnabled || this.focused === null;
@@ -555,37 +606,58 @@ export class CoreTable {
     this.clear();
     const columns = this.width < 700 ? 1 : 2,
       rows = Math.ceil(view.players.length / columns);
-    const largestCourt = Math.max(
-      1,
-      ...view.players.map((p) => p.court.length),
-    );
-    const aspect = this.width / Math.max(1, this.height);
-    // Keep groups of three on one physical row, and favor the host's broad aspect.
-    const candidates = largestCourt <= 3 ? [largestCourt] : [3, 6, 9, 12, 15];
-    const courtColumns = candidates.reduce((best, candidate) => {
-      const score = (n: number) => {
-        const sw = Math.max(510, n * 176 + 190);
-        const sh = Math.max(318, Math.ceil(largestCourt / n) * 242 + 76);
-        return Math.abs(
-          Math.log((sw * columns + 160) / (sh * rows + 38) / aspect),
+    // Fixed physical places: game actions never resize the table or compact a Court.
+    const courtColumns = 4,
+      seatH = 800,
+      seatW = 1422;
+    const layoutKey = `${view.players.length}:${columns}`;
+    const layoutChanged = layoutKey !== this.layoutKey;
+    this.layoutKey = layoutKey;
+    if (!this.framed) this.seatingViewer = view.viewer ?? 0;
+    for (const [id, place] of this.courtSlots)
+      if (!view.players[place.seat]?.court.includes(id))
+        this.courtSlots.delete(id);
+    for (const p of view.players)
+      for (const id of p.court) {
+        if (this.courtSlots.has(id)) continue;
+        const occupied = new Set(
+          [...this.courtSlots.values()]
+            .filter((s) => s.seat === view.players.indexOf(p))
+            .map((s) => s.slot),
         );
-      };
-      return score(candidate) < score(best) ? candidate : best;
-    }, candidates[0]);
-    const maxRows = Math.max(
-      1,
-      ...view.players.map((p) => Math.ceil(p.court.length / courtColumns)),
+        let slot = 0;
+        while (occupied.has(slot)) slot++;
+        this.courtSlots.set(id, { seat: view.players.indexOf(p), slot });
+      }
+    for (const [id, place] of this.playedSlots)
+      if (!view.players[place.seat]?.played.includes(id))
+        this.playedSlots.delete(id);
+    view.players.forEach((p, seat) =>
+      p.played.forEach((id) => {
+        if (this.playedSlots.has(id)) return;
+        const occupied = [...this.playedSlots.values()]
+          .filter((s) => s.seat === seat)
+          .map((s) => s.slot);
+        let slot = Math.max(-1, ...occupied) + 1;
+        if (slot >= 24) {
+          slot = 0;
+          while (occupied.includes(slot)) slot++;
+        }
+        this.playedSlots.set(id, { seat, slot });
+      }),
     );
-    const seatH = Math.max(318, maxRows * 242 + 76),
-      seatW = Math.max(510, courtColumns * 176 + 190);
     this.boardW = seatW * columns + 80 + (columns - 1) * 80;
-    this.boardH = seatH * rows + 38;
+    this.boardH = seatH * rows + 80;
     this.seats = [];
+    const woodTexture = canvasTexture(walnutCanvas());
+    woodTexture.wrapS = woodTexture.wrapT = THREE.RepeatWrapping;
+    woodTexture.repeat.set(1 / 600, 1 / 600);
+    this.textures.push(woodTexture);
     const wood = new THREE.Mesh(
       new THREE.ExtrudeGeometry(
-        roundedShape(this.boardW + 30, this.boardH + 30, 32),
+        roundedShape(this.boardW + 70, this.boardH + 70, 40),
         {
-          depth: 24,
+          depth: 30,
           bevelEnabled: true,
           bevelThickness: 5,
           bevelSize: 5,
@@ -593,12 +665,61 @@ export class CoreTable {
           steps: 1,
         },
       ),
-      new THREE.MeshStandardMaterial({ color: 0x4f3524, roughness: 0.72 }),
+      new THREE.MeshStandardMaterial({
+        map: woodTexture,
+        color: 0xcbb28f,
+        roughness: 0.46,
+      }),
     );
-    wood.position.z = -38;
+    wood.position.z = -42;
     wood.receiveShadow = true;
     this.content.add(wood);
-    const bt = canvasTexture(boardCanvas(this.boardW, this.boardH));
+    const rimShape = roundedShape(this.boardW + 24, this.boardH + 24, 31);
+    rimShape.holes.push(
+      new THREE.Path(
+        roundedShape(this.boardW + 16, this.boardH + 16, 28)
+          .getPoints(12)
+          .reverse(),
+      ),
+    );
+    const rim = new THREE.Mesh(
+      new THREE.ExtrudeGeometry(rimShape, {
+        depth: 2,
+        bevelEnabled: true,
+        bevelSize: 0.7,
+        bevelThickness: 0.7,
+        bevelSegments: 2,
+        steps: 1,
+      }),
+      new THREE.MeshStandardMaterial({
+        color: 0xa88b50,
+        metalness: 0.75,
+        roughness: 0.36,
+      }),
+    );
+    rim.position.z = -8;
+    this.content.add(rim);
+    for (const x of [-1, 1])
+      for (const y of [-1, 1]) {
+        const pin = new THREE.Mesh(
+          new THREE.SphereGeometry(4, 12, 8),
+          new THREE.MeshStandardMaterial({
+            color: 0xbba471,
+            metalness: 0.8,
+            roughness: 0.3,
+          }),
+        );
+        pin.position.set(
+          x * (this.boardW / 2 + 16),
+          y * (this.boardH / 2 + 16),
+          -8,
+        );
+        pin.scale.z = 0.45;
+        this.content.add(pin);
+      }
+    const cloth = await loadCloth();
+    if (generation !== this.generation || this.disposed) return;
+    const bt = canvasTexture(boardCanvas(this.boardW, this.boardH, cloth));
     this.textures.push(bt);
     const board = new THREE.Mesh(
       surface(this.boardW, this.boardH, 28),
@@ -611,24 +732,30 @@ export class CoreTable {
     this.textures.push(backing);
     for (let seat = 0; seat < view.players.length; seat++) {
       const p = view.players[seat],
-        col = seat % columns,
+        col =
+          columns === 2 && view.players.length === 3
+            ? seat === 0
+              ? 0.5
+              : seat - 1
+            : seat % columns,
         row =
           columns === 1
-            ? (seat - (view.viewer ?? 0) - 1 + view.players.length) %
+            ? (seat - this.seatingViewer - 1 + view.players.length) %
               view.players.length
-            : Math.floor(seat / columns),
+            : view.players.length === 3
+              ? seat === 0
+                ? 1
+                : 0
+              : Math.floor(seat / columns),
         cx = (col - (columns - 1) / 2) * (seatW + 80),
         cy = ((rows - 1) / 2 - row) * seatH;
-      const courtCenter =
-        cx -
-        seatW / 2 +
-        136 +
-        ((Math.min(courtColumns, Math.max(1, p.court.length)) - 1) * 176) / 2;
-      this.seats.push(new THREE.Vector3(courtCenter, cy + seatH / 2 - 159, 0));
+      const courtStart = cx - seatW / 2 + 664;
+      const courtCenter = courtStart + 264;
+      this.seats.push(new THREE.Vector3(courtCenter, cy + seatH / 2 - 204, 0));
       const seatLabel = this.label(
         `${p.name ?? `Player ${seat + 1}`}`,
-        courtCenter,
-        cy + seatH / 2 - 15,
+        courtStart,
+        cy + seatH / 2 - 64,
         9,
         "core-table-seat",
       );
@@ -639,8 +766,8 @@ export class CoreTable {
         `${p.name ?? p.dynasty} Court`,
       );
       if (seat === (view.first ?? 0)) {
-        const x = cx - seatW / 2 + 45,
-          y = cy + seatH / 2 - 48;
+        const x = courtStart + 140,
+          y = cy + seatH / 2 - 76;
         const token = new THREE.Mesh(
           new THREE.CylinderGeometry(25, 27, 5, 48),
           new THREE.MeshStandardMaterial({
@@ -662,12 +789,13 @@ export class CoreTable {
         );
         emblem.element.title = `${p.name ?? p.dynasty} goes first this round`;
       }
-      const startX = cx - seatW / 2 + 136,
-        startY = cy + seatH / 2 - 179;
+      const startX = courtStart,
+        startY = cy + seatH / 2 - 224;
       for (let i = 0; i < p.court.length; i++) {
         const id = p.court[i],
-          x = startX + (i % courtColumns) * 176,
-          y = startY - Math.floor(i / courtColumns) * 242;
+          slot = this.courtSlots.get(id)!.slot,
+          x = startX + (slot % courtColumns) * 176,
+          y = startY - Math.floor(slot / courtColumns) * 100;
         const texture = canvasTexture(faces.get(id)!);
         this.textures.push(texture);
         this.addCard(
@@ -675,7 +803,7 @@ export class CoreTable {
           texture,
           x,
           y,
-          10,
+          10 + Math.floor(slot / courtColumns) * 3.6,
           160,
           old.get(id) ?? new THREE.Vector3(cx, cy - seatH / 2 + 20, 18),
         );
@@ -687,7 +815,14 @@ export class CoreTable {
               : view.crown?.supporter === id
                 ? "Supporter"
                 : null;
-        if (office) this.label(office, x, y - 126, 12, "core-table-office");
+        if (office)
+          this.label(
+            office,
+            x + 24,
+            y + 48,
+            15 + Math.floor(slot / courtColumns) * 3.6,
+            "core-table-office",
+          );
         const attemptedBy = Object.entries(view.attempts ?? {})
           .filter(([, targets]) => targets.includes(id))
           .map(([attacker]) => Number(attacker));
@@ -721,24 +856,33 @@ export class CoreTable {
       }
       if (!p.court.length && p.dynasty !== null)
         this.label("No ruler · recruit to recover", cx - 40, cy, 8);
-      // Exact public Played cards remain inspectable in an offset pile.
-      const px = cx + seatW / 2 - 75,
-        py = cy - 17;
+      // Each public name band remains exposed beside its owner's Court.
+      const px = startX - 184,
+        py = startY;
       if (p.played.length) {
-        this.label("Played", px, py + 89, 8);
-        this.label("Returns next round", px, py - 91, 8);
+        const pileLabel = this.label(
+          `${p.name ?? `Player ${seat + 1}`} · Played`,
+          px,
+          py + 143,
+          8,
+          "core-played-label",
+        );
+        pileLabel.element.dataset.playedOwner = String(seat);
+        pileLabel.element.title =
+          "These cards return to this player next round.";
       }
       for (let i = 0; i < p.played.length; i++) {
         const id = p.played[i],
+          slot = this.playedSlots.get(id)!.slot,
           t = canvasTexture(faces.get(id)!);
         this.textures.push(t);
         this.addCard(
           id,
           t,
-          px + i * 2,
-          py - i * 5,
-          9 + i * 3.6,
-          94,
+          px - Math.floor(slot / 8) * 176,
+          py - (slot % 8) * 48,
+          9 + (slot % 8) * 3.6,
+          160,
           old.get(id) ?? new THREE.Vector3(cx, cy - seatH / 2 + 20, 18),
           seat,
         );
@@ -757,7 +901,11 @@ export class CoreTable {
     const ct = canvasTexture(crownCanvas());
     this.textures.push(ct);
     const crown = this.stock(ct, 49);
-    crown.position.set(columns === 1 ? deckX : 0, -this.boardH / 2 + 67, 12);
+    crown.position.set(
+      columns === 1 ? deckX : deckX + 74,
+      columns === 1 ? deckY - 110 : deckY,
+      12,
+    );
     this.content.add(crown);
     const crowned = view.crown;
     if (crowned) {
@@ -765,7 +913,7 @@ export class CoreTable {
         crowned.stage === "reign" ? crowned.heir : crowned.oldRuler,
       );
       if (point) {
-        crown.position.set(point.x + 44, point.y + 65, 27);
+        crown.position.set(point.x + 44, point.y + 28, 27);
         crown.scale.setScalar(0.64);
       }
     }
@@ -807,7 +955,10 @@ export class CoreTable {
         this.content.add(arrow);
       }
     }
-    this.fit();
+    if (layoutChanged || !this.framed) {
+      this.fit();
+      this.framed = true;
+    }
   }
   private stock(texture: THREE.Texture, w: number): THREE.Group {
     const h = (w * 88) / 63,
@@ -858,20 +1009,27 @@ export class CoreTable {
       button = document.createElement("button");
     button.className = "core-table-card";
     button.dataset.tableCard = id;
-    if (playedSeat !== undefined)
+    button.dataset.tableX = String(x);
+    button.dataset.tableY = String(y);
+    if (playedSeat !== undefined) {
       button.dataset.playedPile = String(playedSeat);
+      button.dataset.playedName = card.name;
+      button.dataset.playedIndex = String(
+        this.view!.players[playedSeat].played.indexOf(id),
+      );
+    }
     button.setAttribute(
       "aria-label",
       playedSeat === undefined
         ? `Inspect ${card.name}, ${card.dynasty}, rank ${rankLabel(card.rank)}`
-        : `Fan out ${this.view?.players[playedSeat].name ?? card.dynasty} Played pile`,
+        : `Inspect ${card.name} in ${this.view?.players[playedSeat].name ?? card.dynasty} Played pile`,
     );
     button.style.width = `${w}px`;
     button.style.height = `${(w * 88) / 63}px`;
     button.addEventListener("click", () => this.onInspect(id));
     button.addEventListener("focus", () => {
       if (button.classList.contains("valid-drop")) return;
-      if (!this.cameraEnabled) return;
+      if (!this.cameraEnabled || !button.matches(":focus-visible")) return;
       this.wantedTarget.copy(to);
       const fov = THREE.MathUtils.degToRad(this.camera.fov);
       this.wantedDistance =

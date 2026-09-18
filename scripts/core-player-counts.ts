@@ -2,8 +2,8 @@ import { chromium, expect, type Page } from "@playwright/test";
 import assert from "node:assert/strict";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
-import { assertInvariants } from '../src/core-game/engine';
-import { createGame } from '../tests/core-established-fixture';
+import { assertInvariants } from "../src/core-game/engine";
+import { createGame } from "../tests/core-established-fixture";
 import { CARDS, DYNASTIES } from "../src/core-game/content";
 import { encodeSave } from "../src/core-game/storage";
 import { playCard } from "./core-tabletop";
@@ -42,6 +42,7 @@ try {
   for (const players of [2, 3, 4])
     for (const viewport of [
       { width: 1440, height: 900 },
+      { width: 3840, height: 2160 },
       { width: 390, height: 844 },
     ]) {
       const page = await browser.newPage({ viewport, reducedMotion: "reduce" });
@@ -64,23 +65,21 @@ try {
       async function load(state = game) {
         await page.goto(base);
         await page.locator('[data-do="setup"]').click();
-        await page
-          .locator("#save-file")
-          .setInputFiles({
-            name: "table.json",
-            mimeType: "application/json",
-            buffer: Buffer.from(
-              encodeSave({
-                game: state,
-                mode: "local",
-                names: state.players.map((p) =>
-                  p.seat === 0 ? "You" : `Player ${p.seat + 1}`,
-                ),
-                lesson: null,
-                motion: false,
-              }),
-            ),
-          });
+        await page.locator("#save-file").setInputFiles({
+          name: "table.json",
+          mimeType: "application/json",
+          buffer: Buffer.from(
+            encodeSave({
+              game: state,
+              mode: "local",
+              names: state.players.map((p) =>
+                p.seat === 0 ? "You" : `Player ${p.seat + 1}`,
+              ),
+              lesson: null,
+              motion: false,
+            }),
+          ),
+        });
         await expect(page.locator('[data-do="unlock"]'))
           .toBeVisible({ timeout: 5000 })
           .catch(async (error) => {

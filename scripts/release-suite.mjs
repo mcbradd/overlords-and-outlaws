@@ -17,6 +17,7 @@ const checks = [
   ["core-auto-pass", script("core-auto-pass.ts")],
   ["core-depth-probe", script("core-depth-probe.ts")],
   ["core-played-fan", script("core-played-fan.ts")],
+  ["core-stable-table", script("core-stable-table.ts")],
   ["core-tabletop", script("core-tabletop.ts")],
   ["core-player-counts", script("core-player-counts.ts")],
   ["core-inheritance", script("core-inheritance.ts")],

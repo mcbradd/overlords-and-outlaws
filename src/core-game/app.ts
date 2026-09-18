@@ -813,11 +813,47 @@ function marriageHint(id: string): string {
   return `<p class="c-marriage-hint">Foreign cards enter Court through marriage. ${esc(hint)}</p>`;
 }
 function playedPile(seat: number) {
-  const pile = game?.players[seat]?.played;
-  if (!pile) return;
-  modal(
-    `<h2>${esc(names[seat])} · Played pile</h2><p>${pile.length} face-up cards · Returns next round. Select a card to examine it.</p><div class="c-played-fan" aria-label="Played cards">${pile.map((id, i) => `<button data-do="inspect-played" data-card="${id}" data-seat="${seat}" style="--fan-angle:${Math.max(-5, Math.min(5, (i - (pile.length - 1) / 2) * 2))}deg" aria-label="Inspect ${esc(nameOf(id))}">${faceHTML(id, { reference: true })}</button>`).join("")}</div>`,
-  );
+  const pile=game?.players[seat]?.played;
+  if(!pile) return;
+  modal(`<h2 class="sr-only">${esc(names[seat])} · Played cards</h2><div class="c-played-fan" aria-label="${esc(names[seat])} Played cards">${pile.map(id=>`<button data-do="inspect-played" data-card="${id}" aria-label="Enlarge ${esc(nameOf(id))}">${faceHTML(id)}</button>`).join('')}</div>`);
+  const dialog=document.querySelector<HTMLDialogElement>('dialog')!;
+  dialog.classList.add('c-played-display');
+  if(!motion) dialog.classList.add('reduced-motion');
+  const fit=()=>{
+    const width=innerWidth-32,height=innerHeight-96,gap=10;
+    let columns=1,size=0;
+    for(let n=1;n<=Math.max(1,pile.length);n++) {
+      const rows=Math.ceil(pile.length/n);
+      const candidate=Math.min((width-gap*(n-1))/n,(height-gap*(rows-1))/Math.max(1,rows)*63/88);
+      if(candidate>size){size=candidate;columns=n;}
+    }
+    dialog.style.setProperty('--pile-columns',String(columns));
+    dialog.style.setProperty('--pile-width',`${Math.max(1,Math.floor(size))}px`);
+  };
+  fit();window.addEventListener('resize',fit);
+  dialog.addEventListener('close',()=>window.removeEventListener('resize',fit),{once:true});
+  dialog.addEventListener('cancel',event=>{event.preventDefault();if(dialog.querySelector('.c-played-expanded')) dismissPlayedCard(dialog);else closePlayedDisplay(dialog);});
+}
+function closePlayedDisplay(dialog: HTMLDialogElement) {
+  if(dialog.classList.contains('is-leaving')) return;
+  dialog.classList.add('is-leaving');
+  setTimeout(()=>dialog.close(),motion&&!matchMedia('(prefers-reduced-motion: reduce)').matches?130:0);
+}
+function dismissPlayedCard(dialog: HTMLDialogElement) {
+  const expanded=dialog.querySelector<HTMLElement>('.c-played-expanded');
+  if(!expanded || expanded.classList.contains('is-leaving')) return;
+  const id=expanded.dataset.card!;
+  expanded.classList.add('is-leaving');
+  setTimeout(()=>{expanded.remove();dialog.querySelector<HTMLElement>('.c-played-fan')!.inert=false;dialog.querySelector<HTMLButtonElement>(`[data-do="inspect-played"][data-card="${id}"]`)?.focus();},motion?130:0);
+}
+function enlargePlayedCard(id:string) {
+  const dialog=document.querySelector<HTMLDialogElement>('.c-played-display');
+  if(!dialog || dialog.querySelector('.c-played-expanded')) return;
+  const expanded=document.createElement('div');expanded.className='c-played-expanded';expanded.dataset.card=id;
+  expanded.innerHTML=`<button aria-label="Dismiss enlarged ${esc(nameOf(id))}">${faceHTML(id)}</button>`;
+  expanded.addEventListener('click',()=>dismissPlayedCard(dialog));
+  dialog.querySelector<HTMLElement>('.c-played-fan')!.inert=true;
+  dialog.append(expanded);expanded.querySelector('button')!.focus();
 }
 function inspect(id: string, pileSeat?: number) {
   const back =
@@ -898,7 +934,8 @@ function bind(scope: ParentNode = root) {
         }
         if (action === "lesson-help") { showLesson(); return; }
         if (action === "close") {
-          el.closest("dialog")?.close();
+          const dialog=el.closest("dialog");
+          if(dialog?.classList.contains("c-played-display")) closePlayedDisplay(dialog);else dialog?.close();
           return;
         }
         if (action === "exit") {
@@ -1010,7 +1047,7 @@ function bind(scope: ParentNode = root) {
           return;
         }
         if (action === "inspect-played") {
-          inspect(el.dataset.card!, Number(el.dataset.seat));
+          enlargePlayedCard(el.dataset.card!);
           return;
         }
         if (action === "played-pile") {
@@ -1028,7 +1065,8 @@ function bind(scope: ParentNode = root) {
         if (action === "motion") {
           motion = !motion;
           persist();
-          el.closest("dialog")?.close();
+          const dialog=el.closest("dialog");
+          if(dialog?.classList.contains("c-played-display")) closePlayedDisplay(dialog);else dialog?.close();
           return;
         }
         if (action === "export" && saved) {

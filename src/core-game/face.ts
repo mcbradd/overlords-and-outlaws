@@ -101,16 +101,22 @@ const RULE_AID_TOPICS = [
       "Courts, Played, Crown, marriage links, attempt and offer marks are public. Opponents' hand counts are public; unplayed identities stay private. Publicly revealed identities may be remembered.",
     ],
   },
-  { title: "Recall", paragraphs: [
-    "Spend your turn to move one of your Court Nobles into your hand. It is available from your next opportunity, including a defense. Clear consecutive passes.",
-    "Returning a ruler leaves that office empty. Returning a required person breaks the Crown claim. Returning either spouse breaks the marriage; an unsupported foreign spouse goes to Played.",
-    "The returned identity remains known, like every card seen in public.",
-  ] },
-  { title: "Inheritance details", paragraphs: [
-    "Pass 3, then 2, then 1 clockwise, all packets together. Received cards may be passed. Reveal all matching trios together. Duplicate Dynasties are allowed.",
-    "No trio? Reveal your hand, draw the top card, and set aside a different-Dynasty card. Choose your trio. Repair hands in first-player order.",
-    "After declarations, shuffle set-aside cards into the remaining deck. Ordinary round draws never reshuffle.",
-  ] },
+  {
+    title: "Recall",
+    paragraphs: [
+      "Spend your turn to move one of your Court Nobles into your hand. It is available from your next opportunity, including a defense. Clear consecutive passes.",
+      "Returning a ruler leaves that office empty. Returning a required person breaks the Crown claim. Returning either spouse breaks the marriage; an unsupported foreign spouse goes to Played.",
+      "The returned identity remains known, like every card seen in public.",
+    ],
+  },
+  {
+    title: "Inheritance details",
+    paragraphs: [
+      "Pass 3, then 2, then 1 clockwise, all packets together. Received cards may be passed. Reveal all matching trios together. Duplicate Dynasties are allowed.",
+      "No trio? Reveal your hand, draw the top card, and set aside a different-Dynasty card. Choose your trio. Repair hands in first-player order.",
+      "After declarations, shuffle set-aside cards into the remaining deck. Ordinary round draws never reshuffle.",
+    ],
+  },
 ] as const;
 export const RULE_AIDS = RULE_AID_TOPICS.flatMap((aid, index) => {
   if (index < 3 || index >= 7)
@@ -220,20 +226,44 @@ async function compose(id: string): Promise<HTMLCanvasElement> {
   ctx.save();
   rounded(ctx, 0, 0, 630, 880, 26);
   ctx.clip();
-  // Full bleed portrait: no rectangular gaps around a separately composited frame.
-  const scale = Math.max(630 / art.width, 650 / art.height),
+  // The name band stays exposed when physical Played cards overlap vertically.
+  ctx.fillStyle = "#eee4cd";
+  ctx.fillRect(0, 0, 630, 880);
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(0, 160, 630, 595);
+  ctx.clip();
+  const scale = Math.max(630 / art.width, 595 / art.height),
     w = art.width * scale,
     h = art.height * scale;
-  ctx.drawImage(art, (630 - w) / 2, Math.min(0, (650 - h) * 0.18), w, h);
-  const shade = ctx.createLinearGradient(0, 460, 0, 630);
-  shade.addColorStop(0, "#11180e00");
-  shade.addColorStop(1, "#11180e77");
-  ctx.fillStyle = shade;
-  ctx.fillRect(0, 460, 630, 170);
-  ctx.fillStyle = "#eee4cd";
-  ctx.fillRect(0, 586, 630, 294);
-  ctx.fillStyle = SUIT_INK[card.dynasty] ?? "#31594e";
-  ctx.fillRect(0, 586, 630, 7);
+  ctx.drawImage(art, (630 - w) / 2, 160 + Math.min(0, (595 - h) * 0.18), w, h);
+  ctx.restore();
+  ctx.fillStyle = SUIT_INK[card.dynasty];
+  ctx.fillRect(0, 754, 630, 5);
+  // A restrained Dynasty-colored name frame sits entirely above the portrait.
+  ctx.fillStyle = "#f5ecd5";
+  ctx.fillRect(190, 0, 440, 160);
+  ctx.strokeStyle = SUIT_INK[card.dynasty];
+  ctx.lineWidth = 4;
+  ctx.strokeRect(195, 8, 425, 144);
+  ctx.strokeStyle = "#b58c44";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(201, 14, 413, 132);
+  ctx.fillStyle = SUIT_INK[card.dynasty];
+  ctx.textAlign = "center";
+  let size = 56;
+  ctx.font = `700 ${size}px "Core Print Title", Georgia, serif`;
+  let names = lines(ctx, card.name, 390);
+  while (names.length > 2 && size > 36) {
+    size--;
+    ctx.font = `700 ${size}px "Core Print Title", Georgia, serif`;
+    names = lines(ctx, card.name, 390);
+  }
+  if (names.length > 2)
+    throw new Error(`Name frame does not fit: ${card.name}`);
+  names.forEach((line, i) =>
+    ctx.fillText(line, 407, (names.length === 1 ? 99 : 68) + i * 57),
+  );
   // Restrained engraved corners and rules remain inside the physical cut line.
   ctx.strokeStyle = "#bd9a55";
   ctx.lineWidth = 3;
@@ -243,7 +273,7 @@ async function compose(id: string): Promise<HTMLCanvasElement> {
   rounded(ctx, 18, 18, 594, 844, 14);
   ctx.stroke();
   for (const x of [33, 597])
-    for (const y of [632, 847]) {
+    for (const y of [780, 850]) {
       ctx.beginPath();
       ctx.moveTo(x - 9, y);
       ctx.lineTo(x, y - 9);
@@ -253,48 +283,66 @@ async function compose(id: string): Promise<HTMLCanvasElement> {
       ctx.stroke();
     }
   // A full-bleed heraldic index covers the ornament, as part of the printed face.
-  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(190,0); ctx.lineTo(190,258);
-  ctx.quadraticCurveTo(190,278,168,286); ctx.lineTo(95,314); ctx.lineTo(0,278); ctx.closePath();
-  ctx.fillStyle='#f5ecd5'; ctx.fill();
-  ctx.strokeStyle=SUIT_INK[card.dynasty]; ctx.lineWidth=9; ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(179,0); ctx.lineTo(179,255); ctx.quadraticCurveTo(179,268,161,276); ctx.lineTo(95,301); ctx.lineTo(0,265);
-  ctx.strokeStyle='#b58c44'; ctx.lineWidth=3; ctx.stroke();
-  ctx.fillStyle=SUIT_INK[card.dynasty]; ctx.textAlign='center';
-  ctx.font=`800 ${card.rank===10?120:144}px "Core Print Body", sans-serif`;
-  ctx.fillText(rankLabel(card.rank),91,143);
-  ctx.strokeStyle='#b58c44'; ctx.lineWidth=2;
-  ctx.beginPath();ctx.moveTo(23,165);ctx.lineTo(72,165);ctx.moveTo(110,165);ctx.lineTo(158,165);ctx.stroke();
-  ctx.save();ctx.translate(91,165);ctx.rotate(Math.PI/4);ctx.fillStyle='#b58c44';ctx.fillRect(-5,-5,10,10);ctx.restore();
-  ctx.fillStyle=SUIT_INK[card.dynasty];ctx.font='96px Georgia, serif';
-  ctx.fillText(SUIT_SIGNS[card.dynasty]??'◆',91,265);
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(190, 0);
+  ctx.lineTo(190, 258);
+  ctx.quadraticCurveTo(190, 278, 168, 286);
+  ctx.lineTo(95, 314);
+  ctx.lineTo(0, 278);
+  ctx.closePath();
+  ctx.fillStyle = "#f5ecd5";
+  ctx.fill();
+  ctx.strokeStyle = SUIT_INK[card.dynasty];
+  ctx.lineWidth = 9;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(179, 0);
+  ctx.lineTo(179, 255);
+  ctx.quadraticCurveTo(179, 268, 161, 276);
+  ctx.lineTo(95, 301);
+  ctx.lineTo(0, 265);
+  ctx.strokeStyle = "#b58c44";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  ctx.fillStyle = SUIT_INK[card.dynasty];
+  ctx.textAlign = "center";
+  ctx.font = `800 ${card.rank === 10 ? 120 : 144}px "Core Print Body", sans-serif`;
+  ctx.fillText(rankLabel(card.rank), 91, 143);
+  ctx.strokeStyle = "#b58c44";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(23, 165);
+  ctx.lineTo(72, 165);
+  ctx.moveTo(110, 165);
+  ctx.lineTo(158, 165);
+  ctx.stroke();
+  ctx.save();
+  ctx.translate(91, 165);
+  ctx.rotate(Math.PI / 4);
+  ctx.fillStyle = "#b58c44";
+  ctx.fillRect(-5, -5, 10, 10);
+  ctx.restore();
+  ctx.fillStyle = SUIT_INK[card.dynasty];
+  ctx.font = "96px Georgia, serif";
+  ctx.fillText(SUIT_SIGNS[card.dynasty] ?? "◆", 91, 265);
   ctx.textAlign = "left";
-  ctx.fillStyle = "#202e27";
-  let size = 70;
-  ctx.font = `700 ${size}px "Core Print Title", Georgia, serif`;
-  let names = lines(ctx, card.name, 532);
-  while (names.length > 2 && size > 56) {
-    size -= 1;
-    ctx.font = `700 ${size}px "Core Print Title", Georgia, serif`;
-    names = lines(ctx, card.name, 532);
-  }
-  const first = names.length === 1 ? 694 : 656;
-  names.forEach((line, i) => ctx.fillText(line, 49, first + i * 66));
   ctx.fillStyle = SUIT_INK[card.dynasty] ?? "#31594e";
   ctx.font = '600 30px "Core Print Body", sans-serif';
   ctx.fillText(
     `${card.dynasty[0].toUpperCase() + card.dynasty.slice(1)} · ${card.queen ? "Queen" : card.founder ? "Founder" : "Noble"}`,
     49,
-    760,
+    800,
   );
   ctx.strokeStyle = "#b6a888";
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(49, 782);
-  ctx.lineTo(581, 782);
+  ctx.moveTo(49, 818);
+  ctx.lineTo(581, 818);
   ctx.stroke();
   ctx.fillStyle = "#29392d";
   ctx.font = '600 32px "Core Print Body", sans-serif';
-  ctx.fillText("Recruit · Challenge · Trade", 49, 824);
+  ctx.fillText("Recruit · Challenge · Trade", 49, 855);
   ctx.restore();
   return c;
 }

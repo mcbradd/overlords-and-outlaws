@@ -992,30 +992,6 @@ a {
   }
 }
 
-.c-played-fan {
-  display: flex;
-  gap: 18px;
-  overflow-x: auto;
-  padding: 24px 20px 32px;
-  background: #203d32;
-  border: 1px solid #a78e53;
-  border-radius: 16px;
-  box-shadow: inset 0 3px 14px #0006;
-}
-.c-played-fan > button {
-  flex: 0 0 210px;
-  width: 210px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  transform: rotate(var(--fan-angle));
-  box-shadow: 3px 8px 9px #0008;
-}
-.c-played-fan > button:focus-visible {
-  outline: 3px solid #e4c87f;
-  outline-offset: 5px;
-}
-
 /* Table-first play surface: no lower dashboard or repeated hand labels. */
 .c-game.c-tabletop {
   --card-width: clamp(120px, 15vw, 184px);
@@ -1440,7 +1416,8 @@ button.next-interaction:not(:disabled):not(.c-card-pick) { animation:attention-b
 .c-game > .c-lesson-popover > .c-close { position:absolute;top:10px;right:10px;float:none;margin:0;min-height:40px; }
 .c-game .c-lesson-content h2 { margin-right:90px; }
 
-.c-game.c-tabletop > .c-guide { flex-direction:column; gap:6px; }
+.c-game.c-tabletop > .c-guide { flex-direction:column; flex-wrap:nowrap; gap:6px; }
+.c-game.c-tabletop > .c-guide > p { flex-basis:auto; }
 .c-game.c-tabletop .c-action-area { margin:0; }
 .c-game.c-tabletop .c-draft-modal { flex-direction:column;gap:6px;text-align:center; }
 .c-game.c-tabletop .c-draft-modal > button { width:min(320px,100%);min-height:52px;align-self:center; }
@@ -1457,3 +1434,29 @@ button.next-interaction:not(:disabled):not(.c-card-pick) { animation:attention-b
  .c-game.c-tabletop .c-draft-modal > button { min-height:44px;height:44px;padding:6px 12px; }
  .c-game.c-tabletop .c-draft-hands .c-back-fan { transform:scale(.5);height:32px; }
 }
+
+/* Played cards occupy the dimmed screen itself, without an inner dialog box. */
+.c-modal.c-played-display { position:fixed;inset:0;margin:0;width:100vw;height:100dvh;max-width:none;max-height:none;padding:64px 16px 16px;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:hidden; }
+.c-played-display::backdrop { background:#050910e8; }
+.c-played-display > .c-close { position:fixed;right:16px;top:12px;float:none;z-index:20;min-height:44px;margin:0; }
+.c-played-display .c-played-fan { display:grid;grid-template-columns:repeat(var(--pile-columns),var(--pile-width));gap:10px;width:max-content;max-width:none;height:max-content;margin:auto;padding:0;overflow:visible;justify-content:center;align-items:center;position:absolute;top:calc(50% + 24px);left:50%;transform:translate(-50%,-50%);transition:opacity .13s ease; }
+.c-played-display .c-played-fan button { width:var(--pile-width);height:calc(var(--pile-width) * 88 / 63);min-height:0;margin:0;padding:0;transform:none;position:relative;inset:auto;border:0;border-radius:4%;background:transparent;box-shadow:0 8px 20px #0008;animation:played-card-arrive .18s ease-out; }
+.c-played-display .c-played-fan button:is(:hover,:focus-visible) { transform:translateY(-3px);outline:2px solid var(--attention-yellow);outline-offset:3px; }
+.c-played-display:has(.c-played-expanded) .c-played-fan { opacity:0;pointer-events:none; }
+.c-played-expanded { position:fixed;inset:0;display:grid;place-items:center;z-index:10;cursor:pointer;animation:played-card-arrive .18s ease-out; }
+.c-played-expanded > button { width:min(92vw,calc((100dvh - 32px) * 63 / 88));padding:0;border:0;border-radius:4%;background:transparent;box-shadow:0 14px 40px #000b;min-height:0; }
+.c-played-expanded.is-leaving { opacity:0;transform:scale(.985);transition:opacity .13s ease,transform .13s ease; }
+@keyframes played-card-arrive { from {opacity:0;translate:0 5px;} to {opacity:1;translate:0 0;} }
+@media(prefers-reduced-motion:reduce) { .c-played-display *, .c-played-display .c-played-fan button { animation:none!important;transition:none!important; } }
+.c-played-display.reduced-motion *, .c-played-display.reduced-motion .c-played-fan button { animation:none!important;transition:none!important; }
+
+.c-game.c-tabletop { background:radial-gradient(ellipse at 50% 10%,#24303d 0%,#101925 48%,#070c13 100%); }
+.c-game.c-tabletop > header { background:linear-gradient(#111b28dd,#111b2800); }
+@media(min-width:2200px) { .c-game.c-tabletop { --card-width:clamp(184px,9vw,300px); } }
+
+.c-played-display.is-leaving { opacity:0;transition:opacity .13s ease; }
+.c-played-display::backdrop { animation:played-backdrop-arrive .18s ease-out;transition:background .13s ease; }
+.c-played-display.is-leaving::backdrop { background:transparent; }
+@keyframes played-backdrop-arrive { from { background:transparent; } to { background:#050910e8; } }
+@media(prefers-reduced-motion:reduce) { .c-played-display,.c-played-display::backdrop { animation:none!important;transition:none!important; } }
+.c-played-display.reduced-motion,.c-played-display.reduced-motion::backdrop { animation:none!important;transition:none!important; }

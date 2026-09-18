@@ -35,6 +35,7 @@
   outline: 5px solid var(--attention-yellow);
   outline-offset: 4px;
 }
+.core-played-label,
 .core-table-caption,
 .core-table-seat,
 .core-table-office {
@@ -230,3 +231,14 @@
   text-align: center;
 }
 
+.core-played-label {
+  font-size: 18px;
+}
+
+.core-table-office {
+  padding: 2px 7px;
+  background: #172634ee;
+  border: 1px solid #9c854f;
+  border-radius: 3px;
+  font-size: 15px;
+}
