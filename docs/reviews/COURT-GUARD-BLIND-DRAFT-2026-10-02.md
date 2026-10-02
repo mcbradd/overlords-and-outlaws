@@ -14,6 +14,7 @@ The continuous tutorial retains two original cards and uses its newly revealed c
 - Extended `core-inheritance.ts` to check concealed packet counts, absence of identifying DOM/inspection controls, and sorting without revealing or changing packets. Checked all private handoffs, all three exchanges, final reveal, founding, and Court Recall for two, three, and four players at desktop and compact sizes.
 - Full tutorial browser walkthrough passed at 1440x900, 390x844, and 844x390. Draft readiness with motion passed all three exchanges for all player counts. Twenty-four projected-view simulations completed without invariant failures; these are not human playtest evidence.
 - Printed Challenge aid overflow was found and repaired by splitting it into 2a/2b without shrinking type. Inspected both 630x880 cards and the revised inheritance aid.
+- A live reference-card check found the objective covering the menu at 630x880. Moved it below the controls on portrait tablets and made the static objective ignore pointer events.
 - Fixed sorting's handling of anonymous received backs and a stale response ResizeObserver during private handoffs, both exposed by the new browser checks.
 
 ## Actual visual inspection

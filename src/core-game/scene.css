@@ -250,3 +250,9 @@
 .c-court-protection { max-width: 28em; color: #f6e8b8; }
 
 .c-received-card > .c-card-back::after { display: none; }
+
+/* Keep the public goal clear of the menu on portrait tablets. */
+.c-game.c-tabletop .c-objective { pointer-events: none; }
+@media (min-width: 601px) and (max-width: 900px) and (min-height: 501px) {
+  .c-game.c-tabletop .c-objective { top: 52px; width: 95vw; font-size: 12px; line-height: 1.15; }
+}

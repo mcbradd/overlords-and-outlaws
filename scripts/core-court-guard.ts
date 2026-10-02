@@ -8,7 +8,7 @@ import {clickExposed} from './core-tabletop';
 const base=process.env.BASE_URL??'http://localhost:5173';
 const out=process.env.GUARD_OUTPUT??'artifacts/core/court-guard';mkdirSync(out,{recursive:true});
 const browser=await chromium.launch({channel:'chrome'});
-try {for(const count of [2,3,4]) for(const width of [1440,390]) {
+try {for(const count of [2,3,4]) for(const width of [1440,630,390]) {
   let game=createGame({seed:501,dynasties:DYNASTIES.slice(0,count)});
   game.setup=null;game.phase='action';game.active=1;
   game.players.forEach(p=>{p.hand=[];p.court=[];p.played=[];});
@@ -25,6 +25,9 @@ try {for(const count of [2,3,4]) for(const width of [1440,390]) {
   await page.goto(base);await page.locator('[data-do="setup"]').click();
   await page.locator('#save-file').setInputFiles({name:'guard.json',mimeType:'application/json',buffer:Buffer.from(encodeSave({game,mode:'local',lesson:null,motion:false,names:game.players.map(p=>'Player '+(p.seat+1))}))});
   await page.locator('[data-do="unlock"]').click();
+  await page.locator('[data-do="menu"]').click();
+  await expect(page.locator('dialog')).toContainText('Defeat every other Court Noble');
+  await page.keyboard.press('Escape');
   await page.locator('[data-table-card="alba-0"]').click();
   await expect(page.locator('.c-court-protection')).toContainText('Protected');
   await page.screenshot({path:`${out}/${count}p-${width}-inspection.png`});
