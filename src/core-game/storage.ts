@@ -59,15 +59,15 @@ export const saveKey = (namespace = "") => `${namespace}oando-v9-inheritance`;
 export function encodeSave(save: CoreSave): string {
   return JSON.stringify({
     version: 5,
-    ruleset: "rank-core-marriage-parity-v5",
+    ruleset: "rank-core-court-guard-blind-draft-v6",
     ...save,
   });
 }
 export function decodeSave(text: string): CoreSave {
   const value = JSON.parse(text);
-  if (value?.version !== 5 || value.ruleset !== "rank-core-marriage-parity-v5")
+  if (value?.version !== 5 || value.ruleset !== "rank-core-court-guard-blind-draft-v6")
     throw new Error(
-      "This file uses an earlier roster or ruleset. Start a new table for the empty-Court marriage rules.",
+      "This file uses an earlier roster or ruleset. Start a new table for protected Rulers and the face-down draft.",
     );
   assertInvariants(value.game);
   if (

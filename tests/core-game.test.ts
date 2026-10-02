@@ -1,7 +1,7 @@
 import { TEACHING } from '../src/core-game/tutorial';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createTutorial, applyAction, legalActions, viewForSeat, assertInvariants, canDefend } from '../src/core-game/engine';
+import { createTutorial, applyAction, legalActions, viewForSeat, assertInvariants, canDefend, courtProtectors } from '../src/core-game/engine';
 import { createGame } from '../tests/core-established-fixture';
 import { CARDS, BY_ID, ROSTER_ADDITIONS } from '../src/core-game/content';
 import { CARDS as ORIGINAL_CARDS } from '../src/content';
@@ -67,6 +67,15 @@ function nativeNotice(): State {
   s.players[0].hand = [a(4)];
   conserve(s);
   return act(s, { type: 'name-heir', seat: 0, card: a(4) });
+}
+function removeByWithdrawal(state: State, target: string): State {
+  state=structuredClone(state);state.active=0;
+  return act(state,{type:'withdraw',seat:0,card:target});
+}
+function exposeCrown(state: State): State {
+  state=structuredClone(state);
+  for(const card of courtProtectors(state,0)) state=removeByWithdrawal(state,card);
+  return state;
 }
 function removeByRecall(state: State, target: string, lead: string): State {
   // Legal adversarial position: assign an unused deck card to the opponent,
@@ -219,18 +228,18 @@ test('U16/U17/U18/U21: ruler and heir must survive the entire next round', () =>
   assert.equal(claim.result,null);
   claim=passRound(claim);assert.equal(claim.crown?.stage,'reign');
   assert.equal(claim.players[0].ruler,a(1));assert.equal(claim.result,null);
-  const lost=removeByRecall(claim,a(1),a(7));assert.equal(lost.crown,null);
+  const lost=removeByRecall(exposeCrown(claim),a(1),a(7));assert.equal(lost.crown,null);
   claim=passRound(claim);assert.equal(claim.result?.winner,0);assert.equal(claim.players[0].ruler,a(4));assert.equal(claim.round,2);
   const extra=removeByRecall(nativeNotice(),a(2),a(7));assert.ok(extra.crown,'An unrelated Court card is not a succession dependency');
 });
 
 test('U19/U20: each required dependency fails immediately and later development cannot restore it', () => {
   for (const target of [a(1),a(4)]) {
-    const failed = removeByRecall(nativeNotice(),target,a(7));
+    const failed = removeByRecall(exposeCrown(nativeNotice()),target,a(7));
     assert.equal(failed.crown,null, `notice loses ${target}`);
   }
   for (const target of [a(1),a(4)]) {
-    let failed = removeByRecall(passRound(nativeNotice()),target,a(7));
+    let failed = removeByRecall(exposeCrown(passRound(nativeNotice())),target,a(7));
     assert.equal(failed.crown,null, `reign loses ${target}`);
     failed.players[0].hand.push(a(8));
     failed.active = 0;
@@ -348,12 +357,12 @@ test('U40/U41: Marriage requires opposite gender, any rank or Dynasty, and prece
 });
 test('U42/U43/U44: surviving spouse becomes ruler without changing Court Dynasty; Claim breaks',()=>{
  for(const base of [marriageNotice(),passRound(marriageNotice())]) {
-  const next=removeByRecall(base,a(1),a(7));assert.equal(next.players[0].ruler,p(11));assert.equal(next.players[0].dynasty,'alba');assert.equal(next.crown,null);assert.equal(next.marriages.length,0);assert.ok(next.players[0].court.includes(p(11)));
+  const next=removeByWithdrawal(base,a(1));assert.equal(next.players[0].ruler,p(11));assert.equal(next.players[0].dynasty,'alba');assert.equal(next.crown,null);assert.equal(next.marriages.length,0);assert.ok(next.players[0].court.includes(p(11)));
  }
  const spouseLost=removeByRecall(marriageNotice(),p(11),p(7));assert.equal(spouseLost.players[0].ruler,a(1));assert.equal(spouseLost.marriages.length,0);assert.ok(spouseLost.crown,'Marriage is required to play the heir, not a third hold dependency');
 });
 test('U45: a widowed foreign ruler must remarry before a new native Claim',()=>{
- let s=removeByRecall(marriageNotice(),a(1),a(7));s.active=0;s.players[0].hand.push(a(9),a(3));conserve(s);
+ let s=removeByWithdrawal(marriageNotice(),a(1));s.active=0;s.players[0].hand.push(a(9),a(3));conserve(s);
  rejected(s,{type:'name-heir',seat:0,card:a(9)});
  s=act(s,{type:'marry-heir',seat:0,card:a(3),supporter:p(11)});s=act(s,{type:'pass',seat:1});s=act(s,{type:'name-heir',seat:0,card:a(9)});assert.equal(s.crown?.oldRuler,p(11));
  s=removeByRecall(s,a(3),a(8));assert.ok(s.crown);s=passRound(s);s=passRound(s);
@@ -381,7 +390,7 @@ test('U33/U49: draft, founding, marriage and Claim lead to a legal full-round te
  const initial=structuredClone(s);
  const steps=TEACHING.map(({type,seat,card,target,supporter})=>({type,seat,card,target,supporter}) as Action);
  for(const a of steps) {assert.equal(s.result,null);s=act(s,a);}
- assert.equal(s.result?.winner,0);assert.equal(s.round,2);assert.equal(s.players[0].ruler,'alba-5');
+ assert.equal(s.result?.winner,0);assert.equal(s.round,2);assert.equal(s.players[0].ruler,'alba-3');
  let replay=initial;for(const a of steps)replay=act(replay,a);assert.deepEqual(replay,s);
 });
 
@@ -422,7 +431,7 @@ test('I05: AI decisions use only the projected view and always choose a legal ac
 });
 
 test('I05: AI contests an imminent rival succession and defends its own required person', () => {
-  let s = passRound(nativeNotice());
+  let s = exposeCrown(passRound(nativeNotice()));
   s.players[1].hand.push(a(7));
   s.active = 1;
   conserve(s);
@@ -468,11 +477,10 @@ test('A02/A03: successful Recall exchanges its exact lead and permits earned nat
 });
 
 test('A04/A05: capture exchanges lead without inheriting relationships; Defend retains both original owners', () => {
-  const queenLost = removeByRecall(marriageNotice(),a(1),a(7));
-  assert.ok(queenLost.players[0].played.includes(a(7)));
+  const queenLost = removeByWithdrawal(marriageNotice(),a(1));
+  assert.ok(queenLost.players[0].hand.includes(a(1)), "a protected Ruler can leave through its owner’s Recall");
   assert.equal(queenLost.players[0].ruler,p(11));
-  assert.ok(queenLost.players[1].played.includes(a(1)));
-  assert.ok(!queenLost.players[1].played.includes(a(7)));
+  assert.equal(queenLost.players[1].played.length,0);
   assert.equal(queenLost.marriages.length,0);
   const spouseLost = removeByRecall(marriageNotice(),p(11),p(7));
   assert.ok(spouseLost.players[0].played.includes(p(7)));
@@ -496,7 +504,7 @@ test('A06: AI prices a costly high-for-low seizure differently when the target b
   conserve(s);
   const quiet = chooseAction(viewForSeat(s,0),0);
   assert.ok(!(quiet.action.type === 'recall' && quiet.action.target === p(1)), 'do not pay a King merely to remove a lone nonclaiming Founder');
-  s.players[1].court.push(p(2),p(4));
+  s.players[1].court.push(p(4));
   s.players[1].ruler = p(1);
   s.crown = {seat:1,stage:'reign',oldRuler:p(1),heir:p(4),reignRound:1};
   conserve(s);
@@ -522,8 +530,9 @@ test('A07: AI retains ranked answers instead of needless extra native deployment
   const reserve = chooseAction(viewForSeat(waiting,0),0);
   assert.notEqual(reserve.action.type,'recruit');
   assert.ok(!(reserve.action.type === 'trade' && reserve.action.recruit), 'do not turn the last answer into an unnecessary extra supporter');
-  let incoming = nativeNotice();
+  let incoming = exposeCrown(nativeNotice());
   incoming.players[0].hand = [a(6),a(10)];
+  incoming.knownHands={};
   incoming.players[1].hand = [a(5)];
   conserve(incoming);
   incoming = act(incoming,{type:'recall',seat:1,card:a(5),target:a(4)});
@@ -572,7 +581,7 @@ for(const seats of [2,3,4]) test(`Recall exposure is one attempt per person per 
   for(let seat=1;seat<seats;seat++) {
     const probe=structuredClone(s);probe.active=seat;
     assert.ok(!legalActions(viewForSeat(probe,seat),seat).some(a=>a.type==='recall'&&a.target===card('alba',2)));
-    if(seat>1)assert.ok(legalActions(viewForSeat(probe,seat),seat).some(a=>a.type==='recall'&&a.target===card('alba',1)),'untried people remain vulnerable');
+    if(seat>1)assert.ok(!legalActions(viewForSeat(probe,seat),seat).some(a=>a.type==='recall'&&a.target===card('alba',1)),'a defended Noble still protects the Ruler');
   }
   s=passRound(s);
   s.active=1;

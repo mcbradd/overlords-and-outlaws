@@ -43,7 +43,7 @@ const RULE_AID_TOPICS = [
   {
     title: "Challenge",
     paragraphs: [
-      "Challenge a rival Court person with a hand card of their Dynasty. One attempt per person per round, across all rivals.",
+      "Defeat every other Court Noble before challenging its Ruler or named Heir. Challenge with a hand card of the target’s Dynasty. One attempt per person per round, across all rivals.",
       "Their controller gets one answer: Defend (aid 3) or Retreat.",
       "If undefended, exchange your lead for the target. Target goes to your Played; lead goes to their Played. Both return to their new owners next round.",
       "Resolve lost offices and marriage support immediately. An interrupted Crown does not resume.",
@@ -112,14 +112,14 @@ const RULE_AID_TOPICS = [
   {
     title: "Inheritance details",
     paragraphs: [
-      "Pass 3, then 2, then 1 clockwise, all packets together. Received cards may be passed. No Nobles enter Court during setup.",
+      "Pass 3, then 2, then 1 clockwise, all packets together. Pass only your original deal. Received cards stay face down and cannot be passed again. Reveal them when the draft ends. No Nobles enter Court during setup.",
       "Your first Recruit into an empty Court establishes its Dynasty and becomes Ruler. Different players may establish the same Dynasty.",
       "Marry your Ruler to an opposite-gender Noble before playing an Heir. Ordinary round draws never reshuffle.",
     ],
   },
 ] as const;
 export const RULE_AIDS = RULE_AID_TOPICS.flatMap((aid, index) => {
-  if (index < 3 || index >= 7)
+  if (index === 0 || index === 2 || index >= 7)
     return [
       {
         id: String(index + 1),

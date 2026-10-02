@@ -1,0 +1,57 @@
+import {chromium,expect} from '@playwright/test';
+import assert from 'node:assert/strict';
+import {mkdirSync} from 'node:fs';
+import {createGame,assertInvariants,applyAction,type CoreState} from '../src/core-game/engine';
+import {CARDS,DYNASTIES} from '../src/core-game/content';
+import {encodeSave} from '../src/core-game/storage';
+import {clickExposed} from './core-tabletop';
+const base=process.env.BASE_URL??'http://localhost:5173';
+const out=process.env.GUARD_OUTPUT??'artifacts/core/court-guard';mkdirSync(out,{recursive:true});
+const browser=await chromium.launch({channel:'chrome'});
+try {for(const count of [2,3,4]) for(const width of [1440,390]) {
+  let game=createGame({seed:501,dynasties:DYNASTIES.slice(0,count)});
+  game.setup=null;game.phase='action';game.active=1;
+  game.players.forEach(p=>{p.hand=[];p.court=[];p.played=[];});
+  Object.assign(game.players[0],{dynasty:'alba',ruler:'alba-0',court:['alba-0','alba-3','alba-8']});
+  game.crown={seat:0,oldRuler:'alba-0',heir:'alba-3',stage:'notice',reignRound:null};
+  game.marriages=[{seat:0,queen:'alba-0',spouse:'alba-8'}];
+  game.players[1].hand=['alba-12','alba-5'];
+  const used=game.players.flatMap(p=>[...p.hand,...p.court]);
+  game.deck=CARDS.filter(c=>game.dynasties.includes(c.dynasty)&&!used.includes(c.id)).map(c=>c.id);
+  assertInvariants(game);
+  const page=await browser.newPage({viewport:{width,height:width===390?844:900},reducedMotion:'reduce',hasTouch:width===390});
+  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.stack??e.message));
+  const read=()=>page.evaluate(()=>JSON.parse(Object.entries(localStorage).find(([k])=>k.endsWith('oando-v9-inheritance'))![1]).game as CoreState);
+  await page.goto(base);await page.locator('[data-do="setup"]').click();
+  await page.locator('#save-file').setInputFiles({name:'guard.json',mimeType:'application/json',buffer:Buffer.from(encodeSave({game,mode:'local',lesson:null,motion:false,names:game.players.map(p=>'Player '+(p.seat+1))}))});
+  await page.locator('[data-do="unlock"]').click();
+  await page.locator('[data-table-card="alba-0"]').click();
+  await expect(page.locator('.c-court-protection')).toContainText('Protected');
+  await page.screenshot({path:`${out}/${count}p-${width}-inspection.png`});
+  await page.keyboard.press('Escape');
+  await clickExposed(page.locator('[data-do="select"][data-card="alba-12"]'));
+  await page.locator('[data-do="arm"][data-type="recall"]').click();
+  await expect(page.locator('[data-table-card="alba-0"].valid-drop,[data-drop-card="alba-0"]')).toHaveCount(0);
+  await expect(page.locator('[data-table-card="alba-3"].valid-drop,[data-drop-card="alba-3"]')).toHaveCount(0);
+  const spouse=page.locator('[data-table-card="alba-8"].valid-drop,[data-drop-card="alba-8"]').first();
+  await expect(spouse).toBeVisible();await page.screenshot({path:`${out}/${count}p-${width}-protected.png`});
+  assert.deepEqual(await read(),game,'arming a challenge does not change the Court');
+  await spouse.click();game=applyAction(game,{type:'recall',seat:1,card:'alba-12',target:'alba-8',revision:game.revision});
+  await page.locator('[data-do="unlock"]').click();await page.locator('[data-do="respond-retreat"]').click();
+  game=applyAction(game,{type:'decline',seat:0,revision:game.revision});
+  await expect.poll(async()=>(await read()).revision).toBe(game.revision);assert.deepEqual(await read(),game);
+  for(let guard=0;game.active!==1 && guard<count;guard++) {
+    if(await page.locator('[data-do="unlock"]').count())await page.locator('[data-do="unlock"]').click();
+    await page.locator('[data-do="generic"]').filter({hasText:'Pass'}).click();
+    game=applyAction(game,{type:'pass',seat:game.active,revision:game.revision});
+  }
+  await page.locator('[data-do="unlock"]').click();
+  await clickExposed(page.locator('[data-do="select"][data-card="alba-5"]'));
+  await page.locator('[data-do="arm"][data-type="recall"]').click();
+  for(const id of ['alba-0','alba-3'])await expect(page.locator(`[data-table-card="${id}"].valid-drop,[data-drop-card="${id}"]`).first()).toBeVisible();
+  await page.screenshot({path:`${out}/${count}p-${width}-exposed.png`});
+  await page.locator('[data-table-card="alba-3"].valid-drop,[data-drop-card="alba-3"]').first().click();
+  await page.locator('[data-do="unlock"]').click();await expect(page.locator('.c-response')).toBeVisible();
+  await page.screenshot({path:`${out}/${count}p-${width}-heir-challenge.png`});
+  assert.deepEqual(errors,[]);await page.close();console.log(`PASS Court protection ${count} players at ${width}`);
+}}finally{await browser.close();}

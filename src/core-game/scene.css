@@ -243,3 +243,10 @@
   border-radius: 3px;
   font-size: 15px;
 }
+
+.c-game.c-tabletop .c-received-card { pointer-events: none; }
+.c-received-card > .c-card-back { position: relative; display: grid; place-items: center; width: 100%; height: 100%; aspect-ratio: 63 / 88; border-radius: 9px; }
+.c-received-card .c-card-back span { color: #f6e8b8; background: #102234; padding: .5em; text-align: center; font: 600 clamp(10px, 1vw, 15px)/1.4 Manrope, sans-serif; }
+.c-court-protection { max-width: 28em; color: #f6e8b8; }
+
+.c-received-card > .c-card-back::after { display: none; }

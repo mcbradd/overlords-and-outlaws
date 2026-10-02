@@ -14,7 +14,7 @@ import {
 test("APP06 first taught play names its actual printed person", () => {
   const introduced = new Set<string>();
   for (const step of TEACHING) {
-    if (step.card && !introduced.has(step.card)) {
+    if (step.card && !(step.seat !== 0 && step.type === "draft-pick") && !introduced.has(step.card)) {
       assert.ok(
         step.explanation.includes(BY_ID[step.card].name),
         `First ${step.type} must introduce ${BY_ID[step.card].name}`,

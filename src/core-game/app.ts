@@ -6,6 +6,7 @@ import {
   createTutorial,
   applyAction,
   legalActions,
+  courtProtectors,
   viewForSeat,
   type CoreState,
   type CoreAction,
@@ -153,7 +154,7 @@ async function home() {
 function intro() {
   window.scrollTo(0, 0);
   dispose();
-  root.innerHTML = `<main class="c-intro"><section class="c-guide"><p class="c-kicker">LEARN AT THE TABLE</p><h1>Keep the Crown in your family.</h1><p class="c-intro-goal">Choose an heir and claim the Crown. Keep your ruler AND heir in Court for the whole of the next round to win.</p><p>Lose either one and your claim ends. Keep useful cards in hand to defend them.</p><p>Begin with eight cards and no Dynasty. Pass three, two, then one clockwise. Courts start empty. Your first Recruit sets your Dynasty and becomes Ruler. Marry an opposite-gender Noble on a later turn, then play an Heir.</p><p>First, we’ll show one useful move and explain why it helps. Playing a card uses it for this round; keeping it may let you answer a rival.</p>${btn("Take your seat", "teach", 'class="primary"')}${btn("Return to title", "home")}</section></main>`;
+  root.innerHTML = `<main class="c-intro"><section class="c-guide"><p class="c-kicker">LEARN AT THE TABLE</p><h1>Keep the Crown in your family.</h1><p class="c-intro-goal">Choose an heir and claim the Crown. Keep your ruler AND heir in Court for the whole of the next round to win.</p><p>Lose either one and your claim ends. Keep useful cards in hand to defend them.</p><p>Begin with eight cards and no Dynasty. Pass three, two, then one clockwise from your original deal. Received cards stay face down and cannot be passed again; reveal them when the draft ends. Courts start empty. Your first Recruit sets your Dynasty and becomes Ruler. Marry an opposite-gender Noble on a later turn, then play an Heir.</p><p>First, we’ll show one useful move and explain why it helps. Playing a card uses it for this round; keeping it may let you answer a rival.</p>${btn("Take your seat", "teach", 'class="primary"')}${btn("Return to title", "home")}</section></main>`;
   bind();
   void preloadCards([
     "alba-0",
@@ -279,6 +280,8 @@ function prepareComputer(seat:number) {
 }
 async function render() {
   if (!game || busy) return;
+  responseObserver?.disconnect();
+  responseObserver = null;
   const renderToken = ++renderSequence;
   const loadToken = generation;
   stopTimer();
@@ -308,7 +311,9 @@ async function render() {
   const humanTurn =
     actor === viewer && (!lesson || taught?.seat === viewer) && !game.result;
   const seatView = viewForSeat(game, viewer);
-  const hand = [...player.hand].sort(compareHand);
+  const hand = [...seatView.players[viewer].hand!].sort(compareHand);
+  const faceDownCount = seatView.players[viewer].faceDownCount;
+  const handCount = hand.length + faceDownCount;
   const selectedActions = available.filter(
     (a) => a.card === selected && a.type !== "pass",
   );
@@ -342,20 +347,25 @@ async function render() {
   const tableHost = root.querySelector<HTMLElement>("#core-table");
   const retained = tableHost?.parentElement ? tableHost : null;
   if (retained) retained.remove();
-  const handHTML = hand
+  let handHTML = hand
     .map((id, index) => {
       const enabled = humanTurn && (draftPacket.includes(id) || declaration.includes(id) || available.some((a) => a.card === id)) && (game!.phase!=="declare" || !declaration.length || BY_ID[id].dynasty===BY_ID[declaration[0]].dynasty);
       const angle =
-        hand.length < 2 ? 0 : (index / (hand.length - 1) - 0.5) * 14;
+        handCount < 2 ? 0 : (index / (handCount - 1) - 0.5) * 14;
       return `<div tabindex="0" aria-label="${esc(nameOf(id))}" class="c-held-card ${game!.setup?.picks[viewer]?.includes(id) ? "c-locked-pick" : ""} ${draftPacket.includes(id) || declaration.includes(id) ? "c-draft-selected" : ""} ${selected === id ? "selected" : ""} ${lesson && enabled && !draftPacket.includes(id) && !declaration.includes(id) && (game!.phase !== "draft" || draftPacket.length < game!.setup!.pass) ? "next-interaction" : ""}" style="--card-index:${index};--fan-angle:${angle}deg"><button class="c-card-pick" data-do="select" data-card="${id}" ${!enabled ? "disabled" : ""} aria-pressed="${draftPacket.includes(id)}" aria-label="Select ${esc(nameOf(id))}, ${BY_ID[id].rank} ${esc(dynastyName(BY_ID[id].dynasty))}">${faceHTML(id)}</button>${`<div class="c-card-actions" aria-label="Actions for ${esc(nameOf(id))}">${responding ? renderCardActions(id, available.filter(a=>a.type==="defend"&&a.card===id)) : ""}${btn("Inspect", "inspect", `data-card="${id}"`)}</div>`}</div>`;
     })
     .join("");
+  handHTML += Array.from({length:faceDownCount}, (_, index) => {
+    const position = hand.length + index;
+    const angle = handCount < 2 ? 0 : (position / (handCount - 1) - .5) * 14;
+    return `<div class="c-held-card c-received-card" role="img" aria-label="Received card, face down until the draft ends; cannot be passed again" style="--card-index:${position};--fan-angle:${angle}deg"><div class="c-card-back"><span>Received<br>Reveal after draft</span></div></div>`;
+  }).join('');
   root.innerHTML = `<main class="c-game c-tabletop ${!motion ? "reduced-motion" : ""} ${lesson ? "c-teaching-table" : ""} ${hand.length ? "has-hand" : ""}">
     <header><strong>${game.setup ? "Inheritance" : `Round ${game.round} of 12`}</strong><p class="c-objective">${esc(objective())}</p>${btn("Table menu", "menu")}${lesson ? btn("?", "lesson-help", 'class="c-lesson-help" aria-label="Read tutorial step" title="Read tutorial step"') : ""}</header>
     <section class="c-guide" aria-label="Action and outcome">${game.phase === "draft" ? `<section class="c-draft-modal" role="dialog" aria-labelledby="draft-title"><div><h2 id="draft-title">All Players Select ${game.setup!.pass} ${game.setup!.pass === 1 ? "Card" : "Cards"} to pass</h2><p>Round ${4-game.setup!.pass} of 3 · Clockwise${lesson && humanTurn ? ` · ${draftPacket.length === game.setup!.pass ? "Press PASS" : `Select ${esc(nameOf(TEACHING[lesson.cursor + draftPacket.length].card!))}`}` : ""}</p></div>${btn(humanTurn ? (draftPacket.length + (game.setup!.picks[viewer]?.length ?? 0) === game.setup!.pass ? "PASS" : `Select ${game.setup!.pass - draftPacket.length - (game.setup!.picks[viewer]?.length ?? 0)} More to Pass`) : "Waiting for players…", "draft-pass", `class="primary ${draftPacket.length === game.setup!.pass ? "next-interaction" : ""}" ${!humanTurn || draftPacket.length + (game.setup!.picks[viewer]?.length ?? 0) !== game.setup!.pass ? "disabled" : ""}`)}</section>` : ""}<h2 class="sr-only">${esc(lesson ? taught!.title : game.result ? "The game has ended" : selected ? nameOf(selected) : "Your choices")}</h2>${!responding && game.phase !== "draft" && game.phase !== "declare" && (game.setup || selected || game.pending || outcome || autoPass) ? `<p>${esc(currentGuide)}</p>` : ""}${notice ? `<p class="c-error" role="alert">${esc(notice)}</p>` : ""}${game.phase === "declare" ? `<div class="c-declaration"><p>${declaration.length ? `${esc(nameOf(declaration[0]))} will rule. ${declaration.length}/3 selected.` : "Choose three Nobles of one Dynasty. First choice is your ruler."} You can change your choices.</p>${btn(declaration.length===3?"Declare":`Select ${3-declaration.length} More`,"declare-confirm",`class="primary ${declaration.length===3?"next-interaction":""}" ${declaration.length!==3||!humanTurn?"disabled":""}`)}</div>` : ""}<div class="c-action-area"><div class="c-selected-actions"></div>${!lesson?.done && humanTurn && !responding ? `${generic.map((a, i) => btn(a.type === "decline" && game!.phase === "trade" ? "Decline" : a.type === "pass" && autoPass ? "<span>Pass</span>" : label[a.type], "generic", `data-index="${i}" class="${lesson ? "next-interaction" : ""} ${a.type === "pass" && autoPass ? "c-auto-pass" : ""}"`)).join("")}` : ""}${game.result && !lesson ? btn("Play another game", "setup", 'class="primary"') : ""}</div></section>
     <section class="c-board-wrap" aria-label="Physical game table"><div class="c-table-nav">${btn("Table", "focus-all", 'aria-label="Whole table"')}${game.players.map((p) => btn(esc(names[p.seat]), "focus", `data-seat="${p.seat}"`)).join("")}</div>${game.phase === "draft" ? `<div class="c-draft-hands">${game.players.filter(p=>p.seat!==viewer).sort((a,b)=>(a.seat-viewer+game!.players.length)%game!.players.length-(b.seat-viewer+game!.players.length)%game!.players.length).map(p=>`<div data-draft-hand="${p.seat}"><span>${esc(names[p.seat])}</span><div class="c-back-fan">${Array.from({length:p.hand.length},(_,i)=>`<i class="c-card-back" style="--i:${i}" aria-hidden="true"></i>`).join("")}</div><small>${p.hand.length} cards</small></div>`).join("")}</div>` : ""}<div id="core-table"></div></section>
     ${game.phase === "recall" ? responseHTML() : ""}
-    <section class="c-hand" aria-label="Your hand" style="--hand-count:${hand.length}"><div class="c-hand-cards">${handHTML}</div></section>${btn(`Sorted by ${handSort.toUpperCase()}`,"sort-hand",'class="c-hand-sort" aria-label="Change hand sort order"')}</main>`;
+    <section class="c-hand" aria-label="Your hand" style="--hand-count:${handCount}"><div class="c-hand-cards">${handHTML}</div></section>${btn(`Sorted by ${handSort.toUpperCase()}`,"sort-hand",'class="c-hand-sort" aria-label="Change hand sort order"')}</main>`;
   const freshHost = root.querySelector<HTMLElement>("#core-table")!;
   if (retained && table) freshHost.replaceWith(retained);
   else {
@@ -387,10 +397,9 @@ async function render() {
   }
   bind();
   if(game.pending?.type==='trade') showTradeOffer(generic);
-  responseObserver?.disconnect();
   const response = root.querySelector<HTMLElement>('.c-response');
   if(response) {
-    const sizeResponse = () => {const board=root.querySelector('.c-board-wrap')!.getBoundingClientRect(),compact=innerWidth<=600&&innerHeight<=740,height=Math.min(560,Math.max(100,board.height-(compact?44:96)));response.style.setProperty('--challenge-top',`${board.top+(compact?4:Math.max(54,(board.height-height)/2))}px`);response.style.setProperty('--challenge-left',`${board.left+board.width/2}px`);response.style.setProperty('--challenge-height',`${height}px`);response.style.setProperty('--challenge-width',`${Math.min(660,board.width-20)}px`);};
+    const sizeResponse = () => {const boardElement=root.querySelector('.c-board-wrap');if(!boardElement || !response.isConnected)return;const board=boardElement.getBoundingClientRect(),compact=innerWidth<=600&&innerHeight<=740,height=Math.min(560,Math.max(100,board.height-(compact?44:96)));response.style.setProperty('--challenge-top',`${board.top+(compact?4:Math.max(54,(board.height-height)/2))}px`);response.style.setProperty('--challenge-left',`${board.left+board.width/2}px`);response.style.setProperty('--challenge-height',`${height}px`);response.style.setProperty('--challenge-width',`${Math.min(660,board.width-20)}px`);};
     sizeResponse(); responseObserver = new ResizeObserver(sizeResponse); responseObserver.observe(root.querySelector('.c-board-wrap')!);
     animateOfferCards(response);
   }
@@ -917,6 +926,7 @@ function enlargePlayedCard(id:string) {
   dialog.append(expanded);expanded.querySelector('button')!.focus();
 }
 function inspect(id: string, pileSeat?: number) {
+  if (game?.setup?.received[viewer]?.includes(id)) return;
   const back =
     pileSeat === undefined
       ? ""
@@ -925,6 +935,12 @@ function inspect(id: string, pileSeat?: number) {
     `<h2 class="sr-only">${esc(nameOf(id))}</h2>${faceHTML(id, { reference: true })}<div class="c-inspect-actions">${back}${actions().some(a=>a.type==="withdraw"&&a.card===id)?btn("Recall","withdraw",`data-card="${id}"`):""}${btn("Rules", "rules")}</div>`,
   );
   const dialog=document.querySelector<HTMLDialogElement>('dialog')!;dialog.classList.add('c-inspect-display');
+  const owner=game?.players.find(p=>p.court.includes(id));
+  if(owner && (owner.ruler===id || game?.crown?.heir===id) && courtProtectors(game!,owner.seat).length) {
+    const hint=document.createElement('p');hint.className='c-court-protection';
+    hint.textContent='Protected: defeat every other Noble in this Court before challenging this '+(owner.ruler===id?'Ruler.':'Heir.');
+    dialog.querySelector('.c-inspect-actions')?.prepend(hint);
+  }
   dialog.addEventListener('click',event=>{if(!(event.target as HTMLElement).closest('button'))dialog.close();});
 }
 function rules() {
@@ -934,13 +950,13 @@ function rules() {
 }
 function menu() {
   modal(
-    `<h2>Your table</h2><p>Deal eight and pass 3, then 2, then 1 clockwise. All Courts start empty. The first Noble you Recruit establishes your Dynasty and becomes Ruler. Players may share a Dynasty.</p><p>On a later turn, Marry a Noble of the opposite gender from hand to your Ruler. The spouse succeeds a Ruler who leaves Court; the Court keeps its Dynasty. With a spouse in play, Claim by playing a native Heir. Keep that Ruler and Heir through the whole next round to win.</p><p>${esc(objective())}</p><p>Challenge with a card of the target’s Dynasty. Defend with a higher same-Dynasty card, or an Ace against J, Q or K. Retreat exchanges the Challenger and target into their new owners’ Played piles. The Challenger stays in the center until the response resolves.</p><p>Trade a hand card for a rival’s Played card. Recall returns a Court Noble to hand and spends your turn. Everyone passing consecutively ends a round: Played cards return, everyone draws one if available, and first player rotates. The prototype ends after 12 rounds.</p>${btn("Reference rules", "rules")}${btn(motion ? "Reduce motion" : "Enable motion", "motion")}${btn("Export game", "export")}${btn("Return to title", "home")}`,
+    `<h2>Your table</h2><p>Deal eight and pass 3, then 2, then 1 clockwise from your original deal. Received cards stay face down and cannot be passed again; reveal them after the draft. All Courts start empty. The first Noble you Recruit establishes your Dynasty and becomes Ruler. Players may share a Dynasty.</p><p>On a later turn, Marry a Noble of the opposite gender from hand to your Ruler. The spouse succeeds a Ruler who leaves Court; the Court keeps its Dynasty. With a spouse in play, Claim by playing a native Heir. Keep that Ruler and Heir through the whole next round to win.</p><p>${esc(objective())}</p><p>Defeat every other Court Noble before challenging its Ruler or named Heir. Challenge with a card of the target’s Dynasty. Defend with a higher same-Dynasty card, or an Ace against J, Q or K. Retreat exchanges the Challenger and target into their new owners’ Played piles. The Challenger stays in the center until the response resolves.</p><p>Trade a hand card for a rival’s Played card. Recall returns a Court Noble to hand and spends your turn. Everyone passing consecutively ends a round: Played cards return, everyone draws one if available, and first player rotates. The prototype ends after 12 rounds.</p>${btn("Reference rules", "rules")}${btn(motion ? "Reduce motion" : "Enable motion", "motion")}${btn("Export game", "export")}${btn("Return to title", "home")}`,
   );
 }
 const actionHints: Record<string,string> = {
  withdraw:"Return this Noble from your Court to your hand. Uses your turn and may break a marriage or Crown claim.",
  recruit:"Play this Noble from your hand into your Dynasty’s Court. Uses your turn.",
- recall:"Challenge an opposing Noble of the same Dynasty. Their player can defend or retreat and exchange the two Nobles.",
+ recall:"Challenge an opposing Noble of the same Dynasty. Defeat every other Court Noble before challenging the Ruler or Heir.",
  defend:"Play this card to protect your challenged Noble. The two answering cards rest in Played until next round.",
  'respond-defend':"Defend your Dynasty’s honor with the selected card. Your challenged Noble stays in Court.",
  'respond-retreat':"Exchange your challenged Noble for the challenger’s card. Both return to their new owners next round.",
@@ -1120,7 +1136,8 @@ function bind(scope: ParentNode = root) {
         if(action==='sort-hand') {
           handSort=handSort==='dynasty'?'rank':'dynasty';
           try { localStorage.setItem(`${namespace}hand-sort`,handSort); } catch { /* Sorting still works without persistence. */ }
-          const cards=[...root.querySelectorAll<HTMLElement>('.c-held-card')].sort((a,b)=>compareHand(a.querySelector<HTMLElement>('[data-card]')!.dataset.card!,b.querySelector<HTMLElement>('[data-card]')!.dataset.card!));
+          const visibleCards=[...root.querySelectorAll<HTMLElement>('.c-held-card:not(.c-received-card)')].sort((a,b)=>compareHand(a.querySelector<HTMLElement>('[data-card]')!.dataset.card!,b.querySelector<HTMLElement>('[data-card]')!.dataset.card!));
+          const cards=[...visibleCards,...root.querySelectorAll<HTMLElement>('.c-received-card')];
           cards.forEach((card,index)=>{card.style.setProperty('--card-index',String(index));card.style.setProperty('--fan-angle',`${cards.length<2?0:(index/(cards.length-1)-.5)*14}deg`);card.parentElement!.append(card);});
           el.textContent=`Sorted by ${handSort.toUpperCase()}`;
           return;

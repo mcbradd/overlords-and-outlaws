@@ -102,12 +102,14 @@ function score(view: CoreView, action: CoreAction, policy: CorePolicy): [number,
       const ruler = view.players[targetSeat].ruler === action.target;
       const retrieveNative = BY_ID[action.target!].dynasty === player.dynasty;
       const developed = view.players[targetSeat].court.length >= 2;
-      const value = critical ? 110 : ruler ? developed ? 8 : 1 : 3;
+      const protectsClaim = crown?.seat === targetSeat && !critical && !ruler;
+      const value = critical ? 110 : protectsClaim ? 65 / Math.max(1, view.players[targetSeat].court.length - 2) : ruler ? developed ? 8 : 1 : 3;
       const exchangeGain = handValue(view, seat, action.target!) - handValue(view, seat, action.card!);
       const giftedStrength = Math.max(0, BY_ID[action.card!].rank - BY_ID[action.target!].rank) * 0.25 +
         (BY_ID[action.card!].dynasty === view.players[targetSeat].dynasty ? 2 : 0);
       return [value * (1 - 0.45 * risk) + (1 - risk) * (exchangeGain - giftedStrength) + (retrieveNative ? 2 : 0) -
         handValue(view, seat, action.card!) * 0.1 + (policy === 'aggressive' && developed ? 3 : 0) - (crown?.seat === seat ? 12 : 0),
+        protectsClaim ? 'Defeat a protecting Noble to open a path to the rival’s Ruler and Heir.' :
         critical ? 'Challenge a required Crown person before the rival completes succession; their answer remains uncertain.' :
           risk > 0.7 ? 'A public or possible ranked answer may stop this lead, but committing it can expose another target.' :
             'Price the exact person given in exchange against the captured person and the rival’s public threat.'];

@@ -18,7 +18,20 @@ try {
   await page.locator('#players').selectOption(String(players));await page.locator('#mode').selectOption('local');await page.locator('#seed').fill('501');await page.locator('[data-do="begin"]').click();
   await page.locator('[data-do="unlock"]').click();await expect(page.locator('.c-held-card')).toHaveCount(8);await capture('opening');
   let s=await read();const seen=new Set<string>();
+  const checkReceived=async()=>{
+    const current=await read(),seat=current.active,received=current.setup?.received[seat]??[];
+    await expect(page.locator('.c-received-card')).toHaveCount(received.length);
+    await expect(page.locator('.c-card-pick')).toHaveCount(8-received.length);
+    await expect(page.locator('.c-received-card button,.c-received-card [data-card],.c-received-card img')).toHaveCount(0);
+    if(received.length) {
+      await page.locator('[data-do="sort-hand"]').click();
+      await page.locator('[data-do="sort-hand"]').click();
+      assert.deepEqual(await read(),current,'sorting concealed packets never changes state');
+    }
+    for(const id of received) await expect(page.locator(`[data-card="${id}"],[data-card-face="${id}"]`)).toHaveCount(0);
+  };
   while(s.setup) {
+   await checkReceived();
    const phase=`${s.phase}-${s.setup.pass}`;
    if(!seen.has(phase)) {seen.add(phase);await capture(phase);}
    const oldSeat=s.active; let expected=s;let lastPick='';

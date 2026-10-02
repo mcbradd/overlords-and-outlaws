@@ -46,7 +46,7 @@ export interface CoreState {
   phase: 'draft' | 'declare' | 'repair' | 'action' | 'recall' | 'trade' | 'terminal';
   /** Shared card pool, never assigned to seats. */
   dynasties: Dynasty[];
-  setup: { pass: number; picks: Record<string, string[]>; repairPile: string[]; repairCard: string | null } | null;
+  setup: { pass: number; picks: Record<string, string[]>; received: Record<string, string[]>; repairPile: string[]; repairCard: string | null } | null;
   players: CorePlayer[];
   deck: string[];
   crown: CoreCrown | null;
@@ -63,6 +63,7 @@ export interface CoreState {
 export interface CoreViewPlayer extends Omit<CorePlayer, 'hand'> {
   hand: string[] | null;
   handCount: number;
+  faceDownCount: number;
 }
 export interface CoreView extends Omit<CoreState, 'players' | 'deck'> {
   viewer: number;
