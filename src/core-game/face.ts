@@ -504,7 +504,9 @@ export function cardCanvas(
     );
   return canvases.get(key)!;
 }
+let backArt: HTMLImageElement | null = null;
 export async function preloadCards(ids: readonly string[]): Promise<void> {
+  backArt = await portrait("art/oando-card-back.svg");
   await Promise.all(
     [...new Set(ids)].flatMap((id) => [cardCanvas(id), cardCanvas(id, true)]),
   );
@@ -517,7 +519,7 @@ export interface FaceOptions {
 /** Noninteractive inner markup: the caller owns button semantics and action handlers. */
 export function faceHTML(id: string, options: FaceOptions = {}): string {
   if (options.back)
-    return '<span class="core-face core-card-back" role="img" aria-label="Concealed card"><span aria-hidden="true">✦</span></span>';
+    return `<span class="core-face core-card-back" role="img" aria-label="Concealed card"><img src="${assetUrl("art/oando-card-back.svg")}" alt="" width="630" height="880" draggable="false"></span>`;
   const card = BY_ID[id];
   if (!card)
     return '<span class="core-face core-face-loading" role="status">Card unavailable</span>';
@@ -537,38 +539,7 @@ export function cardBackCanvas(): HTMLCanvasElement {
   const c = document.createElement("canvas");
   c.width = 630;
   c.height = 880;
-  const ctx = c.getContext("2d")!;
-  rounded(ctx, 0, 0, 630, 880, 25);
-  ctx.clip();
-  ctx.fillStyle = "#203d35";
-  ctx.fillRect(0, 0, 630, 880);
-  ctx.strokeStyle = "#68816a";
-  ctx.lineWidth = 1.5;
-  for (let i = -880; i < 1510; i += 32) {
-    ctx.beginPath();
-    ctx.moveTo(i, 0);
-    ctx.lineTo(i + 880, 880);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(i + 880, 0);
-    ctx.lineTo(i, 880);
-    ctx.stroke();
-  }
-  ctx.fillStyle = "#203d35";
-  ctx.beginPath();
-  ctx.ellipse(315, 440, 176, 225, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = "#d0b176";
-  ctx.lineWidth = 4;
-  ctx.stroke();
-  rounded(ctx, 19, 19, 592, 842, 16);
-  ctx.stroke();
-  rounded(ctx, 29, 29, 572, 822, 11);
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
-  ctx.textAlign = "center";
-  ctx.fillStyle = "#dec58f";
-  ctx.font = "115px Georgia";
-  ctx.fillText("✦", 315, 473);
+  if (!backArt) throw new Error("Card back artwork must be preloaded before the table");
+  c.getContext("2d")!.drawImage(backArt, 0, 0, 630, 880);
   return c;
 }

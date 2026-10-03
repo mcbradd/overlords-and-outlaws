@@ -358,7 +358,7 @@ async function render() {
   handHTML += Array.from({length:faceDownCount}, (_, index) => {
     const position = hand.length + index;
     const angle = handCount < 2 ? 0 : (position / (handCount - 1) - .5) * 14;
-    return `<div class="c-held-card c-received-card" role="img" aria-label="Received card, face down until the draft ends; cannot be passed again" style="--card-index:${position};--fan-angle:${angle}deg"><div class="c-card-back"><span>Received<br>Reveal after draft</span></div></div>`;
+    return `<div class="c-held-card c-received-card" role="img" aria-label="Received card, face down until the draft ends; cannot be passed again" style="--card-index:${position};--fan-angle:${angle}deg"><div class="c-card-back" aria-hidden="true"></div></div>`;
   }).join('');
   root.innerHTML = `<main class="c-game c-tabletop ${!motion ? "reduced-motion" : ""} ${lesson ? "c-teaching-table" : ""} ${hand.length ? "has-hand" : ""}">
     <header><strong>${game.setup ? "Inheritance" : `Round ${game.round} of 12`}</strong><p class="c-objective">${esc(objective())}</p>${btn("Table menu", "menu")}${lesson ? btn("?", "lesson-help", 'class="c-lesson-help" aria-label="Read tutorial step" title="Read tutorial step"') : ""}</header>

@@ -21,6 +21,7 @@ const checks = [
   ["core-tabletop", script("core-tabletop.ts")],
   ["core-player-counts", script("core-player-counts.ts")],
   ["core-inheritance", script("core-inheritance.ts")],
+  ["core-card-back", script("core-card-back.ts")],
   ["core-court-guard", script("core-court-guard.ts")],
   ["core-draft-presentation", script("core-draft-presentation.ts")],
   ["core-challenge", script("core-challenge.ts")],
